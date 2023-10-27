@@ -26,8 +26,6 @@ public class UniversalAnimator : MonoBehaviour
 
     public bool isUsePlatforming = false;
 
-    
-    private Transform playersDir;
     private float _timer;
     private Vector3 prevPos;
 
@@ -35,8 +33,7 @@ public class UniversalAnimator : MonoBehaviour
 
     private void Start()
     {
-        Invoke("Init", DelayBeforeStart);
-        playersDir = GameObject.Find("Players").transform;
+        Invoke("Init", DelayBeforeStart);        
         prevPos = transform.position;
     }
 

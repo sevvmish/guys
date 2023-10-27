@@ -2,37 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerControl : MonoBehaviour
 {
-    [Header("Controls")]
-    public float Horizontal;
-    public float Vertical;
-    public bool IsJump;
+    [Header("Controls")]    
     public Animator _animator;
+    public bool IsItMainPlayer;
+    
+    public EffectsControl effectsControl;
 
     [Header("Ragdoll")]
     public CapsuleCollider[] ragdollColliders;
     private Rigidbody[] ragdollRigidbodies;
+    private bool isRagdollActive;
 
-    [Header("Platforms")] 
-    private Transform CurrentActivePlatform;
-    private Vector3 lastPlatformPoint;
-    private Vector3 newPlatformPoint;
-    private Vector3 playerLocalOnPlatform;
+    public Transform CurrentActivePlatform { get; private set; }
+    public Transform DangerZone { get; private set; }
 
+    //INPUT
+    public void SetHorizontal(float hor) => horizontal = hor;
+    public void SetVertical(float ver) => vertical = ver;
+    public void SetJump() => isJump = true;
+    public void SetForward() => isForward = true;
+    private float horizontal;
+    private float vertical;
+    private bool isJump;
+    private bool isForward;
+
+    //SPEED
     public float PlayerMaxSpeed { get; private set; }
     public float PlayerCurrentSpeed { get; private set; }
     public float PlayerVelocity { get; private set; }
     public float PlayerNonVerticalVelocity { get; private set; }
     public float PlayerVerticalVelocity { get; private set; }
 
+    //CONDITIONS
     public bool IsGrounded { get; private set; }
     public bool IsJumping { get; private set; }
     public bool IsCanAct { get; private set; }
+    public bool IsDead { get; private set; }
 
     private Rigidbody _rigidbody;
+    private CapsuleCollider mainCollider;
     private Transform _transform;
-    private readonly float rotationKoeff = 0.05f;
+    public GameManager gm;
 
     private float jumpCooldown;
     private float howLongNonGrounded;
@@ -43,9 +57,12 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gm = GameManager.Instance;
         _rigidbody = GetComponent<Rigidbody>();
         _transform = GetComponent<Transform>();
-        PlayerCurrentSpeed = 5;
+        mainCollider = GetComponent<CapsuleCollider>();
+        PlayerMaxSpeed = 5;
+        PlayerCurrentSpeed = PlayerMaxSpeed;
         IsCanAct = true;
 
         ragdollRigidbodies = new Rigidbody[ragdollColliders.Length];
@@ -53,38 +70,24 @@ public class PlayerControl : MonoBehaviour
         {
             ragdollColliders[i].enabled = false;
             ragdollRigidbodies[i] = ragdollColliders[i].GetComponent<Rigidbody>();
+            ragdollRigidbodies[i].useGravity = false;
         }
+        isRagdollActive = false;
     }
 
     private void Update()
     {
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && IsItMainPlayer)
         {
-            IsCanAct = false;
-            _rigidbody.velocity = Vector3.zero;
-            _animator.enabled = false;
-            for (int i = 0; i < ragdollColliders.Length; i++)
-            {
-                ragdollColliders[i].enabled = true;
-                //ragdollRigidbodies[i].velocity = Vector3.zero;
-            }
-            GameManager.Instance.GetCameraControl().SwapControlBody(ragdollRigidbodies[0].transform);
+            SetRagdollState(true);
             ragdollRigidbodies[0].AddForce((Vector3.forward + Vector3.right + Vector3.up * 0.5f) * 20, ForceMode.Impulse);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {                       
-            for (int i = 0; i < ragdollColliders.Length; i++)
-            {
-                ragdollColliders[i].enabled = false;
-                //ragdollRigidbodies[i].velocity = Vector3.zero;
-            }
-            _transform.position = ragdollRigidbodies[0].transform.position;
-            _animator.enabled = true;
-            GameManager.Instance.GetCameraControl().SwapControlBody(_transform);
-            IsCanAct = true;
+        if (Input.GetKeyDown(KeyCode.E) && IsItMainPlayer)
+        {
+            SetRagdollState(false);
         }
 
         if (!CurrentActivePlatform || !CurrentActivePlatform.CompareTag("Platform")) return;
@@ -95,7 +98,7 @@ public class PlayerControl : MonoBehaviour
     void FixedUpdate()
     {        
         IsGrounded = checkGround();
-
+        checkShadow();
         PlayerVelocity = _rigidbody.velocity.magnitude;
         PlayerNonVerticalVelocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude;
         PlayerVerticalVelocity = new Vector3(0, _rigidbody.velocity.y, 0).magnitude;
@@ -111,18 +114,27 @@ public class PlayerControl : MonoBehaviour
             IsJumping = false;
             //if (_rigidbody.drag < 1) _rigidbody.drag = 1;
         }
+             
+        if (isForward)
+        {
+            isForward = false;
+            movement(true);
+        }
+        else
+        {
+            movement(false);
+        }
 
-        movement();
         makeJump();
         playAnimation();
     }
 
     private void makeJump()
     {
-        if (IsJump && IsCanAct)
+        if (isJump)
         {
-            IsJump = false;
-            if (IsGrounded && jumpCooldown <= 0)
+            isJump = false;
+            if (IsGrounded && jumpCooldown <= 0 && IsCanAct)
             {
                 _rigidbody.AddForce(Vector3.up * Globals.JUMP_POWER, ForceMode.Impulse);
                 IsJumping = true;
@@ -136,25 +148,33 @@ public class PlayerControl : MonoBehaviour
         return Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity);
     }
 
-    private void movement()
+    private void checkShadow()
+    {
+        effectsControl.SetShadow(IsGrounded);
+    }
+        
+    private void movement(bool forward)
     {
         if (!IsCanAct) return;
 
-        if (Mathf.Abs(Horizontal) > 0 || Mathf.Abs(Vertical) > 0)
+        if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0 || forward)
         {
-            float angle = Mathf.Atan2(Horizontal, Vertical) * 180 / Mathf.PI;
-            _rigidbody.DORotate(new Vector3(0f, angle, 0f), rotationKoeff);
+            if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0)
+            {
+                float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
+                _transform.eulerAngles = new Vector3(0f, angle, 0f);
+            }
+                
+            if (forward)
+            {
+                horizontal = 1;
+                vertical = 1;
+            }
 
             if (PlayerNonVerticalVelocity < PlayerCurrentSpeed)
             {
-                float koeff = PlayerCurrentSpeed * new Vector2(Horizontal, Vertical).magnitude - PlayerNonVerticalVelocity;
-                if (!IsGrounded)
-                {
-                    //koeff *= 0.5f;
-                }
-
-                koeff = koeff > 0 ? koeff : 0;
-                
+                float koeff = PlayerCurrentSpeed * new Vector2(horizontal, vertical).magnitude - PlayerNonVerticalVelocity;                
+                koeff = koeff > 0 ? koeff : 0;                
                 _rigidbody.velocity += _transform.forward * koeff;                
             }
             howLongMoving = 0;
@@ -252,28 +272,14 @@ public class PlayerControl : MonoBehaviour
                 CurrentActivePlatform = collision.collider.transform;
                 _transform.SetParent(CurrentActivePlatform);
             }            
-        }
-
-
-        /*
-        if (collision != null && collision.collider.CompareTag("Platform"))
+        }        
+        else if (collision != null && collision.collider.CompareTag("Danger"))
         {
-            if (CurrentActivePlatform != collision.collider.transform)
-            {                
-                CurrentActivePlatform = collision.collider.transform;
-                lastPlatformPoint = CurrentActivePlatform.position;
-                newPlatformPoint = CurrentActivePlatform.position;
-            }
-            else
+            if (DangerZone != collision.collider.transform)
             {
-                newPlatformPoint = CurrentActivePlatform.position;
+                DangerZone = collision.collider.transform;
             }
-
         }
-        else
-        {
-            CurrentActivePlatform = null;
-        }       */
     }
 
     private void OnCollisionExit(Collision collision)
@@ -283,6 +289,62 @@ public class PlayerControl : MonoBehaviour
             CurrentActivePlatform = null;
             _transform.SetParent(null);
         }
+        else if (collision.collider.transform == DangerZone)
+        {
+            DangerZone = null;
+        }
+    }
+
+    private void SetRagdollState(bool isActive)
+    {
+        if (isActive)
+        {
+            IsCanAct = false;
+            _rigidbody.velocity = Vector3.zero;
+            _animator.enabled = false;
+            for (int i = 0; i < ragdollColliders.Length; i++)
+            {
+                ragdollColliders[i].enabled = true;
+                ragdollRigidbodies[i].useGravity = true;
+            }
+            gm.GetCameraControl().SwapControlBody(ragdollRigidbodies[0].transform);
+        }
+        else
+        {
+            for (int i = 0; i < ragdollColliders.Length; i++)
+            {
+                ragdollColliders[i].enabled = false;
+                ragdollRigidbodies[i].useGravity = false;
+            }
+            _transform.position = ragdollRigidbodies[0].transform.position;
+            _animator.enabled = true;
+            gm.GetCameraControl().SwapControlBody(_transform);
+            IsCanAct = true;
+        }
+
+        isRagdollActive = isActive;
+    }
+
+    public void Respawn(Vector3 pos, Vector3 rot)
+    {        
+        StartCoroutine(playRespawn(pos, rot));
+    }
+    private IEnumerator playRespawn(Vector3 pos, Vector3 rot)
+    {
+        IsDead = true;
+        IsCanAct = false;
+        isJump = false;
+        IsJumping = false;
+        yield return new WaitForSeconds(0.2f);
+        SetRagdollState(false);
+        _rigidbody.velocity = Vector3.zero;
+
+        _transform.position = pos;
+        _transform.eulerAngles = rot;
+
+        IsDead = false;
+        IsCanAct = true;
+        PlayerCurrentSpeed = PlayerMaxSpeed;
     }
 
 }

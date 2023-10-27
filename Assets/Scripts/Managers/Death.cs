@@ -6,9 +6,9 @@ public class Death : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.TryGetComponent(out RespawnControl r))
         {
-            other.transform.position = Vector3.zero;
+            r.Die();
         }
     }
 }

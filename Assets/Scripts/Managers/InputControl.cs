@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(PlayerControl))]
 public class InputControl : MonoBehaviour
@@ -17,6 +18,12 @@ public class InputControl : MonoBehaviour
         joystick = GameManager.Instance.GetJoystick();
         playerControl = gameObject.GetComponent<PlayerControl>();
         jump = GameObject.Find("JumpButton").GetComponent<PointerBase>();
+
+        if (!Globals.IsMobile)
+        {       
+            joystick.gameObject.SetActive(false);
+            jump.gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -24,32 +31,28 @@ public class InputControl : MonoBehaviour
     {
         if (Globals.IsMobile)
         {
-            playerControl.Horizontal = joystick.Horizontal;
-            playerControl.Vertical = joystick.Vertical;
+            playerControl.SetHorizontal(joystick.Horizontal);
+            playerControl.SetVertical(joystick.Vertical);
             if (jump.IsPressed)
             {
-                playerControl.IsJump = true;
-            }
-
-
-            playerControl.Horizontal = Input.GetAxis("Horizontal");
-            playerControl.Vertical = Input.GetAxis("Vertical");
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                playerControl.IsJump = true;
+                playerControl.SetJump();
             }
         }
         else
         {
             //=====================================
-            playerControl.Horizontal = Input.GetAxis("Horizontal");
-            playerControl.Vertical = Input.GetAxis("Vertical");
+            playerControl.SetHorizontal(Input.GetAxis("Horizontal"));
+            playerControl.SetVertical(Input.GetAxis("Vertical"));
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                playerControl.IsJump = true;
+                playerControl.SetJump();
             }
+        }
+
+        if (Input.GetKey(KeyCode.K))
+        {
+            playerControl.SetForward();
         }
     }
 }
