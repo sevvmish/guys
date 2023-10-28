@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public Camera GetCamera() => _camera;
     public Transform GetCameraBody() => cameraBody;
     public CameraControl GetCameraControl() => cameraControl;
+    public Vector3 BotPoints;
 
     //GAME START
     public float GameSecondsPlayed { get; private set; }
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
 
         cameraControl.SetData(mainPlayer, cameraBody);
         Globals.IsMobile = GP_Device.IsMobile();
+        IsGameStarted = true;
     }
 
     private void Update()

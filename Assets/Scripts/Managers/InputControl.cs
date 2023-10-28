@@ -37,10 +37,19 @@ public class InputControl : MonoBehaviour
             {
                 playerControl.SetJump();
             }
+
+#if UNITY_EDITOR
+            playerControl.SetHorizontal(Input.GetAxis("Horizontal"));
+            playerControl.SetVertical(Input.GetAxis("Vertical"));
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                playerControl.SetJump();
+            }
+#endif
         }
         else
-        {
-            //=====================================
+        {            
             playerControl.SetHorizontal(Input.GetAxis("Horizontal"));
             playerControl.SetVertical(Input.GetAxis("Vertical"));
 

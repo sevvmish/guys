@@ -11,18 +11,21 @@ public class PlatformRotate : MonoBehaviour
     [SerializeField] private float rotateSpeed = 50;
 
     private float _timer;
-        
+    private float _angle;
+
     // Update is called once per frame
     void FixedUpdate()
     {
         if (_timer >  delayBeforeStart)
         {
+            _angle += rotateSpeed * Time.fixedDeltaTime;
             Vector3 vec = _transform.eulerAngles;
             switch (whichAxis)
             {
                 case Axis.X_Axis:
-                    _transform.eulerAngles = new Vector3(
-                        vec.x + rotateSpeed * Time.fixedDeltaTime,
+                                        
+                    _transform.localEulerAngles = new Vector3(
+                        _angle,
                         vec.y,
                         vec.z);
                     break;

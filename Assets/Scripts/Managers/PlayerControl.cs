@@ -25,8 +25,8 @@ public class PlayerControl : MonoBehaviour
     public void SetVertical(float ver) => vertical = ver;
     public void SetJump() => isJump = true;
     public void SetForward() => isForward = true;
-    private float horizontal;
-    private float vertical;
+    [SerializeField] private float horizontal;
+    [SerializeField] private float vertical;
     private bool isJump;
     private bool isForward;
 
@@ -125,11 +125,11 @@ public class PlayerControl : MonoBehaviour
             movement(false);
         }
 
-        makeJump();
+        MakeJump();
         playAnimation();
     }
 
-    private void makeJump()
+    public void MakeJump()
     {
         if (isJump)
         {
@@ -164,16 +164,20 @@ public class PlayerControl : MonoBehaviour
                 float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
                 _transform.eulerAngles = new Vector3(0f, angle, 0f);
             }
-                
-            if (forward)
-            {
-                horizontal = 1;
-                vertical = 1;
-            }
-
+           
             if (PlayerNonVerticalVelocity < PlayerCurrentSpeed)
             {
-                float koeff = PlayerCurrentSpeed * new Vector2(horizontal, vertical).magnitude - PlayerNonVerticalVelocity;                
+                float koeff = 0;
+
+                if (forward)
+                {
+                    koeff = PlayerCurrentSpeed * new Vector2(1, 1).magnitude - PlayerNonVerticalVelocity;
+                }
+                else
+                {
+                    koeff = PlayerCurrentSpeed * new Vector2(horizontal, vertical).magnitude - PlayerNonVerticalVelocity;
+                }
+                                
                 koeff = koeff > 0 ? koeff : 0;                
                 _rigidbody.velocity += _transform.forward * koeff;                
             }
@@ -307,7 +311,7 @@ public class PlayerControl : MonoBehaviour
                 ragdollColliders[i].enabled = true;
                 ragdollRigidbodies[i].useGravity = true;
             }
-            gm.GetCameraControl().SwapControlBody(ragdollRigidbodies[0].transform);
+            if (IsItMainPlayer) gm.GetCameraControl().SwapControlBody(ragdollRigidbodies[0].transform);
         }
         else
         {
@@ -318,7 +322,7 @@ public class PlayerControl : MonoBehaviour
             }
             _transform.position = ragdollRigidbodies[0].transform.position;
             _animator.enabled = true;
-            gm.GetCameraControl().SwapControlBody(_transform);
+            if (IsItMainPlayer) gm.GetCameraControl().SwapControlBody(_transform);
             IsCanAct = true;
         }
 
