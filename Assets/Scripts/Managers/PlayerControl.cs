@@ -23,10 +23,12 @@ public class PlayerControl : MonoBehaviour
     //INPUT
     public void SetHorizontal(float hor) => horizontal = hor;
     public void SetVertical(float ver) => vertical = ver;
+    public void SetRotationAngle(float ang) => angleY = ang;
     public void SetJump() => isJump = true;
     public void SetForward() => isForward = true;
     [SerializeField] private float horizontal;
     [SerializeField] private float vertical;
+    [SerializeField] private float angleY;
     private bool isJump;
     private bool isForward;
 
@@ -47,6 +49,7 @@ public class PlayerControl : MonoBehaviour
     private CapsuleCollider mainCollider;
     private Transform _transform;
     public GameManager gm;
+    private CameraControl cc;
 
     private float jumpCooldown;
     private float howLongNonGrounded;
@@ -58,7 +61,12 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         gm = GameManager.Instance;
+        cc = GameManager.Instance.GetCameraControl();
         _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody.mass = Globals.MASS;
+        _rigidbody.drag = Globals.DRAG;
+        _rigidbody.angularDrag = Globals.ANGULAR_DRAG;
+
         _transform = GetComponent<Transform>();
         mainCollider = GetComponent<CapsuleCollider>();
         PlayerMaxSpeed = 5;
@@ -112,7 +120,7 @@ public class PlayerControl : MonoBehaviour
         {
             howLongNonGrounded = 0;
             IsJumping = false;
-            //if (_rigidbody.drag < 1) _rigidbody.drag = 1;
+            if (_rigidbody.drag < Globals.DRAG) _rigidbody.drag = Globals.DRAG;
         }
              
         if (isForward)
@@ -157,12 +165,17 @@ public class PlayerControl : MonoBehaviour
     {
         if (!IsCanAct) return;
 
-        if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0 || forward)
+        if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0 || forward || Mathf.Abs(angleY) > 0)
         {
-            if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0)
+            if ((Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0) && Globals.IsMobile)
             {
                 float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
-                _transform.eulerAngles = new Vector3(0f, angle, 0f);
+                _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angle, _transform.eulerAngles.z);
+            }
+            else if (!Globals.IsMobile && Mathf.Abs(angleY) > 0)
+            {
+                _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, _transform.eulerAngles.y + angleY, _transform.eulerAngles.z);
+                cc.ChangeCameraAngleY(_transform.eulerAngles.y);
             }
            
             if (PlayerNonVerticalVelocity < PlayerCurrentSpeed)
@@ -178,12 +191,42 @@ public class PlayerControl : MonoBehaviour
                     koeff = PlayerCurrentSpeed * new Vector2(horizontal, vertical).magnitude - PlayerNonVerticalVelocity;
                 }
                                 
-                koeff = koeff > 0 ? koeff : 0;                
-                _rigidbody.velocity += _transform.forward * koeff;                
+                koeff = koeff > 0 ? koeff : 0;       
+                
+                if (Globals.IsMobile)
+                {
+                    _rigidbody.velocity += _transform.forward * koeff;
+                }
+                else
+                {
+                    if (vertical > 0 || forward)
+                    {
+                        _rigidbody.velocity += _transform.forward * koeff;
+                        
+                    }
+                    else if (vertical < 0)
+                    {
+                        _rigidbody.velocity += _transform.forward * -1 * koeff;
+                    }   
+                    
+                }
+
+                if (koeff > 0) playRun();
+
             }
             howLongMoving = 0;
 
-            playRun();
+            if (!Globals.IsMobile)
+            {
+                if (horizontal > 0)
+                {
+                    _rigidbody.DOMove(_transform.position + _transform.right * 0.15f, Time.fixedDeltaTime*3);
+                }
+                else if (horizontal < 0)
+                {
+                    _rigidbody.DOMove(_transform.position - _transform.right * 0.15f, Time.fixedDeltaTime*3);
+                }
+            }
         }
         else
         {
@@ -228,7 +271,7 @@ public class PlayerControl : MonoBehaviour
     private void GravityScale()
     {
         float fallingKoeff = 1;
-        //if (_rigidbody.drag > 0) _rigidbody.drag = 0;
+        if (_rigidbody.drag > 0) _rigidbody.drag = 0;
 
         if (_rigidbody.velocity.y >= 0)
         {
@@ -236,7 +279,7 @@ public class PlayerControl : MonoBehaviour
         }
         else if (_rigidbody.velocity.y < 0)
         {
-            if (fallingKoeff < 4000) fallingKoeff *= 1.2f;
+            if (fallingKoeff < 40) fallingKoeff *= 1.2f;
             _rigidbody.AddForce(Physics.gravity * _rigidbody.mass * Globals.GRAVITY_KOEFF * fallingKoeff);
         }
     }

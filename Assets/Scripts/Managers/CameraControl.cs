@@ -7,6 +7,7 @@ public class CameraControl : MonoBehaviour
 {
     private Transform mainPlayer;
     private Transform mainCamera;
+    private Transform outerCamera;
     private readonly Vector3 basePosition = new Vector3(0,6,-8);
     private readonly Vector3 baseRotation = new Vector3(30, 0, 0);
 
@@ -16,7 +17,9 @@ public class CameraControl : MonoBehaviour
     {
         mainPlayer = player;
         mainCamera = _camera;
-        mainCamera.transform.eulerAngles = baseRotation;
+        outerCamera = mainCamera.parent;
+        mainCamera.transform.localPosition = basePosition;
+        mainCamera.transform.localEulerAngles = baseRotation;
     }
 
     public void SwapControlBody(Transform newTransform)
@@ -27,15 +30,36 @@ public class CameraControl : MonoBehaviour
     }
     private IEnumerator playSwap()
     {
-        mainCamera.DOMove(mainPlayer.position + basePosition, 0.1f);
+        outerCamera.DOMove(mainPlayer.position/* + basePosition*/, 0.1f);
         yield return new WaitForSeconds(0.1f);
         isUpdate = true;
+    }
+
+    public void ChangeCameraAngleY(float angleY)
+    {
+        outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, angleY, outerCamera.eulerAngles.z);
+    }
+
+    public void ChangeCameraAngleX(float angleX)
+    {
+        if (Mathf.Abs(angleX) > 5) return;
+        
+
+        if (angleX > 0 && outerCamera.localEulerAngles.x > 20 && outerCamera.localEulerAngles.x < 30) return;
+        if (angleX < 0 && outerCamera.localEulerAngles.x < 340 && outerCamera.localEulerAngles.x > 330) return;
+
+        //if ((angleX > 0 && (outerCamera.localEulerAngles.x < 20 || outerCamera.localEulerAngles.x > 340)) || (angleX < 0 && ((outerCamera.localEulerAngles.x > 340 && outerCamera.localEulerAngles.x < 359.9f) || (outerCamera.localEulerAngles.x >= 0 && outerCamera.localEulerAngles.x < 359.9f))))
+        //{
+        outerCamera.localEulerAngles = new Vector3(outerCamera.localEulerAngles.x + angleX * 2, outerCamera.localEulerAngles.y, outerCamera.localEulerAngles.z);
+        //}
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!isUpdate) return;
-        mainCamera.position = mainPlayer.position + basePosition;
+        outerCamera.position = mainPlayer.position/* + basePosition*/;
+        
     }
 }
