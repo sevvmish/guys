@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,10 @@ public class InputControl : MonoBehaviour
     private PointerBase jump;
     private PointerBase mover;
     private Vector3 mousePosition;
+    
+    //TODEL
+    public TextMeshProUGUI test;
+    Vector2 toshow;
 
 
     // Start is called before the first frame update
@@ -75,13 +80,19 @@ public class InputControl : MonoBehaviour
             playerControl.SetJump();
         }
                 
-        Vector2 delta = mover.DeltaPosition;
-
+        Vector2 delta = mover.DeltaPosition.normalized;
+        
+        if (delta.magnitude > toshow.magnitude)
+        {
+            toshow = delta;
+            test.text = toshow.ToString();
+        }
+        
         //if (mover.DeltaPosition.magnitude <= 0) delta = Vector2.zero;
 
         if (delta.x > 0 || delta.x < 0)
         {
-            playerControl.SetRotationAngle(delta.x * 12 * Time.deltaTime);
+            playerControl.SetRotationAngle(delta.x * 250 * Time.deltaTime);
         }        
         else if (delta.x == 0)
         {
@@ -90,7 +101,7 @@ public class InputControl : MonoBehaviour
 
         if (Mathf.Abs(delta.y) > 0)
         {
-            cameraControl.ChangeCameraAngleX(delta.y * -2 * Time.deltaTime);
+            cameraControl.ChangeCameraAngleX(delta.y * -60 * Time.deltaTime);
         }
     }
 
