@@ -36,13 +36,13 @@ public class CameraControl : MonoBehaviour
     }
 
     public void ChangeCameraAngleY(float angleY)
-    {
+    {       
         outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, angleY, outerCamera.eulerAngles.z);
     }
 
     public void ChangeCameraAngleX(float angleX)
     {
-        if (Mathf.Abs(angleX) > 5) return;
+        if (!Globals.IsMobile && Mathf.Abs(angleX) > 5) return;
         
 
         if (angleX > 0 && outerCamera.localEulerAngles.x > 20 && outerCamera.localEulerAngles.x < 30) return;

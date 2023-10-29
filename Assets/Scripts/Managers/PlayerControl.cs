@@ -29,6 +29,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float horizontal;
     [SerializeField] private float vertical;
     [SerializeField] private float angleY;
+    [SerializeField] private float angleYForMobile;
     private bool isJump;
     private bool isForward;
 
@@ -110,6 +111,8 @@ public class PlayerControl : MonoBehaviour
         PlayerVelocity = _rigidbody.velocity.magnitude;
         PlayerNonVerticalVelocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude;
         PlayerVerticalVelocity = new Vector3(0, _rigidbody.velocity.y, 0).magnitude;
+        //if (PlayerVelocity > 0.1f && IsItMainPlayer) print(PlayerVelocity);
+
 
         if (!IsGrounded)
         {
@@ -167,17 +170,51 @@ public class PlayerControl : MonoBehaviour
 
         if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0 || forward || Mathf.Abs(angleY) > 0)
         {
-            if ((Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0) && Globals.IsMobile)
+            if (Globals.IsMobile)
             {
-                float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
-                _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angle, _transform.eulerAngles.z);
-            }
+                if ((Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0))
+                {
+                    /*
+                    if (Mathf.Abs(angleY) > 0)
+                    {
+                        angleYForMobile += angleY;
+                        _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
+
+                        cc.ChangeCameraAngleY(angleYForMobile);
+                    }
+                    else
+                    {
+                        float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;                        
+                        _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z);
+                    }*/
+
+                    if (Mathf.Abs(angleY) > 0)
+                    {
+                        angleYForMobile += angleY;
+                        cc.ChangeCameraAngleY(angleYForMobile);
+                    }
+
+                    float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
+                    _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z);
+
+                }
+                else if (horizontal == 0 && vertical == 0 && Mathf.Abs(angleY) > 0)
+                {
+
+                    angleYForMobile += angleY;
+                    _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
+                    cc.ChangeCameraAngleY(angleYForMobile);
+                }
+            }            
             else if (!Globals.IsMobile && Mathf.Abs(angleY) > 0)
             {
                 _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, _transform.eulerAngles.y + angleY, _transform.eulerAngles.z);
                 cc.ChangeCameraAngleY(_transform.eulerAngles.y);
             }
-           
+
+            angleY = 0;
+
+
             if (PlayerNonVerticalVelocity < PlayerCurrentSpeed)
             {
                 float koeff = 0;
@@ -201,13 +238,17 @@ public class PlayerControl : MonoBehaviour
                 {
                     if (vertical > 0 || forward)
                     {
-                        _rigidbody.velocity += _transform.forward * koeff;
+                        _rigidbody.velocity += _transform.forward * koeff + _transform.right * horizontal;
                         
                     }
                     else if (vertical < 0)
                     {
-                        _rigidbody.velocity += _transform.forward * -1 * koeff;
-                    }   
+                        _rigidbody.velocity += _transform.forward * -1 * koeff + _transform.right * horizontal;
+                    }
+                    else if (vertical == 0 && horizontal != 0)
+                    {
+                        _rigidbody.velocity += _transform.forward * koeff + _transform.right * horizontal;
+                    }
                     
                 }
 
@@ -218,13 +259,16 @@ public class PlayerControl : MonoBehaviour
 
             if (!Globals.IsMobile)
             {
+                //_rigidbody.AddRelativeForce(_transform.right * horizontal, ForceMode.Impulse);
+
                 if (horizontal > 0)
                 {
-                    _rigidbody.DOMove(_transform.position + _transform.right * 0.15f, Time.fixedDeltaTime*3);
+                    //_rigidbody.AddRelativeForce(_transform.right * 15f, ForceMode.Force)
+                    //_rigidbody.DOMove(_transform.position + _transform.right * 0.15f, Time.fixedDeltaTime*3);
                 }
                 else if (horizontal < 0)
                 {
-                    _rigidbody.DOMove(_transform.position - _transform.right * 0.15f, Time.fixedDeltaTime*3);
+                    //_rigidbody.DOMove(_transform.position - _transform.right * 0.15f, Time.fixedDeltaTime*3);
                 }
             }
         }
@@ -279,7 +323,7 @@ public class PlayerControl : MonoBehaviour
         }
         else if (_rigidbody.velocity.y < 0)
         {
-            if (fallingKoeff < 40) fallingKoeff *= 1.2f;
+            if (fallingKoeff < 5) fallingKoeff *= 1.2f;
             _rigidbody.AddForce(Physics.gravity * _rigidbody.mass * Globals.GRAVITY_KOEFF * fallingKoeff);
         }
     }

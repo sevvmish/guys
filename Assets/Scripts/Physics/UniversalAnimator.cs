@@ -41,7 +41,7 @@ public class UniversalAnimator : MonoBehaviour
     {
         Sequence sequence = DOTween.Sequence();
         sequence.SetLoops(-1, LoopType.Restart);
-        //sequence.SetUpdate(UpdateType.Fixed);
+        sequence.SetUpdate(UpdateType.Fixed);
 
         switch (GameType)
         {

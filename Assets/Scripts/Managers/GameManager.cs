@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         }
 
         cameraControl.SetData(mainPlayer, cameraBody);
-        Globals.IsMobile = true;//GP_Device.IsMobile();
+        Globals.IsMobile = GP_Device.IsMobile();
         IsGameStarted = true;
     }
 

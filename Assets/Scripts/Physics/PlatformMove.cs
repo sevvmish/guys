@@ -19,11 +19,13 @@ public class PlatformMove : MonoBehaviour
         Invoke("Init", delayBeforeStart);
     }
 
-    
+
     private void Init()
     {
         Sequence sequence = DOTween.Sequence();
+        sequence.SetUpdate(UpdateType.Fixed);
         sequence.SetLoops(-1, LoopType.Restart);
+
 
         _transform.position = FromPoint.position;
         sequence.Append(_transform.DOMove(ToPoint.position, movementSpeed).SetEase(easeType));
