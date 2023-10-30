@@ -30,7 +30,7 @@ public class RespawnControl : MonoBehaviour
                 data.Add(new RespawnData(playerControl.transform.position, playerControl.transform.eulerAngles));                
             }
 
-            if (data.Count == 2)
+            if (data.Count == 3)
             {
                 SetNewRespawn(data[0]);
                 data.Clear();

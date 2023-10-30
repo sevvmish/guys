@@ -10,21 +10,19 @@ public class InputControl : MonoBehaviour
     private Joystick joystick;
     private PlayerControl playerControl;
     private CameraControl cameraControl;
+    private Transform playerTransform;
     private PointerBase jump;
     private PointerBase mover;
     private Vector3 mousePosition;
     
-    //TODEL
-    public TextMeshProUGUI test;
-    Vector2 toshow;
-
-
+  
     // Start is called before the first frame update
     void Start()
     {
         joystick = GameManager.Instance.GetJoystick();
         cameraControl = GameManager.Instance.GetCameraControl();
         playerControl = gameObject.GetComponent<PlayerControl>();
+        playerTransform = playerControl.transform;
         jump = GameObject.Find("JumpButton").GetComponent<PointerBase>();
         mover = GameObject.Find("Screen mover").GetComponent<PointerBase>();
         if (!Globals.IsMobile)
@@ -81,18 +79,10 @@ public class InputControl : MonoBehaviour
         }
                 
         Vector2 delta = mover.DeltaPosition.normalized;
-        
-        if (delta.magnitude > toshow.magnitude)
-        {
-            toshow = delta;
-            test.text = toshow.ToString();
-        }
-        
-        //if (mover.DeltaPosition.magnitude <= 0) delta = Vector2.zero;
-
+     
         if (delta.x > 0 || delta.x < 0)
         {
-            playerControl.SetRotationAngle(delta.x * 250 * Time.deltaTime);
+            playerControl.SetRotationAngle(delta.x * 300 * Time.deltaTime);
         }        
         else if (delta.x == 0)
         {
@@ -101,8 +91,10 @@ public class InputControl : MonoBehaviour
 
         if (Mathf.Abs(delta.y) > 0)
         {
-            cameraControl.ChangeCameraAngleX(delta.y * -60 * Time.deltaTime);
+            cameraControl.ChangeCameraAngleX(delta.y * -70 * Time.deltaTime);
         }
+
+        cameraControl.ChangeCameraAngleY(playerControl.angleYForMobile);
     }
 
     private void forPC()
@@ -142,8 +134,8 @@ public class InputControl : MonoBehaviour
         {            
             cameraControl.ChangeCameraAngleX(mouseDelta.y * -5 * Time.deltaTime);
         }
-        
-             
+
+        cameraControl.ChangeCameraAngleY(playerTransform.eulerAngles.y);
         mousePosition = Input.mousePosition;
     }
 }

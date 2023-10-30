@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,12 +16,18 @@ public class PlayerControl : MonoBehaviour
     [Header("Ragdoll")]
     public CapsuleCollider[] ragdollColliders;
     private Rigidbody[] ragdollRigidbodies;
+    private Vector3[] ragdollPos;
+    private Vector3[] ragdollRot;
     private bool isRagdollActive;
+    private bool isRagdollFollow;
+    private bool isRagdollHasContact;
+    private RagdollPartCollisionChecker collisionChecker;
 
     public Transform CurrentActivePlatform { get; private set; }
     public Transform DangerZone { get; private set; }
 
     //INPUT
+    public float angleYForMobile { get; private set; }
     public void SetHorizontal(float hor) => horizontal = hor;
     public void SetVertical(float ver) => vertical = ver;
     public void SetRotationAngle(float ang) => angleY = ang;
@@ -29,7 +36,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float horizontal;
     [SerializeField] private float vertical;
     [SerializeField] private float angleY;
-    [SerializeField] private float angleYForMobile;
+    
     private bool isJump;
     private bool isForward;
 
@@ -75,12 +82,17 @@ public class PlayerControl : MonoBehaviour
         IsCanAct = true;
 
         ragdollRigidbodies = new Rigidbody[ragdollColliders.Length];
+        ragdollPos = new Vector3[ragdollColliders.Length];
+        ragdollRot = new Vector3[ragdollColliders.Length];
         for (int i = 0; i < ragdollColliders.Length; i++)
         {
             ragdollColliders[i].enabled = false;
             ragdollRigidbodies[i] = ragdollColliders[i].GetComponent<Rigidbody>();
             ragdollRigidbodies[i].useGravity = false;
+            ragdollPos[i] = ragdollColliders[i].transform.localPosition;
+            ragdollRot[i] = ragdollColliders[i].transform.localEulerAngles;
         }
+        collisionChecker = ragdollRigidbodies[0].GetComponent<RagdollPartCollisionChecker>();
         isRagdollActive = false;
     }
 
@@ -91,7 +103,6 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && IsItMainPlayer)
         {
             SetRagdollState(true);
-            ragdollRigidbodies[0].AddForce((Vector3.forward + Vector3.right + Vector3.up * 0.5f) * 20, ForceMode.Impulse);
         }
 
         if (Input.GetKeyDown(KeyCode.E) && IsItMainPlayer)
@@ -136,32 +147,40 @@ public class PlayerControl : MonoBehaviour
             movement(false);
         }
 
-        MakeJump();
+        //if (!IsGrounded && IsItMainPlayer) print(PlayerVerticalVelocity);
+
+        if (isJump) makeJump();
         playAnimation();
+        if (isRagdollFollow)
+        {
+            isRagdollHasContact = collisionChecker.IsRagdollHasContact;
+            _rigidbody.MovePosition(ragdollRigidbodies[0].transform.position);
+        }
     }
 
-    public void MakeJump()
-    {
-        if (isJump)
+    private void makeJump()
+    {        
+        isJump = false;
+        if (IsGrounded && jumpCooldown <= 0 && IsCanAct)
         {
-            isJump = false;
-            if (IsGrounded && jumpCooldown <= 0 && IsCanAct)
-            {
-                _rigidbody.AddForce(Vector3.up * Globals.JUMP_POWER, ForceMode.Impulse);
-                IsJumping = true;
-                jumpCooldown = 0.3f;
-            }
-        }
+            effectsControl.MakeJumpFX();
+            _rigidbody.AddForce(Vector3.up * Globals.JUMP_POWER, ForceMode.Impulse);
+            IsJumping = true;
+            jumpCooldown = 0.4f;
+        }        
     }
 
     private bool checkGround()
     {
-        return Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity);
+        bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity);
+        if (!IsGrounded && result && PlayerVerticalVelocity > 20) effectsControl.MakeLandEffect();
+        
+        return result;
     }
 
     private void checkShadow()
     {
-        effectsControl.SetShadow(IsGrounded);
+        effectsControl.SetShadow(IsGrounded && !isRagdollActive);
     }
         
     private void movement(bool forward)
@@ -173,25 +192,11 @@ public class PlayerControl : MonoBehaviour
             if (Globals.IsMobile)
             {
                 if ((Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0))
-                {
-                    /*
+                {                    
                     if (Mathf.Abs(angleY) > 0)
                     {
                         angleYForMobile += angleY;
-                        _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
-
-                        cc.ChangeCameraAngleY(angleYForMobile);
-                    }
-                    else
-                    {
-                        float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;                        
-                        _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z);
-                    }*/
-
-                    if (Mathf.Abs(angleY) > 0)
-                    {
-                        angleYForMobile += angleY;
-                        cc.ChangeCameraAngleY(angleYForMobile);
+                        //cc.ChangeCameraAngleY(angleYForMobile);
                     }
 
                     float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
@@ -203,13 +208,13 @@ public class PlayerControl : MonoBehaviour
 
                     angleYForMobile += angleY;
                     _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
-                    cc.ChangeCameraAngleY(angleYForMobile);
+                    //cc.ChangeCameraAngleY(angleYForMobile);
                 }
             }            
             else if (!Globals.IsMobile && Mathf.Abs(angleY) > 0)
             {
                 _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, _transform.eulerAngles.y + angleY, _transform.eulerAngles.z);
-                cc.ChangeCameraAngleY(_transform.eulerAngles.y);
+                //cc.ChangeCameraAngleY(_transform.eulerAngles.y);
             }
 
             angleY = 0;
@@ -392,29 +397,66 @@ public class PlayerControl : MonoBehaviour
         {
             IsCanAct = false;
             _rigidbody.velocity = Vector3.zero;
+
+            _rigidbody.mass = 0.1f;
+            mainCollider.enabled = false;
+            //_rigidbody.useGravity = false;
+            //_rigidbody.isKinematic = true;
+            
             _animator.enabled = false;
             for (int i = 0; i < ragdollColliders.Length; i++)
             {
                 ragdollColliders[i].enabled = true;
                 ragdollRigidbodies[i].useGravity = true;
             }
-            if (IsItMainPlayer) gm.GetCameraControl().SwapControlBody(ragdollRigidbodies[0].transform);
+            isRagdollFollow = true;
+            isRagdollActive = true;
+            
         }
         else
         {
+            Vector3 pos = Vector3.zero;
+            pos = ragdollRigidbodies[0].transform.position;
             for (int i = 0; i < ragdollColliders.Length; i++)
             {
                 ragdollColliders[i].enabled = false;
                 ragdollRigidbodies[i].useGravity = false;
-            }
-            _transform.position = ragdollRigidbodies[0].transform.position;
+                //ragdollColliders[i].transform.DOLocalMove(ragdollPos[i], 0.1f);
+                //ragdollColliders[i].transform.DOLocalRotate(ragdollRot[i], 0.1f);
+            }            
+            //StartCoroutine(playRagdollOff(pos));
+            isRagdollFollow = false;
+            _transform.position = pos;
+            //yield return new WaitForSeconds(0);
+            //_transform.DOMove(pos + Vector3.up * 0.1f, 0.2f);        
+            _rigidbody.mass = Globals.MASS;
+            mainCollider.enabled = true;
+            //_rigidbody.useGravity = true;
+            //_rigidbody.isKinematic = false;
+            collisionChecker.IsRagdollHasContact = false;
             _animator.enabled = true;
-            if (IsItMainPlayer) gm.GetCameraControl().SwapControlBody(_transform);
             IsCanAct = true;
+            isRagdollActive = false;
         }
 
-        isRagdollActive = isActive;
+        
     }
+    /*
+    private IEnumerator playRagdollOff(Vector3 pos)
+    {
+        isRagdollFollow = false;
+        _transform.position = pos;
+        //yield return new WaitForSeconds(0);
+        //_transform.DOMove(pos + Vector3.up * 0.1f, 0.2f);        
+        _rigidbody.mass = Globals.MASS;
+        mainCollider.enabled = true;
+        //_rigidbody.useGravity = true;
+        //_rigidbody.isKinematic = false;
+        collisionChecker.IsRagdollHasContact = false;
+        _animator.enabled = true;
+        IsCanAct = true;
+        isRagdollActive = false;
+    }*/
 
     public void Respawn(Vector3 pos, Vector3 rot)
     {        
@@ -432,10 +474,32 @@ public class PlayerControl : MonoBehaviour
 
         _transform.position = pos;
         _transform.eulerAngles = rot;
+        angleYForMobile = _transform.eulerAngles.y;
 
         IsDead = false;
         IsCanAct = true;
         PlayerCurrentSpeed = PlayerMaxSpeed;
+    }
+
+    public void ApplyTrapForce(Vector3 vec)
+    {
+        if (isRagdollActive || !IsCanAct) return;
+
+        SetRagdollState(true);
+        ragdollRigidbodies[0].AddForce(vec * 100, ForceMode.Impulse);
+        StartCoroutine(playApplyTrapForce());
+    }
+    private IEnumerator playApplyTrapForce()
+    {        
+        yield return new WaitForSeconds(0.1f);
+        
+        while (!isRagdollHasContact)
+        {
+            
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        yield return new WaitForSeconds(1f);
+        SetRagdollState(false);
     }
 
 }

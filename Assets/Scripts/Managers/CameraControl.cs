@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraControl : MonoBehaviour
 {
     private Transform mainPlayer;
+    private PlayerControl playerControl;
     private Transform mainCamera;
     private Transform outerCamera;
     private readonly Vector3 basePosition = new Vector3(0,6,-8);
@@ -16,6 +17,7 @@ public class CameraControl : MonoBehaviour
     public void SetData(Transform player, Transform _camera)
     {
         mainPlayer = player;
+        playerControl = mainPlayer.GetComponent<PlayerControl>();
         mainCamera = _camera;
         outerCamera = mainCamera.parent;
         mainCamera.transform.localPosition = basePosition;
@@ -37,7 +39,7 @@ public class CameraControl : MonoBehaviour
 
     public void ChangeCameraAngleY(float angleY)
     {       
-        outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, angleY, outerCamera.eulerAngles.z);
+        //outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, angleY, outerCamera.eulerAngles.z);
     }
 
     public void ChangeCameraAngleX(float angleX)
@@ -61,5 +63,13 @@ public class CameraControl : MonoBehaviour
         if (!isUpdate) return;
         outerCamera.position = mainPlayer.position/* + basePosition*/;
         
+        if (Globals.IsMobile)
+        {
+            outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, playerControl.angleYForMobile, outerCamera.eulerAngles.z);
+        }
+        else
+        {
+            outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, mainPlayer.eulerAngles.y, outerCamera.eulerAngles.z);
+        }
     }
 }

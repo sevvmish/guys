@@ -28,10 +28,8 @@ public class BotAI : MonoBehaviour
 
     private void Update()
     {
-        if (!gm.IsGameStarted) return;
-
+        if (isStopAction()) return;
         
-
         if (_timer > 0)
         {
             _timer -= Time.deltaTime;
@@ -45,7 +43,17 @@ public class BotAI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isStopAction()) return;
+
         currentAction?.Invoke();
+    }
+
+    private bool isStopAction()
+    {
+        if (!gm.IsGameStarted) return true;
+        if (playerControl.IsDead || !playerControl.IsCanAct) return true;
+
+        return false;
     }
 
     private void decisionMaking()
