@@ -173,7 +173,7 @@ public class PlayerControl : MonoBehaviour
     private bool checkGround()
     {
         bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity);
-        if (!IsGrounded && result && PlayerVerticalVelocity > 20) effectsControl.MakeLandEffect();
+        if (!IsGrounded && result && PlayerVerticalVelocity > 5 && !isRagdollActive) effectsControl.MakeLandEffect();
         
         return result;
     }
@@ -415,48 +415,42 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
+            ragdollRigidbodies[0].velocity = Vector3.zero;
             Vector3 pos = Vector3.zero;
             pos = ragdollRigidbodies[0].transform.position;
             for (int i = 0; i < ragdollColliders.Length; i++)
             {
                 ragdollColliders[i].enabled = false;
-                ragdollRigidbodies[i].useGravity = false;
-                //ragdollColliders[i].transform.DOLocalMove(ragdollPos[i], 0.1f);
-                //ragdollColliders[i].transform.DOLocalRotate(ragdollRot[i], 0.1f);
+                ragdollRigidbodies[i].useGravity = false;                
             }            
-            //StartCoroutine(playRagdollOff(pos));
-            isRagdollFollow = false;
-            _transform.position = pos;
-            //yield return new WaitForSeconds(0);
-            //_transform.DOMove(pos + Vector3.up * 0.1f, 0.2f);        
-            _rigidbody.mass = Globals.MASS;
-            mainCollider.enabled = true;
-            //_rigidbody.useGravity = true;
-            //_rigidbody.isKinematic = false;
-            collisionChecker.IsRagdollHasContact = false;
-            _animator.enabled = true;
-            IsCanAct = true;
-            isRagdollActive = false;
+            StartCoroutine(playRagdollOff(pos));
+            
         }
 
         
     }
-    /*
+    
     private IEnumerator playRagdollOff(Vector3 pos)
     {
         isRagdollFollow = false;
         _transform.position = pos;
-        //yield return new WaitForSeconds(0);
-        //_transform.DOMove(pos + Vector3.up * 0.1f, 0.2f);        
-        _rigidbody.mass = Globals.MASS;
         mainCollider.enabled = true;
-        //_rigidbody.useGravity = true;
-        //_rigidbody.isKinematic = false;
+
+        for (int i = 0; i < ragdollColliders.Length; i++)
+        {            
+            ragdollColliders[i].transform.DOLocalMove(ragdollPos[i], 0.2f);
+            ragdollColliders[i].transform.DOLocalRotate(ragdollRot[i], 0.2f);
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        _rigidbody.mass = Globals.MASS;
+        
         collisionChecker.IsRagdollHasContact = false;
         _animator.enabled = true;
         IsCanAct = true;
         isRagdollActive = false;
-    }*/
+    }
 
     public void Respawn(Vector3 pos, Vector3 rot)
     {        
@@ -486,7 +480,13 @@ public class PlayerControl : MonoBehaviour
         if (isRagdollActive || !IsCanAct) return;
 
         SetRagdollState(true);
-        ragdollRigidbodies[0].AddForce(vec * 100, ForceMode.Impulse);
+        
+        for (int i = 0; i < ragdollRigidbodies.Length; i++)
+        {
+            ragdollRigidbodies[i].AddForce(vec * 10 * UnityEngine.Random.Range(0.5f, 1.5f), ForceMode.Impulse);            
+        }
+
+        //ragdollRigidbodies[0].AddForce(vec * 100, ForceMode.Impulse);
         StartCoroutine(playApplyTrapForce());
     }
     private IEnumerator playApplyTrapForce()

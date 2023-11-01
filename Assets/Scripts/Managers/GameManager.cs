@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
         }
 
         
-        Globals.IsMobile = false;//GP_Device.IsMobile();
+        Globals.IsMobile = GP_Device.IsMobile();
         IsGameStarted = true;
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
         if (isMain)
         {
             g.AddComponent<InputControl>();
+            g.AddComponent<AudioListener>();
         }
         else
         {

@@ -14,3 +14,9 @@ public class Globals : MonoBehaviour
     public const float DRAG = 1f;
     public const float ANGULAR_DRAG = 5f;
 }
+
+public enum GameTypes
+{
+    Dont_fall,
+    Finish_line
+}
