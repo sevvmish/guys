@@ -22,7 +22,7 @@ public class RespawnControl : MonoBehaviour
 
     private void Update()
     {
-        if (_timer > 0.3f)
+        if (_timer > 0.2f)
         {
             _timer = 0;
             if (playerControl.IsGrounded && playerControl.CurrentActivePlatform == null && !playerControl.IsDead && playerControl.DangerZone == null)

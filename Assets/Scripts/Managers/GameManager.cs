@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        
+
         Globals.IsMobile = GP_Device.IsMobile();
         IsGameStarted = true;
 
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         cameraControl.SetData(mainPlayer, cameraBody);
         mainPlayer.GetComponent<PlayerControl>().IsItMainPlayer = true;
 
-        addPlayer(false, new Vector3(1, 0, 1), Vector3.zero);
+        addPlayer(false, new Vector3(0, 0, 1), Vector3.zero);
     }
 
   

@@ -37,7 +37,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float vertical;
     [SerializeField] private float angleY;
     
-    private bool isJump;
+    private bool isJump;    
     private bool isForward;
 
     //SPEED
@@ -50,6 +50,8 @@ public class PlayerControl : MonoBehaviour
     //CONDITIONS
     public bool IsGrounded { get; private set; }
     public bool IsJumping { get; private set; }
+    public bool IsSecondJump { get; private set; }
+    public bool IsFloating { get; private set; }
     public bool IsCanAct { get; private set; }
     public bool IsDead { get; private set; }
 
@@ -71,9 +73,9 @@ public class PlayerControl : MonoBehaviour
         gm = GameManager.Instance;
         cc = GameManager.Instance.GetCameraControl();
         _rigidbody = GetComponent<Rigidbody>();
-        _rigidbody.mass = Globals.MASS;
-        _rigidbody.drag = Globals.DRAG;
-        _rigidbody.angularDrag = Globals.ANGULAR_DRAG;
+        _rigidbody.mass = PhysicsCustomizing.GetData(PhysicObjects.Player).Mass;
+        _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag;
+        _rigidbody.angularDrag = PhysicsCustomizing.GetData(PhysicObjects.Player).AngularDrag;
 
         _transform = GetComponent<Transform>();
         mainCollider = GetComponent<CapsuleCollider>();
@@ -89,6 +91,10 @@ public class PlayerControl : MonoBehaviour
             ragdollColliders[i].enabled = false;
             ragdollRigidbodies[i] = ragdollColliders[i].GetComponent<Rigidbody>();
             ragdollRigidbodies[i].useGravity = false;
+            ragdollRigidbodies[i].mass = PhysicsCustomizing.GetData(PhysicObjects.Ragdoll).Mass;
+            ragdollRigidbodies[i].drag = PhysicsCustomizing.GetData(PhysicObjects.Ragdoll).Drag;
+            ragdollRigidbodies[i].angularDrag = PhysicsCustomizing.GetData(PhysicObjects.Ragdoll).AngularDrag;
+
             ragdollPos[i] = ragdollColliders[i].transform.localPosition;
             ragdollRot[i] = ragdollColliders[i].transform.localEulerAngles;
         }
@@ -110,6 +116,13 @@ public class PlayerControl : MonoBehaviour
             SetRagdollState(false);
         }
 
+        if (Input.GetKeyDown(KeyCode.U) && IsItMainPlayer)
+        {
+            _rigidbody.AddRelativeForce(Vector3.forward * 5, ForceMode.Impulse);
+        }
+
+        
+
         if (!CurrentActivePlatform || !CurrentActivePlatform.CompareTag("Platform")) return;
         checkPlatforms();
     }
@@ -122,23 +135,33 @@ public class PlayerControl : MonoBehaviour
         PlayerVelocity = _rigidbody.velocity.magnitude;
         PlayerNonVerticalVelocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude;
         PlayerVerticalVelocity = new Vector3(0, _rigidbody.velocity.y, 0).magnitude;
-        //if (PlayerVelocity > 0.1f && IsItMainPlayer) print(PlayerVelocity);
-
-
+        //if (PlayerVelocity > 0.1f && !IsItMainPlayer) print(PlayerVelocity);
+        
         if (!IsGrounded)
         {
             howLongNonGrounded += Time.deltaTime;
-            GravityScale();
+            
+            if (!isRagdollActive)
+            {
+                GravityScale(_rigidbody);
+            }
+            else
+            {
+                for (int i = 0; i < ragdollRigidbodies.Length; i++)
+                {
+                    GravityScale(ragdollRigidbodies[i]);
+                }
+            }
+            
         }
         else
         {
-            howLongNonGrounded = 0;
-            IsJumping = false;
-            if (_rigidbody.drag < Globals.DRAG) _rigidbody.drag = Globals.DRAG;
+            howLongNonGrounded = 0;            
+            if (_rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag) _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag; ;
         }
              
         if (isForward)
-        {
+        {            
             isForward = false;
             movement(true);
         }
@@ -146,8 +169,6 @@ public class PlayerControl : MonoBehaviour
         {
             movement(false);
         }
-
-        //if (!IsGrounded && IsItMainPlayer) print(PlayerVerticalVelocity);
 
         if (isJump) makeJump();
         playAnimation();
@@ -161,20 +182,37 @@ public class PlayerControl : MonoBehaviour
     private void makeJump()
     {        
         isJump = false;
-        if (IsGrounded && jumpCooldown <= 0 && IsCanAct)
+        if (!IsCanAct || isRagdollActive) return;
+        if (IsGrounded && jumpCooldown <= 0 && !IsJumping)
         {
             effectsControl.MakeJumpFX();
-            _rigidbody.AddForce(Vector3.up * Globals.JUMP_POWER, ForceMode.Impulse);
+            _animator.Play("JumpStart");
+            _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER + Vector3.forward * PlayerNonVerticalVelocity * 4, ForceMode.Impulse);
             IsJumping = true;
             jumpCooldown = 0.4f;
-        }        
+        }    
+        else if (!IsGrounded && IsJumping && !IsSecondJump && jumpCooldown < 0.2f)
+        {
+            effectsControl.MakeJumpFX();
+            IsSecondJump = true;
+            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER + Vector3.forward * PlayerNonVerticalVelocity * 4, ForceMode.Impulse);
+            _animator.Play("JumpStart");
+        }
     }
 
     private bool checkGround()
     {
         bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity);
-        if (!IsGrounded && result && PlayerVerticalVelocity > 5 && !isRagdollActive) effectsControl.MakeLandEffect();
+        if (!IsGrounded && result && PlayerVerticalVelocity > 5 && !isRagdollActive) effectsControl.MakeLandEffect();  
         
+        if (!IsGrounded && result)
+        {
+            IsJumping = false;
+            IsFloating = false;
+            IsSecondJump = false;
+        }
+                        
         return result;
     }
 
@@ -189,6 +227,8 @@ public class PlayerControl : MonoBehaviour
 
         if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0 || forward || Mathf.Abs(angleY) > 0)
         {
+            float turnKoeff = PlayerCurrentSpeed * 0.03f;
+
             if (Globals.IsMobile)
             {
                 if ((Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0))
@@ -196,43 +236,38 @@ public class PlayerControl : MonoBehaviour
                     if (Mathf.Abs(angleY) > 0)
                     {
                         angleYForMobile += angleY;
-                        //cc.ChangeCameraAngleY(angleYForMobile);
                     }
 
-                    float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
-                    _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z);
+                    float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;                    
+                    _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), turnKoeff);
 
                 }
                 else if (horizontal == 0 && vertical == 0 && Mathf.Abs(angleY) > 0)
                 {
 
-                    angleYForMobile += angleY;
-                    _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
-                    //cc.ChangeCameraAngleY(angleYForMobile);
+                    angleYForMobile += angleY;                    
+                    _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), turnKoeff);
                 }
             }            
             else if (!Globals.IsMobile && Mathf.Abs(angleY) > 0)
             {
-                _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, _transform.eulerAngles.y + angleY, _transform.eulerAngles.z);
-                //cc.ChangeCameraAngleY(_transform.eulerAngles.y);
+                _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, _transform.eulerAngles.y + angleY, _transform.eulerAngles.z), turnKoeff);
             }
 
             angleY = 0;
 
+            if (forward)
+            {
+                forward = false;
+                vertical = 1;
+            }
 
-            if (PlayerNonVerticalVelocity < PlayerCurrentSpeed)
+            if (PlayerVelocity < PlayerCurrentSpeed)
             {
                 float koeff = 0;
-
-                if (forward)
-                {
-                    koeff = PlayerCurrentSpeed * new Vector2(1, 1).magnitude - PlayerNonVerticalVelocity;
-                }
-                else
-                {
-                    koeff = PlayerCurrentSpeed * new Vector2(horizontal, vertical).magnitude - PlayerNonVerticalVelocity;
-                }
-                                
+                                                
+                koeff = PlayerCurrentSpeed * new Vector2(horizontal, vertical).magnitude - PlayerVelocity;
+                                                
                 koeff = koeff > 0 ? koeff : 0;       
                 
                 if (Globals.IsMobile)
@@ -241,7 +276,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 else
                 {
-                    if (vertical > 0 || forward)
+                    if (vertical > 0)
                     {
                         _rigidbody.velocity += _transform.forward * koeff + _transform.right * horizontal;
                         
@@ -260,28 +295,16 @@ public class PlayerControl : MonoBehaviour
                 if (koeff > 0) playRun();
 
             }
+            
             howLongMoving = 0;
-
-            if (!Globals.IsMobile)
-            {
-                //_rigidbody.AddRelativeForce(_transform.right * horizontal, ForceMode.Impulse);
-
-                if (horizontal > 0)
-                {
-                    //_rigidbody.AddRelativeForce(_transform.right * 15f, ForceMode.Force)
-                    //_rigidbody.DOMove(_transform.position + _transform.right * 0.15f, Time.fixedDeltaTime*3);
-                }
-                else if (horizontal < 0)
-                {
-                    //_rigidbody.DOMove(_transform.position - _transform.right * 0.15f, Time.fixedDeltaTime*3);
-                }
-            }
+            horizontal = 0;
+            vertical = 0;
         }
         else
         {
-            if (howLongMoving < 1 && IsGrounded)
+            if (howLongMoving < 2 && IsGrounded)
             {
-                howLongMoving++;
+                howLongMoving++;                
                 _rigidbody.velocity = Vector3.zero;
             }
 
@@ -317,19 +340,28 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void GravityScale()
+    private void GravityScale(Rigidbody r)
     {
         float fallingKoeff = 1;
-        if (_rigidbody.drag > 0) _rigidbody.drag = 0;
+        if (r.drag != 2) r.drag = 2;
 
-        if (_rigidbody.velocity.y >= 0)
+        if (r.velocity.y >= 0)
         {
-            _rigidbody.AddForce(Physics.gravity * Globals.GRAVITY_KOEFF * _rigidbody.mass);
+            r.AddForce(Physics.gravity * Globals.GRAVITY_KOEFF * r.mass);
         }
-        else if (_rigidbody.velocity.y < 0)
+        else if (r.velocity.y < 0)
         {
-            if (fallingKoeff < 5) fallingKoeff *= 1.2f;
-            _rigidbody.AddForce(Physics.gravity * _rigidbody.mass * Globals.GRAVITY_KOEFF * fallingKoeff);
+            if (!IsFloating)
+            {
+                if (fallingKoeff < 5) fallingKoeff *= 1.2f;
+                r.AddForce(Physics.gravity * r.mass * Globals.GRAVITY_KOEFF * fallingKoeff);
+            }
+            else
+            {
+                if (r.drag != 3) r.drag = 3;
+                r.AddRelativeForce(Vector3.forward * 20, ForceMode.Force);
+                r.AddForce(Physics.gravity * r.mass * Globals.GRAVITY_KOEFF * 0.1f);
+            }            
         }
     }
 
@@ -340,14 +372,7 @@ public class PlayerControl : MonoBehaviour
             if (_transform.parent != CurrentActivePlatform)
             {
                 _transform.SetParent(CurrentActivePlatform);
-            }
-            /*
-            Vector3 delta = newPlatformPoint - lastPlatformPoint;
-            if (delta.magnitude > 0)
-            {
-                _transform.position += delta;                
-                lastPlatformPoint = newPlatformPoint;
-            }*/
+            }            
         }
         else
         {
@@ -396,6 +421,9 @@ public class PlayerControl : MonoBehaviour
         if (isActive)
         {
             IsCanAct = false;
+            IsJumping = false;
+            IsFloating = false;
+            IsSecondJump = false;
             _rigidbody.velocity = Vector3.zero;
 
             _rigidbody.mass = 0.1f;
@@ -415,26 +443,28 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            ragdollRigidbodies[0].velocity = Vector3.zero;
-            Vector3 pos = Vector3.zero;
-            pos = ragdollRigidbodies[0].transform.position;
+            Vector3 vel = ragdollRigidbodies[0].velocity;
+            ragdollRigidbodies[0].velocity = Vector3.zero;            
+            Vector3 pos = ragdollRigidbodies[0].transform.position;
             for (int i = 0; i < ragdollColliders.Length; i++)
             {
                 ragdollColliders[i].enabled = false;
                 ragdollRigidbodies[i].useGravity = false;                
             }            
-            StartCoroutine(playRagdollOff(pos));
+            StartCoroutine(playRagdollOff(pos, vel));
             
         }
 
         
     }
     
-    private IEnumerator playRagdollOff(Vector3 pos)
+    private IEnumerator playRagdollOff(Vector3 pos, Vector3 vel)
     {
         isRagdollFollow = false;
         _transform.position = pos;
         mainCollider.enabled = true;
+        _rigidbody.mass = Globals.MASS;
+        _rigidbody.velocity = vel;
 
         for (int i = 0; i < ragdollColliders.Length; i++)
         {            
@@ -444,7 +474,7 @@ public class PlayerControl : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        _rigidbody.mass = Globals.MASS;
+        
         
         collisionChecker.IsRagdollHasContact = false;
         _animator.enabled = true;
@@ -462,6 +492,9 @@ public class PlayerControl : MonoBehaviour
         IsCanAct = false;
         isJump = false;
         IsJumping = false;
+        IsFloating = false;
+        IsSecondJump = false;
+
         yield return new WaitForSeconds(0.2f);
         SetRagdollState(false);
         _rigidbody.velocity = Vector3.zero;
@@ -483,8 +516,10 @@ public class PlayerControl : MonoBehaviour
         
         for (int i = 0; i < ragdollRigidbodies.Length; i++)
         {
-            ragdollRigidbodies[i].AddForce(vec * 10 * UnityEngine.Random.Range(0.5f, 1.5f), ForceMode.Impulse);            
+            //ragdollRigidbodies[i].AddForce(vec * 13 * UnityEngine.Random.Range(0.5f, 1.5f), ForceMode.Impulse);            
+            ragdollRigidbodies[i].AddForce(vec * 18, ForceMode.Impulse);
         }
+        ragdollRigidbodies[0].AddRelativeTorque(Vector3.left * 50 * UnityEngine.Random.Range(0.8f, 1.4f), ForceMode.Impulse);
 
         //ragdollRigidbodies[0].AddForce(vec * 100, ForceMode.Impulse);
         StartCoroutine(playApplyTrapForce());
@@ -502,4 +537,41 @@ public class PlayerControl : MonoBehaviour
         SetRagdollState(false);
     }
 
+}
+
+public struct PhysicsCustomizing
+{
+    public float Mass;
+    public float Drag;
+    public float AngularDrag;
+
+    public static PhysicsCustomizing GetData(PhysicObjects _type)
+    {
+        PhysicsCustomizing result = new PhysicsCustomizing();
+        switch (_type)
+        {
+            case PhysicObjects.Player:
+                result.Mass = Globals.MASS;
+                result.Drag = Globals.DRAG;
+                result.AngularDrag = Globals.ANGULAR_DRAG;
+                break;
+
+            case PhysicObjects.Ragdoll:
+                result.Mass = Globals.BOT_MASS;
+                result.Drag = Globals.BOT_DRAG;
+                result.AngularDrag = Globals.BOT_ANGULAR_DRAG;
+                break;
+        }
+
+        return result;
+    }
+
+    
+
+}
+
+public enum PhysicObjects
+{
+    Player,
+    Ragdoll
 }
