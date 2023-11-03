@@ -17,6 +17,9 @@ public class Globals : MonoBehaviour
     public const float BOT_MASS = 0.5f;
     public const float BOT_DRAG = 1f;
     public const float BOT_ANGULAR_DRAG = 0.5f;
+
+    public const int LAYER_HELPER = 6;
+    public const int LAYER_DANGER = 7;
 }
 
 public enum GameTypes

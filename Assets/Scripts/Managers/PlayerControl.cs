@@ -401,6 +401,17 @@ public class PlayerControl : MonoBehaviour
                 DangerZone = collision.collider.transform;
             }
         }
+
+        if (collision != null && collision.collider.gameObject.layer == Globals.LAYER_DANGER && IsItMainPlayer)
+        {
+            float i = collision.impulse.magnitude;
+            if (i > 20) print(i + " - " + collision.gameObject.name);
+
+            if (i > 30)
+            {
+                ApplyTrapForce(collision.impulse);
+            }
+        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -508,6 +519,7 @@ public class PlayerControl : MonoBehaviour
         PlayerCurrentSpeed = PlayerMaxSpeed;
     }
 
+
     public void ApplyTrapForce(Vector3 vec)
     {
         if (isRagdollActive || !IsCanAct) return;
@@ -515,25 +527,18 @@ public class PlayerControl : MonoBehaviour
         SetRagdollState(true);
         
         for (int i = 0; i < ragdollRigidbodies.Length; i++)
-        {
-            //ragdollRigidbodies[i].AddForce(vec * 13 * UnityEngine.Random.Range(0.5f, 1.5f), ForceMode.Impulse);            
-            ragdollRigidbodies[i].AddForce(vec * 18, ForceMode.Impulse);
-        }
-        ragdollRigidbodies[0].AddRelativeTorque(Vector3.left * 50 * UnityEngine.Random.Range(0.8f, 1.4f), ForceMode.Impulse);
-
-        //ragdollRigidbodies[0].AddForce(vec * 100, ForceMode.Impulse);
-        StartCoroutine(playApplyTrapForce());
+        {            
+            ragdollRigidbodies[i].velocity = vec;
+        }        
+        StartCoroutine(playTurnOffRagdoll(2));
     }
-    private IEnumerator playApplyTrapForce()
-    {        
-        yield return new WaitForSeconds(0.1f);
-        
-        while (!isRagdollHasContact)
+    private IEnumerator playTurnOffRagdoll(float sec)
+    {    
+        while (ragdollRigidbodies[0].velocity.magnitude > 5)
         {
-            
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return new WaitForSeconds(0.1f);
         }
-        yield return new WaitForSeconds(1f);
+       
         SetRagdollState(false);
     }
 

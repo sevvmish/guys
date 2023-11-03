@@ -10,7 +10,7 @@ public class LongJumpTrap : MonoBehaviour
     {
         if (other.TryGetComponent(out PlayerControl player))
         {
-            player.ApplyTrapForce(to.position - from.position);
+            player.ApplyTrapForce((to.position - from.position) * 30);
         }
     }
 }

@@ -152,6 +152,8 @@ public class UniversalAnimator : MonoBehaviour
         }
     }
 
+    
+
     private void FixedUpdate()
     {
 
@@ -159,11 +161,7 @@ public class UniversalAnimator : MonoBehaviour
         
         if (GameType == LevelAnimatorType.rotation)
         {            
-            if (_timer>1)
-            {
-                rotator += RotationSpeed;                
-
-                
+                                           
                 switch (RotationAxis)
                 {
                     case Axes.axis_X:
@@ -176,11 +174,19 @@ public class UniversalAnimator : MonoBehaviour
                         break;
 
                     case Axes.axis_Y:
+
+
+                        _rigidbody.MoveRotation(Quaternion.Euler(
+                            _rigidbody.rotation.eulerAngles.x,
+                            _rigidbody.rotation.eulerAngles.y + RotationSpeed,
+                            _rigidbody.rotation.eulerAngles.z));
+
+                        /*
                         _rigidbody.DORotate(new Vector3(
                             _rigidbody.rotation.eulerAngles.x,
                             _rigidbody.rotation.eulerAngles.y + RotationSpeed,
                             _rigidbody.rotation.eulerAngles.z), 1).SetEase(Ease.Linear);
-
+                        */
                         break;
 
                     case Axes.axis_Z:
@@ -192,23 +198,12 @@ public class UniversalAnimator : MonoBehaviour
                         break;
                 }
 
-                _timer = 0;
-            }
-            else
-            {
-                _timer += Time.deltaTime;
-            }
+                
+            
         }
 
         
     }
-
-    private void Update()
-    {
-        
-    }
-
-    
 
 }
 
