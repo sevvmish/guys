@@ -32,7 +32,7 @@ public class PlayerControl : MonoBehaviour
     public void SetVertical(float ver) => vertical = ver;
     public void SetRotationAngle(float ang) => angleY = ang;
     public void SetJump() => isJump = true;
-    public void SetForward() => isForward = true;
+    public void SetForward(bool isOk) => isForward = isOk;
     [SerializeField] private float horizontal;
     [SerializeField] private float vertical;
     [SerializeField] private float angleY;
@@ -121,8 +121,17 @@ public class PlayerControl : MonoBehaviour
             _rigidbody.AddRelativeForce(Vector3.forward * 5, ForceMode.Impulse);
         }
 
-        
+        if (isForward)
+        {
+            //isForward = false;
+            movement(true);
+        }
+        else
+        {
+            movement(false);
+        }
 
+        
         if (!CurrentActivePlatform || !CurrentActivePlatform.CompareTag("Platform")) return;
         checkPlatforms();
     }
@@ -159,18 +168,10 @@ public class PlayerControl : MonoBehaviour
             howLongNonGrounded = 0;            
             if (_rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag) _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag; ;
         }
-             
-        if (isForward)
-        {            
-            isForward = false;
-            movement(true);
-        }
-        else
-        {
-            movement(false);
-        }
 
         if (isJump) makeJump();
+
+
         playAnimation();
         if (isRagdollFollow)
         {
@@ -185,13 +186,14 @@ public class PlayerControl : MonoBehaviour
         if (!IsCanAct || isRagdollActive) return;
         if (IsGrounded && jumpCooldown <= 0 && !IsJumping)
         {
+            _rigidbody.velocity = Vector3.zero;
             effectsControl.MakeJumpFX();
             _animator.Play("JumpStart");
             _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER + Vector3.forward * PlayerNonVerticalVelocity * 4, ForceMode.Impulse);
             IsJumping = true;
             jumpCooldown = 0.4f;
         }    
-        else if (!IsGrounded && IsJumping && !IsSecondJump && jumpCooldown < 0.2f)
+        else if (!IsGrounded && IsJumping && !IsSecondJump && jumpCooldown < 0.3f)
         {
             effectsControl.MakeJumpFX();
             IsSecondJump = true;
@@ -238,20 +240,24 @@ public class PlayerControl : MonoBehaviour
                         angleYForMobile += angleY;
                     }
 
-                    float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;                    
-                    _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), turnKoeff);
+                    float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
+                    //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), turnKoeff);
+                    _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z);
 
                 }
                 else if (horizontal == 0 && vertical == 0 && Mathf.Abs(angleY) > 0)
                 {
 
                     angleYForMobile += angleY;                    
-                    _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), turnKoeff);
+                    //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), turnKoeff);
+                    _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
                 }
             }            
             else if (!Globals.IsMobile && Mathf.Abs(angleY) > 0)
             {
-                _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, _transform.eulerAngles.y + angleY, _transform.eulerAngles.z), turnKoeff);
+                angleYForMobile += angleY;
+                //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, _transform.eulerAngles.y + angleY, _transform.eulerAngles.z), turnKoeff);
+                _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
             }
 
             angleY = 0;
@@ -353,7 +359,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (!IsFloating)
             {
-                if (fallingKoeff < 5) fallingKoeff *= 1.2f;
+                if (fallingKoeff < 8) fallingKoeff *= 1.2f;
                 r.AddForce(Physics.gravity * r.mass * Globals.GRAVITY_KOEFF * fallingKoeff);
             }
             else
@@ -405,7 +411,7 @@ public class PlayerControl : MonoBehaviour
         if (collision != null && collision.collider.gameObject.layer == Globals.LAYER_DANGER && IsItMainPlayer)
         {
             float i = collision.impulse.magnitude;
-            if (i > 20) print(i + " - " + collision.gameObject.name);
+            //if (i > 20) print(i + " - " + collision.gameObject.name);
 
             if (i > 30)
             {
@@ -538,7 +544,7 @@ public class PlayerControl : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-       
+        yield return new WaitForSeconds(0.5f);
         SetRagdollState(false);
     }
 

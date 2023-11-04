@@ -20,6 +20,8 @@ public class RespawnControl : MonoBehaviour
         SetNewRespawn(new RespawnData(playerControl.transform.position, playerControl.transform.eulerAngles));
     }
 
+    /*
+
     private void Update()
     {
         if (_timer > 0.2f)
@@ -42,7 +44,7 @@ public class RespawnControl : MonoBehaviour
         }
 
         
-    }
+    }*/
 
 
     private void SetNewRespawn(RespawnData _data)

@@ -29,7 +29,9 @@ public class InputControl : MonoBehaviour
         {       
             joystick.gameObject.SetActive(false);
             jump.gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
             Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
         }
     }
 
@@ -115,7 +117,7 @@ public class InputControl : MonoBehaviour
         
         if (mouseDelta.x > 0 || mouseDelta.x < 0)
         {
-            playerControl.SetRotationAngle(mouseDelta.x * 12 * Time.deltaTime);
+            playerControl.SetRotationAngle(mouseDelta.x * 20 * Time.deltaTime);
         }        
         else if (Input.mousePosition.x >= Screen.width-50)
         {
@@ -132,7 +134,7 @@ public class InputControl : MonoBehaviour
 
         if (Mathf.Abs(mouseDelta.y) > 0)
         {            
-            cameraControl.ChangeCameraAngleX(mouseDelta.y * -5 * Time.deltaTime);
+            cameraControl.ChangeCameraAngleX(mouseDelta.y * -7 * Time.deltaTime);
         }
 
         cameraControl.ChangeCameraAngleY(playerTransform.eulerAngles.y);

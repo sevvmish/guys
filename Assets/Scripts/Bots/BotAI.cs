@@ -67,12 +67,14 @@ public class BotAI : MonoBehaviour
             }
             else
             {
+                playerControl.SetForward(false);
                 currentAction = null;
             }
             
         }
         else
         {
+            playerControl.SetForward(false);
             currentAction = null;
         }
     }
@@ -105,7 +107,7 @@ public class BotAI : MonoBehaviour
             _timerCheckForward += Time.deltaTime;
         }
 
-        playerControl.SetForward();
+        playerControl.SetForward(true);
     }
 
     private void followPoint(BotNavPoint _point)
