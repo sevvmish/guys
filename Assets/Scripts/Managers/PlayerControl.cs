@@ -32,6 +32,7 @@ public class PlayerControl : MonoBehaviour
     public void SetVertical(float ver) => vertical = ver;
     public void SetRotationAngle(float ang) => angleY = ang;
     public void SetJump() => isJump = true;
+    public Rigidbody GetRigidbody => _rigidbody;
     public void SetForward(bool isOk) => isForward = isOk;
     [SerializeField] private float horizontal;
     [SerializeField] private float vertical;
@@ -64,8 +65,6 @@ public class PlayerControl : MonoBehaviour
     private float jumpCooldown;
     private float howLongNonGrounded;
     private float howLongMoving;
-
-    
 
     // Start is called before the first frame update
     void Start()
@@ -106,6 +105,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
 
+        
         if (Input.GetKeyDown(KeyCode.Q) && IsItMainPlayer)
         {
             SetRagdollState(true);
@@ -140,6 +140,7 @@ public class PlayerControl : MonoBehaviour
     void FixedUpdate()
     {        
         IsGrounded = checkGround();
+        //if (!IsItMainPlayer) print(IsSecondJump);
         checkShadow();
         PlayerVelocity = _rigidbody.velocity.magnitude;
         PlayerNonVerticalVelocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude;
@@ -184,12 +185,13 @@ public class PlayerControl : MonoBehaviour
     {        
         isJump = false;
         if (!IsCanAct || isRagdollActive) return;
+
         if (IsGrounded && jumpCooldown <= 0 && !IsJumping)
         {
             _rigidbody.velocity = Vector3.zero;
             effectsControl.MakeJumpFX();
             _animator.Play("JumpStart");
-            _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER + Vector3.forward * PlayerNonVerticalVelocity * 4, ForceMode.Impulse);
+            _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER/* + Vector3.forward * PlayerNonVerticalVelocity * 4*/, ForceMode.Impulse);
             IsJumping = true;
             jumpCooldown = 0.4f;
         }    
@@ -198,7 +200,7 @@ public class PlayerControl : MonoBehaviour
             effectsControl.MakeJumpFX();
             IsSecondJump = true;
             _rigidbody.velocity = Vector3.zero;
-            _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER + Vector3.forward * PlayerNonVerticalVelocity * 4, ForceMode.Impulse);
+            _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER/* + Vector3.forward * PlayerNonVerticalVelocity * 4*/, ForceMode.Impulse);
             _animator.Play("JumpStart");
         }
     }
@@ -208,7 +210,7 @@ public class PlayerControl : MonoBehaviour
         bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity);
         if (!IsGrounded && result && PlayerVerticalVelocity > 5 && !isRagdollActive) effectsControl.MakeLandEffect();  
         
-        if (!IsGrounded && result)
+        if (result)
         {
             IsJumping = false;
             IsFloating = false;
@@ -268,11 +270,12 @@ public class PlayerControl : MonoBehaviour
                 vertical = 1;
             }
 
-            if (PlayerVelocity < PlayerCurrentSpeed)
+            if ((PlayerVelocity < PlayerCurrentSpeed && IsGrounded) || (PlayerVelocity < PlayerCurrentSpeed * 1.25f && !IsGrounded))
             {
                 float koeff = 0;
+                float addKoeff = IsGrounded ? 1 : 1.3f;
                                                 
-                koeff = PlayerCurrentSpeed * new Vector2(horizontal, vertical).magnitude - PlayerVelocity;
+                koeff = PlayerCurrentSpeed * addKoeff * new Vector2(horizontal, vertical).magnitude - PlayerVelocity;
                                                 
                 koeff = koeff > 0 ? koeff : 0;       
                 
