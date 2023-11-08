@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class BotAI : MonoBehaviour
 {
+    public int CurrentIndex { get; private set; } = 0;
+
     private PlayerControl playerControl;
     private Transform playerTransform;
     private NavPointSystem nps;
@@ -16,7 +19,7 @@ public class BotAI : MonoBehaviour
     private BotNavPoint currentPoint;
     private Action currentAction;
     private bool isChecked = false;
-    private int currentIndex = 0;
+    
     private HashSet<GameObject> usedNavPoints = new HashSet<GameObject>();
 
     private readonly float oneJumpDistance = 2.4f;
@@ -30,11 +33,16 @@ public class BotAI : MonoBehaviour
         playerControl = GetComponent<PlayerControl>();
         gm = GameManager.Instance;
         playerTransform = playerControl.transform;
+
+        //delay before start
+        float delay = UnityEngine.Random.Range(0.1f, 1.5f);
+        _timer = delay;
+        _timerForChecking = delay;
     }
 
     private void Update()
     {
-        if (isStopAction()) return;
+        if (isStopAction() || !gm.IsGameStarted) return;
 
         if (_timerForChecking > 0)
         {
@@ -54,7 +62,7 @@ public class BotAI : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isStopAction()) return;
+        if (isStopAction() || !gm.IsGameStarted) return;
 
         if (_timerForChecking > 0)
         {
@@ -74,15 +82,19 @@ public class BotAI : MonoBehaviour
 
     private void decisionMaking()
     {
-        currentPoint = nps.GetBotNavPoint(currentIndex);
+        currentPoint = nps.GetBotNavPoint(CurrentIndex, playerControl.transform.position);
+        
         if (currentPoint != null)
         {
+            
             if ((currentPoint.transform.position - playerTransform.position).magnitude > 1)
             {
+                //print(currentPoint.Index + " = " + currentPoint.transform.position);
                 followPoint(currentPoint);
             }
             else
             {
+                
                 playerControl.SetForward(false);
                 currentAction = null;
             }
@@ -90,6 +102,7 @@ public class BotAI : MonoBehaviour
         }
         else
         {
+            
             playerControl.SetForward(false);
             currentAction = null;
         }
@@ -103,7 +116,7 @@ public class BotAI : MonoBehaviour
             return;
         }
 
-        isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation);
+        isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
             
         if (!isChecked)
         {            
@@ -111,7 +124,7 @@ public class BotAI : MonoBehaviour
             return;
         }
 
-        isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * 0.5f + playerTransform.forward, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation);
+        isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * 0.5f + playerTransform.forward, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
 
         if (isChecked)
         {
@@ -124,7 +137,7 @@ public class BotAI : MonoBehaviour
     }
 
     private void followPoint(BotNavPoint _point)
-    {
+    {        
         playerTransform.LookAt(new Vector3(_point.transform.position.x, playerTransform.position.y, _point.transform.position.z));
         if (currentAction == null) currentAction = runToPoint;
     }
@@ -133,7 +146,7 @@ public class BotAI : MonoBehaviour
     {
         if (!playerControl.IsJumping && playerControl.IsGrounded)
         {
-            isChecked = Physics.CheckBox(playerTransform.position + playerTransform.up * (oneJumpAltitude + 0.2f) + playerTransform.forward * 1.5f, new Vector3(0.1f, 0.1f, 0.1f), playerTransform.rotation);
+            isChecked = Physics.CheckBox(playerTransform.position + playerTransform.up * (oneJumpAltitude + 0.2f) + playerTransform.forward * 1.5f, new Vector3(0.1f, 0.1f, 0.1f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
 
             if (!isChecked)
             {                
@@ -145,7 +158,7 @@ public class BotAI : MonoBehaviour
             }
             else
             {                
-                isChecked = Physics.CheckBox(playerTransform.position + playerTransform.up * (twoJumpAltitude + 0.2f) + playerTransform.forward * 1.5f, new Vector3(0.1f, 0.1f, 0.1f), playerTransform.rotation);
+                isChecked = Physics.CheckBox(playerTransform.position + playerTransform.up * (twoJumpAltitude + 0.2f) + playerTransform.forward * 1.5f, new Vector3(0.1f, 0.1f, 0.1f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
 
                 if (!isChecked)
                 {
@@ -193,12 +206,10 @@ public class BotAI : MonoBehaviour
     }
 
     private void jumpForwardNoGround()
-    {
-        print("no ground");
-       
+    {        
         if (!playerControl.IsJumping && playerControl.IsGrounded)
         {
-            isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward * oneJumpDistance, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation);
+            isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward * oneJumpDistance, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
 
             if (isChecked)
             {                
@@ -210,7 +221,7 @@ public class BotAI : MonoBehaviour
             }
             else
             {
-                isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward * twoJumpDistance, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation);
+                isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward * twoJumpDistance, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
 
                 if (isChecked)
                 {
@@ -234,12 +245,19 @@ public class BotAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!usedNavPoints.Contains(other.gameObject) && other.TryGetComponent(out BotNavPoint p) && currentIndex < p.Index)
+        if (!usedNavPoints.Contains(other.gameObject) && other.TryGetComponent(out BotNavPoint p) && CurrentIndex < p.Index)
         {
-            currentIndex = p.Index;
+            CurrentIndex = p.Index;
             decisionMaking();
             usedNavPoints.Add(other.gameObject);
         }
+    }
+
+    public void ResetIndexToValue(int newIndex)
+    {
+        CurrentIndex = newIndex;
+        usedNavPoints.Clear();
+        decisionMaking();
     }
 
 }

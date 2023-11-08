@@ -30,7 +30,7 @@ public class EffectsControl : MonoBehaviour
         jumpSound.Play();
     }
 
-    public void PlayRespawnEffect() => StartCoroutine(playEffect(1, respawnFX));
+    public void PlayRespawnEffect() => StartCoroutine(playEffect(1.5f, respawnFX));
 
     public void MakeLandEffect()
     {        

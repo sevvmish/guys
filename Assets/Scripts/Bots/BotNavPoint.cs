@@ -6,6 +6,7 @@ public class BotNavPoint : MonoBehaviour
 {
     [SerializeField] private int index = 1;
     public int Index { get; private set; }
+    public bool IsActive => gameObject.activeSelf;
     private NavPointSystem nps;
 
     // Start is called before the first frame update

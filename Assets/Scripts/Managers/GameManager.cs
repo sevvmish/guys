@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         }
 
 
-        Globals.IsMobile = false;//GP_Device.IsMobile();
+        Globals.IsMobile = GP_Device.IsMobile();
         IsGameStarted = true;
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
@@ -54,6 +54,10 @@ public class GameManager : MonoBehaviour
         mainPlayer.GetComponent<PlayerControl>().IsItMainPlayer = true;
 
         addPlayer(false, new Vector3(0, 0, 1), Vector3.zero);
+        addPlayer(false, new Vector3(1.5f, 0, 1), Vector3.zero);
+        addPlayer(false, new Vector3(-1.5f, 0, 1), Vector3.zero);
+        addPlayer(false, new Vector3(-0.5f, 0, -1), Vector3.zero);
+        addPlayer(false, new Vector3(2.5f, 0, 1), Vector3.zero);
     }
 
   

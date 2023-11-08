@@ -47,7 +47,7 @@ public class RespawnControl : MonoBehaviour
     }*/
 
 
-    private void SetNewRespawn(RespawnData _data)
+    public void SetNewRespawn(RespawnData _data)
     {
         position = _data.Position;
         rotation = _data.Rotation;
@@ -59,7 +59,7 @@ public class RespawnControl : MonoBehaviour
         if (!playerControl.IsDead) playerControl.Respawn(position, rotation);
     }
 
-    private struct RespawnData
+    public struct RespawnData
     {
         public Vector3 Position;
         public Vector3 Rotation;

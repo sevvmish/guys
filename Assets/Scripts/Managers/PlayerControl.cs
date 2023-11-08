@@ -193,6 +193,10 @@ public class PlayerControl : MonoBehaviour
             isRagdollHasContact = collisionChecker.IsRagdollHasContact;
             _rigidbody.MovePosition(ragdollRigidbodies[0].transform.position);
         }
+        else if (!IsItMainPlayer && !isRagdollActive)
+        {
+            ragdollRigidbodies[0].transform.localPosition = Vector3.zero;
+        }
     }
 
     private void makeJump()
@@ -546,12 +550,22 @@ public class PlayerControl : MonoBehaviour
         IsSecondJump = false;
 
         yield return new WaitForSeconds(0.2f);
-        SetRagdollState(false);
+        if (isRagdollActive) SetRagdollState(false);
         _rigidbody.velocity = Vector3.zero;
+        _animator.StopPlayback();
+        if (IsItMainPlayer)
+        {
+            cc.ResetCameraOnRespawn();
+            angleYForMobile = _transform.eulerAngles.y;
+        }
+
+        ragdollRigidbodies[0].transform.localPosition = Vector3.zero;
+        
+        playIdle();
 
         _transform.position = pos;
         _transform.eulerAngles = rot;
-        angleYForMobile = _transform.eulerAngles.y;
+        
         effectsControl.PlayRespawnEffect();
 
         IsDead = false;
