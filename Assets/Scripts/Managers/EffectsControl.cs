@@ -5,24 +5,22 @@ using UnityEngine;
 public class EffectsControl : MonoBehaviour
 {
     [SerializeField] private GameObject shadow;
-    
+    [SerializeField] private GameObject respawnFX;
+
     [SerializeField] private GameObject jumpEffect;
     private AudioSource jumpSound;
 
     [SerializeField] private ParticleSystem landEffect;
-    //private AudioSource landSound;
-
-    //private ObjectPool jumpPool;
+   
 
     // Start is called before the first frame update
     void Start()
     {
         shadow.SetActive(false);
+        respawnFX.SetActive(false);
         landEffect.gameObject.SetActive(true);
-        //landSound = landEffect.GetComponent<AudioSource>();
         jumpEffect.SetActive(true);
         jumpSound = jumpEffect.GetComponent<AudioSource>();
-        //jumpPool = new ObjectPool(2, jumpEffect, transform);
     }
 
     public void SetShadow(bool isActive) => shadow.SetActive(isActive);
@@ -30,20 +28,20 @@ public class EffectsControl : MonoBehaviour
     public void MakeJumpFX()
     {
         jumpSound.Play();
-        //StartCoroutine(playJumpFX());
     }
-    private IEnumerator playJumpFX()
-    {
-        //GameObject temp = jumpPool.GetObject();
-        //jumpEffect.SetActive(true);
-        yield return new WaitForSeconds(0.37f);
-        //jumpEffect.SetActive(false);
-        //jumpPool.ReturnObject(temp);
-    }
+
+    public void PlayRespawnEffect() => StartCoroutine(playEffect(1, respawnFX));
 
     public void MakeLandEffect()
     {        
         landEffect.Play();
-        //landSound.Play();
+    }
+
+    private IEnumerator playEffect(float duration, GameObject fx)
+    {
+        fx.SetActive(false);
+        fx.SetActive(true);
+        yield return new WaitForSeconds(duration);
+        fx.SetActive(false);
     }
 }

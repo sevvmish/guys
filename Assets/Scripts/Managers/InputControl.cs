@@ -14,8 +14,10 @@ public class InputControl : MonoBehaviour
     private PointerBase jump;
     private PointerBase mover;
     private Vector3 mousePosition;
-    
-  
+    private float koeff;
+    private readonly float XLimit = 10;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -117,15 +119,26 @@ public class InputControl : MonoBehaviour
         
         if (mouseDelta.x > 0 || mouseDelta.x < 0)
         {
-            playerControl.SetRotationAngle(mouseDelta.x * 20 * Time.deltaTime);
+            float koeff = mouseDelta.x * 20 * Time.deltaTime;
+
+            if (koeff > XLimit)
+            {
+                koeff = XLimit;
+            }
+            else if (koeff < -XLimit)
+            {
+                koeff = -XLimit;
+            }
+
+            playerControl.SetRotationAngle(koeff);
         }        
         else if (Input.mousePosition.x >= Screen.width-50)
         {
-            playerControl.SetRotationAngle(200 * Time.deltaTime);
+            playerControl.SetRotationAngle(XLimit * 0.8f/*200 * Time.deltaTime*/);
         }
         else if (Input.mousePosition.x <= 1)
         {
-            playerControl.SetRotationAngle(-200 * Time.deltaTime);
+            playerControl.SetRotationAngle(-XLimit * 0.8f/*-200 * Time.deltaTime*/);
         }
         else
         {

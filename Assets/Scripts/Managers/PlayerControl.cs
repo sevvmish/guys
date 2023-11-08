@@ -24,7 +24,9 @@ public class PlayerControl : MonoBehaviour
     private RagdollPartCollisionChecker collisionChecker;
 
     public Transform CurrentActivePlatform { get; private set; }
+    public bool IsOnPlatform { get; private set; }
     public Transform DangerZone { get; private set; }
+    private Transform playerLocation;
 
     //INPUT
     public float angleYForMobile { get; private set; }
@@ -71,6 +73,8 @@ public class PlayerControl : MonoBehaviour
     {
         gm = GameManager.Instance;
         cc = GameManager.Instance.GetCameraControl();
+        playerLocation = gm.GetPlayerLocation();
+
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.mass = PhysicsCustomizing.GetData(PhysicObjects.Player).Mass;
         _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag;
@@ -130,10 +134,20 @@ public class PlayerControl : MonoBehaviour
         {
             movement(false);
         }
-
         
-        if (!CurrentActivePlatform || !CurrentActivePlatform.CompareTag("Platform")) return;
-        checkPlatforms();
+        if ( !CurrentActivePlatform || (CurrentActivePlatform && !CurrentActivePlatform.gameObject.activeSelf) || !CurrentActivePlatform.CompareTag("Platform"))
+        {
+            if (IsOnPlatform)
+            {                
+                _transform.SetParent(playerLocation);
+                IsOnPlatform = false;
+            }
+        }
+        else
+        {
+            checkPlatforms();
+        }
+        
     }
 
     // Update is called once per frame
@@ -193,26 +207,26 @@ public class PlayerControl : MonoBehaviour
             _animator.Play("JumpStart");
             _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER/* + Vector3.forward * PlayerNonVerticalVelocity * 4*/, ForceMode.Impulse);
             IsJumping = true;
-            jumpCooldown = 0.4f;
+            jumpCooldown = 0.1f;
         }    
-        else if (!IsGrounded && IsJumping && !IsSecondJump && jumpCooldown < 0.3f)
+        else if (!IsGrounded && IsJumping && !IsSecondJump && jumpCooldown <= 0)
         {
             effectsControl.MakeJumpFX();
             IsSecondJump = true;
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER/* + Vector3.forward * PlayerNonVerticalVelocity * 4*/, ForceMode.Impulse);
             _animator.Play("JumpStart");
-        }
+        }        
     }
 
     private bool checkGround()
     {
-        bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity);
+        bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity, 3, QueryTriggerInteraction.Ignore);
         if (!IsGrounded && result && PlayerVerticalVelocity > 5 && !isRagdollActive) effectsControl.MakeLandEffect();  
         
         if (result)
-        {
-            IsJumping = false;
+        {            
+            if (jumpCooldown <= 0) IsJumping = false;
             IsFloating = false;
             IsSecondJump = false;
         }
@@ -312,7 +326,7 @@ public class PlayerControl : MonoBehaviour
         else
         {
             if (howLongMoving < 2 && IsGrounded)
-            {
+            {                
                 howLongMoving++;                
                 _rigidbody.velocity = Vector3.zero;
             }
@@ -320,6 +334,7 @@ public class PlayerControl : MonoBehaviour
             playIdle();
         }
     }
+
 
     private void playRun()
     {
@@ -374,6 +389,16 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public void FreePlatformStatusForPlayer()
+    {
+        if (IsOnPlatform)
+        {
+            _transform.SetParent(playerLocation);
+            IsOnPlatform = false;
+            CurrentActivePlatform = null;
+        }
+    }
+
     private void checkPlatforms()
     {        
         if (CurrentActivePlatform != null)
@@ -381,13 +406,15 @@ public class PlayerControl : MonoBehaviour
             if (_transform.parent != CurrentActivePlatform)
             {
                 _transform.SetParent(CurrentActivePlatform);
+                IsOnPlatform = true;
             }            
         }
         else
         {
-            if (_transform.parent != null)
+            if (IsOnPlatform)
             {
-                _transform.SetParent(null);
+                _transform.SetParent(playerLocation);
+                IsOnPlatform = false;
             }
         }
         
@@ -401,6 +428,7 @@ public class PlayerControl : MonoBehaviour
             {
                 CurrentActivePlatform = collision.collider.transform;
                 _transform.SetParent(CurrentActivePlatform);
+                IsOnPlatform = true;
             }            
         }        
         else if (collision != null && collision.collider.CompareTag("Danger"))
@@ -411,7 +439,7 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        if (collision != null && collision.collider.gameObject.layer == Globals.LAYER_DANGER && IsItMainPlayer)
+        if (collision != null && collision.collider.gameObject.layer == Globals.LAYER_DANGER)
         {
             float i = collision.impulse.magnitude;
             //if (i > 20) print(i + " - " + collision.gameObject.name);
@@ -428,7 +456,11 @@ public class PlayerControl : MonoBehaviour
         if (collision.collider.transform == CurrentActivePlatform)
         {
             CurrentActivePlatform = null;
-            _transform.SetParent(null);
+            if (IsOnPlatform)
+            {
+                _transform.SetParent(playerLocation);
+                IsOnPlatform = false;
+            }                
         }
         else if (collision.collider.transform == DangerZone)
         {
@@ -473,9 +505,7 @@ public class PlayerControl : MonoBehaviour
             }            
             StartCoroutine(playRagdollOff(pos, vel));
             
-        }
-
-        
+        }        
     }
     
     private IEnumerator playRagdollOff(Vector3 pos, Vector3 vel)
@@ -522,6 +552,7 @@ public class PlayerControl : MonoBehaviour
         _transform.position = pos;
         _transform.eulerAngles = rot;
         angleYForMobile = _transform.eulerAngles.y;
+        effectsControl.PlayRespawnEffect();
 
         IsDead = false;
         IsCanAct = true;
@@ -571,9 +602,9 @@ public struct PhysicsCustomizing
                 break;
 
             case PhysicObjects.Ragdoll:
-                result.Mass = Globals.BOT_MASS;
-                result.Drag = Globals.BOT_DRAG;
-                result.AngularDrag = Globals.BOT_ANGULAR_DRAG;
+                result.Mass = Globals.RAGDOLL_MASS;
+                result.Drag = Globals.RAGDOLL_DRAG;
+                result.AngularDrag = Globals.RAGDOLL_ANGULAR_DRAG;
                 break;
         }
 

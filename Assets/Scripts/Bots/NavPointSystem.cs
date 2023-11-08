@@ -20,11 +20,17 @@ public class NavPointSystem : MonoBehaviour
         }
     }
 
-    public BotNavPoint GetBotNavPoint()
+    public BotNavPoint GetBotNavPoint(int index)
     {
         if (navPoints.Count > 0)
         {
-            return navPoints[0];
+            for (int i = 0; i < navPoints.Count; i++)
+            {
+                if (navPoints[i].Index > index)
+                {
+                    return navPoints[i];
+                }
+            }            
         }
 
         return null;

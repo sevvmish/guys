@@ -16,6 +16,8 @@ public class BotAI : MonoBehaviour
     private BotNavPoint currentPoint;
     private Action currentAction;
     private bool isChecked = false;
+    private int currentIndex = 0;
+    private HashSet<GameObject> usedNavPoints = new HashSet<GameObject>();
 
     private readonly float oneJumpDistance = 2.4f;
     private readonly float twoJumpDistance = 5f; // really 4.5
@@ -72,7 +74,7 @@ public class BotAI : MonoBehaviour
 
     private void decisionMaking()
     {
-        currentPoint = nps.GetBotNavPoint();
+        currentPoint = nps.GetBotNavPoint(currentIndex);
         if (currentPoint != null)
         {
             if ((currentPoint.transform.position - playerTransform.position).magnitude > 1)
@@ -191,7 +193,8 @@ public class BotAI : MonoBehaviour
     }
 
     private void jumpForwardNoGround()
-    {        
+    {
+        print("no ground");
        
         if (!playerControl.IsJumping && playerControl.IsGrounded)
         {
@@ -227,6 +230,16 @@ public class BotAI : MonoBehaviour
         }
 
         _timerForChecking = 0.05f;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!usedNavPoints.Contains(other.gameObject) && other.TryGetComponent(out BotNavPoint p) && currentIndex < p.Index)
+        {
+            currentIndex = p.Index;
+            decisionMaking();
+            usedNavPoints.Add(other.gameObject);
+        }
     }
 
 }

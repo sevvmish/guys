@@ -14,9 +14,9 @@ public class Globals : MonoBehaviour
     public const float DRAG = 1f;
     public const float ANGULAR_DRAG = 5f;
 
-    public const float BOT_MASS = 0.5f;
-    public const float BOT_DRAG = 1f;
-    public const float BOT_ANGULAR_DRAG = 0.5f;
+    public const float RAGDOLL_MASS = 0.5f;
+    public const float RAGDOLL_DRAG = 1f;
+    public const float RAGDOLL_ANGULAR_DRAG = 0.5f;
 
     public const int LAYER_HELPER = 6;
     public const int LAYER_DANGER = 7;

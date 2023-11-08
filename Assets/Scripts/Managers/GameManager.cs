@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public Transform GetCameraBody() => cameraBody;
     public CameraControl GetCameraControl() => cameraControl;
     public AssetManager GetAssetManager() => assetManager;
+    public Transform GetPlayerLocation() => playersLocation;
     public Vector3 BotPoints;
 
     //GAME START
