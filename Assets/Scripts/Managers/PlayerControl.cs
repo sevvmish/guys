@@ -54,6 +54,9 @@ public class PlayerControl : MonoBehaviour
     public bool IsGrounded { get; private set; }
     public bool IsRagdollActive { get; private set; }
     public bool IsJumping { get; private set; }
+    public bool IsRunning { get; private set; }
+    public bool IsIdle { get; private set; }
+
     public bool IsSecondJump { get; private set; }
     public bool IsFloating { get; private set; }
     public bool IsCanAct { get; private set; }
@@ -187,8 +190,30 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            howLongNonGrounded = 0;            
-            if (_rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag) _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag; ;
+            howLongNonGrounded = 0;
+
+            /*
+            if (IsRunning && _rigidbody.mass != PhysicsCustomizing.GetData(PhysicObjects.Player).Mass)
+            {
+                _rigidbody.mass = PhysicsCustomizing.GetData(PhysicObjects.Player).Mass;
+            }
+            else if (IsIdle && _rigidbody.mass != PhysicsCustomizing.GetData(PhysicObjects.Player).Mass * 50)
+            {
+                _rigidbody.mass = PhysicsCustomizing.GetData(PhysicObjects.Player).Mass * 50;
+            }
+            */
+
+            /*
+            if (IsRunning && _rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag)
+            {
+                _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag;
+            }
+            else if (IsIdle && _rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag * 50)
+            {
+                _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag * 50;
+            }*/
+
+            if (_rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag) _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag;
         }
 
         if (isJump) makeJump();
@@ -225,7 +250,7 @@ public class PlayerControl : MonoBehaviour
             effectsControl.MakeJumpFX();
             IsSecondJump = true;
             _rigidbody.velocity = Vector3.zero;
-            _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER/* + Vector3.forward * PlayerNonVerticalVelocity * 4*/, ForceMode.Impulse);
+            _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER * 0.5f + Vector3.forward * 2, ForceMode.Impulse);
             _animator.Play("JumpStart");
         }        
     }
@@ -247,7 +272,15 @@ public class PlayerControl : MonoBehaviour
 
     private void checkShadow()
     {
-        effectsControl.ShowShadow(IsCanAct && !IsRagdollActive);
+        if (IsItMainPlayer)
+        {
+            effectsControl.ShowShadow(IsCanAct && !IsRagdollActive);
+        }
+        else
+        {
+            effectsControl.ShowShadow(IsGrounded && !IsRagdollActive);
+        }
+        
     }
         
     private void movement(bool forward)
@@ -268,23 +301,23 @@ public class PlayerControl : MonoBehaviour
                     }
 
                     float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
-                    //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), turnKoeff);
-                    _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z);
+                    _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);
+                    //_transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z);
 
                 }
                 else if (horizontal == 0 && vertical == 0 && Mathf.Abs(angleY) > 0)
                 {
 
                     angleYForMobile += angleY;                    
-                    //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), turnKoeff);
-                    _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
+                    _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);
+                    //_transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
                 }
             }            
             else if (!Globals.IsMobile && Mathf.Abs(angleY) > 0)
             {
                 angleYForMobile += angleY;
-                //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, _transform.eulerAngles.y + angleY, _transform.eulerAngles.z), turnKoeff);
-                _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
+                _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);
+                //_transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
             }
 
             angleY = 0;
@@ -349,11 +382,17 @@ public class PlayerControl : MonoBehaviour
 
     private void playRun()
     {
+        IsRunning = true;
+        IsIdle = false;
+
         if (IsGrounded && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Run")) _animator.Play("Run");
     }
 
     private void playIdle()
     {
+        IsRunning = false;
+        IsIdle = true;
+
         if (IsGrounded && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
             _animator.Play("Idle");
@@ -378,7 +417,7 @@ public class PlayerControl : MonoBehaviour
     private void GravityScale(Rigidbody r)
     {
         float fallingKoeff = 1;
-        if (r.drag != 2) r.drag = 2;
+        //if (r.drag != 2) r.drag = 2;
 
         if (r.velocity.y >= 0)
         {
@@ -388,12 +427,13 @@ public class PlayerControl : MonoBehaviour
         {
             if (!IsFloating)
             {
+                if (r.drag != 2) r.drag = 2;
                 if (fallingKoeff < 8) fallingKoeff *= 1.2f;
                 r.AddForce(Physics.gravity * r.mass * Globals.GRAVITY_KOEFF * fallingKoeff);
             }
             else
             {
-                if (r.drag != 3) r.drag = 3;
+                //if (r.drag != 3) r.drag = 3;
                 r.AddRelativeForce(Vector3.forward * 20, ForceMode.Force);
                 r.AddForce(Physics.gravity * r.mass * Globals.GRAVITY_KOEFF * 0.1f);
             }            
