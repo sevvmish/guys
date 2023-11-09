@@ -9,8 +9,8 @@ public class PlayerControl : MonoBehaviour
 {
     [Header("Controls")]    
     public Animator _animator;
-    public bool IsItMainPlayer;
-    
+    public bool IsItMainPlayer { get; private set; }
+
     public EffectsControl effectsControl;
 
     [Header("Ragdoll")]
@@ -18,7 +18,7 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody[] ragdollRigidbodies;
     private Vector3[] ragdollPos;
     private Vector3[] ragdollRot;
-    private bool isRagdollActive;
+    
     private bool isRagdollFollow;
     private bool isRagdollHasContact;
     private RagdollPartCollisionChecker collisionChecker;
@@ -52,6 +52,7 @@ public class PlayerControl : MonoBehaviour
 
     //CONDITIONS
     public bool IsGrounded { get; private set; }
+    public bool IsRagdollActive { get; private set; }
     public bool IsJumping { get; private set; }
     public bool IsSecondJump { get; private set; }
     public bool IsFloating { get; private set; }
@@ -82,7 +83,7 @@ public class PlayerControl : MonoBehaviour
 
         _transform = GetComponent<Transform>();
         mainCollider = GetComponent<CapsuleCollider>();
-        PlayerMaxSpeed = 5;
+        PlayerMaxSpeed = Globals.BASE_SPEED;
         PlayerCurrentSpeed = PlayerMaxSpeed;
         IsCanAct = true;
 
@@ -102,14 +103,20 @@ public class PlayerControl : MonoBehaviour
             ragdollRot[i] = ragdollColliders[i].transform.localEulerAngles;
         }
         collisionChecker = ragdollRigidbodies[0].GetComponent<RagdollPartCollisionChecker>();
-        isRagdollActive = false;
+        IsRagdollActive = false;
+        
+    }
+
+    public void SetPlayerToMain()
+    {
+        IsItMainPlayer = true;
+        effectsControl.SetShadow(this);
     }
 
     private void Update()
     {
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
-
-        
+                
         if (Input.GetKeyDown(KeyCode.Q) && IsItMainPlayer)
         {
             SetRagdollState(true);
@@ -165,7 +172,7 @@ public class PlayerControl : MonoBehaviour
         {
             howLongNonGrounded += Time.deltaTime;
             
-            if (!isRagdollActive)
+            if (!IsRagdollActive)
             {
                 GravityScale(_rigidbody);
             }
@@ -193,7 +200,7 @@ public class PlayerControl : MonoBehaviour
             isRagdollHasContact = collisionChecker.IsRagdollHasContact;
             _rigidbody.MovePosition(ragdollRigidbodies[0].transform.position);
         }
-        else if (!IsItMainPlayer && !isRagdollActive)
+        else if (!IsItMainPlayer && !IsRagdollActive)
         {
             ragdollRigidbodies[0].transform.localPosition = Vector3.zero;
         }
@@ -202,7 +209,7 @@ public class PlayerControl : MonoBehaviour
     private void makeJump()
     {        
         isJump = false;
-        if (!IsCanAct || isRagdollActive) return;
+        if (!IsCanAct || IsRagdollActive) return;
 
         if (IsGrounded && jumpCooldown <= 0 && !IsJumping)
         {
@@ -226,7 +233,7 @@ public class PlayerControl : MonoBehaviour
     private bool checkGround()
     {
         bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity, 3, QueryTriggerInteraction.Ignore);
-        if (!IsGrounded && result && PlayerVerticalVelocity > 5 && !isRagdollActive) effectsControl.MakeLandEffect();  
+        if (!IsGrounded && result && PlayerVerticalVelocity > 5 && !IsRagdollActive) effectsControl.MakeLandEffect();  
         
         if (result)
         {            
@@ -240,7 +247,7 @@ public class PlayerControl : MonoBehaviour
 
     private void checkShadow()
     {
-        effectsControl.SetShadow(IsGrounded && !isRagdollActive);
+        effectsControl.ShowShadow(IsCanAct && !IsRagdollActive);
     }
         
     private void movement(bool forward)
@@ -494,7 +501,7 @@ public class PlayerControl : MonoBehaviour
                 ragdollRigidbodies[i].useGravity = true;
             }
             isRagdollFollow = true;
-            isRagdollActive = true;
+            IsRagdollActive = true;
             
         }
         else
@@ -527,13 +534,11 @@ public class PlayerControl : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.2f);
-
-        
         
         collisionChecker.IsRagdollHasContact = false;
         _animator.enabled = true;
         IsCanAct = true;
-        isRagdollActive = false;
+        IsRagdollActive = false;
     }
 
     public void Respawn(Vector3 pos, Vector3 rot)
@@ -550,13 +555,13 @@ public class PlayerControl : MonoBehaviour
         IsSecondJump = false;
 
         yield return new WaitForSeconds(0.2f);
-        if (isRagdollActive) SetRagdollState(false);
+        if (IsRagdollActive) SetRagdollState(false);
         _rigidbody.velocity = Vector3.zero;
         _animator.StopPlayback();
         if (IsItMainPlayer)
         {
             cc.ResetCameraOnRespawn();
-            angleYForMobile = _transform.eulerAngles.y;
+            angleYForMobile = 0;
         }
 
         ragdollRigidbodies[0].transform.localPosition = Vector3.zero;
@@ -576,7 +581,7 @@ public class PlayerControl : MonoBehaviour
 
     public void ApplyTrapForce(Vector3 vec)
     {
-        if (isRagdollActive || !IsCanAct) return;
+        if (IsRagdollActive || !IsCanAct) return;
 
         SetRagdollState(true);
         

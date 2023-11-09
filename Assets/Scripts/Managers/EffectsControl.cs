@@ -23,7 +23,16 @@ public class EffectsControl : MonoBehaviour
         jumpSound = jumpEffect.GetComponent<AudioSource>();
     }
 
-    public void SetShadow(bool isActive) => shadow.SetActive(isActive);
+    public void SetShadow(PlayerControl player)
+    {
+        shadow.AddComponent<ShadowPoint>();
+        shadow.GetComponent<ShadowPoint>().SetData(player);
+    }
+
+    public void ShowShadow(bool isActive)
+    {
+        shadow.SetActive(isActive);
+    }
 
     public void MakeJumpFX()
     {

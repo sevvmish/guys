@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5519443538377551116}
   - component: {fileID: 7268762793714960767}
   - component: {fileID: 6299541503517530546}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TestPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -50,7 +50,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 7534712198144604253}
-  IsItMainPlayer: 0
   effectsControl: {fileID: 8453296982429647077}
   ragdollColliders:
   - {fileID: 3185214028352119574}

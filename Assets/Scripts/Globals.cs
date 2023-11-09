@@ -7,6 +7,7 @@ public class Globals : MonoBehaviour
 {
     public static bool IsMobile;
 
+    public const float BASE_SPEED = 6f;
     public const float JUMP_POWER = 40f;
     public const float GRAVITY_KOEFF = 1.5f;
 

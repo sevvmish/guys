@@ -19,7 +19,7 @@ public class RespawnPoint : MonoBehaviour
             players.Add(other.gameObject);
             resp.SetNewRespawn(new RespawnControl.RespawnData(new Vector3(
                 other.transform.position.x, 
-                other.transform.position.y, 
+                transform.position.y, 
                 other.transform.position.z) , transform.eulerAngles));
         }
     }
