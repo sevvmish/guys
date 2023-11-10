@@ -4,23 +4,43 @@ using UnityEngine;
 
 public class EffectsControl : MonoBehaviour
 {
+
     [SerializeField] private GameObject shadow;
+
     [SerializeField] private GameObject respawnFX;
+
+    [SerializeField] private GameObject punchEasy;
+    [SerializeField] private GameObject punchMedium;
+    [SerializeField] private GameObject punchLarge;
+
+    [SerializeField] private GameObject paintBlue;
+    [SerializeField] private GameObject paintGreen;
+
 
     [SerializeField] private GameObject jumpEffect;
     private AudioSource jumpSound;
 
     [SerializeField] private ParticleSystem landEffect;
-   
+
+    private PlayerControl pc;
 
     // Start is called before the first frame update
     void Start()
     {
+        pc = transform.parent.GetComponent<PlayerControl>();
+
         shadow.SetActive(false);
         respawnFX.SetActive(false);
         landEffect.gameObject.SetActive(true);
         jumpEffect.SetActive(true);
         jumpSound = jumpEffect.GetComponent<AudioSource>();
+
+        punchEasy.SetActive(false);
+        punchMedium.SetActive(false);
+        punchLarge.SetActive(false);
+
+        paintBlue.SetActive(false);
+        paintGreen.SetActive(false);
     }
 
     public void SetShadow(PlayerControl player)
@@ -39,6 +59,51 @@ public class EffectsControl : MonoBehaviour
         jumpSound.Play();
     }
 
+    public void PlayPunchEffect(ApplyForceType _type, Vector3 pointOfPunch)
+    {
+        StartCoroutine(playPunch(_type, pointOfPunch));
+    }
+    private IEnumerator playPunch(ApplyForceType _type, Vector3 pointOfPunch)
+    {
+        switch (_type)
+        {
+            case ApplyForceType.Punch_easy:
+                if (punchEasy.activeSelf) punchEasy.SetActive(false);                
+                punchEasy.transform.position = pointOfPunch + Vector3.up * 0.3f;
+                punchEasy.SetActive(true);
+                break;
+
+            case ApplyForceType.Punch_medium:
+                if (punchMedium.activeSelf) punchMedium.SetActive(false);                
+                punchMedium.transform.position = pointOfPunch + Vector3.up * 0.3f;
+                punchMedium.SetActive(true);
+                break;
+
+            case ApplyForceType.Punch_large:
+                if (punchLarge.activeSelf) punchLarge.SetActive(false);                
+                punchLarge.transform.position = pointOfPunch + Vector3.up * 0.3f;
+                punchLarge.SetActive(true);
+                break;
+        }
+
+        yield return new WaitForSeconds(0.6f);
+
+        switch (_type)
+        {
+            case ApplyForceType.Punch_easy:                
+                punchEasy.SetActive(false);
+                break;
+
+            case ApplyForceType.Punch_medium:                
+                punchMedium.SetActive(false);
+                break;
+
+            case ApplyForceType.Punch_large:                
+                punchLarge.SetActive(false);
+                break;
+        }
+    }
+
     public void PlayRespawnEffect() => StartCoroutine(playEffect(1.5f, respawnFX));
 
     public void MakeLandEffect()
@@ -46,11 +111,39 @@ public class EffectsControl : MonoBehaviour
         landEffect.Play();
     }
 
+    public void MakePainted(Color color, float timer)
+    {
+        GameObject g = default;
+        if (color == Color.green)
+        {
+            g = paintGreen;
+        }
+        else if (color == Color.blue)
+        {
+            g = paintBlue;
+        }
+
+        StartCoroutine(playEffectBreakable(timer, g));
+    }
+    
+
     private IEnumerator playEffect(float duration, GameObject fx)
     {
         fx.SetActive(false);
         fx.SetActive(true);
         yield return new WaitForSeconds(duration);
+        fx.SetActive(false);
+    }
+
+    private IEnumerator playEffectBreakable(float duration, GameObject fx)
+    {
+        fx.SetActive(false);
+        fx.SetActive(true);
+        for (float i = 0; i < duration; i += 0.1f)
+        {
+            yield return new WaitForSeconds(0.1f);
+            if (pc.IsDead && pc.IsRagdollActive) break;
+        }
         fx.SetActive(false);
     }
 }

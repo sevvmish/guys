@@ -10,7 +10,7 @@ public class PlayerControl : MonoBehaviour
     [Header("Controls")]    
     public Animator _animator;
     public bool IsItMainPlayer { get; private set; }
-
+    private ConditionControl conditions;
     public EffectsControl effectsControl;
 
     [Header("Ragdoll")]
@@ -23,9 +23,10 @@ public class PlayerControl : MonoBehaviour
     private bool isRagdollHasContact;
     private RagdollPartCollisionChecker collisionChecker;
 
+    /*
     public Transform CurrentActivePlatform { get; private set; }
     public bool IsOnPlatform { get; private set; }
-    public Transform DangerZone { get; private set; }
+    public Transform DangerZone { get; private set; }*/
     private Transform playerLocation;
 
     //INPUT
@@ -78,6 +79,9 @@ public class PlayerControl : MonoBehaviour
         gm = GameManager.Instance;
         cc = GameManager.Instance.GetCameraControl();
         playerLocation = gm.GetPlayerLocation();
+        gameObject.AddComponent<ConditionControl>();
+        conditions = GetComponent<ConditionControl>();
+        conditions.SetData(this, effectsControl);
 
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.mass = PhysicsCustomizing.GetData(PhysicObjects.Player).Mass;
@@ -116,6 +120,25 @@ public class PlayerControl : MonoBehaviour
         effectsControl.SetShadow(this);
     }
 
+    public void ChangeSpeed(float multiplier, float seconds)
+    {
+        StartCoroutine(changeSpeed(multiplier, seconds));
+    }
+    private IEnumerator changeSpeed(float multiplier, float seconds)
+    {
+        PlayerCurrentSpeed *= multiplier;
+
+        if (IsItMainPlayer) print(PlayerCurrentSpeed);
+
+        for (float i = 0; i < seconds; i+=0.1f)
+        {            
+            yield return new WaitForSeconds(0.1f);
+            if (IsDead && IsRagdollActive) break;
+        }
+
+        PlayerCurrentSpeed /= multiplier;
+    }
+
     private void Update()
     {
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
@@ -145,6 +168,7 @@ public class PlayerControl : MonoBehaviour
             movement(false);
         }
         
+        /*
         if ( !CurrentActivePlatform || (CurrentActivePlatform && !CurrentActivePlatform.gameObject.activeSelf) || !CurrentActivePlatform.CompareTag("Platform"))
         {
             if (IsOnPlatform)
@@ -156,7 +180,7 @@ public class PlayerControl : MonoBehaviour
         else
         {
             checkPlatforms();
-        }
+        }*/
         
     }
 
@@ -440,6 +464,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    /*
     public void FreePlatformStatusForPlayer()
     {
         if (IsOnPlatform)
@@ -469,10 +494,11 @@ public class PlayerControl : MonoBehaviour
             }
         }
         
-    }
+    }*/
 
     private void OnCollisionEnter(Collision collision)
     {
+        /*
         if (collision != null && collision.collider.CompareTag("Platform"))
         {
             if (CurrentActivePlatform != collision.collider.transform)
@@ -488,22 +514,25 @@ public class PlayerControl : MonoBehaviour
             {
                 DangerZone = collision.collider.transform;
             }
-        }
+        }*/
 
         if (collision != null && collision.collider.gameObject.layer == Globals.LAYER_DANGER)
-        {
+        {            
             float i = collision.impulse.magnitude;
-            //if (i > 20) print(i + " - " + collision.gameObject.name);
+            if (i < Globals.BASE_SPEED) return;
 
-            if (i > 30)
-            {
-                ApplyTrapForce(collision.impulse);
-            }
+            
+            //if (i > 30)
+            //{
+                ApplyTrapForce(collision.impulse, collision.GetContact(0).point, ApplyForceType.Punch_easy);
+            //}
         }
     }
 
+    
     private void OnCollisionExit(Collision collision)
     {
+        /*
         if (collision.collider.transform == CurrentActivePlatform)
         {
             CurrentActivePlatform = null;
@@ -516,7 +545,7 @@ public class PlayerControl : MonoBehaviour
         else if (collision.collider.transform == DangerZone)
         {
             DangerZone = null;
-        }
+        }*/
     }
 
     private void SetRagdollState(bool isActive)
@@ -619,21 +648,23 @@ public class PlayerControl : MonoBehaviour
     }
 
 
-    public void ApplyTrapForce(Vector3 vec)
+    public void ApplyTrapForce(Vector3 forceVector, Vector3 contactPoint, ApplyForceType punchType)
     {
         if (IsRagdollActive || !IsCanAct) return;
+
+        effectsControl.PlayPunchEffect(punchType, contactPoint);
 
         SetRagdollState(true);
         
         for (int i = 0; i < ragdollRigidbodies.Length; i++)
         {            
-            ragdollRigidbodies[i].velocity = vec;
+            ragdollRigidbodies[i].velocity = forceVector;
         }        
         StartCoroutine(playTurnOffRagdoll(2));
     }
     private IEnumerator playTurnOffRagdoll(float sec)
     {    
-        while (ragdollRigidbodies[0].velocity.magnitude > 5)
+        while (ragdollRigidbodies[0].velocity.magnitude > Globals.BASE_SPEED)
         {
             yield return new WaitForSeconds(0.1f);
         }
@@ -678,4 +709,11 @@ public enum PhysicObjects
 {
     Player,
     Ragdoll
+}
+
+public enum ApplyForceType
+{
+    Punch_easy,
+    Punch_medium,
+    Punch_large
 }

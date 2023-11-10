@@ -2,7 +2,6 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.AI;
 
 public class Dynamicplatforms : MonoBehaviour
 {
@@ -71,11 +70,7 @@ public class Dynamicplatforms : MonoBehaviour
                 }
             }
             examples.ReturnObject(g);
-
-            for (int i = 0; i < players.Count; i++)
-            {
-                players[i].FreePlatformStatusForPlayer();
-            }
+                        
         }
     }
 }

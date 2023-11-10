@@ -54,10 +54,10 @@ public class GameManager : MonoBehaviour
         mainPlayer.gameObject.name = "Main Player";
 
         addPlayer(false, new Vector3(0, 0, 1), Vector3.zero);
-        addPlayer(false, new Vector3(1.5f, 0, 1), Vector3.zero);
-        addPlayer(false, new Vector3(-1.5f, 0, 1), Vector3.zero);
-        addPlayer(false, new Vector3(-0.5f, 0, -1), Vector3.zero);
         addPlayer(false, new Vector3(2.5f, 0, 1), Vector3.zero);
+        addPlayer(false, new Vector3(-2.5f, 0, 1), Vector3.zero);
+        addPlayer(false, new Vector3(-0.5f, 0, -1), Vector3.zero);
+        addPlayer(false, new Vector3(1.5f, 0, 1), Vector3.zero);
     }
 
   
