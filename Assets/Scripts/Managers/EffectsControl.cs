@@ -15,6 +15,7 @@ public class EffectsControl : MonoBehaviour
 
     [SerializeField] private GameObject paintBlue;
     [SerializeField] private GameObject paintGreen;
+    [SerializeField] private GameObject paintPink;
 
 
     [SerializeField] private GameObject jumpEffect;
@@ -41,6 +42,7 @@ public class EffectsControl : MonoBehaviour
 
         paintBlue.SetActive(false);
         paintGreen.SetActive(false);
+        paintPink.SetActive(false);
     }
 
     public void SetShadow(PlayerControl player)
@@ -121,6 +123,10 @@ public class EffectsControl : MonoBehaviour
         else if (color == Color.blue)
         {
             g = paintBlue;
+        }
+        else if (color == Color.magenta)
+        {
+            g = paintPink;
         }
 
         StartCoroutine(playEffectBreakable(timer, g));
