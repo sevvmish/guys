@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         IsGameStarted = true;
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
-        cameraControl.SetData(mainPlayer, cameraBody);
+        cameraControl.SetData(mainPlayer, cameraBody, _camera.transform);
         mainPlayer.GetComponent<PlayerControl>().SetPlayerToMain();
         mainPlayer.gameObject.name = "Main Player";
 

@@ -8,6 +8,10 @@ public class BotAI : MonoBehaviour
 {
     public int CurrentIndex { get; private set; } = 0;
 
+    public bool IsCanRun = true;
+    public bool IsCanJump = true;
+    public bool IsCanDoubleJump = true;
+
     private PlayerControl playerControl;
     private Transform playerTransform;
     private NavPointSystem nps;
@@ -15,7 +19,7 @@ public class BotAI : MonoBehaviour
 
     private float _timer;
     private float _timerForChecking;
-
+    
     private BotNavPoint currentPoint;
     private Action currentAction;
     private bool isChecked = false;
@@ -118,7 +122,7 @@ public class BotAI : MonoBehaviour
 
         isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
             
-        if (!isChecked)
+        if (!isChecked && IsCanJump)
         {            
             currentAction = jumpForwardNoGround;
             return;
@@ -126,7 +130,7 @@ public class BotAI : MonoBehaviour
 
         isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * 0.5f + playerTransform.forward, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
 
-        if (isChecked)
+        if (isChecked && IsCanJump)
         {
             currentAction = jumpForwardHighGround;
             return;
@@ -181,6 +185,12 @@ public class BotAI : MonoBehaviour
 
     private void doubleJumpForward()
     {      
+        if (!IsCanDoubleJump)
+        {
+            _timerForChecking = 0.1f;
+            return;
+        }
+
         if (!playerControl.IsJumping)
         {
             StartCoroutine(doubleJump());

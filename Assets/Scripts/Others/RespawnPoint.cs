@@ -14,13 +14,13 @@ public class RespawnPoint : MonoBehaviour
             bot.ResetIndexToValue(currentIndex);
         }
 
-        if (other.CompareTag("Player") && !players.Contains(other.gameObject) && other.TryGetComponent(out RespawnControl resp))
+        if (other.CompareTag("Player") && !players.Contains(other.gameObject) && other.TryGetComponent(out RespawnControl resp) && resp.CurrentRespawnIndex < currentIndex)
         {
             players.Add(other.gameObject);
             resp.SetNewRespawn(new RespawnControl.RespawnData(new Vector3(
                 other.transform.position.x, 
                 transform.position.y, 
-                other.transform.position.z) , transform.eulerAngles));
+                other.transform.position.z) , transform.eulerAngles), currentIndex);
         }
     }
 }

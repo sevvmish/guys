@@ -5,6 +5,7 @@ using UnityEngine;
 public class RagdollPartCollisionChecker : MonoBehaviour
 {
     public bool IsRagdollHasContact;
+    public PlayerControl LinkToPlayerControl;
 
     private void OnCollisionEnter(Collision collision)
     {

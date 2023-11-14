@@ -1,27 +1,43 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
+    [SerializeField] private Material shadowedMaterial;
+
     private Transform mainPlayer;
     private PlayerControl playerControl;
     private Transform mainCamera;
+    private Transform mainCamTransformForRaycast;
     private Transform outerCamera;
     private readonly Vector3 basePosition = new Vector3(0,6,-8);
     private readonly Vector3 baseRotation = new Vector3(30, 0, 0);
 
     private bool isUpdate = true;
+    private float _timer;
+    private LayerMask ignoreMask;
+    private Ray ray;
+    private RaycastHit hit;
+    
+    private Dictionary<MeshRenderer, Material> changedMeshRenderers = new Dictionary<MeshRenderer, Material>();
+    private HashSet<MeshRenderer> renderers = new HashSet<MeshRenderer>();
+    private HashSet<MeshRenderer> renderersToReturn = new HashSet<MeshRenderer>();
+    
 
-    public void SetData(Transform player, Transform _camera)
+
+    public void SetData(Transform player, Transform _camera, Transform mainCamTransform)
     {
+        mainCamTransformForRaycast = mainCamTransform;
         mainPlayer = player;
         playerControl = mainPlayer.GetComponent<PlayerControl>();
         mainCamera = _camera;
         outerCamera = mainCamera.parent;
         mainCamera.transform.localPosition = basePosition;
         mainCamera.transform.localEulerAngles = baseRotation;
+        ignoreMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll", "danger" });
     }
 
     public void SwapControlBody(Transform newTransform)
@@ -64,7 +80,7 @@ public class CameraControl : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {        
         if (!isUpdate) return;
         outerCamera.position = mainPlayer.position/* + basePosition*/;
         
@@ -75,6 +91,62 @@ public class CameraControl : MonoBehaviour
         else
         {
             outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, mainPlayer.eulerAngles.y, outerCamera.eulerAngles.z);
+        }
+
+        if (_timer > 0.1f)
+        {
+            _timer = 0;
+            renderers.Clear();
+            renderersToReturn.Clear();
+
+            if (Physics.Raycast(mainCamTransformForRaycast.position, (mainPlayer.position + Vector3.up - mainCamTransformForRaycast.position).normalized, out hit, 9, ~ignoreMask))
+            {
+                if (hit.collider.TryGetComponent(out MeshRenderer mr))
+                {                    
+                    renderers.Add(mr);
+
+                    if (!changedMeshRenderers.ContainsKey(mr))
+                    {
+                        changedMeshRenderers.Add(mr, mr.material);
+                        mr.material = shadowedMaterial;                        
+                    }                    
+                }
+            }
+
+            foreach (MeshRenderer item in changedMeshRenderers.Keys)
+            {
+                if (!renderers.Contains(item))
+                {
+                    renderersToReturn.Add(item);
+                    /*
+                    if (item.material != changedMeshRenderers[item])
+                    {
+                        item.material = changedMeshRenderers[item];
+                    }
+                    renderers.Remove(item);
+                    changedMeshRenderers.Remove(item);*/
+                }
+            }
+
+            if (renderersToReturn.Count > 0)
+            {
+                foreach (var item in renderersToReturn)
+                {
+                    if (item.material != changedMeshRenderers[item])
+                    {
+                        item.material = changedMeshRenderers[item];
+                    }
+                    renderers.Remove(item);
+                    changedMeshRenderers.Remove(item);
+                }
+            }
+            
+
+
+        }
+        else
+        {
+            _timer += Time.deltaTime;
         }
     }
 }

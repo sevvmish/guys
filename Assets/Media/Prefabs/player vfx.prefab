@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4519367392426747825}
   - component: {fileID: 8356496248444765477}
   - component: {fileID: 5299693247736939905}
+  - component: {fileID: 4729069507978278406}
   m_Layer: 0
   m_Name: PaintedPink
   m_TagString: Untagged
@@ -4924,6 +4925,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!205 &4729069507978278406
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312733540479077713}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.08
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8356496248444765477}
+    - renderer: {fileID: 6231153882504426157}
+  m_Enabled: 1
 --- !u!1 &318107600875288861
 GameObject:
   m_ObjectHideFlags: 0
@@ -9884,6 +9905,7 @@ GameObject:
   - component: {fileID: 2831183390004755132}
   - component: {fileID: 9214023896111729219}
   - component: {fileID: 3107250429890398664}
+  - component: {fileID: 8905156418766493479}
   m_Layer: 0
   m_Name: punchMedium
   m_TagString: Untagged
@@ -14797,6 +14819,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!205 &8905156418766493479
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821010561941220985}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.06
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 9214023896111729219}
+    - renderer: {fileID: 608245676395966258}
+    - renderer: {fileID: 324097115405553009}
+  m_Enabled: 1
 --- !u!1 &915054151557771949
 GameObject:
   m_ObjectHideFlags: 0
@@ -19626,6 +19669,7 @@ GameObject:
   - component: {fileID: 8295075986197817052}
   - component: {fileID: 8434128486298815295}
   - component: {fileID: 8357658768508463678}
+  - component: {fileID: 3447708176154925458}
   m_Layer: 0
   m_Name: PaintedGreen
   m_TagString: Untagged
@@ -24538,6 +24582,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!205 &3447708176154925458
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128283736001084787}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.08
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8434128486298815295}
+    - renderer: {fileID: 1647484017034521067}
+  m_Enabled: 1
 --- !u!1 &1368903388958393246
 GameObject:
   m_ObjectHideFlags: 0
@@ -39266,6 +39330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2730183065459066578}
+  - component: {fileID: 6569652303441663835}
   m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
@@ -39290,6 +39355,26 @@ Transform:
   - {fileID: 7861264543732260331}
   m_Father: {fileID: 4386597888577375784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &6569652303441663835
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577585675733695470}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0.050004978, z: 0}
+  m_Size: 0.9000004
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.09
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2120241724783977685}
+    - renderer: {fileID: 119997735010939670}
+  m_Enabled: 1
 --- !u!1 &3655895446987637011
 GameObject:
   m_ObjectHideFlags: 0
@@ -58677,6 +58762,7 @@ GameObject:
   - component: {fileID: 3254715360614066691}
   - component: {fileID: 8922094288735774065}
   - component: {fileID: 715668369528920859}
+  - component: {fileID: 2383793142707553957}
   m_Layer: 0
   m_Name: LandEffect
   m_TagString: Untagged
@@ -63492,6 +63578,25 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!205 &2383793142707553957
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989308479553743370}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 0.00002000001
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.06
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 715668369528920859}
+  m_Enabled: 1
 --- !u!1 &5032033074289401013
 GameObject:
   m_ObjectHideFlags: 0
@@ -68328,13 +68433,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1237580845486663171}
   - component: {fileID: 1175820297150671736}
+  - component: {fileID: 2124334817427666212}
   m_Layer: 0
   m_Name: RespVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1237580845486663171
 Transform:
   m_ObjectHideFlags: 0
@@ -68449,6 +68555,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!205 &2124334817427666212
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5389958016433970418}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: -0.7500001, z: 0}
+  m_Size: 1.5000203
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.06
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7414170709159667568}
+    - renderer: {fileID: 5546186610976634880}
+  m_Enabled: 1
 --- !u!1 &5804311726683490403
 GameObject:
   m_ObjectHideFlags: 0
@@ -68505,6 +68631,7 @@ GameObject:
   - component: {fileID: 2944435020125957568}
   - component: {fileID: 8278506230671902526}
   - component: {fileID: 7169557086113840749}
+  - component: {fileID: 4404202966814134223}
   m_Layer: 0
   m_Name: punchLarge
   m_TagString: Untagged
@@ -73420,6 +73547,29 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!205 &4404202966814134223
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6335026937708666330}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.06
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8278506230671902526}
+    - renderer: {fileID: 6674284859748476563}
+    - renderer: {fileID: 664440624570598010}
+    - renderer: {fileID: 2738850803386121120}
+    - renderer: {fileID: 253849489783634441}
+  m_Enabled: 1
 --- !u!1 &6587108742438601767
 GameObject:
   m_ObjectHideFlags: 0
@@ -78200,6 +78350,7 @@ GameObject:
   - component: {fileID: 5563647736122858486}
   - component: {fileID: 8244746927121257779}
   - component: {fileID: 3721116532342538156}
+  - component: {fileID: 7620281758433585901}
   m_Layer: 0
   m_Name: punchEasy
   m_TagString: Untagged
@@ -83112,6 +83263,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!205 &7620281758433585901
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7684788175525333027}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.06
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8244746927121257779}
+    - renderer: {fileID: 5249085169044982300}
+  m_Enabled: 1
 --- !u!1 &8736007092314762419
 GameObject:
   m_ObjectHideFlags: 0
@@ -87905,7 +88076,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c78b5dacb6e1a8343bb1dfe2c4161830, type: 2}
+  - {fileID: 2100000, guid: ccabcfa481882f44392f597b74da4d40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92803,6 +92974,7 @@ GameObject:
   - component: {fileID: 6017185500452027424}
   - component: {fileID: 5628480015643982839}
   - component: {fileID: 53619144665163865}
+  - component: {fileID: 8305962479080515746}
   m_Layer: 0
   m_Name: PaintedBlue
   m_TagString: Untagged
@@ -97715,6 +97887,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!205 &8305962479080515746
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8972937569209497195}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.08
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 5628480015643982839}
+    - renderer: {fileID: 2437503599269185295}
+  m_Enabled: 1
 --- !u!1 &9012128207545759623
 GameObject:
   m_ObjectHideFlags: 0

@@ -216,27 +216,6 @@ public class PlayerControl : MonoBehaviour
         {
             howLongNonGrounded = 0;
 
-            /*
-            if (IsRunning && _rigidbody.mass != PhysicsCustomizing.GetData(PhysicObjects.Player).Mass)
-            {
-                _rigidbody.mass = PhysicsCustomizing.GetData(PhysicObjects.Player).Mass;
-            }
-            else if (IsIdle && _rigidbody.mass != PhysicsCustomizing.GetData(PhysicObjects.Player).Mass * 50)
-            {
-                _rigidbody.mass = PhysicsCustomizing.GetData(PhysicObjects.Player).Mass * 50;
-            }
-            */
-
-            /*
-            if (IsRunning && _rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag)
-            {
-                _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag;
-            }
-            else if (IsIdle && _rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag * 50)
-            {
-                _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag * 50;
-            }*/
-
             if (_rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag) _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag;
         }
 

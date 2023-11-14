@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RespawnControl : MonoBehaviour
 {
+    public int CurrentRespawnIndex { get; private set; } = -1;
+
     private GameManager gm;
     private PlayerControl playerControl;
     private Vector3 position;
@@ -12,46 +14,22 @@ public class RespawnControl : MonoBehaviour
     private float lastTimeTamp;
     private List<RespawnData> data = new List<RespawnData>();
 
+
+
     // Start is called before the first frame update
     void Start()
     {
         gm = GameManager.Instance;
         playerControl = GetComponent<PlayerControl>();
-        SetNewRespawn(new RespawnData(playerControl.transform.position, playerControl.transform.eulerAngles));
+        SetNewRespawn(new RespawnData(playerControl.transform.position, playerControl.transform.eulerAngles), -1);
     }
 
-    /*
-
-    private void Update()
-    {
-        if (_timer > 0.2f)
-        {
-            _timer = 0;
-            if (playerControl.IsGrounded && playerControl.CurrentActivePlatform == null && !playerControl.IsDead && playerControl.DangerZone == null)
-            {
-                data.Add(new RespawnData(playerControl.transform.position, playerControl.transform.eulerAngles));                
-            }
-
-            if (data.Count == 3)
-            {
-                SetNewRespawn(data[0]);
-                data.Clear();
-            }
-        }
-        else
-        {
-            _timer += Time.deltaTime;
-        }
-
-        
-    }*/
-
-
-    public void SetNewRespawn(RespawnData _data)
+    public void SetNewRespawn(RespawnData _data, int index)
     {
         position = _data.Position;
         rotation = _data.Rotation;
         lastTimeTamp = gm.GameSecondsPlayed;
+        if (CurrentRespawnIndex < index) CurrentRespawnIndex = index;
     }
 
     public void Die()
