@@ -5009,6 +5009,7 @@ GameObject:
   - component: {fileID: 1197088787105821163}
   - component: {fileID: 3006795478192253140}
   - component: {fileID: 8269174245214085491}
+  - component: {fileID: 1036820603530995737}
   m_Layer: 8
   m_Name: Paint patch
   m_TagString: Untagged
@@ -5093,6 +5094,27 @@ MonoBehaviour:
   patch2: {fileID: 7810209306084129691}
   patch3: {fileID: 4413840990837023827}
   destroyedVFX: {fileID: 1713163889375898794}
+--- !u!205 &1036820603530995737
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782741050465445149}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.05116588, y: 0.040049806, z: -0.060967326}
+  m_Size: 2
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.02
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7734136869589811233}
+    - renderer: {fileID: 7899338099504384011}
+    - renderer: {fileID: 2120401292344083286}
+  m_Enabled: 1
 --- !u!1 &4413840990837023827
 GameObject:
   m_ObjectHideFlags: 0

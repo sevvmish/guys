@@ -611,6 +611,13 @@ public class PlayerControl : MonoBehaviour
             cc.ResetCameraOnRespawn();
             angleYForMobile = 0;
         }
+        else
+        {
+            BotAI bot = GetComponent<BotAI>();
+            bot.IsCanDoubleJump = true;
+            bot.IsCanJump = true;
+            bot.IsCanRun = true;
+        }
 
         ragdollRigidbodies[0].transform.localPosition = Vector3.zero;
         

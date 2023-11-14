@@ -17,6 +17,10 @@ public class BotAI : MonoBehaviour
     private NavPointSystem nps;
     private GameManager gm;
 
+    private Vector3 lastPosition;
+    private float _timerCheckForLastPosition;
+    private bool isIndexDowned;
+
     private float _timer;
     private float _timerForChecking;
     
@@ -42,6 +46,8 @@ public class BotAI : MonoBehaviour
         float delay = UnityEngine.Random.Range(0.1f, 1.5f);
         _timer = delay;
         _timerForChecking = delay;
+
+        lastPosition = playerTransform.position;
     }
 
     private void Update()
@@ -52,6 +58,35 @@ public class BotAI : MonoBehaviour
         {
             _timerForChecking -= Time.deltaTime;
         }
+
+        if (_timerCheckForLastPosition > 1f)
+        {
+            _timerCheckForLastPosition = 0;
+
+            if ((lastPosition - playerTransform.position).magnitude < 0.1f && playerControl.IsGrounded)
+            {
+                print("problem!!!");
+                if (CurrentIndex > 0 && !isIndexDowned)
+                {
+                    //CurrentIndex--;
+                    isIndexDowned = true;
+                    GetComponent<RespawnControl>().Die();
+                    //decisionMaking();
+                }
+            }
+            else
+            {
+                isIndexDowned = false;
+            }
+
+            lastPosition = playerTransform.position;
+        }
+        else
+        {
+            _timerCheckForLastPosition += Time.deltaTime;
+        }
+
+        
 
         if (_timer > 0)
         {
@@ -98,9 +133,11 @@ public class BotAI : MonoBehaviour
             }
             else
             {
-                
+
                 playerControl.SetForward(false);
                 currentAction = null;
+                //CurrentIndex++;
+                //decisionMaking();
             }
             
         }
