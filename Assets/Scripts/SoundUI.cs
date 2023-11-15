@@ -15,6 +15,7 @@ public class SoundUI : MonoBehaviour
     [SerializeField] private AudioClip Tick;
     [SerializeField] private AudioClip Pop;
     [SerializeField] private AudioClip BeepTick;
+    [SerializeField] private AudioClip BeepOut;
 
     // Start is called before the first frame update
     void Awake()
@@ -33,7 +34,9 @@ public class SoundUI : MonoBehaviour
 
     public void PlayUISound(SoundsUI _type)
     {
-        switch(_type)
+        _audio.pitch = 1;
+
+        switch (_type)
         {
             case SoundsUI.tick:
                 _audio.Stop();
@@ -78,8 +81,16 @@ public class SoundUI : MonoBehaviour
                 break;
 
             case SoundsUI.beep_tick:
-                _audio.Stop();                
+                _audio.Stop();   
+                _audio.pitch = 1.5f;
                 _audio.clip = BeepTick;
+                _audio.Play();
+                break;
+
+            case SoundsUI.beep_out:
+                _audio.Stop();
+                _audio.pitch = 0.8f;
+                _audio.clip = BeepOut;
                 _audio.Play();
                 break;
 
@@ -98,5 +109,6 @@ public enum SoundsUI
     click,
     win,
     lose,
-    beep_tick
+    beep_tick,
+    beep_out
 }
