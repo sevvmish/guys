@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 public class BotAI : MonoBehaviour
@@ -157,7 +156,7 @@ public class BotAI : MonoBehaviour
             return;
         }
 
-        isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
+        isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
             
         if (!isChecked && IsCanJump)
         {            
@@ -165,7 +164,7 @@ public class BotAI : MonoBehaviour
             return;
         }
 
-        isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * 0.5f + playerTransform.forward, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
+        isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * 0.5f + playerTransform.forward, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
 
         if (isChecked && IsCanJump)
         {
@@ -187,7 +186,7 @@ public class BotAI : MonoBehaviour
     {
         if (!playerControl.IsJumping && playerControl.IsGrounded)
         {
-            isChecked = Physics.CheckBox(playerTransform.position + playerTransform.up * (oneJumpAltitude + 0.2f) + playerTransform.forward * 1.5f, new Vector3(0.1f, 0.1f, 0.1f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
+            isChecked = Physics.CheckBox(playerTransform.position + playerTransform.up * (oneJumpAltitude + 0.2f) + playerTransform.forward * 1.5f, new Vector3(0.1f, 0.1f, 0.1f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
 
             if (!isChecked)
             {                
@@ -199,7 +198,7 @@ public class BotAI : MonoBehaviour
             }
             else
             {                
-                isChecked = Physics.CheckBox(playerTransform.position + playerTransform.up * (twoJumpAltitude + 0.2f) + playerTransform.forward * 1.5f, new Vector3(0.1f, 0.1f, 0.1f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
+                isChecked = Physics.CheckBox(playerTransform.position + playerTransform.up * (twoJumpAltitude + 0.2f) + playerTransform.forward * 1.5f, new Vector3(0.1f, 0.1f, 0.1f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
 
                 if (!isChecked)
                 {
@@ -256,7 +255,7 @@ public class BotAI : MonoBehaviour
     {        
         if (!playerControl.IsJumping && playerControl.IsGrounded)
         {
-            isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward * oneJumpDistance, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
+            isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward * oneJumpDistance, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
 
             if (isChecked)
             {                
@@ -268,7 +267,7 @@ public class BotAI : MonoBehaviour
             }
             else
             {
-                isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward * twoJumpDistance, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation, 3, QueryTriggerInteraction.Ignore);
+                isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward * twoJumpDistance, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
 
                 if (isChecked)
                 {

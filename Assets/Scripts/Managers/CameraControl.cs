@@ -24,12 +24,14 @@ public class CameraControl : MonoBehaviour
     
     private Dictionary<MeshRenderer, Material> changedMeshRenderers = new Dictionary<MeshRenderer, Material>();
     private HashSet<MeshRenderer> renderers = new HashSet<MeshRenderer>();
+    private HashSet<MeshRenderer> changedRanderers = new HashSet<MeshRenderer>();
     private HashSet<MeshRenderer> renderersToReturn = new HashSet<MeshRenderer>();
-    
 
+    private GameManager gm;
 
     public void SetData(Transform player, Transform _camera, Transform mainCamTransform)
     {
+        gm = GameManager.Instance;
         mainCamTransformForRaycast = mainCamTransform;
         mainPlayer = player;
         playerControl = mainPlayer.GetComponent<PlayerControl>();
@@ -81,7 +83,7 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {        
-        if (!isUpdate) return;
+        if (!isUpdate || !gm.IsGameStarted) return;
         outerCamera.position = mainPlayer.position/* + basePosition*/;
         
         if (Globals.IsMobile)
@@ -98,7 +100,45 @@ public class CameraControl : MonoBehaviour
             _timer = 0;
             renderers.Clear();
             renderersToReturn.Clear();
+            /*
+            if (Physics.Raycast(mainCamTransformForRaycast.position, (mainPlayer.position + Vector3.up - mainCamTransformForRaycast.position).normalized, out hit, 9, ~ignoreMask))
+            {
+                if (hit.collider.TryGetComponent(out MeshRenderer mr))
+                {
+                    renderers.Add(mr);
 
+                    if (!changedRanderers.Contains(mr))
+                    {
+                        changedRanderers.Add(mr);
+                        mr.enabled = false;
+                    }
+                }
+            }
+
+            foreach (MeshRenderer item in changedRanderers)
+            {
+                if (!renderers.Contains(item))
+                {
+                    renderersToReturn.Add(item);
+                }
+            }
+
+            if (renderersToReturn.Count > 0)
+            {
+                foreach (var item in renderersToReturn)
+                {
+                    if (!item.enabled)
+                    {
+                        item.enabled = true;
+                    }
+                    
+                    changedRanderers.Remove(item);
+                }
+            }
+            */
+
+
+            
             if (Physics.Raycast(mainCamTransformForRaycast.position, (mainPlayer.position + Vector3.up - mainCamTransformForRaycast.position).normalized, out hit, 9, ~ignoreMask))
             {
                 if (hit.collider.TryGetComponent(out MeshRenderer mr))
@@ -117,14 +157,7 @@ public class CameraControl : MonoBehaviour
             {
                 if (!renderers.Contains(item))
                 {
-                    renderersToReturn.Add(item);
-                    /*
-                    if (item.material != changedMeshRenderers[item])
-                    {
-                        item.material = changedMeshRenderers[item];
-                    }
-                    renderers.Remove(item);
-                    changedMeshRenderers.Remove(item);*/
+                    renderersToReturn.Add(item);                  
                 }
             }
 
@@ -140,8 +173,6 @@ public class CameraControl : MonoBehaviour
                     changedMeshRenderers.Remove(item);
                 }
             }
-            
-
 
         }
         else

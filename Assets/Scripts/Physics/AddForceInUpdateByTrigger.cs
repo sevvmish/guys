@@ -22,7 +22,7 @@ public class AddForceInUpdateByTrigger : MonoBehaviour
         if ((other.gameObject.layer == 9 || other.gameObject.layer == 3) && other.TryGetComponent(out Rigidbody player) && player.velocity.magnitude < 20)
         {
             player.AddForce(dir * Force, ForceMode.Force);
-            //player.MovePosition(player.transform.position + dir * Time.deltaTime  * Force);
+            //player.MovePosition(player.transform.position + dir * Force);
         }
     }
 

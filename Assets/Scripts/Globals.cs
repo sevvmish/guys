@@ -23,6 +23,8 @@ public class Globals : MonoBehaviour
 
     public const int LAYER_HELPER = 6;
     public const int LAYER_DANGER = 7;
+
+    public static readonly LayerMask ignoreTriggerMask = LayerMask.GetMask(new string[] { "trigger" });
 }
 
 public enum GameTypes

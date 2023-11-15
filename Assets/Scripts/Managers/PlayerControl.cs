@@ -188,7 +188,7 @@ public class PlayerControl : MonoBehaviour
     void FixedUpdate()
     {        
         IsGrounded = checkGround();
-        //if (!IsItMainPlayer) print(IsSecondJump);
+        //if (IsItMainPlayer) print(IsGrounded);
         checkShadow();
         PlayerVelocity = _rigidbody.velocity.magnitude;
         PlayerNonVerticalVelocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude;
@@ -260,9 +260,13 @@ public class PlayerControl : MonoBehaviour
 
     private bool checkGround()
     {
-        bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity, 3, QueryTriggerInteraction.Ignore);
-        if (!IsGrounded && result && PlayerVerticalVelocity > 5 && !IsRagdollActive) effectsControl.MakeLandEffect();  
+        //bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity, 3, QueryTriggerInteraction.Ignore);
         
+        bool result1 = Physics.CheckBox(_transform.position + Vector3.down * 0.2f + _transform.forward * 0.2f, new Vector3(0.25f, 0.05f, 0.05f), Quaternion.identity, 3, QueryTriggerInteraction.Ignore);
+        bool result2 = Physics.CheckBox(_transform.position + Vector3.down * 0.2f + _transform.forward * -0.2f, new Vector3(0.25f, 0.05f, 0.05f), Quaternion.identity, 3, QueryTriggerInteraction.Ignore);
+        bool result = result1 && result2;
+        if (!IsGrounded && result && PlayerVerticalVelocity > 5 && !IsRagdollActive) effectsControl.MakeLandEffect();
+
         if (result)
         {            
             if (jumpCooldown <= 0) IsJumping = false;
@@ -443,89 +447,33 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    /*
-    public void FreePlatformStatusForPlayer()
-    {
-        if (IsOnPlatform)
-        {
-            _transform.SetParent(playerLocation);
-            IsOnPlatform = false;
-            CurrentActivePlatform = null;
-        }
-    }
-
-    private void checkPlatforms()
-    {        
-        if (CurrentActivePlatform != null)
-        {
-            if (_transform.parent != CurrentActivePlatform)
-            {
-                _transform.SetParent(CurrentActivePlatform);
-                IsOnPlatform = true;
-            }            
-        }
-        else
-        {
-            if (IsOnPlatform)
-            {
-                _transform.SetParent(playerLocation);
-                IsOnPlatform = false;
-            }
-        }
-        
-    }*/
-
+    
     private void OnCollisionEnter(Collision collision)
-    {
-        /*
-        if (collision != null && collision.collider.CompareTag("Platform"))
-        {
-            if (CurrentActivePlatform != collision.collider.transform)
-            {
-                CurrentActivePlatform = collision.collider.transform;
-                _transform.SetParent(CurrentActivePlatform);
-                IsOnPlatform = true;
-            }            
-        }        
-        else if (collision != null && collision.collider.CompareTag("Danger"))
-        {
-            if (DangerZone != collision.collider.transform)
-            {
-                DangerZone = collision.collider.transform;
-            }
-        }*/
-
+    {        
         if (collision != null && collision.collider.gameObject.layer == Globals.LAYER_DANGER)
         {            
             float i = collision.impulse.magnitude;
             if (i < Globals.BASE_SPEED) return;
 
-            
-            //if (i > 30)
-            //{
-                ApplyTrapForce(collision.impulse, collision.GetContact(0).point, ApplyForceType.Punch_easy);
-            //}
+            ApplyForceType punchType = ApplyForceType.Punch_easy;
+            float additionalForce = 1;
+
+            if (collision.gameObject.TryGetComponent(out DangerZoneAdditionalData addData))
+            {
+                punchType = addData.punchType;
+                additionalForce = addData.AdditionalForce;
+            }
+
+            ApplyTrapForce(collision.impulse, collision.GetContact(0).point, punchType, additionalForce);
         }
     }
 
-    
+    /*
     private void OnCollisionExit(Collision collision)
     {
-        /*
-        if (collision.collider.transform == CurrentActivePlatform)
-        {
-            CurrentActivePlatform = null;
-            if (IsOnPlatform)
-            {
-                _transform.SetParent(playerLocation);
-                IsOnPlatform = false;
-            }                
-        }
-        else if (collision.collider.transform == DangerZone)
-        {
-            DangerZone = null;
-        }*/
+        
     }
+    */
 
     private void SetRagdollState(bool isActive)
     {
@@ -634,9 +582,10 @@ public class PlayerControl : MonoBehaviour
     }
 
 
-    public void ApplyTrapForce(Vector3 forceVector, Vector3 contactPoint, ApplyForceType punchType)
+    public void ApplyTrapForce(Vector3 forceVector, Vector3 contactPoint, ApplyForceType punchType, float additionalForce)
     {
         if (IsRagdollActive || !IsCanAct) return;
+        if (additionalForce == 0) additionalForce = 1;
 
         effectsControl.PlayPunchEffect(punchType, contactPoint);
 
@@ -644,7 +593,7 @@ public class PlayerControl : MonoBehaviour
         
         for (int i = 0; i < ragdollRigidbodies.Length; i++)
         {            
-            ragdollRigidbodies[i].velocity = forceVector;
+            ragdollRigidbodies[i].velocity = forceVector * additionalForce;
         }        
         StartCoroutine(playTurnOffRagdoll(2));
     }

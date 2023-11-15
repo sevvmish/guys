@@ -87,6 +87,14 @@ public class RollingBalls : MonoBehaviour
             yield return new WaitForSeconds(times[i]);
         }
 
+        MeshRenderer ballRendered = g.GetComponent<MeshRenderer>();
+        ballRendered.enabled = false;
+        g.transform.GetChild(1).gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        g.gameObject.SetActive(false);
+        ballRendered.enabled = true;
+        g.transform.GetChild(1).gameObject.SetActive(false);
+
         balls.ReturnObject(g.gameObject);
     }
 }
