@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour
     public Transform GetCameraBody() => cameraBody;
     public CameraControl GetCameraControl() => cameraControl;
     public AssetManager GetAssetManager() => assetManager;
-    public Transform GetPlayerLocation() => playersLocation;
+    public Transform GetPlayersLocation() => playersLocation;
+    public Transform GetMainPlayerTransform() => mainPlayer;
     public Vector3 BotPoints;
 
     //GAME START
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
         }
 
         Globals.IsMobile = GP_Device.IsMobile();
-        IsGameStarted = true;
+        //IsGameStarted = true;
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
         cameraControl.SetData(mainPlayer, cameraBody, _camera.transform);
@@ -60,6 +61,11 @@ public class GameManager : MonoBehaviour
         addPlayer(false, new Vector3(1.5f, 0, 1), Vector3.zero);
     }
 
+    public void StartTheGame()
+    {
+        if (IsGameStarted) return;
+        IsGameStarted = true;
+    }
   
 
     private void Update()

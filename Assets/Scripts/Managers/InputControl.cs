@@ -16,11 +16,12 @@ public class InputControl : MonoBehaviour
     private Vector3 mousePosition;
     private float koeff;
     private readonly float XLimit = 10;
-
+    private GameManager gm;
 
     // Start is called before the first frame update
     void Start()
     {
+        gm = GameManager.Instance;
         joystick = GameManager.Instance.GetJoystick();
         cameraControl = GameManager.Instance.GetCameraControl();
         playerControl = gameObject.GetComponent<PlayerControl>();
@@ -40,6 +41,8 @@ public class InputControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!gm.IsGameStarted) return;
+
         if (Globals.IsMobile)
         {
             forMobile();

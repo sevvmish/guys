@@ -78,7 +78,7 @@ public class PlayerControl : MonoBehaviour
     {
         gm = GameManager.Instance;
         cc = GameManager.Instance.GetCameraControl();
-        playerLocation = gm.GetPlayerLocation();
+        playerLocation = gm.GetPlayersLocation();
         gameObject.AddComponent<ConditionControl>();
         conditions = GetComponent<ConditionControl>();
         conditions.SetData(this, effectsControl);

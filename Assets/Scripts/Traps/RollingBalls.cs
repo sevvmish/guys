@@ -37,6 +37,9 @@ public class RollingBalls : MonoBehaviour
     void Start()
     {
         balls = new ObjectPool(30, ball, transform);
+        _timer1 = delayA;
+        _timer2 = delayB;
+        _timer3 = delayC;
     }
 
     private void Update()
@@ -74,7 +77,7 @@ public class RollingBalls : MonoBehaviour
 
     private IEnumerator playLine(Transform[] pos, float[] times, float delay)
     {
-        yield return new WaitForSeconds(delay);
+        //yield return new WaitForSeconds(delay);
         Rigidbody g = balls.GetObject().GetComponent<Rigidbody>();        
         g.transform.position = pos[0].position;
         g.gameObject.SetActive(true);

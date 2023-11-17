@@ -13,8 +13,7 @@ public class CameraControl : MonoBehaviour
     private Transform mainCamera;
     private Transform mainCamTransformForRaycast;
     private Transform outerCamera;
-    private readonly Vector3 basePosition = new Vector3(0,6,-8);
-    private readonly Vector3 baseRotation = new Vector3(30, 0, 0);
+    
 
     private bool isUpdate = true;
     private float _timer;
@@ -37,8 +36,8 @@ public class CameraControl : MonoBehaviour
         playerControl = mainPlayer.GetComponent<PlayerControl>();
         mainCamera = _camera;
         outerCamera = mainCamera.parent;
-        mainCamera.transform.localPosition = basePosition;
-        mainCamera.transform.localEulerAngles = baseRotation;
+        mainCamera.transform.localPosition = Globals.BasePosition;
+        mainCamera.transform.localEulerAngles = Globals.BaseRotation;
         ignoreMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll", "danger" });
     }
 

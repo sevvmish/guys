@@ -24,6 +24,11 @@ public class Globals : MonoBehaviour
     public const int LAYER_HELPER = 6;
     public const int LAYER_DANGER = 7;
 
+    public const float SCREEN_SAVER_AWAIT = 1;
+
+    public static readonly Vector3 BasePosition = new Vector3(0, 6, -8);
+    public static readonly Vector3 BaseRotation = new Vector3(30, 0, 0);
+
     public static readonly LayerMask ignoreTriggerMask = LayerMask.GetMask(new string[] { "trigger" });
 }
 
