@@ -7,8 +7,9 @@ using UnityEngine;
 public class NavPointSystem : MonoBehaviour
 {
     public static NavPointSystem Instance { get; private set; }
-
     private List<BotNavPoint> navPoints = new List<BotNavPoint>();
+
+    private SortedDictionary<float, BotNavPoint> points = new SortedDictionary<float, BotNavPoint>();
 
     void Awake()
     {
@@ -28,13 +29,17 @@ public class NavPointSystem : MonoBehaviour
         {
             int minIndex = 100000;
             int number = 0;
-            SortedDictionary<float, BotNavPoint> points = new SortedDictionary<float, BotNavPoint> ();
-            
+
+            points.Clear();
+
+
             for (int i = 0; i < navPoints.Count; i++)
             {
-                float currDistance = (pos - navPoints[i].transform.position).magnitude;
-                if (navPoints[i].Index > index && navPoints[i].IsActive && navPoints[i].Index <= minIndex)
+                
+                if (navPoints[i].Index > index && navPoints[i].Index < (index+3) && navPoints[i].IsActive && navPoints[i].Index <= minIndex)
                 {
+                    float currDistance = (pos - navPoints[i].transform.position).magnitude;
+
                     number = i;
                     minIndex = navPoints[i].Index;
                     if (!points.ContainsKey(currDistance)) points.Add(currDistance, navPoints[i]);

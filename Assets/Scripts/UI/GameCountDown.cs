@@ -42,7 +42,7 @@ public class GameCountDown : MonoBehaviour
             _transform.eulerAngles = Vector3.zero;
             sound.PlayUISound(SoundsUI.beep_tick);
             _transform.DOShakeScale(0.2f, 0.6f, 60).SetEase(Ease.OutQuad);
-            yield return new WaitForSeconds(0.65f);            
+            yield return new WaitForSeconds(0.5f);            
         }
 
         mainTexter.fontSize = 200;
@@ -52,7 +52,7 @@ public class GameCountDown : MonoBehaviour
         _transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutSine);
         yield return new WaitForSeconds(0.3f);
         _transform.DOShakeScale(0.2f, 0.6f, 60).SetEase(Ease.OutQuad);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.7f);
 
         IsCountDownOff = true;
 

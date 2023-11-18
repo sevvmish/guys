@@ -85,14 +85,14 @@ public class CameraControl : MonoBehaviour
         if (!isUpdate || !gm.IsGameStarted) return;
         outerCamera.position = mainPlayer.position/* + basePosition*/;
         
-        if (Globals.IsMobile)
-        {
+        //if (Globals.IsMobile)
+        //{
             outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, playerControl.angleYForMobile, outerCamera.eulerAngles.z);
-        }
+        /*}
         else
         {
             outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, mainPlayer.eulerAngles.y, outerCamera.eulerAngles.z);
-        }
+        }*/
 
         if (_timer > 0.1f)
         {

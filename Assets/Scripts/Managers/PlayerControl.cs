@@ -54,6 +54,8 @@ public class PlayerControl : MonoBehaviour
     //CONDITIONS
     public bool IsGrounded { get; private set; }
     public bool IsRagdollActive { get; private set; }
+    public bool IsSpeedChanged { get; private set; }
+    public bool IsFinished { get; private set; }
     public bool IsJumping { get; private set; }
     public bool IsRunning { get; private set; }
     public bool IsIdle { get; private set; }
@@ -68,10 +70,12 @@ public class PlayerControl : MonoBehaviour
     private Transform _transform;
     public GameManager gm;
     private CameraControl cc;
+    private BotAI bot;
 
     private float jumpCooldown;
     private float howLongNonGrounded;
     private float howLongMoving;
+    private float checkGroundTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -121,26 +125,28 @@ public class PlayerControl : MonoBehaviour
     }
 
     public void ChangeSpeed(float multiplier, float seconds)
-    {
+    {        
         StartCoroutine(changeSpeed(multiplier, seconds));
     }
     private IEnumerator changeSpeed(float multiplier, float seconds)
     {
         PlayerCurrentSpeed *= multiplier;
-
-        if (IsItMainPlayer) print(PlayerCurrentSpeed);
-
+        IsSpeedChanged = true;
+                
         for (float i = 0; i < seconds; i+=0.1f)
         {            
             yield return new WaitForSeconds(0.1f);
             if (IsDead && IsRagdollActive) break;
         }
 
+        IsSpeedChanged = false;
         PlayerCurrentSpeed /= multiplier;
     }
 
     private void Update()
     {
+        if (!gm.IsGameStarted || IsFinished) return;
+
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
                 
         if (Input.GetKeyDown(KeyCode.Q) && IsItMainPlayer)
@@ -166,28 +172,26 @@ public class PlayerControl : MonoBehaviour
         else
         {
             movement(false);
-        }
-        
-        /*
-        if ( !CurrentActivePlatform || (CurrentActivePlatform && !CurrentActivePlatform.gameObject.activeSelf) || !CurrentActivePlatform.CompareTag("Platform"))
-        {
-            if (IsOnPlatform)
-            {                
-                _transform.SetParent(playerLocation);
-                IsOnPlatform = false;
-            }
-        }
-        else
-        {
-            checkPlatforms();
-        }*/
-        
+        }     
     }
 
     // Update is called once per frame
     void FixedUpdate()
-    {        
-        IsGrounded = checkGround();
+    {
+        if (!gm.IsGameStarted || IsFinished) return;
+
+        if (checkGroundTimer >= Time.fixedDeltaTime * 2)
+        {
+            checkGroundTimer = 0;
+            IsGrounded = checkGround();
+        }
+        else
+        {
+            checkGroundTimer += Time.fixedDeltaTime;
+        }
+
+
+        //IsGrounded = checkGround();
         //if (IsItMainPlayer) print(IsGrounded);
         checkShadow();
         PlayerVelocity = _rigidbody.velocity.magnitude;
@@ -232,6 +236,15 @@ public class PlayerControl : MonoBehaviour
         {
             ragdollRigidbodies[0].transform.localPosition = Vector3.zero;
         }
+    }
+
+    public void FinishReached()
+    {
+        if (IsFinished) return;
+        IsFinished = true;
+        _rigidbody.velocity = Vector3.zero;
+        playIdle();
+        gm.PlayerFinished(this);
     }
 
     private void makeJump()
@@ -298,8 +311,8 @@ public class PlayerControl : MonoBehaviour
         {
             float turnKoeff = PlayerCurrentSpeed * 0.03f;
 
-            if (Globals.IsMobile)
-            {
+            //if (Globals.IsMobile)
+            //{
                 if ((Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0))
                 {                    
                     if (Mathf.Abs(angleY) > 0)
@@ -319,13 +332,12 @@ public class PlayerControl : MonoBehaviour
                     _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);
                     //_transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
                 }
-            }            
+            /*}            
             else if (!Globals.IsMobile && Mathf.Abs(angleY) > 0)
             {
                 angleYForMobile += angleY;
                 _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);
-                //_transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
-            }
+            }*/
 
             angleY = 0;
 
@@ -344,10 +356,10 @@ public class PlayerControl : MonoBehaviour
                                                 
                 koeff = koeff > 0 ? koeff : 0;       
                 
-                if (Globals.IsMobile)
-                {
+                //if (Globals.IsMobile)
+                //{
                     _rigidbody.velocity += _transform.forward * koeff;
-                }
+                /*}
                 else
                 {
                     if (vertical > 0)
@@ -364,7 +376,7 @@ public class PlayerControl : MonoBehaviour
                         _rigidbody.velocity += _transform.forward * koeff + _transform.right * horizontal;
                     }
                     
-                }
+                }*/
 
                 if (koeff > 0) playRun();
 
@@ -561,7 +573,7 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            BotAI bot = GetComponent<BotAI>();
+            if (bot == null) bot = GetComponent<BotAI>();
             bot.IsCanDoubleJump = true;
             bot.IsCanJump = true;
             bot.IsCanRun = true;

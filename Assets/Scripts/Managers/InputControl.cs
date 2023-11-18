@@ -42,23 +42,21 @@ public class InputControl : MonoBehaviour
     void Update()
     {
         if (!gm.IsGameStarted) return;
-
+                
+        
         if (Globals.IsMobile)
         {
             forMobile();
-
-#if UNITY_EDITOR
-            //forPC();
-#endif
         }
         else
         {
             forPC();
         }
-
+        
 
     }
 
+    
 
     private void forMobile()
     {
@@ -108,8 +106,11 @@ public class InputControl : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        playerControl.SetHorizontal(horizontal);
-        playerControl.SetVertical(vertical);
+        if (horizontal != 0 || vertical != 0)
+        {
+            playerControl.SetHorizontal(horizontal);
+            playerControl.SetVertical(vertical);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {

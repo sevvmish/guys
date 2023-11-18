@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraControl cameraControl;
     [SerializeField] private AssetManager assetManager;
     [SerializeField] private Transform playersLocation;
+    [SerializeField] private LevelManager levelManager;
 
     public Joystick GetJoystick() => joystick;
     public Camera GetCamera() => _camera;
@@ -26,13 +27,16 @@ public class GameManager : MonoBehaviour
     public AssetManager GetAssetManager() => assetManager;
     public Transform GetPlayersLocation() => playersLocation;
     public Transform GetMainPlayerTransform() => mainPlayer;
-    public Vector3 BotPoints;
+    //public Vector3 BotPoints;
 
     //GAME START
     public float GameSecondsPlayed { get; private set; }
     public bool IsGameStarted { get; private set; }
 
     private Transform mainPlayer;
+    private PlayerControl mainPlayerControl;
+    private List<PlayerControl> bots = new List<PlayerControl>();
+    private List<PlayerControl> finishPlaces = new List<PlayerControl>();
 
     // Start is called before the first frame update
     void Awake()
@@ -47,18 +51,69 @@ public class GameManager : MonoBehaviour
         }
 
         Globals.IsMobile = GP_Device.IsMobile();
-        //IsGameStarted = true;
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
         cameraControl.SetData(mainPlayer, cameraBody, _camera.transform);
         mainPlayer.GetComponent<PlayerControl>().SetPlayerToMain();
         mainPlayer.gameObject.name = "Main Player";
 
-        addPlayer(false, new Vector3(0, 0, 1), Vector3.zero);
-        addPlayer(false, new Vector3(2.5f, 0, 1), Vector3.zero);
-        addPlayer(false, new Vector3(-2.5f, 0, 1), Vector3.zero);
-        addPlayer(false, new Vector3(-0.5f, 0, -1), Vector3.zero);
-        addPlayer(false, new Vector3(1.5f, 0, 1), Vector3.zero);
+        ArrangePlayers(15);      
+    }
+
+    public void ArrangePlayers(int botsAmount)
+    {
+        List<GameObject> players = new List<GameObject>();
+        players.Add(mainPlayer.gameObject);
+
+        GameObject g = default;
+
+        for (int i = 0; i < botsAmount; i++)
+        {
+            g = addPlayer(false, new Vector3(0, 0, 0), Vector3.zero);
+            g.transform.localPosition = Vector3.zero;
+            players.Add(g);
+        }
+
+        
+        Vector3 startPoint = levelManager.GetStartPoint.position;
+        float delta = 2.4f;
+
+        if (players.Count <= 8)
+        {
+            int amount = players.Count;
+            for (int i = 0; i < amount; i++)
+            {
+                int index = UnityEngine.Random.Range(0, players.Count);                
+                players[index].transform.position = new Vector3(startPoint.x - 8.4f + i * delta, startPoint.y, startPoint.z);                
+                players.Remove(players[index]);
+            }
+        }
+        else if(players.Count <= 16)
+        {
+            float addZ = 0;
+            float addX = 1.2f;
+            int amount = players.Count;
+            for (int i = 0; i < amount; i++)
+            {
+                if (i < 8)
+                {
+                    addZ = 1.3f;
+                }
+                else
+                {
+                    addZ = -1.3f;
+                }
+
+                if (i == 8)
+                {
+                    addX -= 18f;
+                }
+
+                int index = UnityEngine.Random.Range(0, players.Count);
+                players[index].transform.position = new Vector3(startPoint.x - 8.4f + i * delta + addX, startPoint.y, startPoint.z + addZ);
+                players.Remove(players[index]);
+            }
+        }
     }
 
     public void StartTheGame()
@@ -76,6 +131,34 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public int GetFinishPlace(PlayerControl player)
+    {
+        if (finishPlaces.Contains(player))
+        {
+            int result = finishPlaces.IndexOf(player);
+            return result;
+        }
+
+        return 0;
+    }
+
+    public void PlayerFinished(PlayerControl player)
+    {
+        if (!finishPlaces.Contains(player))
+        {
+            finishPlaces.Add(player);
+        }
+
+        if (player.Equals(mainPlayerControl))
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+
     private GameObject addPlayer(bool isMain, Vector3 pos, Vector3 rot)
     {
         GameObject g = Instantiate(assetManager.GetPlayerSkin(PLayerSkin.test), playersLocation);
@@ -87,13 +170,16 @@ public class GameManager : MonoBehaviour
         {
             g.AddComponent<InputControl>();
             g.AddComponent<AudioListener>();
+            mainPlayerControl = g.GetComponent<PlayerControl>();
         }
         else
         {
             g.AddComponent<BotAI>();
+            bots.Add(g.GetComponent<PlayerControl>());
         }
 
         return g;
     }
 
 }
+

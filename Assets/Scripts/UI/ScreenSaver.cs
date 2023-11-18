@@ -62,6 +62,26 @@ public class ScreenSaver : MonoBehaviour
 
     public void ShowScreen()
     {
+        if (Globals.IsDevelopmentBuild)
+        {
+            type1[0].gameObject.SetActive(true);
+            type1[0].anchoredPosition = new Vector3(-2200, 0, 0);
+
+            type1[1].gameObject.SetActive(true);
+            type1[1].anchoredPosition = new Vector3(-2200, 440, 0);
+
+            type1[2].gameObject.SetActive(true);
+            type1[2].anchoredPosition = new Vector3(-2200, -440, 0);
+
+            type2[0].gameObject.SetActive(true);
+            type2[0].anchoredPosition = new Vector3(2200, 220, 0);
+
+            type2[1].gameObject.SetActive(true);
+            type2[1].anchoredPosition = new Vector3(2200, -220, 0);
+
+            return;
+        }
+
         type1[0].gameObject.SetActive(true);
         type1[0].anchoredPosition = new Vector3(0, 0, 0);
         type1[0].DOAnchorPos3D(new Vector3(-2200, 0, 0), Globals.SCREEN_SAVER_AWAIT).SetEase(Ease.Linear);

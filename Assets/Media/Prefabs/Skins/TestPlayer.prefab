@@ -285,6 +285,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 174878, guid: 7104c66bb16592a4f9326235c64626a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5111706221281428099}
     - targetCorrespondingSourceObject: {fileID: 104994, guid: 7104c66bb16592a4f9326235c64626a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5624267561903048231}
@@ -343,6 +346,16 @@ PrefabInstance:
 --- !u!95 &7534712198144604253 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9504656, guid: 7104c66bb16592a4f9326235c64626a6, type: 3}
+  m_PrefabInstance: {fileID: 7534712198152011725}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &7534712198148785565 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13711952, guid: 7104c66bb16592a4f9326235c64626a6, type: 3}
+  m_PrefabInstance: {fileID: 7534712198152011725}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7534712198149721933 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2322560, guid: 7104c66bb16592a4f9326235c64626a6, type: 3}
   m_PrefabInstance: {fileID: 7534712198152011725}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7534712198151643557 stripped
@@ -653,6 +666,31 @@ CharacterJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1 &7534712198151902419 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 174878, guid: 7104c66bb16592a4f9326235c64626a6, type: 3}
+  m_PrefabInstance: {fileID: 7534712198152011725}
+  m_PrefabAsset: {fileID: 0}
+--- !u!205 &5111706221281428099
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7534712198151902419}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.00000011920929, y: 0.7986067, z: 0.004794687}
+  m_Size: 1.6035382
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.03
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7534712198149721933}
+    - renderer: {fileID: 7534712198148785565}
+  m_Enabled: 1
 --- !u!1 &7534712198151905661 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 171696, guid: 7104c66bb16592a4f9326235c64626a6, type: 3}

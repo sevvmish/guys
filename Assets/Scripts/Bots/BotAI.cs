@@ -42,7 +42,7 @@ public class BotAI : MonoBehaviour
         playerTransform = playerControl.transform;
 
         //delay before start
-        float delay = UnityEngine.Random.Range(0.1f, 1.5f);
+        float delay = UnityEngine.Random.Range(0.1f, 0.75f);
         _timer = delay;
         _timerForChecking = delay;
 
@@ -51,7 +51,7 @@ public class BotAI : MonoBehaviour
 
     private void Update()
     {
-        if (isStopAction() || !gm.IsGameStarted) return;
+        if (isStopAction() || !gm.IsGameStarted || playerControl.IsFinished) return;
 
         if (_timerForChecking > 0)
         {
@@ -64,7 +64,7 @@ public class BotAI : MonoBehaviour
 
             if ((lastPosition - playerTransform.position).magnitude < 0.1f && playerControl.IsGrounded)
             {
-                print("problem!!!");
+                //print("problem!!!");
                 if (CurrentIndex > 0 && !isIndexDowned)
                 {
                     //CurrentIndex--;
@@ -93,7 +93,7 @@ public class BotAI : MonoBehaviour
             return;
         }
 
-        decisionMaking();
+        if (currentAction == null) decisionMaking();
 
         _timer = 0.2f;
     }
@@ -134,9 +134,7 @@ public class BotAI : MonoBehaviour
             {
 
                 playerControl.SetForward(false);
-                currentAction = null;
-                //CurrentIndex++;
-                //decisionMaking();
+                currentAction = null;             
             }
             
         }
@@ -164,13 +162,36 @@ public class BotAI : MonoBehaviour
             return;
         }
 
-        isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * 0.5f + playerTransform.forward, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
+        isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * 0.7f + playerTransform.forward, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
 
-        if (isChecked && IsCanJump)
+        if (isChecked)
         {
-            currentAction = jumpForwardHighGround;
-            return;
+            isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * 0.7f + playerTransform.forward + Vector3.left, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
+            if (!isChecked)
+            {
+                StartCoroutine(littleTurn(Vector3.left));
+                return;
+            }
+            else
+            {
+                isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * 0.7f + playerTransform.forward + Vector3.right, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
+                if (!isChecked)
+                {
+                    StartCoroutine(littleTurn(Vector3.right));
+                    return;
+                }
+                else
+                {
+                    if (isChecked && IsCanJump)
+                    {
+                        currentAction = jumpForwardHighGround;
+                        return;
+                    }
+                }
+            }
         }
+
+        
 
         playerControl.SetForward(true);
         _timerForChecking = 0.05f;
@@ -180,6 +201,15 @@ public class BotAI : MonoBehaviour
     {        
         playerTransform.LookAt(new Vector3(_point.transform.position.x, playerTransform.position.y, _point.transform.position.z));
         if (currentAction == null) currentAction = runToPoint;
+    }
+
+    private IEnumerator littleTurn(Vector3 way)
+    {
+        playerControl.SetForward(true);
+        playerTransform.LookAt(playerTransform.position + way);
+        _timerForChecking = 0.35f;
+        yield return new WaitForSeconds(0.35f);
+        playerTransform.LookAt(new Vector3(currentPoint.transform.position.x, playerTransform.position.y, currentPoint.transform.position.z));
     }
 
     private void jumpForwardHighGround()

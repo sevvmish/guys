@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class Globals : MonoBehaviour
 {
+    public static GameTypes CurrentGameType;
+
     public static bool IsMobile;
+    public static bool IsDevelopmentBuild = true;
 
     public const float BASE_SPEED = 6f;
     public const float JUMP_POWER = 40f;
@@ -29,7 +32,7 @@ public class Globals : MonoBehaviour
     public static readonly Vector3 BasePosition = new Vector3(0, 6, -8);
     public static readonly Vector3 BaseRotation = new Vector3(30, 0, 0);
 
-    public static readonly LayerMask ignoreTriggerMask = LayerMask.GetMask(new string[] { "trigger" });
+    public static readonly LayerMask ignoreTriggerMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll" });
 }
 
 public enum GameTypes

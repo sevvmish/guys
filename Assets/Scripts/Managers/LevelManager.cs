@@ -17,6 +17,8 @@ public class LevelManager : MonoBehaviour
     private Transform cameraBody;
     private GameManager gm;
 
+    public Transform GetStartPoint => startPoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,12 +38,31 @@ public class LevelManager : MonoBehaviour
         if (!gm.IsGameStarted && countDown.IsCountDownOff)
         {
             gm.StartTheGame();
+
+            int rnd = UnityEngine.Random.Range(0, 2);
+
+            switch(rnd)
+            {
+                case 0:
+                    AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody1);
+                    break;
+
+                case 1:
+                    AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody2);
+                    break;
+            }
         }
     }
 
     private IEnumerator playPreview()
     {
         ScreenSaver.Instance.ShowScreen();
+
+        if (Globals.IsDevelopmentBuild)
+        {
+            gm.StartTheGame();
+            yield break;
+        }
         
         cameraBody.localPosition = Vector3.zero;
         cameraBody.localRotation = Quaternion.identity;
