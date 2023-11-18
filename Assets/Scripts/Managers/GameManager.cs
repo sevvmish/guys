@@ -135,14 +135,14 @@ public class GameManager : MonoBehaviour
     {
         if (finishPlaces.Contains(player))
         {
-            int result = finishPlaces.IndexOf(player);
+            int result = finishPlaces.IndexOf(player) + 1;
             return result;
         }
 
         return 0;
     }
 
-    public void PlayerFinished(PlayerControl player)
+    public void AddPlayerFinished(PlayerControl player)
     {
         if (!finishPlaces.Contains(player))
         {

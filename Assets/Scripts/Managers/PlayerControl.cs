@@ -244,7 +244,7 @@ public class PlayerControl : MonoBehaviour
         IsFinished = true;
         _rigidbody.velocity = Vector3.zero;
         playIdle();
-        gm.PlayerFinished(this);
+        gm.AddPlayerFinished(this);
     }
 
     private void makeJump()
