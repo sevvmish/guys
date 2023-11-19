@@ -43,6 +43,7 @@ public class PlayerControl : MonoBehaviour
     
     private bool isJump;    
     private bool isForward;
+    private bool isFunnySound;
 
     //SPEED
     public float PlayerMaxSpeed { get; private set; }
@@ -192,13 +193,18 @@ public class PlayerControl : MonoBehaviour
 
 
         //IsGrounded = checkGround();
-        //if (IsItMainPlayer) print(IsGrounded);
+        //if (IsItMainPlayer && !IsGrounded) print(PlayerVelocity);
         checkShadow();
         PlayerVelocity = _rigidbody.velocity.magnitude;
         PlayerNonVerticalVelocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude;
         PlayerVerticalVelocity = new Vector3(0, _rigidbody.velocity.y, 0).magnitude;
+        if (PlayerVelocity > 30)
+        {            
+            effectsControl.MakeFunnySound(50);
+
+        }
         //if (PlayerVelocity > 0.1f && !IsItMainPlayer) print(PlayerVelocity);
-        
+
         if (!IsGrounded)
         {
             howLongNonGrounded += Time.deltaTime;
@@ -479,14 +485,7 @@ public class PlayerControl : MonoBehaviour
             ApplyTrapForce(collision.impulse, collision.GetContact(0).point, punchType, additionalForce);
         }
     }
-
-    /*
-    private void OnCollisionExit(Collision collision)
-    {
         
-    }
-    */
-
     private void SetRagdollState(bool isActive)
     {
         if (isActive)
@@ -598,6 +597,11 @@ public class PlayerControl : MonoBehaviour
     {
         if (IsRagdollActive || !IsCanAct) return;
         if (additionalForce == 0) additionalForce = 1;
+
+        if (forceVector.magnitude > 20)
+        {
+            effectsControl.MakeFunnySound(50);
+        }
 
         effectsControl.PlayPunchEffect(punchType, contactPoint);
 

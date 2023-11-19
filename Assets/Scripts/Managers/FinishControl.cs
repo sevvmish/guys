@@ -5,7 +5,32 @@ using UnityEngine;
 public class FinishControl : MonoBehaviour
 {
     [SerializeField] private Transform[] places;
+    [SerializeField] private GameObject[] placesVisualization;
     [SerializeField] private Transform[] otherPlaces;
+
+    private bool isVisualsActive = true;
+
+    private void Start()
+    {
+        setVisuals(false);
+    }
+
+    private void setVisuals(bool isActive)
+    {
+        if (isVisualsActive == isActive)
+        {
+            return;
+        }
+        isVisualsActive = isActive;
+
+        if (placesVisualization.Length > 0)
+        {
+            for (int i = 0; i < placesVisualization.Length; i++)
+            {
+                if (placesVisualization[i].activeSelf != isActive) placesVisualization[i].SetActive(isActive);
+            }
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,6 +49,8 @@ public class FinishControl : MonoBehaviour
 
     private IEnumerator checkPlace(PlayerControl player)
     {
+        setVisuals(true);
+
         yield return new WaitForSeconds(0.1f);
 
         int place = GameManager.Instance.GetFinishPlace(player);

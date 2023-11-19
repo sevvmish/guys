@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         mainPlayer.GetComponent<PlayerControl>().SetPlayerToMain();
         mainPlayer.gameObject.name = "Main Player";
 
-        ArrangePlayers(15);      
+        ArrangePlayers(7);      
     }
 
     public void ArrangePlayers(int botsAmount)

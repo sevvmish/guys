@@ -17,6 +17,10 @@ public class EffectsControl : MonoBehaviour
     [SerializeField] private GameObject paintGreen;
     [SerializeField] private GameObject paintPink;
 
+    [SerializeField] private GameObject woohooSound;
+    [SerializeField] private GameObject woohooSound2;
+    [SerializeField] private GameObject yiihaaSound;
+
 
     [SerializeField] private GameObject jumpEffect;
     private AudioSource jumpSound;
@@ -43,6 +47,10 @@ public class EffectsControl : MonoBehaviour
         paintBlue.SetActive(false);
         paintGreen.SetActive(false);
         paintPink.SetActive(false);
+
+        woohooSound.SetActive(false);
+        woohooSound2.SetActive(false);
+        yiihaaSound.SetActive(false);
     }
 
     public void SetShadow(PlayerControl player)
@@ -59,6 +67,52 @@ public class EffectsControl : MonoBehaviour
     public void MakeJumpFX()
     {
         jumpSound.Play();
+    }
+
+    public void MakeWoohooSound()
+    {
+        StartCoroutine(playEffect(1, woohooSound));
+    }
+
+    public void MakeWoohooSound2()
+    {
+        StartCoroutine(playEffect(1, woohooSound2));
+    }
+
+    public void MakeFunnySound()
+    {
+        MakeFunnySound(100);
+    }
+    public void MakeFunnySound(int chanceFrom100)
+    {
+        if (woohooSound.activeSelf || yiihaaSound.activeSelf || woohooSound2.activeSelf) return;
+
+        if (chanceFrom100 > 100) chanceFrom100 = 100;
+
+        int rnd = UnityEngine.Random.Range(0, 100);
+
+        if (rnd > chanceFrom100) return;
+
+        rnd = UnityEngine.Random.Range(0, 3);
+        switch (rnd)
+        {
+            case 0:
+                MakeWoohooSound();
+                break;
+
+            case 1:
+                MakeYiihaaSound();
+                break;
+
+            case 2:
+                MakeWoohooSound2();
+                break;
+        }
+    }
+
+    public void MakeYiihaaSound()
+    {
+        StartCoroutine(playEffect(1, yiihaaSound));
     }
 
     public void PlayPunchEffect(ApplyForceType _type, Vector3 pointOfPunch)
