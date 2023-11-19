@@ -2361,6 +2361,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdd7788164062d4eaf229376e8848bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ErrorClip: {fileID: 0}
+  Win: {fileID: 0}
+  Lose: {fileID: 0}
+  Click: {fileID: 0}
+  positiveSoundClip: {fileID: 0}
+  Tick: {fileID: 0}
+  Pop: {fileID: 0}
+  BeepTick: {fileID: 0}
+  BeepOut: {fileID: 0}
 --- !u!114 &1147003760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2379,7 +2388,7 @@ MonoBehaviour:
   cameraControl: {fileID: 1147003762}
   assetManager: {fileID: 630698859289528432, guid: 62733f5f721b25d4fa5886dff832c1a1, type: 3}
   playersLocation: {fileID: 215735219}
-  BotPoints: {x: 0, y: 0, z: 0}
+  levelManager: {fileID: 0}
 --- !u!4 &1147003761
 Transform:
   m_ObjectHideFlags: 0
@@ -2407,6 +2416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c278cd82ebc3c6419fd38a34ebd9261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shadowedMaterial: {fileID: 0}
 --- !u!1 &1153962340
 GameObject:
   m_ObjectHideFlags: 0
@@ -2915,6 +2925,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114756645675373138, guid: 1177133a709aac84289a7d57c5ea92c3, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 4beb055f07aaff244873dec698d0363e, type: 3}
     - target: {fileID: 114756645675373138, guid: 1177133a709aac84289a7d57c5ea92c3, type: 3}
       propertyPath: m_FontData.m_FontStyle
       value: 1
