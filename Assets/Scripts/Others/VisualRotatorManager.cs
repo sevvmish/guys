@@ -40,24 +40,33 @@ public class VisualRotatorManager : MonoBehaviour
                 switch(data[i].Ax)
                 {
                     case Axis.X_Axis:
+                        data[i].CurrentTransform.Rotate(Vector3.left, data[i].Speed * Time.deltaTime);
+
+                        /*
                         data[i].CurrentTransform.localEulerAngles = new Vector3(
                             data[i].CurrentTransform.localEulerAngles.x + data[i].Speed * Time.deltaTime, 
                             data[i].CurrentTransform.localEulerAngles.y, 
-                            data[i].CurrentTransform.localEulerAngles.z);
+                            data[i].CurrentTransform.localEulerAngles.z);*/
                         break;
 
                     case Axis.Y_Axis:
+                        data[i].CurrentTransform.Rotate(Vector3.up, data[i].Speed * Time.deltaTime);
+
+                        /*
                         data[i].CurrentTransform.localEulerAngles = new Vector3(
                             data[i].CurrentTransform.localEulerAngles.x,
                             data[i].CurrentTransform.localEulerAngles.y + data[i].Speed * Time.deltaTime,
-                            data[i].CurrentTransform.localEulerAngles.z);
+                            data[i].CurrentTransform.localEulerAngles.z);*/
                         break;
 
                     case Axis.Z_Axis:
+                        data[i].CurrentTransform.Rotate(Vector3.forward, data[i].Speed * Time.deltaTime);
+
+                        /*
                         data[i].CurrentTransform.localEulerAngles = new Vector3(
                             data[i].CurrentTransform.localEulerAngles.x,
                             data[i].CurrentTransform.localEulerAngles.y,
-                            data[i].CurrentTransform.localEulerAngles.z + data[i].Speed * Time.deltaTime);
+                            data[i].CurrentTransform.localEulerAngles.z + data[i].Speed * Time.deltaTime);*/
                         break;
                 }
             }

@@ -8,7 +8,7 @@ public class Globals : MonoBehaviour
     public static GameTypes CurrentGameType;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = false;
+    public static bool IsDevelopmentBuild = true;
 
     public const float BASE_SPEED = 6f;
     public const float JUMP_POWER = 40f;
@@ -23,6 +23,8 @@ public class Globals : MonoBehaviour
     public const float RAGDOLL_MASS = 0.25f;
     public const float RAGDOLL_DRAG = 1f;
     public const float RAGDOLL_ANGULAR_DRAG = 0.5f;
+
+    public const float MAX_HIT_IMPULSE_MAGNITUDE = 60f;
 
     public const int LAYER_HELPER = 6;
     public const int LAYER_DANGER = 7;

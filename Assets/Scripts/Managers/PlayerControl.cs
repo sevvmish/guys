@@ -471,7 +471,9 @@ public class PlayerControl : MonoBehaviour
         if (collision != null && collision.collider.gameObject.layer == Globals.LAYER_DANGER)
         {            
             float i = collision.impulse.magnitude;
+            Vector3 impulse = collision.impulse;
             if (i < Globals.BASE_SPEED) return;
+            
 
             ApplyForceType punchType = ApplyForceType.Punch_easy;
             float additionalForce = 1;
@@ -482,7 +484,14 @@ public class PlayerControl : MonoBehaviour
                 additionalForce = addData.AdditionalForce;
             }
 
-            ApplyTrapForce(collision.impulse, collision.GetContact(0).point, punchType, additionalForce);
+            if (i > Globals.MAX_HIT_IMPULSE_MAGNITUDE)
+            {
+                float dif = Globals.MAX_HIT_IMPULSE_MAGNITUDE / i;
+                impulse *= dif;
+                additionalForce = 1f;
+            }
+                        
+            ApplyTrapForce(impulse, collision.GetContact(0).point, punchType, additionalForce);
         }
     }
         
@@ -610,10 +619,16 @@ public class PlayerControl : MonoBehaviour
         for (int i = 0; i < ragdollRigidbodies.Length; i++)
         {            
             ragdollRigidbodies[i].velocity = forceVector * additionalForce;
-        }        
-        StartCoroutine(playTurnOffRagdoll(2));
+        }    
+        
+        if (punchType == ApplyForceType.Punch_large)
+        {            
+            StartCoroutine(addAdditionalForceWhenLargePunch(forceVector));
+        }
+
+        StartCoroutine(playTurnOffRagdoll());
     }
-    private IEnumerator playTurnOffRagdoll(float sec)
+    private IEnumerator playTurnOffRagdoll()
     {    
         while (ragdollRigidbodies[0].velocity.magnitude > Globals.BASE_SPEED)
         {
@@ -621,6 +636,19 @@ public class PlayerControl : MonoBehaviour
         }
         yield return new WaitForSeconds(0.5f);
         SetRagdollState(false);
+    }
+    private IEnumerator addAdditionalForceWhenLargePunch(Vector3 addForce)
+    {
+        yield return new WaitForSeconds(Time.fixedDeltaTime);
+
+        for (int j = 0; j < 5; j++)
+        {            
+            for (int i = 0; i < ragdollRigidbodies.Length; i++)
+            {
+                ragdollRigidbodies[i].AddForce(addForce * 5, ForceMode.Force);
+            }
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }        
     }
 
 }
