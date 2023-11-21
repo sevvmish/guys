@@ -198,12 +198,14 @@ public class PlayerControl : MonoBehaviour
         PlayerVelocity = _rigidbody.velocity.magnitude;
         PlayerNonVerticalVelocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude;
         PlayerVerticalVelocity = new Vector3(0, _rigidbody.velocity.y, 0).magnitude;
+
+        /*
         if (PlayerVelocity > 30)
         {            
             effectsControl.MakeFunnySound(50);
 
         }
-        //if (PlayerVelocity > 0.1f && !IsItMainPlayer) print(PlayerVelocity);
+        */
 
         if (!IsGrounded)
         {
@@ -490,6 +492,10 @@ public class PlayerControl : MonoBehaviour
                 impulse *= dif;
                 additionalForce = 1f;
             }
+            else if (i < Globals.MIN_HIT_IMPULSE_MAGNITUDE)
+            {
+                return;
+            }
                         
             ApplyTrapForce(impulse, collision.GetContact(0).point, punchType, additionalForce);
         }
@@ -606,8 +612,8 @@ public class PlayerControl : MonoBehaviour
     {
         if (IsRagdollActive || !IsCanAct) return;
         if (additionalForce == 0) additionalForce = 1;
-
-        if (forceVector.magnitude > 20)
+                
+        if (forceVector.magnitude > 30)
         {
             effectsControl.MakeFunnySound(50);
         }

@@ -25,6 +25,7 @@ public class Globals : MonoBehaviour
     public const float RAGDOLL_ANGULAR_DRAG = 0.5f;
 
     public const float MAX_HIT_IMPULSE_MAGNITUDE = 60f;
+    public const float MIN_HIT_IMPULSE_MAGNITUDE = 20f;
 
     public const int LAYER_HELPER = 6;
     public const int LAYER_DANGER = 7;

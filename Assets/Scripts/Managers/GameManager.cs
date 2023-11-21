@@ -58,6 +58,13 @@ public class GameManager : MonoBehaviour
         mainPlayer.gameObject.name = "Main Player";
 
         ArrangePlayers(7);      
+
+        if (levelManager == null)
+        {
+            IsGameStarted = true;
+            addPlayer(false, Vector3.zero, Vector3.zero);
+        }
+        
     }
 
     public void ArrangePlayers(int botsAmount)
@@ -74,8 +81,15 @@ public class GameManager : MonoBehaviour
             players.Add(g);
         }
 
-        
-        Vector3 startPoint = levelManager.GetStartPoint.position;
+
+        Vector3 startPoint = Vector3.zero;
+
+        if (levelManager != null)
+        {
+            startPoint = levelManager.GetStartPoint.position;
+        }
+
+            
         float delta = 2.4f;
 
         if (players.Count <= 8)
