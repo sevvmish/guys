@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaintPatch : MonoBehaviour
+public class PaintPatch : MonoBehaviour, Explosives
 {
     [SerializeField] private GameObject patch1;
     [SerializeField] private GameObject patch2;
     [SerializeField] private GameObject patch3;
     [SerializeField] private GameObject destroyedVFX;
+    [SerializeField] private float duration = -1;
 
     private Color color;
     private GameObject currentPatch;
@@ -16,18 +17,11 @@ public class PaintPatch : MonoBehaviour
     private bool isActive;
     private float timer = 3f;
     private HashSet<ConditionControl> players = new HashSet<ConditionControl>();
-    
-    private void Start()
+ 
+    private void OnEnable()
     {
-        Setdata(Vector3.zero, 0.5f, 3f, -1);
-    }
-
-    public void Setdata(Vector3 rot, float newKoeff, float newTimer, float duration)
-    {        
         int rnd = UnityEngine.Random.Range(0, 3);
-        koeff = newKoeff;
-        timer = newTimer;
-
+      
         switch (rnd)
         {
             case 0:
@@ -57,8 +51,6 @@ public class PaintPatch : MonoBehaviour
 
         currentPatch.transform.position += Vector3.up * UnityEngine.Random.Range(0.001f, 0.009f);
 
-        //transform.localEulerAngles = new Vector3 (0, UnityEngine.Random.Range(0, 270), 0);
-        //transform.eulerAngles = rot;
         if (duration > 0)
         {
             StartCoroutine(playDuration(duration));
@@ -69,10 +61,10 @@ public class PaintPatch : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (isActive && other.TryGetComponent(out ConditionControl player) && !players.Contains(player))
+        if (isActive && other.TryGetComponent(out ConditionControl player) && !player.HasCondition(Conditions.painted)/*&& !players.Contains(player)*/)
         {
-            players.Add(player);
-            StartCoroutine(restartPlayer(player));
+            //players.Add(player);
+            //StartCoroutine(restartPlayer(player));
             player.MakePainted(koeff, timer, color);
         }
     }
@@ -95,5 +87,10 @@ public class PaintPatch : MonoBehaviour
     {
         yield return new WaitForSeconds(0.15f);
         players.Remove(player);
+    }
+
+    public void SetTTL(float seconds)
+    {
+        duration = seconds;
     }
 }

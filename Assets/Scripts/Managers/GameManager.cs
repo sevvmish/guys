@@ -197,3 +197,8 @@ public class GameManager : MonoBehaviour
 
 }
 
+public interface Explosives
+{    
+    void SetTTL(float seconds);
+}
+

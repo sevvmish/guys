@@ -4863,9 +4863,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7387708180499247188}
-  - component: {fileID: 5597746415379760333}
   - component: {fileID: 66409307788929972}
   - component: {fileID: 3299080885444513049}
+  - component: {fileID: 8926125935913024024}
   m_Layer: 0
   m_Name: PaintBarrel
   m_TagString: Untagged
@@ -4891,22 +4891,6 @@ Transform:
   - {fileID: 7230302731754505158}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5597746415379760333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7747053230487378109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ca958474f7a46046ae5a48135ede9ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  paint: {fileID: 8605377863678907806}
-  barrel: {fileID: 6095425838613868786}
-  vfx: {fileID: 8256761871044616100}
-  patchDuration: 5
 --- !u!136 &66409307788929972
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4956,6 +4940,23 @@ LODGroup:
     - renderer: {fileID: 7063288190250824986}
     - renderer: {fileID: 7088369994538070443}
   m_Enabled: 1
+--- !u!114 &8926125935913024024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747053230487378109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899b43b62ca27874b9fac17436896ff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosive: {fileID: 8605377863678907806}
+  barrel: {fileID: 6095425838613868786}
+  vfx: {fileID: 8256761871044616100}
+  isBlowable: 0
+  secondsToLive: 0
 --- !u!1 &8256761871044616100
 GameObject:
   m_ObjectHideFlags: 0
@@ -10437,6 +10438,10 @@ PrefabInstance:
     - target: {fileID: 7733335112747124008, guid: d15c5d9acf2fe2b408cdcad7b91a89d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8269174245214085491, guid: d15c5d9acf2fe2b408cdcad7b91a89d4, type: 3}
+      propertyPath: duration
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

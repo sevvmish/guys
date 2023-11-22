@@ -19,6 +19,31 @@ public class ConditionControl : MonoBehaviour
     {
         return conditions.Contains(_type);
     }
+        
+    public void SetEnslowedState(bool isEnsl)
+    {
+        if (!conditions.Contains(Conditions.enslowed) && isEnsl)
+        {
+            conditions.Add(Conditions.enslowed);
+        }
+        else if (conditions.Contains(Conditions.enslowed) && !isEnsl)
+        {
+            conditions.Remove(Conditions.enslowed);
+        }
+    }
+
+    public bool MakeFrozen(float timer)
+    {
+        if (conditions.Contains(Conditions.frozen) || pc.IsDead || pc.IsRagdollActive) return false;
+
+        conditions.Add(Conditions.frozen);
+        StartCoroutine(playAnyState(timer, Conditions.frozen));
+        pc.ChangeJumpPermission(timer);
+        ec.MakeFrozen(timer);
+        pc.ChangeWalkPermission(timer);
+        pc.ChangeSpeed(0.01f, timer);
+        return true;
+    }
 
     public bool MakePainted(float koeff, float timer, Color color)
     {
@@ -26,12 +51,12 @@ public class ConditionControl : MonoBehaviour
 
         conditions.Add(Conditions.painted);
         ec.MakePainted(color, timer);
-        StartCoroutine(playPainted(timer));
+        StartCoroutine(playAnyState(timer, Conditions.painted));
         pc.ChangeSpeed(koeff, timer);
 
         return true;
     }
-    private IEnumerator playPainted(float timer)
+    private IEnumerator playAnyState(float timer, Conditions cond)
     {
         for (float i = 0; i < timer; i+=0.1f)
         {
@@ -39,7 +64,7 @@ public class ConditionControl : MonoBehaviour
             if (pc.IsDead && pc.IsRagdollActive) break;
         }
 
-        conditions.Remove(Conditions.painted);
+        conditions.Remove(cond);
     }
 }
 
@@ -47,5 +72,6 @@ public enum Conditions
 {
     enslowed,
     painted,
-    stunned
+    stunned,
+    frozen
 }

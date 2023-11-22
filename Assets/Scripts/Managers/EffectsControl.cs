@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,9 @@ public class EffectsControl : MonoBehaviour
     [SerializeField] private GameObject shadow;
 
     [SerializeField] private GameObject respawnFX;
+
+    [SerializeField] private GameObject frozen;
+    private bool isFrozenBusy;
 
     [SerializeField] private GameObject punchEasy;
     [SerializeField] private GameObject punchMedium;
@@ -51,6 +55,8 @@ public class EffectsControl : MonoBehaviour
         woohooSound.SetActive(false);
         woohooSound2.SetActive(false);
         yiihaaSound.SetActive(false);
+
+        frozen.SetActive(false);
     }
 
     public void SetShadow(PlayerControl player)
@@ -205,5 +211,40 @@ public class EffectsControl : MonoBehaviour
             if (pc.IsDead && pc.IsRagdollActive) break;
         }
         fx.SetActive(false);
+    }
+
+    public void MakeFrozen(float seconds)
+    {       
+        StartCoroutine(playFrozen(seconds));
+    }
+    private IEnumerator playFrozen(float duration)
+    {
+        for (float i = 0; i < duration - 0.3f; i += 0.1f)
+        {
+            if (!isFrozenBusy) break;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        if (isFrozenBusy) yield break;
+
+        isFrozenBusy = true;
+
+        frozen.SetActive(false);
+        frozen.SetActive(true);
+        frozen.transform.GetChild(0).gameObject.SetActive(true);
+
+        for (float i = 0; i < duration; i += 0.1f)
+        {
+            yield return new WaitForSeconds(0.1f);
+            if (pc.IsDead && pc.IsRagdollActive) break;
+        }
+
+        frozen.transform.GetChild(1).gameObject.SetActive(true);
+        frozen.transform.GetChild(0).gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(1f);
+        frozen.transform.GetChild(1).gameObject.SetActive(false);
+        isFrozenBusy = false;
+        frozen.SetActive(false);
     }
 }

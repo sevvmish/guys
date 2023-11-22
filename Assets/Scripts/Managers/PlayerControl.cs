@@ -55,6 +55,8 @@ public class PlayerControl : MonoBehaviour
     //CONDITIONS
     public bool IsGrounded { get; private set; }
     public bool IsRagdollActive { get; private set; }
+    public bool IsCanJump { get; private set; }
+    public bool IsCanWalk { get; private set; }
     public bool IsSpeedChanged { get; private set; }
     public bool IsFinished { get; private set; }
     public bool IsJumping { get; private set; }
@@ -98,6 +100,8 @@ public class PlayerControl : MonoBehaviour
         PlayerMaxSpeed = Globals.BASE_SPEED;
         PlayerCurrentSpeed = PlayerMaxSpeed;
         IsCanAct = true;
+        IsCanJump = true;
+        IsCanWalk = true;
 
         ragdollRigidbodies = new Rigidbody[ragdollColliders.Length];
         ragdollPos = new Vector3[ragdollColliders.Length];
@@ -123,6 +127,40 @@ public class PlayerControl : MonoBehaviour
     {
         IsItMainPlayer = true;
         effectsControl.SetShadow(this);
+    }
+
+    public void ChangeJumpPermission(float seconds)
+    {
+        StartCoroutine(jumpPermission(seconds));
+    }
+    private IEnumerator jumpPermission(float seconds)
+    {
+        IsCanJump = false;
+
+        for (float i = 0; i < seconds; i += 0.1f)
+        {
+            yield return new WaitForSeconds(0.1f);
+            if (IsDead && IsRagdollActive) break;
+        }
+
+        IsCanJump = true;
+    }
+
+    public void ChangeWalkPermission(float seconds)
+    {
+        StartCoroutine(walkPermission(seconds));
+    }
+    private IEnumerator walkPermission(float seconds)
+    {
+        IsCanWalk = false;
+
+        for (float i = 0; i < seconds; i += 0.1f)
+        {
+            yield return new WaitForSeconds(0.1f);
+            if (IsDead && IsRagdollActive) break;
+        }
+
+        IsCanWalk = true;
     }
 
     public void ChangeSpeed(float multiplier, float seconds)
@@ -165,9 +203,8 @@ public class PlayerControl : MonoBehaviour
             _rigidbody.AddRelativeForce(Vector3.forward * 5, ForceMode.Impulse);
         }
 
-        if (isForward)
-        {
-            //isForward = false;
+        if (isForward && IsCanWalk)
+        {            
             movement(true);
         }
         else
@@ -260,7 +297,7 @@ public class PlayerControl : MonoBehaviour
         isJump = false;
         if (!IsCanAct || IsRagdollActive) return;
 
-        if (IsGrounded && jumpCooldown <= 0 && !IsJumping)
+        if (IsGrounded && jumpCooldown <= 0 && !IsJumping && IsCanJump)
         {
             _rigidbody.velocity = Vector3.zero;
             effectsControl.MakeJumpFX();
@@ -269,7 +306,7 @@ public class PlayerControl : MonoBehaviour
             IsJumping = true;
             jumpCooldown = 0.1f;
         }    
-        else if (!IsGrounded && IsJumping && !IsSecondJump && jumpCooldown <= 0)
+        else if (!IsGrounded && IsJumping && !IsSecondJump && jumpCooldown <= 0 && IsCanJump)
         {
             effectsControl.MakeJumpFX();
             IsSecondJump = true;
@@ -313,7 +350,12 @@ public class PlayerControl : MonoBehaviour
         
     private void movement(bool forward)
     {
-        if (!IsCanAct) return;
+        if (!IsCanAct || !IsCanWalk)
+        {
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Run")) playIdle();
+            return;
+        }
+            
 
         if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0 || forward || Mathf.Abs(angleY) > 0)
         {
@@ -575,6 +617,8 @@ public class PlayerControl : MonoBehaviour
         IsJumping = false;
         IsFloating = false;
         IsSecondJump = false;
+        IsCanJump = true;
+        IsCanWalk = true;
 
         yield return new WaitForSeconds(0.2f);
         if (IsRagdollActive) SetRagdollState(false);
