@@ -28,7 +28,7 @@ public class IceExplosion : MonoBehaviour, Explosives
 
     private IEnumerator playExplosion()
     {        
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         isActive = false;
         
         yield return new WaitForSeconds(1.5f);

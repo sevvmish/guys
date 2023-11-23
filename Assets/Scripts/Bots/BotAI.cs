@@ -154,7 +154,7 @@ public class BotAI : MonoBehaviour
             return;
         }
 
-        isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward, new Vector3(0.2f, 1f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
+        isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward, new Vector3(0.2f, 1.2f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
             
         if (!isChecked && IsCanJump)
         {            
@@ -199,17 +199,17 @@ public class BotAI : MonoBehaviour
 
     private void followPoint(BotNavPoint _point)
     {        
-        playerTransform.LookAt(new Vector3(_point.transform.position.x, playerTransform.position.y, _point.transform.position.z));
+        if (playerControl.IsCanWalk) playerTransform.LookAt(new Vector3(_point.transform.position.x, playerTransform.position.y, _point.transform.position.z));
         if (currentAction == null) currentAction = runToPoint;
     }
 
     private IEnumerator littleTurn(Vector3 way)
     {
         playerControl.SetForward(true);
-        playerTransform.LookAt(playerTransform.position + way);
+        if (playerControl.IsCanWalk) playerTransform.LookAt(playerTransform.position + way);
         _timerForChecking = 0.35f;
         yield return new WaitForSeconds(0.35f);
-        playerTransform.LookAt(new Vector3(currentPoint.transform.position.x, playerTransform.position.y, currentPoint.transform.position.z));
+        if (playerControl.IsCanWalk) playerTransform.LookAt(new Vector3(currentPoint.transform.position.x, playerTransform.position.y, currentPoint.transform.position.z));
     }
 
     private void jumpForwardHighGround()

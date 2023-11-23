@@ -669,8 +669,11 @@ public class PlayerControl : MonoBehaviour
         for (int i = 0; i < ragdollRigidbodies.Length; i++)
         {            
             ragdollRigidbodies[i].velocity = forceVector * additionalForce;
-        }    
-        
+            
+        }
+
+        ragdollRigidbodies[0].AddRelativeTorque(0, UnityEngine.Random.Range(-10, 10) * 10, 0, ForceMode.Impulse);
+
         if (punchType == ApplyForceType.Punch_large)
         {            
             StartCoroutine(addAdditionalForceWhenLargePunch(forceVector));
@@ -679,12 +682,20 @@ public class PlayerControl : MonoBehaviour
         StartCoroutine(playTurnOffRagdoll());
     }
     private IEnumerator playTurnOffRagdoll()
-    {    
+    {
+        float timer = 0;
         while (ragdollRigidbodies[0].velocity.magnitude > Globals.BASE_SPEED)
         {
+            timer += 0.1f;
             yield return new WaitForSeconds(0.1f);
         }
-        yield return new WaitForSeconds(0.5f);
+
+        if (timer < 1)
+        {
+            yield return new WaitForSeconds(1 - timer);
+        }
+
+        //yield return new WaitForSeconds(0.5f);
         SetRagdollState(false);
     }
     private IEnumerator addAdditionalForceWhenLargePunch(Vector3 addForce)
