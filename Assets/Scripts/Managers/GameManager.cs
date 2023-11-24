@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
         }
 
         Globals.IsMobile = GP_Device.IsMobile();
+        GP_Ads.ShowSticky();
+        
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
         cameraControl.SetData(mainPlayer, cameraBody, _camera.transform);

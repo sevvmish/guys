@@ -22,6 +22,7 @@ public class Tramble : MonoBehaviour
     IEnumerator Start()
     {
         float x = 0, y = 0, z = 0;
+        yield return new WaitForSeconds(UnityEngine.Random.Range(0, 0.75f));
 
         while (true)
         {

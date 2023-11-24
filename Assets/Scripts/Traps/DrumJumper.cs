@@ -24,9 +24,9 @@ public class DrumJumper : MonoBehaviour
         vfx.SetActive(false);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if ((other.gameObject.layer == 9 || other.gameObject.layer == 3) && other.TryGetComponent(out Rigidbody player) && !players.Contains(player))
+        if ((collision.gameObject.layer == 9 || collision.gameObject.layer == 3) && collision.gameObject.TryGetComponent(out Rigidbody player) && !players.Contains(player))
         {            
             players.Add(player);
             StartCoroutine(cleanList(player));
@@ -36,10 +36,20 @@ public class DrumJumper : MonoBehaviour
         }
     }
 
+
     private IEnumerator cleanList(Rigidbody player)
     {
         vfx.SetActive(true);
         _audio.Play();
+
+
+        for (int j = 0; j < 3; j++)
+        {
+            player.AddForce(dir * force/10f, ForceMode.Force);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
+
+
         yield return new WaitForSeconds(0.2f);
         vfx.SetActive(false);
 

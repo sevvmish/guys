@@ -7,7 +7,7 @@ public class CustomExplosion : MonoBehaviour, Explosives
     [SerializeField] private GameObject VFX;
 
     private bool isActive;
-    private float force = 3;
+    private float force = 7;
     private HashSet<Rigidbody> players = new HashSet<Rigidbody>();
 
 
@@ -24,7 +24,7 @@ public class CustomExplosion : MonoBehaviour, Explosives
         if (isActive && other.TryGetComponent(out Rigidbody player) && !players.Contains(player))
         {
             players.Add(player);
-            Vector3 mainVec = (player.transform.position - transform.position).normalized * force + Vector3.up * force;
+            Vector3 mainVec = (player.transform.position - transform.position + Vector3.up).normalized * force/* + new Vector3(0,6,0)*/;
             player.AddForce(mainVec, ForceMode.Impulse);
             if (player.TryGetComponent(out PlayerControl pc))
             {

@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
 {
     [Header("Controls")]    
     public Animator _animator;
+    public AnimationStates AnimationState { get; private set; }
     public bool IsItMainPlayer { get; private set; }
     private ConditionControl conditions;
     public EffectsControl effectsControl;
@@ -102,6 +103,10 @@ public class PlayerControl : MonoBehaviour
         IsCanAct = true;
         IsCanJump = true;
         IsCanWalk = true;
+
+        AnimationState = AnimationStates.Idle;
+        _animator.Play("Idle");
+
 
         ragdollRigidbodies = new Rigidbody[ragdollColliders.Length];
         ragdollPos = new Vector3[ragdollColliders.Length];
@@ -230,7 +235,7 @@ public class PlayerControl : MonoBehaviour
 
 
         //IsGrounded = checkGround();
-        //if (IsItMainPlayer && !IsGrounded) print(PlayerVelocity);
+        //if (IsItMainPlayer) print(IsGrounded);
         checkShadow();
         PlayerVelocity = _rigidbody.velocity.magnitude;
         PlayerNonVerticalVelocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude;
@@ -301,7 +306,10 @@ public class PlayerControl : MonoBehaviour
         {
             _rigidbody.velocity = Vector3.zero;
             effectsControl.MakeJumpFX();
+            
             _animator.Play("JumpStart");
+            AnimationState = AnimationStates.Fly;
+
             _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER/* + Vector3.forward * PlayerNonVerticalVelocity * 4*/, ForceMode.Impulse);
             IsJumping = true;
             jumpCooldown = 0.1f;
@@ -312,7 +320,9 @@ public class PlayerControl : MonoBehaviour
             IsSecondJump = true;
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER * 0.5f + Vector3.forward * 2, ForceMode.Impulse);
+            
             _animator.Play("JumpStart");
+            AnimationState = AnimationStates.Fly;
         }        
     }
 
@@ -325,8 +335,19 @@ public class PlayerControl : MonoBehaviour
         bool result = result1 && result2;
         if (!IsGrounded && result && PlayerVerticalVelocity > 5 && !IsRagdollActive) effectsControl.MakeLandEffect();
 
+        if (!IsGrounded && result)
+        {
+            //if (IsItMainPlayer) print(_animator.GetCurrentAnimatorStateInfo(0) + " = " + AnimationState);
+            //playIdle();
+            IsRunning = false;
+            IsIdle = true;
+            AnimationState = AnimationStates.Idle;
+            _animator.Play("Idle");
+
+        }
+
         if (result)
-        {            
+        {   
             if (jumpCooldown <= 0) IsJumping = false;
             IsFloating = false;
             IsSecondJump = false;
@@ -351,8 +372,12 @@ public class PlayerControl : MonoBehaviour
     private void movement(bool forward)
     {
         if (!IsCanAct || !IsCanWalk)
-        {
-            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Run")) playIdle();
+        {            
+            if (AnimationState != AnimationStates.Idle)
+            {
+                playIdle();
+            }
+                
             return;
         }
             
@@ -360,35 +385,25 @@ public class PlayerControl : MonoBehaviour
         if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0 || forward || Mathf.Abs(angleY) > 0)
         {
             float turnKoeff = PlayerCurrentSpeed * 0.03f;
-
-            //if (Globals.IsMobile)
-            //{
-                if ((Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0))
-                {                    
-                    if (Mathf.Abs(angleY) > 0)
-                    {
-                        angleYForMobile += angleY;
-                    }
-
-                    float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
-                    _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);
-                    //_transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z);
-
-                }
-                else if (horizontal == 0 && vertical == 0 && Mathf.Abs(angleY) > 0)
+                        
+            if ((Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0))
+            {                    
+                if (Mathf.Abs(angleY) > 0)
                 {
-
-                    angleYForMobile += angleY;                    
-                    _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);
-                    //_transform.eulerAngles = new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z);
+                    angleYForMobile += angleY;
                 }
-            /*}            
-            else if (!Globals.IsMobile && Mathf.Abs(angleY) > 0)
-            {
-                angleYForMobile += angleY;
-                _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);
-            }*/
 
+                float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
+                _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);                
+
+            }
+            else if (horizontal == 0 && vertical == 0 && Mathf.Abs(angleY) > 0)
+            {
+
+                angleYForMobile += angleY;                    
+                _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);                
+            }
+          
             angleY = 0;
 
             if (forward)
@@ -404,29 +419,9 @@ public class PlayerControl : MonoBehaviour
                                                 
                 koeff = PlayerCurrentSpeed * addKoeff * new Vector2(horizontal, vertical).magnitude - PlayerVelocity;
                                                 
-                koeff = koeff > 0 ? koeff : 0;       
-                
-                //if (Globals.IsMobile)
-                //{
-                    _rigidbody.velocity += _transform.forward * koeff;
-                /*}
-                else
-                {
-                    if (vertical > 0)
-                    {
-                        _rigidbody.velocity += _transform.forward * koeff + _transform.right * horizontal;
-                        
-                    }
-                    else if (vertical < 0)
-                    {
-                        _rigidbody.velocity += _transform.forward * -1 * koeff + _transform.right * horizontal;
-                    }
-                    else if (vertical == 0 && horizontal != 0)
-                    {
-                        _rigidbody.velocity += _transform.forward * koeff + _transform.right * horizontal;
-                    }
-                    
-                }*/
+                koeff = koeff > 0 ? koeff : 0;
+
+                _rigidbody.velocity += _transform.forward * koeff;
 
                 if (koeff > 0) playRun();
 
@@ -451,19 +446,29 @@ public class PlayerControl : MonoBehaviour
 
     private void playRun()
     {
+        if (AnimationState == AnimationStates.Run) return;
+
         IsRunning = true;
         IsIdle = false;
 
-        if (IsGrounded && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Run")) _animator.Play("Run");
+        if (IsGrounded && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
+        {
+            _animator.Play("Run");
+            AnimationState = AnimationStates.Run;
+        }
+            
     }
 
     private void playIdle()
     {
+        if (AnimationState == AnimationStates.Idle) return;
+
         IsRunning = false;
         IsIdle = true;
 
         if (IsGrounded && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
+            AnimationState = AnimationStates.Idle;
             _animator.Play("Idle");
         }
     }
@@ -601,6 +606,7 @@ public class PlayerControl : MonoBehaviour
         
         collisionChecker.IsRagdollHasContact = false;
         _animator.enabled = true;
+        AnimationState = AnimationStates.None;
         IsCanAct = true;
         IsRagdollActive = false;
     }
@@ -638,8 +644,11 @@ public class PlayerControl : MonoBehaviour
         }
 
         ragdollRigidbodies[0].transform.localPosition = Vector3.zero;
-        
-        playIdle();
+
+        //playIdle();
+        //AnimationState = AnimationStates.Idle;
+        //_animator.Play("Idle");
+        AnimationState = AnimationStates.None;
 
         _transform.position = pos;
         _transform.eulerAngles = rot;
@@ -756,4 +765,12 @@ public enum ApplyForceType
     Punch_easy,
     Punch_medium,
     Punch_large
+}
+
+public enum AnimationStates
+{
+    None,
+    Idle,
+    Run,
+    Fly
 }

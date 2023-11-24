@@ -33,7 +33,7 @@ public class InputControl : MonoBehaviour
             joystick.gameObject.SetActive(false);
             jump.gameObject.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
-            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.lockState = CursorLockMode.Confined;            
             Cursor.visible = false;
         }
     }
@@ -118,9 +118,18 @@ public class InputControl : MonoBehaviour
         }
 
         Vector3 mouseDelta = Input.mousePosition - mousePosition;
+                
+        if ((Input.mousePosition.x >= (Screen.width - 5) && mouseDelta.x > 0) ||
+            (Input.mousePosition.x <= 5 && mouseDelta.x < 0)
+            )
+        {
+            Cursor.lockState = CursorLockMode.Locked;            
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+        }
 
-        //print(Input.mousePosition.x + " = " + Screen.width + " = " + (Screen.width - 1));
-        
         if (mouseDelta.x > 0 || mouseDelta.x < 0)
         {
             float koeff = mouseDelta.x * 20 * Time.deltaTime;
@@ -136,7 +145,7 @@ public class InputControl : MonoBehaviour
 
             playerControl.SetRotationAngle(koeff);
         }        
-        else if (Input.mousePosition.x >= Screen.width-50)
+        else if (Input.mousePosition.x >= Screen.width-5)
         {
             playerControl.SetRotationAngle(XLimit * 0.8f/*200 * Time.deltaTime*/);
         }

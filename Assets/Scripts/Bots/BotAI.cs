@@ -26,6 +26,8 @@ public class BotAI : MonoBehaviour
     private BotNavPoint currentPoint;
     private Action currentAction;
     private bool isChecked = false;
+
+    private bool isWalkChanged;
     
     private HashSet<GameObject> usedNavPoints = new HashSet<GameObject>();
 
@@ -53,6 +55,14 @@ public class BotAI : MonoBehaviour
     {
         if (isStopAction() || !gm.IsGameStarted || playerControl.IsFinished) return;
 
+        //redirect after non walking
+        if (playerControl.IsCanWalk && !isWalkChanged && currentAction == runToPoint && currentPoint != null)
+        {
+            followPoint(currentPoint);
+        }
+        isWalkChanged = playerControl.IsCanWalk;
+        //============================
+
         if (_timerForChecking > 0)
         {
             _timerForChecking -= Time.deltaTime;
@@ -62,7 +72,7 @@ public class BotAI : MonoBehaviour
         {
             _timerCheckForLastPosition = 0;
 
-            if ((lastPosition - playerTransform.position).magnitude < 0.1f && playerControl.IsGrounded)
+            if ((lastPosition - playerTransform.position).magnitude < 0.1f && playerControl.IsGrounded && playerControl.IsCanWalk && playerControl.IsCanAct)
             {
                 //print("problem!!!");
                 if (CurrentIndex > 0 && !isIndexDowned)
