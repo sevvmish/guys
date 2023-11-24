@@ -424,7 +424,6 @@ public class PlayerControl : MonoBehaviour
                 _rigidbody.velocity += _transform.forward * koeff;
 
                 if (koeff > 0) playRun();
-
             }
             
             howLongMoving = 0;
@@ -545,6 +544,12 @@ public class PlayerControl : MonoBehaviour
             }
                         
             ApplyTrapForce(impulse, collision.GetContact(0).point, punchType, additionalForce);
+        }
+
+        if (collision != null && collision.collider.gameObject.layer == Globals.LAYER_PLAYER && collision.gameObject.TryGetComponent(out Rigidbody another))
+        {
+            another.AddForce((another.transform.position - _transform.position).normalized * Globals.PLAYERS_COLLIDE_FORCE, ForceMode.Impulse);
+            _rigidbody.AddForce((_transform.position - another.transform.position).normalized * Globals.PLAYERS_COLLIDE_FORCE, ForceMode.Impulse);
         }
     }
         

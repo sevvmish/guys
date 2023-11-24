@@ -15,7 +15,7 @@ public class DrumJumper : MonoBehaviour
     [SerializeField] private GameObject vfx;
 
     private Vector3 dir;
-    private HashSet<Rigidbody> players = new HashSet<Rigidbody>();
+    //private HashSet<Rigidbody> players = new HashSet<Rigidbody>();
 
     // Start is called before the first frame update
     void Start()
@@ -26,10 +26,11 @@ public class DrumJumper : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if ((collision.gameObject.layer == 9 || collision.gameObject.layer == 3) && collision.gameObject.TryGetComponent(out Rigidbody player) && !players.Contains(player))
+        if ((collision.gameObject.layer == 9 || collision.gameObject.layer == 3) && collision.gameObject.TryGetComponent(out Rigidbody player)/* && !players.Contains(player)*/)
         {            
-            players.Add(player);
+            //players.Add(player);
             StartCoroutine(cleanList(player));
+            drum.localScale = Vector3.one;
             drum.DOShakeScale(0.3f, 0.6f, 30).SetEase(Ease.OutQuad);
             player.velocity = Vector3.zero;
             player.AddForce(dir * force, ForceMode.Impulse);
@@ -53,9 +54,9 @@ public class DrumJumper : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         vfx.SetActive(false);
 
-        if (players.Contains(player))
-        {
-            players.Remove(player);
-        }
+        //if (players.Contains(player))
+        //{
+        //    players.Remove(player);
+        //}
     }
 }
