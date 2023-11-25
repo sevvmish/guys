@@ -18,6 +18,7 @@ public class InputControl : MonoBehaviour
     private readonly float XLimit = 10;
     private GameManager gm;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,8 +43,7 @@ public class InputControl : MonoBehaviour
     void Update()
     {
         if (!gm.IsGameStarted) return;
-                
-        
+
         if (Globals.IsMobile)
         {
             forMobile();
@@ -51,9 +51,7 @@ public class InputControl : MonoBehaviour
         else
         {
             forPC();
-        }
-        
-
+        }                
     }
 
     
@@ -103,7 +101,7 @@ public class InputControl : MonoBehaviour
     }
 
     private void forPC()
-    {
+    {        
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         if (horizontal != 0 || vertical != 0)
@@ -118,19 +116,9 @@ public class InputControl : MonoBehaviour
         }
 
         Vector3 mouseDelta = Input.mousePosition - mousePosition;
-                
-        if ((Input.mousePosition.x >= (Screen.width - 5) && mouseDelta.x > 0) ||
-            (Input.mousePosition.x <= 5 && mouseDelta.x < 0)
-            )
-        {
-            Cursor.lockState = CursorLockMode.Locked;            
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Confined;
-        }
 
-        if (mouseDelta.x > 0 || mouseDelta.x < 0)
+
+        if ((mouseDelta.x > 0 && Input.mousePosition.x < (Screen.width - 5)) || (mouseDelta.x < 0 && (Input.mousePosition.x > 5)))
         {
             float koeff = mouseDelta.x * 20 * Time.deltaTime;
 
@@ -146,15 +134,18 @@ public class InputControl : MonoBehaviour
             playerControl.SetRotationAngle(koeff);
         }        
         else if (Input.mousePosition.x >= Screen.width-5)
-        {
-            playerControl.SetRotationAngle(XLimit * 0.8f/*200 * Time.deltaTime*/);
+        {            
+            playerControl.SetRotationAngle(10/*XLimit * 0.8f*/);
         }
-        else if (Input.mousePosition.x <= 1)
-        {
-            playerControl.SetRotationAngle(-XLimit * 0.8f/*-200 * Time.deltaTime*/);
+        else if (Input.mousePosition.x <= 5)
+        {            
+            playerControl.SetRotationAngle(-10/*-XLimit * 0.8f*/);
         }
         else
         {
+//#if UNITY_WEBGL && !UNITY_EDITOR
+//            WebGLInput.stickyCursorLock = true;
+//#endif
             playerControl.SetRotationAngle(0);
         }
 

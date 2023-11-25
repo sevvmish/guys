@@ -229,8 +229,13 @@ public class EffectsControl : MonoBehaviour
 
         isFrozenBusy = true;
 
+
         frozen.SetActive(false);
         frozen.SetActive(true);
+
+        frozen.transform.GetChild(1).gameObject.SetActive(true);
+        frozen.transform.GetChild(1).gameObject.SetActive(false);
+
         frozen.transform.GetChild(0).gameObject.SetActive(true);
 
         for (float i = 0; i < duration; i += 0.1f)
@@ -241,6 +246,8 @@ public class EffectsControl : MonoBehaviour
 
         frozen.transform.GetChild(1).gameObject.SetActive(true);
         frozen.transform.GetChild(0).gameObject.SetActive(false);
+
+        
 
         yield return new WaitForSeconds(1f);
         frozen.transform.GetChild(1).gameObject.SetActive(false);

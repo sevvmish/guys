@@ -38,9 +38,9 @@ public class ConditionControl : MonoBehaviour
 
         conditions.Add(Conditions.frozen);
         StartCoroutine(playAnyState(timer, Conditions.frozen));
-        pc.ChangeJumpPermission(timer);
+        pc.StopJumpPermission(timer);
         ec.MakeFrozen(timer);
-        pc.ChangeWalkPermission(timer);
+        pc.StopWalkPermission(timer);
         pc.ChangeSpeed(0.01f, timer);
         return true;
     }

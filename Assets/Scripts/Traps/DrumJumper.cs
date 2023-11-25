@@ -34,6 +34,11 @@ public class DrumJumper : MonoBehaviour
             drum.DOShakeScale(0.3f, 0.6f, 30).SetEase(Ease.OutQuad);
             player.velocity = Vector3.zero;
             player.AddForce(dir * force, ForceMode.Impulse);
+            
+            if (collision.gameObject.TryGetComponent(out PlayerControl pc))
+            {
+                pc.StopJumpPermission(0.5f);
+            }
         }
     }
 
@@ -50,8 +55,9 @@ public class DrumJumper : MonoBehaviour
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
 
-
+        
         yield return new WaitForSeconds(0.2f);
+        drum.localScale = Vector3.one;
         vfx.SetActive(false);
 
         //if (players.Contains(player))

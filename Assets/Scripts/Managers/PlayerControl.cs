@@ -134,7 +134,7 @@ public class PlayerControl : MonoBehaviour
         effectsControl.SetShadow(this);
     }
 
-    public void ChangeJumpPermission(float seconds)
+    public void StopJumpPermission(float seconds)
     {
         StartCoroutine(jumpPermission(seconds));
     }
@@ -151,7 +151,7 @@ public class PlayerControl : MonoBehaviour
         IsCanJump = true;
     }
 
-    public void ChangeWalkPermission(float seconds)
+    public void StopWalkPermission(float seconds)
     {
         StartCoroutine(walkPermission(seconds));
     }
@@ -292,9 +292,16 @@ public class PlayerControl : MonoBehaviour
     {
         if (IsFinished) return;
         IsFinished = true;
+        IsRunning = false;
+        IsIdle = true;
+        isJump = false;
+        IsSecondJump = false;
+        isForward = false;
+
         _rigidbody.velocity = Vector3.zero;
-        playIdle();
-        gm.AddPlayerFinished(this);
+
+        AnimationState = AnimationStates.Idle;
+        _animator.Play("IdlePlus");
     }
 
     private void makeJump()
@@ -394,12 +401,10 @@ public class PlayerControl : MonoBehaviour
                 }
 
                 float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
-                _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);                
-
+                _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);
             }
             else if (horizontal == 0 && vertical == 0 && Mathf.Abs(angleY) > 0)
             {
-
                 angleYForMobile += angleY;                    
                 _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);                
             }
@@ -454,8 +459,7 @@ public class PlayerControl : MonoBehaviour
         {
             _animator.Play("Run");
             AnimationState = AnimationStates.Run;
-        }
-            
+        }            
     }
 
     private void playIdle()
@@ -716,7 +720,7 @@ public class PlayerControl : MonoBehaviour
     {
         yield return new WaitForSeconds(Time.fixedDeltaTime);
 
-        for (int j = 0; j < 5; j++)
+        for (int j = 0; j < 3; j++)
         {            
             for (int i = 0; i < ragdollRigidbodies.Length; i++)
             {

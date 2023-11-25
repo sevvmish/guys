@@ -18,6 +18,12 @@ public class IceExplosion : MonoBehaviour, Explosives
         StartCoroutine(playExplosion());
     }
 
+    private void OnDisable()
+    {
+        isActive = false;
+        VFX.SetActive(false);
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (isActive && other.TryGetComponent(out ConditionControl player) && !player.HasCondition(Conditions.frozen))

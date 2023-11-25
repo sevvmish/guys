@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GamePush;
-
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AssetManager assetManager;
     [SerializeField] private Transform playersLocation;
     [SerializeField] private LevelManager levelManager;
+    [SerializeField] private Transform vfx;
 
     public Joystick GetJoystick() => joystick;
     public Camera GetCamera() => _camera;
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
     public AssetManager GetAssetManager() => assetManager;
     public Transform GetPlayersLocation() => playersLocation;
     public Transform GetMainPlayerTransform() => mainPlayer;
+    public Transform GetVFX() => vfx;
     //public Vector3 BotPoints;
 
     //GAME START
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviour
     private PlayerControl mainPlayerControl;
     private List<PlayerControl> bots = new List<PlayerControl>();
     private List<PlayerControl> finishPlaces = new List<PlayerControl>();
+        
 
     // Start is called before the first frame update
     void Awake()
@@ -50,7 +53,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        Globals.IsMobile = GP_Device.IsMobile();
+        Globals.IsMobile = false;//GP_Device.IsMobile();
         GP_Ads.ShowSticky();
         
 
