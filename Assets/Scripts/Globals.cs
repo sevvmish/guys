@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Globals : MonoBehaviour
 {
+    public static PlayerData MainPlayerData;
+    public static bool IsSoundOn;
+    public static string CurrentLanguage;
+
     public static GameTypes CurrentGameType;
 
     public static bool IsMobile;
@@ -31,11 +35,14 @@ public class Globals : MonoBehaviour
     public const int LAYER_DANGER = 7;
     public const int LAYER_PLAYER = 9;
 
+    public const float ZOOM_DELTA = 0.22f;
+    public const float ZOOM_LIMIT = 6f;
+
     public const float SCREEN_SAVER_AWAIT = 1;
 
     public const float PLAYERS_COLLIDE_FORCE = 7f;
 
-    public static readonly Vector3 BasePosition = new Vector3(0, 6, -8);
+    public static readonly Vector3 BasePosition = new Vector3(0, 5.5f, -8);
     public static readonly Vector3 BaseRotation = new Vector3(25, 0, 0);
 
     public static readonly LayerMask ignoreTriggerMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll" });

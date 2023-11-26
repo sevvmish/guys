@@ -44,7 +44,7 @@ public class AmbientMusic : MonoBehaviour
                 break;
 
             case AmbientMelodies.loop_melody1:
-                _audio.Stop();
+                _audio.Stop();                
                 _audio.volume = 0.3f;
                 _audio.loop = true;
                 _audio.clip = loopMelody1;

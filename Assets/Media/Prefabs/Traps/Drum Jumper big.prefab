@@ -4978,6 +4978,7 @@ GameObject:
   - component: {fileID: 1407093292359525371}
   - component: {fileID: 1446271838772846830}
   - component: {fileID: 4208971206731225806}
+  - component: {fileID: 7475309327731083117}
   m_Layer: 0
   m_Name: Drum Jumper big
   m_TagString: Untagged
@@ -5161,6 +5162,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!205 &7475309327731083117
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6750563852457954483}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0.18700764, z: 0}
+  m_Size: 4.1000013
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.06
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8624250032243808565}
+    - renderer: {fileID: 856275531735959080}
+  m_Enabled: 1
 --- !u!1001 &2027622238497905324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5238,6 +5259,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ab2117503737e34db6481d06bc95e08, type: 3}
+--- !u!23 &856275531735959080 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 4ab2117503737e34db6481d06bc95e08, type: 3}
+  m_PrefabInstance: {fileID: 2027622238497905324}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1993184592619961671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4ab2117503737e34db6481d06bc95e08, type: 3}
@@ -5323,5 +5349,10 @@ PrefabInstance:
 --- !u!4 &5363254814302423515 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8516168344233567805, guid: c9ca0ef556abdce4eae4c7d660c721d7, type: 3}
+  m_PrefabInstance: {fileID: 4341921027166679014}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8624250032243808565 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5471565260829406931, guid: c9ca0ef556abdce4eae4c7d660c721d7, type: 3}
   m_PrefabInstance: {fileID: 4341921027166679014}
   m_PrefabAsset: {fileID: 0}

@@ -72,7 +72,7 @@ public class BotAI : MonoBehaviour
         {
             _timerCheckForLastPosition = 0;
 
-            if ((lastPosition - playerTransform.position).magnitude < 0.1f && playerControl.IsGrounded && playerControl.IsCanWalk && playerControl.IsCanAct)
+            if ((lastPosition - playerTransform.position).magnitude < 0.1f && IsCanRun && playerControl.IsGrounded && playerControl.IsCanWalk && playerControl.IsCanAct)
             {
                 //print("problem!!!");
                 if (CurrentIndex > 0 && !isIndexDowned)
@@ -163,6 +163,12 @@ public class BotAI : MonoBehaviour
             playerControl.SetForward(true);
             return;
         }
+        else if (!IsCanRun)
+        {
+            playerControl.SetForward(false);
+            return;
+        }
+            
 
         isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward, new Vector3(0.2f, 1.2f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
             
@@ -200,8 +206,6 @@ public class BotAI : MonoBehaviour
                 }
             }
         }
-
-        
 
         playerControl.SetForward(true);
         _timerForChecking = 0.05f;

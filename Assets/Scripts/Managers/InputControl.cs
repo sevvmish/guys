@@ -18,6 +18,10 @@ public class InputControl : MonoBehaviour
     private readonly float XLimit = 10;
     private GameManager gm;
 
+    private bool isTouchZoom;
+    private Vector3 zoom1Finger;
+    private Vector3 zoom2Finger;
+    private float zoomDistance;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +41,10 @@ public class InputControl : MonoBehaviour
             Cursor.lockState = CursorLockMode.Confined;            
             Cursor.visible = false;
         }
+        else
+        {
+
+        }
     }
 
     // Update is called once per frame
@@ -51,13 +59,41 @@ public class InputControl : MonoBehaviour
         else
         {
             forPC();
-        }                
+        }        
+        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            StartCoroutine(t());
+        }
     }
 
-    
+    private IEnumerator t()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        yield return new WaitForSeconds(0.1f);
+        Cursor.lockState = CursorLockMode.Confined;
+    }
 
     private void forMobile()
     {
+        /*
+        if (Input.touchCount >= 2)
+        {         
+            isTouchZoom = true;
+
+            zoom1Finger = Input.GetTouch(0).position;
+            zoom2Finger = Input.GetTouch(1).position;
+            float newZoomDistance = Vector2.Distance(zoom1Finger, zoom2Finger);
+
+            gm.GetTestText().text = "new: " + newZoomDistance.ToString("f2") + "old: " + zoomDistance.ToString("f2");
+
+            zoomDistance = newZoomDistance;
+        }
+        else
+        {            
+            isTouchZoom = false;
+        }*/
+
         playerControl.SetHorizontal(joystick.Horizontal);
         playerControl.SetVertical(joystick.Vertical);
 
@@ -102,6 +138,12 @@ public class InputControl : MonoBehaviour
 
     private void forPC()
     {        
+        if (Input.mouseScrollDelta.magnitude > 0)
+        {            
+            cameraControl.ChangeZoom(Input.mouseScrollDelta.y);
+        }
+
+        
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         if (horizontal != 0 || vertical != 0)
@@ -116,9 +158,9 @@ public class InputControl : MonoBehaviour
         }
 
         Vector3 mouseDelta = Input.mousePosition - mousePosition;
+        //gm.GetTestText().text = Input.mousePosition + " = " + mouseDelta;
 
-
-        if ((mouseDelta.x > 0 && Input.mousePosition.x < (Screen.width - 5)) || (mouseDelta.x < 0 && (Input.mousePosition.x > 5)))
+        if ((mouseDelta.x > 0 && Input.mousePosition.x < (Screen.width-1)) || (mouseDelta.x < 0 && (Input.mousePosition.x > 0)))
         {
             float koeff = mouseDelta.x * 20 * Time.deltaTime;
 
@@ -130,22 +172,19 @@ public class InputControl : MonoBehaviour
             {
                 koeff = -XLimit;
             }
-
+            
             playerControl.SetRotationAngle(koeff);
-        }        
-        else if (Input.mousePosition.x >= Screen.width-5)
-        {            
-            playerControl.SetRotationAngle(10/*XLimit * 0.8f*/);
         }
-        else if (Input.mousePosition.x <= 5)
-        {            
-            playerControl.SetRotationAngle(-10/*-XLimit * 0.8f*/);
+        else if (Input.mousePosition.x >= Screen.width-1)
+        {
+            playerControl.SetRotationAngle(XLimit * 0.5f);
+        }
+        else if (Input.mousePosition.x <= 0)
+        {
+            playerControl.SetRotationAngle(-XLimit * 0.5f);
         }
         else
         {
-//#if UNITY_WEBGL && !UNITY_EDITOR
-//            WebGLInput.stickyCursorLock = true;
-//#endif
             playerControl.SetRotationAngle(0);
         }
 

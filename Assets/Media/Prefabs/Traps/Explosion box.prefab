@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 2562570579436614444}
   - component: {fileID: 4885978018332477055}
   - component: {fileID: 3560795657596776514}
-  - component: {fileID: 3188742295103005868}
+  - component: {fileID: 5470656888148412002}
   m_Layer: 0
   m_Name: Explosion box
   m_TagString: Untagged
@@ -111,7 +111,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!205 &3188742295103005868
+--- !u!205 &5470656888148412002
 LODGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -39,7 +39,11 @@ public class GameManager : MonoBehaviour
     private PlayerControl mainPlayerControl;
     private List<PlayerControl> bots = new List<PlayerControl>();
     private List<PlayerControl> finishPlaces = new List<PlayerControl>();
-        
+
+
+    //TODEL
+    [SerializeField] private TextMeshProUGUI testText;
+    public TextMeshProUGUI GetTestText() => testText;
 
     // Start is called before the first frame update
     void Awake()
@@ -61,7 +65,7 @@ public class GameManager : MonoBehaviour
         mainPlayer.GetComponent<PlayerControl>().SetPlayerToMain();
         mainPlayer.gameObject.name = "Main Player";
 
-        ArrangePlayers(7);      
+        ArrangePlayers(15);      
 
         if (levelManager == null)
         {

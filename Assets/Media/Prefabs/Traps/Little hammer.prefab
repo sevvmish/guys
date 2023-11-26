@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3389368108469496352}
   - component: {fileID: 5196017476064371647}
-  - component: {fileID: 7344388465140231171}
+  - component: {fileID: 5460650920603186493}
   m_Layer: 0
   m_Name: Little hammer
   m_TagString: Untagged
@@ -63,7 +63,7 @@ MonoBehaviour:
   delayBeforePoint: 0
   delayBetweenPoints: 0
   isUsePlatforming: 0
---- !u!205 &7344388465140231171
+--- !u!205 &5460650920603186493
 LODGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,7 +77,7 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.04
+  - screenRelativeHeight: 0.06
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3841896537642242356}

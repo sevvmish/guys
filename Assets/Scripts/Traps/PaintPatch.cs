@@ -72,7 +72,7 @@ public class PaintPatch : MonoBehaviour, Explosives
     private IEnumerator playDuration(float patchDuration)
     {        
         yield return new WaitForSeconds(patchDuration);
-        currentPatch.transform.DOScale(Vector3.zero * 0.1f, 0.2f);
+        currentPatch.transform.DOScale(Vector3.zero * 0.01f, 0.2f);
         
         yield return new WaitForSeconds(0.2f);
 
@@ -80,6 +80,7 @@ public class PaintPatch : MonoBehaviour, Explosives
         destroyedVFX.SetActive(true);
 
         yield return new WaitForSeconds(1f);
+        currentPatch.transform.localScale = Vector3.one * 0.4f;
         gameObject.SetActive(false);
     }
 

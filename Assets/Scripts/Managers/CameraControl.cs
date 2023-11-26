@@ -1,7 +1,6 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class CameraControl : MonoBehaviour
@@ -20,6 +19,9 @@ public class CameraControl : MonoBehaviour
     private LayerMask ignoreMask;
     private Ray ray;
     private RaycastHit hit;
+
+    
+    private float zoomKoeff = 0;
     
     private Dictionary<MeshRenderer, Material> changedMeshRenderers = new Dictionary<MeshRenderer, Material>();
     private HashSet<MeshRenderer> renderers = new HashSet<MeshRenderer>();
@@ -36,9 +38,10 @@ public class CameraControl : MonoBehaviour
         playerControl = mainPlayer.GetComponent<PlayerControl>();
         mainCamera = _camera;
         outerCamera = mainCamera.parent;
-        mainCamera.transform.localPosition = Globals.BasePosition;
-        mainCamera.transform.localEulerAngles = Globals.BaseRotation;
+        mainCamera.localPosition = Globals.BasePosition;
+        mainCamera.localEulerAngles = Globals.BaseRotation;
         ignoreMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll", "danger" });
+        zoom(0);
     }
 
     public void SwapControlBody(Transform newTransform)
@@ -52,6 +55,28 @@ public class CameraControl : MonoBehaviour
         outerCamera.DOMove(mainPlayer.position/* + basePosition*/, 0.1f);
         yield return new WaitForSeconds(0.1f);
         isUpdate = true;
+    }
+
+    public void ChangeZoom(float koeff)
+    {                
+        if (koeff > 0 && zoomKoeff < Globals.ZOOM_LIMIT)
+        {
+            float add = Globals.ZOOM_DELTA;
+            mainCamera.position += mainCamera.forward * add;
+            zoomKoeff += add;
+        }
+        else if(koeff < 0 && zoomKoeff > -Globals.ZOOM_LIMIT)
+        {
+            float add = -Globals.ZOOM_DELTA;
+            mainCamera.position += mainCamera.forward * add;
+            zoomKoeff += add;
+        }
+    }
+
+    private void zoom(float koeff)
+    {
+        mainCamera.localPosition = Globals.BasePosition;
+        mainCamera.position += mainCamera.forward * koeff;
     }
 
     public void ResetCameraOnRespawn()
@@ -85,6 +110,7 @@ public class CameraControl : MonoBehaviour
         if (!isUpdate || !gm.IsGameStarted) return;
         outerCamera.position = mainPlayer.position/* + basePosition*/;
         
+        
         //if (Globals.IsMobile)
         //{
             outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, playerControl.angleYForMobile, outerCamera.eulerAngles.z);
@@ -99,48 +125,10 @@ public class CameraControl : MonoBehaviour
             _timer = 0;
             renderers.Clear();
             renderersToReturn.Clear();
-            /*
-            if (Physics.Raycast(mainCamTransformForRaycast.position, (mainPlayer.position + Vector3.up - mainCamTransformForRaycast.position).normalized, out hit, 9, ~ignoreMask))
-            {
-                if (hit.collider.TryGetComponent(out MeshRenderer mr))
-                {
-                    renderers.Add(mr);
-
-                    if (!changedRanderers.Contains(mr))
-                    {
-                        changedRanderers.Add(mr);
-                        mr.enabled = false;
-                    }
-                }
-            }
-
-            foreach (MeshRenderer item in changedRanderers)
-            {
-                if (!renderers.Contains(item))
-                {
-                    renderersToReturn.Add(item);
-                }
-            }
-
-            if (renderersToReturn.Count > 0)
-            {
-                foreach (var item in renderersToReturn)
-                {
-                    if (!item.enabled)
-                    {
-                        item.enabled = true;
-                    }
                     
-                    changedRanderers.Remove(item);
-                }
-            }
-            */
-
-
-            
             if (Physics.Raycast(mainCamTransformForRaycast.position, (mainPlayer.position + Vector3.up - mainCamTransformForRaycast.position).normalized, out hit, 9, ~ignoreMask))
             {
-                if (hit.collider.TryGetComponent(out MeshRenderer mr))
+                if (hit.collider.TryGetComponent(out MeshRenderer mr) && !hit.collider.gameObject.isStatic)
                 {                    
                     renderers.Add(mr);
 

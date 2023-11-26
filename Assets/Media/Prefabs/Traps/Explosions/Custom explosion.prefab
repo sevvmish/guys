@@ -14605,6 +14605,7 @@ GameObject:
   - component: {fileID: 8047643784902281610}
   - component: {fileID: 1466526122166333097}
   - component: {fileID: 7922883510644854782}
+  - component: {fileID: 8119963255689284548}
   m_Layer: 0
   m_Name: Custom explosion
   m_TagString: Untagged
@@ -14683,6 +14684,29 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 1, z: 3}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!205 &8119963255689284548
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4004571787730610831}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.015
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1997323524474553869}
+    - renderer: {fileID: 4618392464518443259}
+    - renderer: {fileID: 7531883826056381617}
+    - renderer: {fileID: 7814635744321041929}
+    - renderer: {fileID: 4095137218117638425}
+  m_Enabled: 1
 --- !u!1 &7077103155087819958
 GameObject:
   m_ObjectHideFlags: 0
