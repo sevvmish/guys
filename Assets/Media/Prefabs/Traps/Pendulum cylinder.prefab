@@ -273,8 +273,8 @@ LODGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3738720861966605532}
   serializedVersion: 2
-  m_LocalReferencePoint: {x: -0.0000008940697, y: -7.132, z: 0}
-  m_Size: 17.024002
+  m_LocalReferencePoint: {x: 0, y: -7.6970005, z: 0}
+  m_Size: 15.894001
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
@@ -283,19 +283,12 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5532313762384380427}
-    - renderer: {fileID: 1789305301239001606}
-    - renderer: {fileID: 9131491379325465806}
-    - renderer: {fileID: 5493796189101390047}
-    - renderer: {fileID: 5411980224439481316}
-    - renderer: {fileID: 7711001662474083916}
-    - renderer: {fileID: 968145963935357060}
-    - renderer: {fileID: 4606050052801844373}
-    - renderer: {fileID: 4092980205273178030}
     - renderer: {fileID: 2201881683676459171}
     - renderer: {fileID: 8799329641572929079}
     - renderer: {fileID: 4674799442591119085}
     - renderer: {fileID: 4014652647502555979}
     - renderer: {fileID: 1542323026707844008}
+    - renderer: {fileID: 953775865597249167}
     - renderer: {fileID: 2609214379746132712}
   m_Enabled: 1
 --- !u!1 &6796088604935327881
@@ -892,29 +885,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
---- !u!23 &968145963935357060 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2679464409893285136, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
-  m_PrefabInstance: {fileID: 2900552565867804052}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1271478435048172768 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4171995539098327412, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
-  m_PrefabInstance: {fileID: 2900552565867804052}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &4092980205273178030 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 1192885451407927866, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
-  m_PrefabInstance: {fileID: 2900552565867804052}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &4606050052801844373 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 1705508761223405825, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
-  m_PrefabInstance: {fileID: 2900552565867804052}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &7711001662474083916 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4846486832148589528, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
   m_PrefabInstance: {fileID: 2900552565867804052}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3599387847626307812
@@ -1097,29 +1070,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
---- !u!23 &1789305301239001606 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4846486832148589528, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
-  m_PrefabInstance: {fileID: 6599688427237661150}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &5411980224439481316 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 1192885451407927866, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
-  m_PrefabInstance: {fileID: 6599688427237661150}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &5493796189101390047 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 1705508761223405825, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
-  m_PrefabInstance: {fileID: 6599688427237661150}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7094060562412830890 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4171995539098327412, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
-  m_PrefabInstance: {fileID: 6599688427237661150}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &9131491379325465806 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2679464409893285136, guid: 04dbe14f57293b54e8da81980f5bf7e4, type: 3}
   m_PrefabInstance: {fileID: 6599688427237661150}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8959927756173483416

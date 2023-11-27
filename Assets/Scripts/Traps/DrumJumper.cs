@@ -15,7 +15,7 @@ public class DrumJumper : MonoBehaviour
     [SerializeField] private GameObject vfx;
 
     private Vector3 dir;
-    //private HashSet<Rigidbody> players = new HashSet<Rigidbody>();
+    private HashSet<Rigidbody> players = new HashSet<Rigidbody>();
 
     // Start is called before the first frame update
     void Start()
@@ -26,9 +26,15 @@ public class DrumJumper : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if ((collision.gameObject.layer == 9 || collision.gameObject.layer == 3) && collision.gameObject.TryGetComponent(out Rigidbody player)/* && !players.Contains(player)*/)
-        {            
-            //players.Add(player);
+        if ((collision.gameObject.layer == 9 || collision.gameObject.layer == 3) && collision.gameObject.TryGetComponent(out Rigidbody player) && !players.Contains(player))
+        {        
+            players.Add(player);
+            drum.localScale = Vector3.one;
+            drum.DOShakeScale(0.3f, 0.6f, 30).SetEase(Ease.OutQuad);
+
+            StartCoroutine(play(player));
+            /*
+            players.Add(player);
             StartCoroutine(cleanList(player));
             drum.localScale = Vector3.one;
             drum.DOShakeScale(0.3f, 0.6f, 30).SetEase(Ease.OutQuad);
@@ -39,11 +45,38 @@ public class DrumJumper : MonoBehaviour
             if (collision.gameObject.TryGetComponent(out PlayerControl pc))
             {
                 pc.StopJumpPermission(0.5f);
-            }
+            }*/
         }
     }
 
 
+    private IEnumerator play(Rigidbody player)
+    {
+        vfx.SetActive(true);
+        _audio.Play();
+
+        player.velocity = Vector3.zero;
+        player.ResetInertiaTensor();
+
+        yield return new WaitForSeconds(Time.fixedDeltaTime);
+        player.AddForce(dir * force, ForceMode.Impulse);
+        yield return new WaitForSeconds(Time.fixedDeltaTime);
+        players.Remove(player);
+        for (int i = 0; i < 3; i++)
+        {
+            player.AddForce(dir * 10, ForceMode.Impulse); 
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
+        
+
+        yield return new WaitForSeconds(0.3f);
+
+        players.Remove(player);
+        drum.localScale = Vector3.one;
+        vfx.SetActive(false);
+    }
+
+    /*
     private IEnumerator cleanList(Rigidbody player)
     {
         vfx.SetActive(true);
@@ -51,21 +84,10 @@ public class DrumJumper : MonoBehaviour
 
         player.AddForce(dir * 10, ForceMode.Impulse);
 
-        /*
-        for (int j = 0; j < 3; j++)
-        {
-            player.AddForce(dir * force/10f, ForceMode.Force);
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
-        }
-        */
-
         yield return new WaitForSeconds(0.2f);
+
+        players.Remove(player);
         drum.localScale = Vector3.one;
         vfx.SetActive(false);
-
-        //if (players.Contains(player))
-        //{
-        //    players.Remove(player);
-        //}
-    }
+    }*/
 }
