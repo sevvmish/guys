@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,13 @@ public class Globals : MonoBehaviour
 {
     public static PlayerData MainPlayerData;
     public static bool IsSoundOn;
+    public static bool IsInitiated;
     public static string CurrentLanguage;
+    public static Translation Language;
+
+    public static DateTime TimeWhenStartedPlaying;
+    public static DateTime TimeWhenLastInterstitialWas;
+    public static DateTime TimeWhenLastRewardedWas;
 
     public static GameTypes CurrentGameType;
 

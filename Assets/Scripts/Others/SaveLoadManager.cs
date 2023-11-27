@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Linq;
-using GamePush;
+using YG;
 
 public class SaveLoadManager
 {
@@ -14,16 +14,12 @@ public class SaveLoadManager
         Globals.MainPlayerData.S = Globals.IsSoundOn ? 1 : 0;
 
         string data = JsonUtility.ToJson(Globals.MainPlayerData);
-        //Debug.Log("saved: " + data);
         PlayerPrefs.SetString(ID, data);
-
-        //YandexGame.savesData.PlayerMainData1 = data;
+        YandexGame.savesData.MainSave1 = data;
 
         try
-        {
-            GP_Player.Set("save", data);
-            GP_Player.Sync();
-            //YandexGame.SaveProgress();
+        {            
+            YandexGame.SaveProgress();
         }
         catch (System.Exception ex)
         {
@@ -36,50 +32,49 @@ public class SaveLoadManager
     public static void Load()
     {
         string fromSave = "";
-        //YandexGame.LoadProgress();
+        YandexGame.LoadProgress();
 
         try
         {
-            if (GP_Player.Has("save"))
-            {                
-                fromSave = GP_Player.GetString("save");
-
-                if (string.IsNullOrEmpty(fromSave))
-                {
-                    Globals.MainPlayerData = new PlayerData();
-                }
-                else
-                {
-                    Globals.MainPlayerData = JsonUtility.FromJson<PlayerData>(fromSave);
-                }
-
-                
-                Debug.Log("result - "+fromSave);
-            }
-            else
-            {
-                fromSave = PlayerPrefs.GetString(ID);
-
-                if (string.IsNullOrEmpty(fromSave))
-                {
-                    Globals.MainPlayerData = new PlayerData();
-                }
-                else
-                {
-                    Globals.MainPlayerData = JsonUtility.FromJson<PlayerData>(fromSave);
-                }
-                
-            }
-            
-            
+            fromSave = YandexGame.savesData.MainSave1;
         }
         catch (System.Exception ex)
         {
             Debug.LogError(ex);
             Debug.LogError("error loading data, defaults loaded");
-            Globals.MainPlayerData = new PlayerData();
+
         }
-     
+
+
+        if (!string.IsNullOrEmpty(fromSave))
+        {
+
+
+            Debug.Log("loaded: " + fromSave);
+            try
+            {
+                Globals.MainPlayerData = JsonUtility.FromJson<PlayerData>(fromSave);
+            }
+            catch (System.Exception)
+            {
+                Globals.MainPlayerData = new PlayerData();
+            }
+
+        }
+        else
+        {
+            fromSave = PlayerPrefs.GetString(ID);
+
+            if (string.IsNullOrEmpty(fromSave))
+            {
+                Globals.MainPlayerData = new PlayerData();
+            }
+            else
+            {
+                Globals.MainPlayerData = JsonUtility.FromJson<PlayerData>(fromSave);
+            }
+        }
+
     }
 
 }

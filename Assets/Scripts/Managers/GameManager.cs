@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using GamePush;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -56,9 +55,6 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-
-        Globals.IsMobile = GP_Device.IsMobile();
-        GP_Ads.ShowSticky();
         
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
         cameraControl.SetData(mainPlayer, cameraBody, _camera.transform);
