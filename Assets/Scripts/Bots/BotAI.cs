@@ -167,8 +167,7 @@ public class BotAI : MonoBehaviour
         {
             playerControl.SetForward(false);
             return;
-        }
-            
+        }   
 
         isChecked = Physics.CheckBox(playerTransform.position + playerTransform.forward, new Vector3(0.2f, 1.2f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
             
@@ -177,11 +176,19 @@ public class BotAI : MonoBehaviour
             currentAction = jumpForwardNoGround;
             return;
         }
-
+        
         isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * 0.7f + playerTransform.forward, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
 
         if (isChecked)
         {
+            isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * (oneJumpAltitude + 0.4f) + playerTransform.forward, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
+
+            if (!isChecked && IsCanJump)
+            {
+                currentAction = jumpForwardHighGround;
+                return;
+            }
+
             isChecked = Physics.CheckBox(playerTransform.position + Vector3.up * 0.7f + playerTransform.forward + Vector3.left, new Vector3(0.2f, 0.2f, 0.2f), playerTransform.rotation, ~Globals.ignoreTriggerMask);
             if (!isChecked)
             {
@@ -195,15 +202,7 @@ public class BotAI : MonoBehaviour
                 {
                     StartCoroutine(littleTurn(Vector3.right));
                     return;
-                }
-                else
-                {
-                    if (isChecked && IsCanJump)
-                    {
-                        currentAction = jumpForwardHighGround;
-                        return;
-                    }
-                }
+                }                
             }
         }
 

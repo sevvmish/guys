@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private Transform cameraBody;    
     [SerializeField] private CameraControl cameraControl;
-    [SerializeField] private AssetManager assetManager;
     [SerializeField] private Transform playersLocation;
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private Transform vfx;
@@ -24,11 +23,9 @@ public class GameManager : MonoBehaviour
     public Camera GetCamera() => _camera;
     public Transform GetCameraBody() => cameraBody;
     public CameraControl GetCameraControl() => cameraControl;
-    public AssetManager GetAssetManager() => assetManager;
     public Transform GetPlayersLocation() => playersLocation;
     public Transform GetMainPlayerTransform() => mainPlayer;
     public Transform GetVFX() => vfx;
-    //public Vector3 BotPoints;
 
     //GAME START
     public float GameSecondsPlayed { get; private set; }
@@ -179,10 +176,24 @@ public class GameManager : MonoBehaviour
 
     private GameObject addPlayer(bool isMain, Vector3 pos, Vector3 rot)
     {
-        GameObject g = Instantiate(assetManager.GetPlayerSkin(PLayerSkin.test), playersLocation);
+        //main template
+        GameObject g = Instantiate(SkinControl.GetSkinGameobject(Skins.main_player_template), playersLocation);
         g.transform.position = pos;
         g.transform.eulerAngles = rot;
-        g.SetActive(true);
+        
+
+        //vfx
+        GameObject vfx = Instantiate(Resources.Load<GameObject>("player vfx"), g.transform);
+        vfx.transform.localPosition = Vector3.zero;
+        vfx.transform.localEulerAngles = Vector3.zero;
+        g.GetComponent<PlayerControl>().SetEffectControl(vfx.GetComponent<EffectsControl>());
+
+        //player
+        GameObject skin = Instantiate(SkinControl.GetSkinGameobject(Skins.pomni), g.transform);
+        skin.transform.localPosition = Vector3.zero;
+        skin.transform.localEulerAngles = Vector3.zero;
+        SkinControl skinControl = skin.GetComponent<SkinControl>();
+        g.GetComponent<PlayerControl>().SetSkinData(skinControl.ragdollColliders, skinControl._animator, Skins.pomni);
 
         if (isMain)
         {
@@ -196,9 +207,12 @@ public class GameManager : MonoBehaviour
             bots.Add(g.GetComponent<PlayerControl>());
         }
 
+        g.SetActive(true);
+
         return g;
     }
 
+    
 }
 
 public interface Explosives

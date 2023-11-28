@@ -7,6 +7,7 @@ public class RagdollPartCollisionChecker : MonoBehaviour
     public bool IsRagdollHasContact;
     public PlayerControl LinkToPlayerControl;
 
+    /*
     private void OnCollisionEnter(Collision collision)
     {
         if (collision != null && collision.gameObject.layer != 3 && !collision.gameObject.CompareTag("Player"))
@@ -21,5 +22,5 @@ public class RagdollPartCollisionChecker : MonoBehaviour
         {
             IsRagdollHasContact = false;
         }
-    }
+    }*/
 }

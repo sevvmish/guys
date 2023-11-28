@@ -8,14 +8,15 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     [Header("Controls")]    
-    public Animator _animator;
+    private Animator _animator;
+    public Skins CurrentSkin { get; private set; }
     public AnimationStates AnimationState { get; private set; }
     public bool IsItMainPlayer { get; private set; }
     private ConditionControl conditions;
-    public EffectsControl effectsControl;
+    private EffectsControl effectsControl;
 
     [Header("Ragdoll")]
-    public CapsuleCollider[] ragdollColliders;
+    private CapsuleCollider[] ragdollColliders;
     private Rigidbody[] ragdollRigidbodies;
     private Vector3[] ragdollPos;
     private Vector3[] ragdollRot;
@@ -24,10 +25,6 @@ public class PlayerControl : MonoBehaviour
     private bool isRagdollHasContact;
     private RagdollPartCollisionChecker collisionChecker;
 
-    /*
-    public Transform CurrentActivePlatform { get; private set; }
-    public bool IsOnPlatform { get; private set; }
-    public Transform DangerZone { get; private set; }*/
     private Transform playerLocation;
 
     //INPUT
@@ -72,7 +69,7 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody _rigidbody;
     private CapsuleCollider mainCollider;
     private Transform _transform;
-    public GameManager gm;
+    private GameManager gm;
     private CameraControl cc;
     private BotAI bot;
 
@@ -103,10 +100,19 @@ public class PlayerControl : MonoBehaviour
         IsCanAct = true;
         IsCanJump = true;
         IsCanWalk = true;
+    }
 
+    public void SetEffectControl(EffectsControl ef) => effectsControl = ef;
+
+    public void SetSkinData(CapsuleCollider[] ragdolls, Animator anim, Skins skin)
+    {
+        CurrentSkin = skin;
+
+        _animator = anim;
         AnimationState = AnimationStates.Idle;
         _animator.Play("Idle");
 
+        ragdollColliders = ragdolls;
 
         ragdollRigidbodies = new Rigidbody[ragdollColliders.Length];
         ragdollPos = new Vector3[ragdollColliders.Length];
@@ -123,9 +129,10 @@ public class PlayerControl : MonoBehaviour
             ragdollPos[i] = ragdollColliders[i].transform.localPosition;
             ragdollRot[i] = ragdollColliders[i].transform.localEulerAngles;
         }
+        ragdollRigidbodies[0].gameObject.AddComponent<RagdollPartCollisionChecker>();
         collisionChecker = ragdollRigidbodies[0].GetComponent<RagdollPartCollisionChecker>();
+        collisionChecker.LinkToPlayerControl = this;
         IsRagdollActive = false;
-        
     }
 
     public void SetPlayerToMain()
@@ -552,7 +559,18 @@ public class PlayerControl : MonoBehaviour
 
         if (collision != null && collision.collider.gameObject.layer == Globals.LAYER_PLAYER && collision.gameObject.TryGetComponent(out Rigidbody another))
         {
-            another.AddForce((another.transform.position - _transform.position).normalized * Globals.PLAYERS_COLLIDE_FORCE, ForceMode.Impulse);
+            if (another.TryGetComponent(out ConditionControl cc) && !cc.HasCondition(Conditions.frozen))
+            {
+                another.AddForce((another.transform.position - _transform.position).normalized * Globals.PLAYERS_COLLIDE_FORCE, ForceMode.Impulse);
+            }
+
+            int rnd = UnityEngine.Random.Range(0, 100);
+
+            if (rnd > 75)
+            {
+                effectsControl.MakeSmallPunchSound();
+            }
+            
             _rigidbody.AddForce((_transform.position - another.transform.position).normalized * Globals.PLAYERS_COLLIDE_FORCE, ForceMode.Impulse);
         }
     }
@@ -616,8 +634,18 @@ public class PlayerControl : MonoBehaviour
         collisionChecker.IsRagdollHasContact = false;
         _animator.enabled = true;
         AnimationState = AnimationStates.None;
-        IsCanAct = true;
+       
         IsRagdollActive = false;
+        IsCanAct = true;
+        IsCanWalk = true;
+
+        if (!IsItMainPlayer)
+        {        
+            if (bot == null) bot = GetComponent<BotAI>();
+            bot.IsCanDoubleJump = true;
+            bot.IsCanJump = true;
+            bot.IsCanRun = true;
+        }
     }
 
     public void Respawn(Vector3 pos, Vector3 rot)
@@ -632,10 +660,14 @@ public class PlayerControl : MonoBehaviour
         IsJumping = false;
         IsFloating = false;
         IsSecondJump = false;
+
+        yield return new WaitForSeconds(0.2f);
+
+
+        IsCanAct = true;
         IsCanJump = true;
         IsCanWalk = true;
 
-        yield return new WaitForSeconds(0.2f);
         if (IsRagdollActive) SetRagdollState(false);
         _rigidbody.velocity = Vector3.zero;
         _animator.StopPlayback();
@@ -665,10 +697,9 @@ public class PlayerControl : MonoBehaviour
         effectsControl.PlayRespawnEffect();
 
         IsDead = false;
-        IsCanAct = true;
+        
         PlayerCurrentSpeed = PlayerMaxSpeed;
     }
-
 
     public void ApplyTrapForce(Vector3 forceVector, Vector3 contactPoint, ApplyForceType punchType, float additionalForce)
     {
@@ -677,21 +708,22 @@ public class PlayerControl : MonoBehaviour
                 
         if (forceVector.magnitude > 30)
         {
-            effectsControl.MakeFunnySound(50);
+            effectsControl.MakeFunnySound(80);
         }
 
         effectsControl.PlayPunchEffect(punchType, contactPoint);
 
         SetRagdollState(true);
-        
+
+        ragdollRigidbodies[0].AddRelativeTorque(new Vector3(0, 1, 0.5f) * 1000f, ForceMode.Impulse);
+
         for (int i = 0; i < ragdollRigidbodies.Length; i++)
         {            
-            ragdollRigidbodies[i].velocity = forceVector * additionalForce;
-            
+            ragdollRigidbodies[i].velocity = forceVector * additionalForce;            
         }
 
-        ragdollRigidbodies[0].AddRelativeTorque(0, UnityEngine.Random.Range(-10, 10) * 10, 0, ForceMode.Impulse);
-
+        
+        
         if (punchType == ApplyForceType.Punch_large)
         {            
             StartCoroutine(addAdditionalForceWhenLargePunch(forceVector));
@@ -699,6 +731,7 @@ public class PlayerControl : MonoBehaviour
 
         StartCoroutine(playTurnOffRagdoll());
     }
+
     private IEnumerator playTurnOffRagdoll()
     {
         float timer = 0;
@@ -716,6 +749,7 @@ public class PlayerControl : MonoBehaviour
         //yield return new WaitForSeconds(0.5f);
         SetRagdollState(false);
     }
+    
     private IEnumerator addAdditionalForceWhenLargePunch(Vector3 addForce)
     {
         yield return new WaitForSeconds(Time.fixedDeltaTime);

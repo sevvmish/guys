@@ -25,6 +25,11 @@ public class EffectsControl : MonoBehaviour
     [SerializeField] private GameObject woohooSound2;
     [SerializeField] private GameObject yiihaaSound;
 
+    [SerializeField] private GameObject woohooGirlSound;
+    [SerializeField] private GameObject woohooGirlSound2;
+
+    [SerializeField] private GameObject smallPunchSound;
+
 
     [SerializeField] private GameObject jumpEffect;
     private AudioSource jumpSound;
@@ -56,6 +61,11 @@ public class EffectsControl : MonoBehaviour
         woohooSound2.SetActive(false);
         yiihaaSound.SetActive(false);
 
+        woohooGirlSound.SetActive(false);
+        woohooGirlSound2.SetActive(false);
+
+        smallPunchSound.SetActive(false);
+
         frozen.SetActive(false);
     }
 
@@ -75,6 +85,11 @@ public class EffectsControl : MonoBehaviour
         jumpSound.Play();
     }
 
+    public void MakeSmallPunchSound()
+    {
+        StartCoroutine(playEffect(1, smallPunchSound));
+    }
+
     public void MakeWoohooSound()
     {
         StartCoroutine(playEffect(1, woohooSound));
@@ -83,6 +98,16 @@ public class EffectsControl : MonoBehaviour
     public void MakeWoohooSound2()
     {
         StartCoroutine(playEffect(1, woohooSound2));
+    }
+
+    public void MakeWoohooGirlSound()
+    {
+        StartCoroutine(playEffect(1, woohooGirlSound));
+    }
+
+    public void MakeWoohooGirlSound2()
+    {
+        StartCoroutine(playEffect(1, woohooGirlSound2));
     }
 
     public void MakeFunnySound()
@@ -99,21 +124,41 @@ public class EffectsControl : MonoBehaviour
 
         if (rnd > chanceFrom100) return;
 
-        rnd = UnityEngine.Random.Range(0, 3);
-        switch (rnd)
+        if (pc.CurrentSkin == Skins.pomni)
         {
-            case 0:
-                MakeWoohooSound();
-                break;
+            
+            rnd = UnityEngine.Random.Range(0, 2);
+            switch (rnd)
+            {
+                case 0:
+                    MakeWoohooGirlSound();
+                    break;
 
-            case 1:
-                MakeYiihaaSound();
-                break;
-
-            case 2:
-                MakeWoohooSound2();
-                break;
+                case 1:
+                    MakeWoohooGirlSound2();
+                    break;
+            }
         }
+        else
+        {
+            rnd = UnityEngine.Random.Range(0, 3);
+            switch (rnd)
+            {
+                case 0:
+                    MakeWoohooSound();
+                    break;
+
+                case 1:
+                    MakeYiihaaSound();
+                    break;
+
+                case 2:
+                    MakeWoohooSound2();
+                    break;
+            }
+        }
+
+        
     }
 
     public void MakeYiihaaSound()
