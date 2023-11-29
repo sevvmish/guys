@@ -31,19 +31,18 @@ public class InputControl : MonoBehaviour
         cameraControl = GameManager.Instance.GetCameraControl();
         playerControl = gameObject.GetComponent<PlayerControl>();
         playerTransform = playerControl.transform;
-        jump = GameObject.Find("JumpButton").GetComponent<PointerBase>();
-        mover = GameObject.Find("Screen mover").GetComponent<PointerBase>();
+        
         if (!Globals.IsMobile)
         {       
-            joystick.gameObject.SetActive(false);
-            jump.gameObject.SetActive(false);
+            
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.lockState = CursorLockMode.Confined;            
             Cursor.visible = false;
         }
         else
         {
-
+            jump = GameObject.Find("JumpButton").GetComponent<PointerBase>();
+            mover = GameObject.Find("Screen mover").GetComponent<PointerBase>();
         }
     }
 
@@ -152,7 +151,7 @@ public class InputControl : MonoBehaviour
             playerControl.SetVertical(vertical);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(1))
         {
             playerControl.SetJump();
         }
@@ -160,7 +159,7 @@ public class InputControl : MonoBehaviour
         Vector3 mouseDelta = Input.mousePosition - mousePosition;
         //gm.GetTestText().text = Input.mousePosition + " = " + mouseDelta;
 
-        if ((mouseDelta.x > 0 && Input.mousePosition.x < (Screen.width-1)) || (mouseDelta.x < 0 && (Input.mousePosition.x > 0)))
+        if ((mouseDelta.x > 0 && Input.mousePosition.x < (Screen.width-5)) || (mouseDelta.x < 0 && (Input.mousePosition.x > 5)))
         {
             float koeff = mouseDelta.x * 20 * Time.deltaTime;
 
@@ -175,11 +174,11 @@ public class InputControl : MonoBehaviour
             
             playerControl.SetRotationAngle(koeff);
         }
-        else if (Input.mousePosition.x >= Screen.width-1)
+        else if (Input.mousePosition.x >= Screen.width-5)
         {
             playerControl.SetRotationAngle(XLimit * 0.5f);
         }
-        else if (Input.mousePosition.x <= 0)
+        else if (Input.mousePosition.x <= 5)
         {
             playerControl.SetRotationAngle(-XLimit * 0.5f);
         }
