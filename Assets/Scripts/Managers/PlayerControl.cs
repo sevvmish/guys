@@ -715,14 +715,13 @@ public class PlayerControl : MonoBehaviour
 
         SetRagdollState(true);
 
-        ragdollRigidbodies[0].AddRelativeTorque(new Vector3(0, 1, 0.5f) * 1000f, ForceMode.Impulse);
+        //ragdollRigidbodies[0].AddRelativeTorque(new Vector3(0, 1, 0.5f) * 1000f, ForceMode.Impulse);
 
         for (int i = 0; i < ragdollRigidbodies.Length; i++)
         {            
-            ragdollRigidbodies[i].velocity = forceVector * additionalForce;            
+            ragdollRigidbodies[i].velocity = forceVector * additionalForce;
+            //ragdollRigidbodies[i].AddTorque(new Vector3(0, 1, 0.5f) * 1000f, ForceMode.Impulse);
         }
-
-        
         
         if (punchType == ApplyForceType.Punch_large)
         {            
@@ -735,13 +734,19 @@ public class PlayerControl : MonoBehaviour
     private IEnumerator playTurnOffRagdoll()
     {
         float timer = 0;
-        while (ragdollRigidbodies[0].velocity.magnitude > Globals.BASE_SPEED)
+        while (ragdollRigidbodies[0].velocity.magnitude > Globals.BASE_SPEED && !IsDead)
         {
             timer += 0.1f;
             yield return new WaitForSeconds(0.1f);
         }
 
-        if (timer < 1)
+        while(!IsGrounded && !IsDead)
+        {
+            timer += 0.1f;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        if (timer < 1 && !IsDead)
         {
             yield return new WaitForSeconds(1 - timer);
         }

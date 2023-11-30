@@ -91,5 +91,6 @@ public enum LevelTypes
 {
     none,
     level1,
-    level2
+    level2,
+    circus1
 }

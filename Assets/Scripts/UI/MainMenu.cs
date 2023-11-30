@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour
     private void startTheGame()
     {
         YandexGame.StickyAdActivity(true);
-        SceneManager.LoadScene("level1");
+        SceneManager.LoadScene("level2");
     }
 
     private void Update()

@@ -10,6 +10,8 @@ public class ScreenSaver : MonoBehaviour
     [SerializeField] private RectTransform[] type1;
     [SerializeField] private RectTransform[] type2;
 
+    private readonly float additionalWait = 0.3f;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -25,39 +27,39 @@ public class ScreenSaver : MonoBehaviour
         type1[0].anchoredPosition = new Vector3(0, 0, 0);
 
         type1[1].gameObject.SetActive(true);
-        type1[1].anchoredPosition = new Vector3 (0, 440, 0);
+        type1[1].anchoredPosition = new Vector3 (0, 800, 0);
 
         type1[2].gameObject.SetActive(true);
-        type1[2].anchoredPosition = new Vector3(0, -440, 0);
+        type1[2].anchoredPosition = new Vector3(0, -800, 0);
 
         type2[0].gameObject.SetActive(true);
-        type2[0].anchoredPosition = new Vector3(0, 220, 0);
+        type2[0].anchoredPosition = new Vector3(0, 400, 0);
 
         type2[1].gameObject.SetActive(true);
-        type2[1].anchoredPosition = new Vector3(0, -220, 0);
+        type2[1].anchoredPosition = new Vector3(0, -400, 0);
     }
 
     public void HideScreen()
     {
         type1[0].gameObject.SetActive(true);
-        type1[0].anchoredPosition = new Vector3(-2200, 0, 0);
-        type1[0].DOAnchorPos3D(new Vector3(0, 0, 0), Globals.SCREEN_SAVER_AWAIT).SetEase(Ease.Linear);
+        type1[0].anchoredPosition = new Vector3(-3000, 0, 0);
+        type1[0].DOAnchorPos3D(new Vector3(0, 0, 0), Globals.SCREEN_SAVER_AWAIT + additionalWait).SetEase(Ease.Linear);
 
         type1[1].gameObject.SetActive(true);
-        type1[1].anchoredPosition = new Vector3(-2200, 440, 0);
-        type1[1].DOAnchorPos3D(new Vector3(0, 440, 0), Globals.SCREEN_SAVER_AWAIT).SetEase(Ease.Linear);
+        type1[1].anchoredPosition = new Vector3(-3000, 800, 0);
+        type1[1].DOAnchorPos3D(new Vector3(0, 800, 0), Globals.SCREEN_SAVER_AWAIT + additionalWait).SetEase(Ease.Linear);
 
         type1[2].gameObject.SetActive(true);
-        type1[2].anchoredPosition = new Vector3(-2200, -440, 0);
-        type1[2].DOAnchorPos3D(new Vector3(0, -440, 0), Globals.SCREEN_SAVER_AWAIT).SetEase(Ease.Linear);
+        type1[2].anchoredPosition = new Vector3(-3000, -800, 0);
+        type1[2].DOAnchorPos3D(new Vector3(0, -800, 0), Globals.SCREEN_SAVER_AWAIT + additionalWait).SetEase(Ease.Linear);
 
         type2[0].gameObject.SetActive(true);
-        type2[0].anchoredPosition = new Vector3(2200, 220, 0);
-        type2[0].DOAnchorPos3D(new Vector3(0, 220, 0), Globals.SCREEN_SAVER_AWAIT).SetEase(Ease.Linear);
+        type2[0].anchoredPosition = new Vector3(3000, 400, 0);
+        type2[0].DOAnchorPos3D(new Vector3(0, 400, 0), Globals.SCREEN_SAVER_AWAIT + additionalWait).SetEase(Ease.Linear);
 
         type2[1].gameObject.SetActive(true);
-        type2[1].anchoredPosition = new Vector3(2200, -220, 0);
-        type2[1].DOAnchorPos3D(new Vector3(0, -220, 0), Globals.SCREEN_SAVER_AWAIT).SetEase(Ease.Linear);
+        type2[1].anchoredPosition = new Vector3(3000, -400, 0);
+        type2[1].DOAnchorPos3D(new Vector3(0, -400, 0), Globals.SCREEN_SAVER_AWAIT + additionalWait).SetEase(Ease.Linear);
     }
 
     public void ShowScreen()
@@ -65,42 +67,42 @@ public class ScreenSaver : MonoBehaviour
         if (Globals.IsDevelopmentBuild)
         {
             type1[0].gameObject.SetActive(true);
-            type1[0].anchoredPosition = new Vector3(-2200, 0, 0);
+            type1[0].anchoredPosition = new Vector3(-3000, 0, 0);
 
             type1[1].gameObject.SetActive(true);
-            type1[1].anchoredPosition = new Vector3(-2200, 440, 0);
+            type1[1].anchoredPosition = new Vector3(-3000, 800, 0);
 
             type1[2].gameObject.SetActive(true);
-            type1[2].anchoredPosition = new Vector3(-2200, -440, 0);
+            type1[2].anchoredPosition = new Vector3(-3000, -800, 0);
 
             type2[0].gameObject.SetActive(true);
-            type2[0].anchoredPosition = new Vector3(2200, 220, 0);
+            type2[0].anchoredPosition = new Vector3(3000, 400, 0);
 
             type2[1].gameObject.SetActive(true);
-            type2[1].anchoredPosition = new Vector3(2200, -220, 0);
+            type2[1].anchoredPosition = new Vector3(3000, -400, 0);
             StartCoroutine(deactivateAfter(0));
             return;
         }
 
         type1[0].gameObject.SetActive(true);
         type1[0].anchoredPosition = new Vector3(0, 0, 0);
-        type1[0].DOAnchorPos3D(new Vector3(-2200, 0, 0), Globals.SCREEN_SAVER_AWAIT).SetEase(Ease.Linear);
+        type1[0].DOAnchorPos3D(new Vector3(-3000, 0, 0), Globals.SCREEN_SAVER_AWAIT + additionalWait).SetEase(Ease.Linear);
 
         type1[1].gameObject.SetActive(true);
-        type1[1].anchoredPosition = new Vector3(0, 440, 0);
-        type1[1].DOAnchorPos3D(new Vector3(-2200, 440, 0), Globals.SCREEN_SAVER_AWAIT).SetEase(Ease.Linear);
+        type1[1].anchoredPosition = new Vector3(0, 800, 0);
+        type1[1].DOAnchorPos3D(new Vector3(-3000, 800, 0), Globals.SCREEN_SAVER_AWAIT + additionalWait).SetEase(Ease.Linear);
 
         type1[2].gameObject.SetActive(true);
-        type1[2].anchoredPosition = new Vector3(0, -440, 0);
-        type1[2].DOAnchorPos3D(new Vector3(-2200, -440, 0), Globals.SCREEN_SAVER_AWAIT).SetEase(Ease.Linear);
+        type1[2].anchoredPosition = new Vector3(0, -800, 0);
+        type1[2].DOAnchorPos3D(new Vector3(-3000, -800, 0), Globals.SCREEN_SAVER_AWAIT + additionalWait).SetEase(Ease.Linear);
 
         type2[0].gameObject.SetActive(true);
-        type2[0].anchoredPosition = new Vector3(0, 220, 0);
-        type2[0].DOAnchorPos3D(new Vector3(2200, 220, 0), Globals.SCREEN_SAVER_AWAIT).SetEase(Ease.Linear);
+        type2[0].anchoredPosition = new Vector3(0, 400, 0);
+        type2[0].DOAnchorPos3D(new Vector3(3000, 400, 0), Globals.SCREEN_SAVER_AWAIT + additionalWait).SetEase(Ease.Linear);
 
         type2[1].gameObject.SetActive(true);
-        type2[1].anchoredPosition = new Vector3(0, -220, 0);
-        type2[1].DOAnchorPos3D(new Vector3(2200, -220, 0), Globals.SCREEN_SAVER_AWAIT).SetEase(Ease.Linear);
+        type2[1].anchoredPosition = new Vector3(0, -400, 0);
+        type2[1].DOAnchorPos3D(new Vector3(3000, -400, 0), Globals.SCREEN_SAVER_AWAIT + additionalWait).SetEase(Ease.Linear);
 
         StartCoroutine(deactivateAfter(Globals.SCREEN_SAVER_AWAIT));
     }

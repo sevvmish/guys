@@ -6866,6 +6866,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 528e78f34dd8b1a409cc6262f0e48ff2, type: 3}
+--- !u!1 &609989993
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 609989994}
+  m_Layer: 0
+  m_Name: VFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &609989994
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609989993}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &610368642
 GameObject:
   m_ObjectHideFlags: 0
@@ -25891,7 +25922,7 @@ MonoBehaviour:
   - 1
   - 2
   - 2
-  countDown: {fileID: 0}
+  countDown: {fileID: 3962644428191899905}
   startPoint: {fileID: 99153192}
   levelType: 1
 --- !u!1001 &1469279225
@@ -33307,13 +33338,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7689549522656249640, guid: 85acf672b5767594a8241c2f47637248, type: 3}
+      propertyPath: vfx
+      value: 
+      objectReference: {fileID: 609989994}
+    - target: {fileID: 7689549522656249640, guid: 85acf672b5767594a8241c2f47637248, type: 3}
       propertyPath: _camera
       value: 
       objectReference: {fileID: 963194227}
     - target: {fileID: 7689549522656249640, guid: 85acf672b5767594a8241c2f47637248, type: 3}
       propertyPath: joystick
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3962644428191899903}
+    - target: {fileID: 7689549522656249640, guid: 85acf672b5767594a8241c2f47637248, type: 3}
+      propertyPath: testText
+      value: 
+      objectReference: {fileID: 3962644428191899904}
     - target: {fileID: 7689549522656249640, guid: 85acf672b5767594a8241c2f47637248, type: 3}
       propertyPath: cameraBody
       value: 
@@ -33335,6 +33374,39 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85acf672b5767594a8241c2f47637248, type: 3}
+--- !u!114 &3962644428191899903 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6358153100215375986, guid: 85acf672b5767594a8241c2f47637248, type: 3}
+  m_PrefabInstance: {fileID: 3962644428191899902}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a47f546fc70ec8428172694e78e4288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3962644428191899904 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5342149524904394861, guid: 85acf672b5767594a8241c2f47637248, type: 3}
+  m_PrefabInstance: {fileID: 3962644428191899902}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3962644428191899905 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7092523712754118570, guid: 85acf672b5767594a8241c2f47637248, type: 3}
+  m_PrefabInstance: {fileID: 3962644428191899902}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2272b48ccf57fb74ca8fb9c63cf39400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4854430820233474699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1771019435717760350, guid: 9ac70f7fe31eb254dacef643bf2f8520, type: 3}
@@ -33586,3 +33658,4 @@ SceneRoots:
   - {fileID: 1332111573}
   - {fileID: 215735219}
   - {fileID: 1468997292}
+  - {fileID: 609989994}

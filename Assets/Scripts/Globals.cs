@@ -19,7 +19,7 @@ public class Globals : MonoBehaviour
     public static GameTypes CurrentGameType;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = true;
+    public static bool IsDevelopmentBuild = false;
 
     public const float BASE_SPEED = 7f;
     public const float JUMP_POWER = 40f;

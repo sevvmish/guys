@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         mainPlayer.GetComponent<PlayerControl>().SetPlayerToMain();
         mainPlayer.gameObject.name = "Main Player";
 
-        ArrangePlayers(15);      
+        //ArrangePlayers(15);      
 
         if (levelManager == null)
         {

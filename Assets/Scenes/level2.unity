@@ -2603,6 +2603,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Little hammer (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3198758239161517380, guid: 08ae832e837ad0248843e9d30a8506aa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3389368108469496352, guid: 08ae832e837ad0248843e9d30a8506aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.76
@@ -6603,6 +6607,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pendulum (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 3173293053084561953, guid: 4f963a8ef05962b49888f87d8bf0d0c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7571,6 +7579,10 @@ PrefabInstance:
     - target: {fileID: 3173293053084561953, guid: 4f963a8ef05962b49888f87d8bf0d0c5, type: 3}
       propertyPath: m_Name
       value: Pendulum (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3173293053084561953, guid: 4f963a8ef05962b49888f87d8bf0d0c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13869,7 +13881,7 @@ MonoBehaviour:
   - 1
   - 2
   - 2
-  countDown: {fileID: 0}
+  countDown: {fileID: 3962644428191899905}
   startPoint: {fileID: 99153192}
   levelType: 2
 --- !u!1001 &1473225633
@@ -20224,11 +20236,11 @@ PrefabInstance:
     - target: {fileID: 7689549522656249640, guid: 85acf672b5767594a8241c2f47637248, type: 3}
       propertyPath: joystick
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3962644428191899904}
     - target: {fileID: 7689549522656249640, guid: 85acf672b5767594a8241c2f47637248, type: 3}
       propertyPath: testText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3962644428191899903}
     - target: {fileID: 7689549522656249640, guid: 85acf672b5767594a8241c2f47637248, type: 3}
       propertyPath: cameraBody
       value: 
@@ -20250,6 +20262,39 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85acf672b5767594a8241c2f47637248, type: 3}
+--- !u!114 &3962644428191899903 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5342149524904394861, guid: 85acf672b5767594a8241c2f47637248, type: 3}
+  m_PrefabInstance: {fileID: 3962644428191899902}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3962644428191899904 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6358153100215375986, guid: 85acf672b5767594a8241c2f47637248, type: 3}
+  m_PrefabInstance: {fileID: 3962644428191899902}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a47f546fc70ec8428172694e78e4288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3962644428191899905 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7092523712754118570, guid: 85acf672b5767594a8241c2f47637248, type: 3}
+  m_PrefabInstance: {fileID: 3962644428191899902}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2272b48ccf57fb74ca8fb9c63cf39400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4003721307533512481
 PrefabInstance:
   m_ObjectHideFlags: 0
