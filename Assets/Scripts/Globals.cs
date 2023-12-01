@@ -8,9 +8,13 @@ public class Globals : MonoBehaviour
 {
     public static PlayerData MainPlayerData;
     public static bool IsSoundOn;
+    public static bool IsMusicOn;
     public static bool IsInitiated;
     public static string CurrentLanguage;
     public static Translation Language;
+
+    public static int CurrentMapCircus = 0;
+    public static int CurrentRespawnPointOnMap = 0;
 
     public static DateTime TimeWhenStartedPlaying;
     public static DateTime TimeWhenLastInterstitialWas;
@@ -19,7 +23,7 @@ public class Globals : MonoBehaviour
     public static GameTypes CurrentGameType;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = false;
+    public static bool IsDevelopmentBuild = true;
 
     public const float BASE_SPEED = 7f;
     public const float JUMP_POWER = 40f;

@@ -737,7 +737,7 @@ function InitPlayer(sendback) {
                 resolve(NotAuthorized());
             }
             else {
-                let _scopes = false;
+                let _scopes = true;
                 ysdk.getPlayer({ scopes: _scopes })
                     .then(_player => {
                         player = _player;

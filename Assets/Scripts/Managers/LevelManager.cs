@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
     private GameManager gm;
 
     public Transform GetStartPoint => startPoint;
+    public LevelTypes GetCurrentLevelType() { return levelType; }
 
     // Start is called before the first frame update
     void Start()

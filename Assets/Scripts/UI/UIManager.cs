@@ -18,10 +18,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI letterRight;
     [SerializeField] private TextMeshProUGUI signJump;
 
+    [Header("tutorials")]
+    [SerializeField] private GameObject doubleJumpHint;
+    public void SetDoubleJumpHint(bool isActive) => doubleJumpHint.SetActive(isActive);
 
     // Start is called before the first frame update
     void Start()
     {
+        doubleJumpHint.SetActive(false);
+
+
         if (Globals.IsMobile)
         {
             lettersHelper.SetActive(false);

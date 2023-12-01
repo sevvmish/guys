@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform playersLocation;
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private Transform vfx;
+    [SerializeField] private UIManager mainUI;
 
     public Joystick GetJoystick() => joystick;
     public Camera GetCamera() => _camera;
@@ -26,6 +27,8 @@ public class GameManager : MonoBehaviour
     public Transform GetPlayersLocation() => playersLocation;
     public Transform GetMainPlayerTransform() => mainPlayer;
     public Transform GetVFX() => vfx;
+    public UIManager GetUI() => mainUI;
+    public LevelManager GetLevelManager() => levelManager;
 
     //GAME START
     public float GameSecondsPlayed { get; private set; }
@@ -65,6 +68,7 @@ public class GameManager : MonoBehaviour
             IsGameStarted = true;
             addPlayer(false, Vector3.zero, Vector3.zero);
         }
+
         
     }
 
@@ -143,6 +147,12 @@ public class GameManager : MonoBehaviour
         if (IsGameStarted)
         {
             GameSecondsPlayed += Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Globals.MainPlayerData.M1 = 0;
+            SaveLoadManager.Save();
         }
     }
 

@@ -19,7 +19,15 @@ public class MainMenu : MonoBehaviour
     private void startTheGame()
     {
         YandexGame.StickyAdActivity(true);
-        SceneManager.LoadScene("level2");
+
+        switch (Globals.MainPlayerData.CM)
+        {
+            case 0:
+                Globals.CurrentRespawnPointOnMap = Globals.MainPlayerData.M1;
+                break;
+        }
+
+        SceneManager.LoadScene("circus1");
     }
 
     private void Update()
@@ -56,6 +64,8 @@ public class MainMenu : MonoBehaviour
                 Globals.TimeWhenLastInterstitialWas = DateTime.Now;
                 Globals.TimeWhenLastRewardedWas = DateTime.Now;
             }
+
+            Globals.CurrentMapCircus = Globals.MainPlayerData.CM;
 
             Localize();
             startTheGame();

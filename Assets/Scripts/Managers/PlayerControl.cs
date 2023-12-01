@@ -199,22 +199,7 @@ public class PlayerControl : MonoBehaviour
         if (!gm.IsGameStarted || IsFinished) return;
 
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
-                
-        if (Input.GetKeyDown(KeyCode.Q) && IsItMainPlayer)
-        {
-            SetRagdollState(true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.E) && IsItMainPlayer)
-        {
-            SetRagdollState(false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.U) && IsItMainPlayer)
-        {
-            _rigidbody.AddRelativeForce(Vector3.forward * 5, ForceMode.Impulse);
-        }
-
+        
         if (isForward && IsCanWalk)
         {            
             movement(true);
@@ -692,7 +677,7 @@ public class PlayerControl : MonoBehaviour
         AnimationState = AnimationStates.None;
 
         _transform.position = pos;
-        _transform.eulerAngles = rot;
+        _transform.eulerAngles = new Vector3(0, rot.y, 0);
         
         effectsControl.PlayRespawnEffect();
 

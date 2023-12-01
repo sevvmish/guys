@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa747916aa66674d96ea40ca8a480b2, type: 3}
   m_Name: InfoYG
   m_EditorClassIdentifier: 
-  scopes: 0
+  scopes: 1
   playerPhotoSize: 0
   autoGameReadyAPI: 1
   playerInfoSimulation:
@@ -32,7 +32,7 @@ MonoBehaviour:
   testErrorOfRewardedAdsInEditor: 0
   saveCloud: 1
   flush: 1
-  localSaveSync: 0
+  localSaveSync: 1
   saveCloudInterval: 0
   saveOnQuitGame: 0
   quitGameParameters:

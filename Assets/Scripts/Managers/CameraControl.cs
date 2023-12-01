@@ -125,8 +125,10 @@ public class CameraControl : MonoBehaviour
             _timer = 0;
             renderers.Clear();
             renderersToReturn.Clear();
-                    
-            if (Physics.Raycast(mainCamTransformForRaycast.position, (mainPlayer.position + Vector3.up - mainCamTransformForRaycast.position).normalized, out hit, 9, ~ignoreMask))
+
+            float distance = (mainPlayer.position + Vector3.up - mainCamTransformForRaycast.position).magnitude;
+
+            if (Physics.Raycast(mainCamTransformForRaycast.position, (mainPlayer.position + Vector3.up - mainCamTransformForRaycast.position).normalized, out hit, distance, ~ignoreMask))
             {
                 if (hit.collider.TryGetComponent(out MeshRenderer mr) && !hit.collider.gameObject.isStatic)
                 {                    
