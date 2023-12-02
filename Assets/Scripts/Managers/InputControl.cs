@@ -171,15 +171,18 @@ public class InputControl : MonoBehaviour
             {
                 koeff = -XLimit;
             }
-            
+
+            Cursor.lockState = CursorLockMode.Confined;
             playerControl.SetRotationAngle(koeff);
         }
         else if (Input.mousePosition.x >= Screen.width-5)
         {
+            Cursor.lockState = CursorLockMode.Locked;
             playerControl.SetRotationAngle(XLimit * 0.5f);
         }
         else if (Input.mousePosition.x <= 5)
         {
+            Cursor.lockState = CursorLockMode.Locked;
             playerControl.SetRotationAngle(-XLimit * 0.5f);
         }
         else

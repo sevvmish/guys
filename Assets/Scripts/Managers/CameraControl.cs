@@ -84,6 +84,11 @@ public class CameraControl : MonoBehaviour
         outerCamera.eulerAngles = Vector3.zero;
     }
 
+    public void ResetCameraOnRespawn(Vector3 vec)
+    {
+        outerCamera.eulerAngles = new Vector3(outerCamera.localEulerAngles.x, vec.y, 0);
+    }
+
     public void ChangeCameraAngleY(float angleY)
     {       
         //outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, angleY, outerCamera.eulerAngles.z);
@@ -94,8 +99,8 @@ public class CameraControl : MonoBehaviour
         if (!Globals.IsMobile && Mathf.Abs(angleX) > 5) return;
         
 
-        if (angleX > 0 && outerCamera.localEulerAngles.x > 20 && outerCamera.localEulerAngles.x < 30) return;
-        if (angleX < 0 && outerCamera.localEulerAngles.x < 340 && outerCamera.localEulerAngles.x > 330) return;
+        if (angleX > 0 && outerCamera.localEulerAngles.x > 30 && outerCamera.localEulerAngles.x < 40) return;
+        if (angleX < 0 && outerCamera.localEulerAngles.x < 330 && outerCamera.localEulerAngles.x > 320) return;
 
         //if ((angleX > 0 && (outerCamera.localEulerAngles.x < 20 || outerCamera.localEulerAngles.x > 340)) || (angleX < 0 && ((outerCamera.localEulerAngles.x > 340 && outerCamera.localEulerAngles.x < 359.9f) || (outerCamera.localEulerAngles.x >= 0 && outerCamera.localEulerAngles.x < 359.9f))))
         //{

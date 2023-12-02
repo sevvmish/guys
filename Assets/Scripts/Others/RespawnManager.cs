@@ -35,11 +35,12 @@ public class RespawnManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
-        
-        GameManager.Instance.GetMainPlayerTransform().position = points[Globals.CurrentRespawnPointOnMap].transform.position;
-        GameManager.Instance.GetMainPlayerTransform().eulerAngles = new Vector3(0, points[Globals.CurrentRespawnPointOnMap].transform.eulerAngles.y, 0);
+        yield return new WaitForSeconds(0.05f);
+        GameManager.Instance.GetMainPlayerTransform().GetComponent<PlayerControl>().FirstRespawn(
+            points[Globals.CurrentRespawnPointOnMap].transform.position,
+            new Vector3(0, points[Globals.CurrentRespawnPointOnMap].transform.eulerAngles.y, 0));
     }
 
     public void AddPoint(int number, RespawnPoint pointT)

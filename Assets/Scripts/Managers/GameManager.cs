@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -151,8 +152,12 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Globals.MainPlayerData.M1 = 0;
+            Globals.MainPlayerData = new PlayerData();
             SaveLoadManager.Save();
+
+            Globals.CurrentRespawnPointOnMap = Globals.MainPlayerData.M1;
+
+            SceneManager.LoadScene("circus1");
         }
     }
 

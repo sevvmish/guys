@@ -633,6 +633,18 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public void FirstRespawn(Vector3 pos, Vector3 rot)
+    {
+        _transform.position = pos;
+        _transform.eulerAngles = new Vector3(0, rot.y, 0);
+
+        if (IsItMainPlayer)
+        {
+            cc.ResetCameraOnRespawn(new Vector3(0, rot.y, 0));
+            angleYForMobile = rot.y;
+        }
+    }
+
     public void Respawn(Vector3 pos, Vector3 rot)
     {        
         StartCoroutine(playRespawn(pos, rot));
@@ -658,8 +670,10 @@ public class PlayerControl : MonoBehaviour
         _animator.StopPlayback();
         if (IsItMainPlayer)
         {
-            cc.ResetCameraOnRespawn();
-            angleYForMobile = 0;
+            cc.ResetCameraOnRespawn(new Vector3(0, rot.y, 0));
+            //angleYForMobile = 0;
+
+            angleYForMobile = rot.y;
         }
         else
         {
@@ -717,7 +731,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     private IEnumerator playTurnOffRagdoll()
-    {
+    {        
         float timer = 0;
         while (ragdollRigidbodies[0].velocity.magnitude > Globals.BASE_SPEED && !IsDead)
         {
@@ -730,6 +744,8 @@ public class PlayerControl : MonoBehaviour
             timer += 0.1f;
             yield return new WaitForSeconds(0.1f);
         }
+
+        
 
         if (timer < 1 && !IsDead)
         {
