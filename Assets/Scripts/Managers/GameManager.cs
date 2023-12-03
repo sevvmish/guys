@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+[DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -70,6 +71,9 @@ public class GameManager : MonoBehaviour
             addPlayer(false, Vector3.zero, Vector3.zero);
         }
 
+        //TODEL
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.M1 = 0;
         
     }
 
@@ -155,7 +159,7 @@ public class GameManager : MonoBehaviour
             Globals.MainPlayerData = new PlayerData();
             SaveLoadManager.Save();
 
-            Globals.CurrentRespawnPointOnMap = Globals.MainPlayerData.M1;
+            //Globals.CurrentRespawnPointOnMap = Globals.MainPlayerData.M1;
 
             SceneManager.LoadScene("circus1");
         }

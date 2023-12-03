@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
         switch (Globals.MainPlayerData.CM)
         {
             case 0:
-                Globals.CurrentRespawnPointOnMap = Globals.MainPlayerData.M1;
+                //Globals.CurrentRespawnPointOnMap = Globals.MainPlayerData.M1;
                 break;
         }
 
@@ -65,7 +65,7 @@ public class MainMenu : MonoBehaviour
                 Globals.TimeWhenLastRewardedWas = DateTime.Now;
             }
 
-            Globals.CurrentMapCircus = Globals.MainPlayerData.CM;
+            //Globals.CurrentMapCircus = Globals.MainPlayerData.CM;
 
             Localize();
             startTheGame();

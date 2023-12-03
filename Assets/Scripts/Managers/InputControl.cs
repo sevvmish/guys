@@ -18,6 +18,8 @@ public class InputControl : MonoBehaviour
     private readonly float XLimit = 10;
     private GameManager gm;
 
+    private bool isLockedUsed;
+
     private bool isTouchZoom;
     private Vector3 zoom1Finger;
     private Vector3 zoom2Finger;
@@ -36,7 +38,7 @@ public class InputControl : MonoBehaviour
         {       
             
             Cursor.lockState = CursorLockMode.Locked;
-            Cursor.lockState = CursorLockMode.Confined;            
+            //Cursor.lockState = CursorLockMode.Confined;            
             Cursor.visible = false;
         }
         else
@@ -58,20 +60,9 @@ public class InputControl : MonoBehaviour
         else
         {
             forPC();
-        }        
-        
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StartCoroutine(t());
-        }
+        }              
     }
 
-    private IEnumerator t()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        yield return new WaitForSeconds(0.1f);
-        Cursor.lockState = CursorLockMode.Confined;
-    }
 
     private void forMobile()
     {
@@ -156,9 +147,36 @@ public class InputControl : MonoBehaviour
             playerControl.SetJump();
         }
 
-        Vector3 mouseDelta = Input.mousePosition - mousePosition;
+        //Vector3 mouseDelta = Input.mousePosition - mousePosition;
+        Vector3 mouseDelta = new Vector3(
+            Input.GetAxis("Mouse X") * Globals.MOUSE_X_SENS, 
+            Input.GetAxis("Mouse Y") * Globals.MOUSE_Y_SENS, 0);
+
         //gm.GetTestText().text = Input.mousePosition + " = " + mouseDelta;
 
+                
+        if ((mouseDelta.x > 0) || (mouseDelta.x < 0))
+        {
+            float koeff = mouseDelta.x * 20 * Time.deltaTime;
+
+            if (koeff > XLimit)
+            {
+                koeff = XLimit;
+            }
+            else if (koeff < -XLimit)
+            {
+                koeff = -XLimit;
+            }
+
+            
+            playerControl.SetRotationAngle(koeff);
+        }        
+        else
+        {
+            playerControl.SetRotationAngle(0);
+        }
+
+        /*
         if ((mouseDelta.x > 0 && Input.mousePosition.x < (Screen.width-5)) || (mouseDelta.x < 0 && (Input.mousePosition.x > 5)))
         {
             float koeff = mouseDelta.x * 20 * Time.deltaTime;
@@ -172,24 +190,24 @@ public class InputControl : MonoBehaviour
                 koeff = -XLimit;
             }
 
-            Cursor.lockState = CursorLockMode.Confined;
+            //Cursor.lockState = CursorLockMode.Confined;
             playerControl.SetRotationAngle(koeff);
         }
         else if (Input.mousePosition.x >= Screen.width-5)
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
             playerControl.SetRotationAngle(XLimit * 0.5f);
         }
         else if (Input.mousePosition.x <= 5)
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
             playerControl.SetRotationAngle(-XLimit * 0.5f);
         }
         else
         {
             playerControl.SetRotationAngle(0);
-        }
-
+        }*/
+        
         if (Mathf.Abs(mouseDelta.y) > 0)
         {            
             cameraControl.ChangeCameraAngleX(mouseDelta.y * -7 * Time.deltaTime);
@@ -197,5 +215,13 @@ public class InputControl : MonoBehaviour
 
         cameraControl.ChangeCameraAngleY(playerTransform.eulerAngles.y);
         mousePosition = Input.mousePosition;
+    }
+
+    private IEnumerator updateLock()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        yield return new WaitForSeconds(Time.deltaTime);
+        Cursor.lockState = CursorLockMode.Confined;
+        isLockedUsed = true;
     }
 }

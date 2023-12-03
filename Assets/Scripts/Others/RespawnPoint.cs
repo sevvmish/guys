@@ -35,17 +35,16 @@ public class RespawnPoint : MonoBehaviour
 
         
 
-        if (other.CompareTag("Player") && !players.Contains(other.gameObject) && other.TryGetComponent(out RespawnControl resp) && resp.CurrentRespawnIndex < currentIndex)
+        if (other.CompareTag("Player") && !players.Contains(other.gameObject) && other.TryGetComponent(out RespawnControl resp) /*&& resp.CurrentRespawnIndex < currentIndex*/)
         {
             if (resp.TryGetComponent(out PlayerControl pc) && pc.IsItMainPlayer)
             {
-                switch(Globals.CurrentMapCircus)
-                {
-                    case 0:
+                switch (GameManager.Instance.GetLevelManager().GetCurrentLevelType())
+                {                    
+                    case LevelTypes.circus1:
                         Globals.MainPlayerData.M1 = currentIndex;
                         break;
                 }
-
 
                 SaveLoadManager.Save();
             }

@@ -13,8 +13,8 @@ public class Globals : MonoBehaviour
     public static string CurrentLanguage;
     public static Translation Language;
 
-    public static int CurrentMapCircus = 0;
-    public static int CurrentRespawnPointOnMap = 0;
+    //public static int CurrentMapCircus = 0;
+    //public static int CurrentRespawnPointOnMap = 0;
 
     public static DateTime TimeWhenStartedPlaying;
     public static DateTime TimeWhenLastInterstitialWas;
@@ -38,6 +38,9 @@ public class Globals : MonoBehaviour
     public const float RAGDOLL_MASS = 0.25f;
     public const float RAGDOLL_DRAG = 1f;
     public const float RAGDOLL_ANGULAR_DRAG = 0.5f;
+
+    public const float MOUSE_X_SENS = 26f;
+    public const float MOUSE_Y_SENS = 13f;
 
     public const float MAX_HIT_IMPULSE_MAGNITUDE = 60f;
     public const float MIN_HIT_IMPULSE_MAGNITUDE = 20f;

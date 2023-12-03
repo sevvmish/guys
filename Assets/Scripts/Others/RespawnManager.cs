@@ -39,8 +39,8 @@ public class RespawnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.05f);
         GameManager.Instance.GetMainPlayerTransform().GetComponent<PlayerControl>().FirstRespawn(
-            points[Globals.CurrentRespawnPointOnMap].transform.position,
-            new Vector3(0, points[Globals.CurrentRespawnPointOnMap].transform.eulerAngles.y, 0));
+            points[GetCurrentIndex].transform.position,
+            new Vector3(0, points[GetCurrentIndex].transform.eulerAngles.y, 0));
     }
 
     public void AddPoint(int number, RespawnPoint pointT)
