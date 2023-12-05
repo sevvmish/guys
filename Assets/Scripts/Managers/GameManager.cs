@@ -72,8 +72,8 @@ public class GameManager : MonoBehaviour
         }
 
         //TODEL
-        Globals.MainPlayerData = new PlayerData();
-        Globals.MainPlayerData.M1 = 0;
+        //Globals.MainPlayerData = new PlayerData();
+        //Globals.MainPlayerData.M1 = 9;
         
     }
 
