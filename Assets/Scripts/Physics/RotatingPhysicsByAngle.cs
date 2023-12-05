@@ -25,8 +25,8 @@ public class RotatingPhysicsByAngle : MonoBehaviour
         {
             case Axes.axis_X:
                 _rigidbody.DORotate(new Vector3(
-                    0,
                     direction * 360,
+                    0,
                     0), HowLongFor360, RotateMode.LocalAxisAdd).SetEase(easeType).SetLoops(-1);
                 break;
 
@@ -42,8 +42,8 @@ public class RotatingPhysicsByAngle : MonoBehaviour
             case Axes.axis_Z:
                 _rigidbody.DORotate(new Vector3(
                     0,
-                    direction * 360,
-                    0), HowLongFor360, RotateMode.LocalAxisAdd).SetEase(easeType).SetLoops(-1);
+                    0,
+                    direction * 360), HowLongFor360, RotateMode.LocalAxisAdd).SetEase(easeType).SetLoops(-1);
                 break;
         }
     }

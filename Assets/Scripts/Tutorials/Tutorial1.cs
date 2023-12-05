@@ -8,9 +8,9 @@ public class Tutorial1 : MonoBehaviour
     {        
         if (other.CompareTag("Player") && other.TryGetComponent(out PlayerControl pc) && pc.IsItMainPlayer)
         {
-            if (Globals.MainPlayerData.hint1 == 0)
+            if (Globals.MainPlayerData.Hint1 == 0)
             {
-                Globals.MainPlayerData.hint1 = 1;
+                Globals.MainPlayerData.Hint1 = 1;
                 StartCoroutine(doubleJumpHint());
             }
         }

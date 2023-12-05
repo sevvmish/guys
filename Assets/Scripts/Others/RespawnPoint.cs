@@ -13,14 +13,18 @@ public class RespawnPoint : MonoBehaviour
 
     private void Awake()
     {
-        vfx.SetActive(true);
-        sound.SetActive(false);
-        RespawnManager.Instance.AddPoint(currentIndex, this);
+        if (vfx != null)
+        {
+            vfx.SetActive(true);
+            sound.SetActive(false);
+        }
+        
+        if (RespawnManager.Instance != null) RespawnManager.Instance.AddPoint(currentIndex, this);
     }
 
     private void Start()
     {
-        if ((RespawnManager.Instance.GetCurrentIndex) > currentIndex)
+        if (RespawnManager.Instance != null && (RespawnManager.Instance.GetCurrentIndex) > currentIndex)
         {            
             gameObject.SetActive(false);
         }

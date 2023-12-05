@@ -21,11 +21,11 @@ public class CameraControl : MonoBehaviour
     private RaycastHit hit;
 
     
-    private float zoomKoeff = 0;
+    //private float zoomKoeff = 0;
     
     private Dictionary<MeshRenderer, Material> changedMeshRenderers = new Dictionary<MeshRenderer, Material>();
     private HashSet<MeshRenderer> renderers = new HashSet<MeshRenderer>();
-    private HashSet<MeshRenderer> changedRanderers = new HashSet<MeshRenderer>();
+    //private HashSet<MeshRenderer> changedRanderers = new HashSet<MeshRenderer>();
     private HashSet<MeshRenderer> renderersToReturn = new HashSet<MeshRenderer>();
 
     private GameManager gm;
@@ -41,7 +41,8 @@ public class CameraControl : MonoBehaviour
         mainCamera.localPosition = Globals.BasePosition;
         mainCamera.localEulerAngles = Globals.BaseRotation;
         ignoreMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll", "danger" });
-        zoom(0);
+        
+        zoom(Globals.MainPlayerData.Zoom);
     }
 
     public void SwapControlBody(Transform newTransform)
@@ -59,17 +60,17 @@ public class CameraControl : MonoBehaviour
 
     public void ChangeZoom(float koeff)
     {                
-        if (koeff > 0 && zoomKoeff < Globals.ZOOM_LIMIT)
+        if (koeff > 0 && Globals.MainPlayerData.Zoom < Globals.ZOOM_LIMIT)
         {
             float add = Globals.ZOOM_DELTA;
             mainCamera.position += mainCamera.forward * add;
-            zoomKoeff += add;
+            Globals.MainPlayerData.Zoom += add;
         }
-        else if(koeff < 0 && zoomKoeff > -Globals.ZOOM_LIMIT)
+        else if(koeff < 0 && Globals.MainPlayerData.Zoom > -Globals.ZOOM_LIMIT)
         {
             float add = -Globals.ZOOM_DELTA;
             mainCamera.position += mainCamera.forward * add;
-            zoomKoeff += add;
+            Globals.MainPlayerData.Zoom += add;
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-[DefaultExecutionOrder(-1)]
+[DefaultExecutionOrder(-2)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -57,7 +57,15 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        
+
+
+        //TODEL
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.M1 = 13;
+        Globals.MainPlayerData.Zoom = 0;
+
+
+
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
         cameraControl.SetData(mainPlayer, cameraBody, _camera.transform);
         mainPlayer.GetComponent<PlayerControl>().SetPlayerToMain();
@@ -71,10 +79,8 @@ public class GameManager : MonoBehaviour
             addPlayer(false, Vector3.zero, Vector3.zero);
         }
 
-        //TODEL
-        //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.M1 = 9;
         
+
     }
 
     public void ArrangePlayers(int botsAmount)

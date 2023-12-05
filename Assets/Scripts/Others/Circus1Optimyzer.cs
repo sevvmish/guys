@@ -8,12 +8,19 @@ public class Circus1Optimyzer : MonoBehaviour
     [SerializeField] private GameObject part2;
     [SerializeField] private GameObject part3;
     [SerializeField] private GameObject part4;
+    [SerializeField] private GameObject part5;
 
     private int previousPos;
 
     // Start is called before the first frame update
     IEnumerator Start()
     {
+        part1.SetActive(false);
+        part2.SetActive(false);
+        part3.SetActive(false);
+        part4.SetActive(false);
+        part5.SetActive(false);
+
         yield return new WaitForSeconds(0.05f);
 
         int currentPos = RespawnManager.Instance.GetCurrentIndex;
@@ -54,16 +61,25 @@ public class Circus1Optimyzer : MonoBehaviour
             if (!part2.activeSelf) part2.SetActive(true);
             if (!part3.activeSelf) part3.SetActive(true); 
             if (!part4.activeSelf) part4.SetActive(true);
-
-            print(part4.activeSelf);
         }
-        else if (pos >= 6)
+        else if (pos >= 6 && pos < 9)
+        {            
+            if (part2.activeSelf) part2.SetActive(false);
+            if (!part3.activeSelf) part3.SetActive(true);
+            if (!part4.activeSelf) part4.SetActive(true);            
+        }
+        else if (pos >= 9 && pos < 11)
         {
-            if (part1.activeSelf) part1.SetActive(false);
             if (part2.activeSelf) part2.SetActive(false);
             if (!part3.activeSelf) part3.SetActive(true);
             if (!part4.activeSelf) part4.SetActive(true);
-            print(part4.activeSelf);
+            if (!part5.activeSelf) part5.SetActive(true);
+        }
+        else if (pos >= 11)
+        {            
+            if (part3.activeSelf) part3.SetActive(false);
+            if (!part4.activeSelf) part4.SetActive(true);
+            if (!part5.activeSelf) part5.SetActive(true);
         }
     }
 

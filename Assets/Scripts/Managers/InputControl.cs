@@ -65,24 +65,7 @@ public class InputControl : MonoBehaviour
 
 
     private void forMobile()
-    {
-        /*
-        if (Input.touchCount >= 2)
-        {         
-            isTouchZoom = true;
-
-            zoom1Finger = Input.GetTouch(0).position;
-            zoom2Finger = Input.GetTouch(1).position;
-            float newZoomDistance = Vector2.Distance(zoom1Finger, zoom2Finger);
-
-            gm.GetTestText().text = "new: " + newZoomDistance.ToString("f2") + "old: " + zoomDistance.ToString("f2");
-
-            zoomDistance = newZoomDistance;
-        }
-        else
-        {            
-            isTouchZoom = false;
-        }*/
+    {        
 
         playerControl.SetHorizontal(joystick.Horizontal);
         playerControl.SetVertical(joystick.Vertical);
@@ -176,37 +159,6 @@ public class InputControl : MonoBehaviour
             playerControl.SetRotationAngle(0);
         }
 
-        /*
-        if ((mouseDelta.x > 0 && Input.mousePosition.x < (Screen.width-5)) || (mouseDelta.x < 0 && (Input.mousePosition.x > 5)))
-        {
-            float koeff = mouseDelta.x * 20 * Time.deltaTime;
-
-            if (koeff > XLimit)
-            {
-                koeff = XLimit;
-            }
-            else if (koeff < -XLimit)
-            {
-                koeff = -XLimit;
-            }
-
-            //Cursor.lockState = CursorLockMode.Confined;
-            playerControl.SetRotationAngle(koeff);
-        }
-        else if (Input.mousePosition.x >= Screen.width-5)
-        {
-            //Cursor.lockState = CursorLockMode.Locked;
-            playerControl.SetRotationAngle(XLimit * 0.5f);
-        }
-        else if (Input.mousePosition.x <= 5)
-        {
-            //Cursor.lockState = CursorLockMode.Locked;
-            playerControl.SetRotationAngle(-XLimit * 0.5f);
-        }
-        else
-        {
-            playerControl.SetRotationAngle(0);
-        }*/
         
         if (Mathf.Abs(mouseDelta.y) > 0)
         {            
@@ -217,11 +169,4 @@ public class InputControl : MonoBehaviour
         mousePosition = Input.mousePosition;
     }
 
-    private IEnumerator updateLock()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        yield return new WaitForSeconds(Time.deltaTime);
-        Cursor.lockState = CursorLockMode.Confined;
-        isLockedUsed = true;
-    }
 }
