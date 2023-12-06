@@ -13,8 +13,10 @@ public class PendulumPhysicsByAngle : MonoBehaviour
     [SerializeField] private float DelayBeforeStart;
     [SerializeField] private Ease easeType = Ease.InOutSine;
 
+    float delta = 0;
+
     private void OnEnable()
-    {        
+    {                
         StartCoroutine(playEffect());
     }
 
@@ -25,8 +27,39 @@ public class PendulumPhysicsByAngle : MonoBehaviour
         switch (RotationAxis)
         {
             case Axes.axis_X:
+                delta = PendulumAngle * 2 / (HowLongFor360 / Time.fixedDeltaTime);
+
+                while (true)
+                {
+                    for (float i = PendulumAngle; i > -PendulumAngle; i -= delta)
+                    {
+                        float koeff = 1f - Mathf.Abs(i / PendulumAngle);
+
+                        if (koeff != 0)
+                        {
+                            i -= (koeff * 3);
+                        }
+
+                        _rigidbody.MoveRotation(Quaternion.AngleAxis(i, Vector3.left));
+                        yield return new WaitForSeconds(Time.fixedDeltaTime);
+                    }
+
+                    for (float i = -PendulumAngle; i < PendulumAngle; i += delta)
+                    {
+                        float koeff = 1f - Mathf.Abs(i / PendulumAngle);
+
+                        if (koeff != 0)
+                        {
+                            i += (koeff * 3);
+                        }
+
+                        _rigidbody.MoveRotation(Quaternion.AngleAxis(i, Vector3.left));
+                        yield return new WaitForSeconds(Time.fixedDeltaTime);
+                    }
+
+
+                }
                 
-                break;
 
             case Axes.axis_Y:
                 
@@ -34,7 +67,7 @@ public class PendulumPhysicsByAngle : MonoBehaviour
 
             case Axes.axis_Z:
 
-                float delta = PendulumAngle * 2 / (HowLongFor360 / Time.fixedDeltaTime);
+                delta = PendulumAngle * 2 / (HowLongFor360 / Time.fixedDeltaTime);
 
                 while (true)
                 {

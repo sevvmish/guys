@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
 
     [Header("tutorials")]
     [SerializeField] private GameObject doubleJumpHint;
+    [SerializeField] private TextMeshProUGUI doubleJumpHintText;
     public void SetDoubleJumpHint(bool isActive) => doubleJumpHint.SetActive(isActive);
 
     // Start is called before the first frame update
@@ -50,6 +51,7 @@ public class UIManager : MonoBehaviour
             letterLeft.text = Globals.Language.LeftArrowLetter;
             letterRight.text = Globals.Language.RightArrowLetter;
             signJump.text = Globals.Language.JumpLetter;
+            doubleJumpHintText.text = Globals.Language.DoubleJumpHint;
         }
     }
 

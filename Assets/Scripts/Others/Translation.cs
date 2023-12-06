@@ -10,6 +10,7 @@ public class Translation : ScriptableObject
     public string LeftArrowLetter;
     public string RightArrowLetter;
     public string JumpLetter;
+    public string DoubleJumpHint;
 
     public Translation() { }
 }

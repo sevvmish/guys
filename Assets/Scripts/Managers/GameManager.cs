@@ -61,9 +61,8 @@ public class GameManager : MonoBehaviour
 
         //TODEL
         Globals.MainPlayerData = new PlayerData();
-        Globals.MainPlayerData.M1 = 13;
+        Globals.MainPlayerData.M1 = 15;
         Globals.MainPlayerData.Zoom = 0;
-
 
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;

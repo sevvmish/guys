@@ -343,6 +343,10 @@ public class PlayerControl : MonoBehaviour
             AnimationState = AnimationStates.Idle;
             _animator.Play("Idle");
 
+            if (horizontal == 0 && vertical == 0)
+            {
+                _rigidbody.velocity = Vector3.zero;
+            }
         }
 
         if (result)
