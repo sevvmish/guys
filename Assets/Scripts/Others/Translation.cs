@@ -12,5 +12,10 @@ public class Translation : ScriptableObject
     public string JumpLetter;
     public string DoubleJumpHint;
 
+    public string Saved;
+    public string PlusBonus;
+    public string SkipLevelOffer;
+    public string SkipLevelConfirmation;
+
     public Translation() { }
 }

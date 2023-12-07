@@ -34,7 +34,16 @@ public class RespawnControl : MonoBehaviour
 
     public void Die()
     {
-        if (!playerControl.IsDead) playerControl.Respawn(position, rotation);
+        if (!playerControl.IsDead)
+        {
+            playerControl.Respawn(position, rotation);
+
+            if (playerControl.IsItMainPlayer)
+            {
+                gm.AddDeath();
+            }
+        }
+            
     }
 
     public struct RespawnData

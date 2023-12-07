@@ -41,7 +41,7 @@ public class RespawnPoint : MonoBehaviour
 
         if (other.CompareTag("Player") && !players.Contains(other.gameObject) && other.TryGetComponent(out RespawnControl resp) /*&& resp.CurrentRespawnIndex < currentIndex*/)
         {
-            if (resp.TryGetComponent(out PlayerControl pc) && pc.IsItMainPlayer)
+            if (resp.TryGetComponent(out PlayerControl pc) && pc.IsItMainPlayer && currentIndex > RespawnManager.Instance.GetCurrentIndex)
             {
                 switch (GameManager.Instance.GetLevelManager().GetCurrentLevelType())
                 {                    
@@ -50,6 +50,8 @@ public class RespawnPoint : MonoBehaviour
                         break;
                 }
 
+                GameManager.Instance.GetUI().ShowInformer($"{Globals.Language.Saved}...");
+                GameManager.Instance.RespawnPointReached(currentIndex);
                 SaveLoadManager.Save();
             }
 

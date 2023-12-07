@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using YG;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 [DefaultExecutionOrder(-2)]
 public class GameManager : MonoBehaviour
@@ -31,6 +33,26 @@ public class GameManager : MonoBehaviour
     public Transform GetVFX() => vfx;
     public UIManager GetUI() => mainUI;
     public LevelManager GetLevelManager() => levelManager;
+
+    //death stats
+    public void AddDeath()
+    {
+        deathCount++;
+
+        if (deathCount >= 5)
+        {
+            YandexMetrica.Send("die" + RespawnManager.Instance.GetCurrentIndex);
+            mainUI.OfferSkipLevelForRewarded();
+        }
+    }   
+    public void ResetDeath() => deathCount = 0;
+    private int deathCount;
+    public void RespawnPointReached(int number)
+    {
+        YandexMetrica.Send("point" + number);
+        deathCount = 0;
+    }
+        
 
     //GAME START
     public float GameSecondsPlayed { get; private set; }
@@ -60,9 +82,9 @@ public class GameManager : MonoBehaviour
 
 
         //TODEL
-        Globals.MainPlayerData = new PlayerData();
-        Globals.MainPlayerData.M1 = 18;
-        Globals.MainPlayerData.Zoom = 0;
+        //Globals.MainPlayerData = new PlayerData();
+        //Globals.MainPlayerData.M1 = 18;
+        //Globals.MainPlayerData.Zoom = 0;
 
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
@@ -168,6 +190,8 @@ public class GameManager : MonoBehaviour
 
             SceneManager.LoadScene("circus1");
         }
+
+        
     }
 
     public int GetFinishPlace(PlayerControl player)

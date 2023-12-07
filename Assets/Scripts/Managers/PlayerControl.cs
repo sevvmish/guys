@@ -345,7 +345,7 @@ public class PlayerControl : MonoBehaviour
 
             if (horizontal == 0 && vertical == 0)
             {
-                _rigidbody.velocity = Vector3.zero;
+                //_rigidbody.velocity = Vector3.zero;
             }
         }
 

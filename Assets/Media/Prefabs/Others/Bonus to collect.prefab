@@ -14476,6 +14476,7 @@ GameObject:
   - component: {fileID: 3961456124568979747}
   - component: {fileID: 3664551212309745405}
   - component: {fileID: 1092563038890242908}
+  - component: {fileID: 4335880115519547315}
   m_Layer: 0
   m_Name: Bonus to collect
   m_TagString: Untagged
@@ -14536,6 +14537,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentIndex: 0
   endVFX: {fileID: 3248017293705753369}
+--- !u!205 &4335880115519547315
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2691930254355856802}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1.3333341
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.025
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4251603489811857309}
+    - renderer: {fileID: 1606981813983839880}
+    - renderer: {fileID: 7990323749788743769}
+  m_Enabled: 1
 --- !u!1 &3248017293705753369
 GameObject:
   m_ObjectHideFlags: 0
@@ -38931,5 +38953,10 @@ MonoBehaviour:
 --- !u!4 &3119752118124414194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bed3d773709485d498d4da2d8b8afd6b, type: 3}
+  m_PrefabInstance: {fileID: 3224911004016665369}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4251603489811857309 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: bed3d773709485d498d4da2d8b8afd6b, type: 3}
   m_PrefabInstance: {fileID: 3224911004016665369}
   m_PrefabAsset: {fileID: 0}

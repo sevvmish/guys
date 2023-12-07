@@ -36,6 +36,7 @@ public class BonusClient : MonoBehaviour
             isTaken = true;
             Globals.MainPlayerData.B[currentIndex] = 1;
             SaveLoadManager.Save();
+            GameManager.Instance.GetUI().ShowInformer($"+1 {Globals.Language.PlusBonus}...");
             StartCoroutine(playVFX());
         }
     }

@@ -28,9 +28,22 @@ public class AmbientMusic : MonoBehaviour
         _audio = GetComponent<AudioSource>();
     }
 
+    public void StopAll()
+    {
+        StopAllCoroutines();
+        _audio.Stop();
+    }
+
+    public void ContinuePlaying()
+    {
+        PlayScenario1();
+    }
+
 
     public void PlayAmbient(AmbientMelodies _type)
     {
+        if (!Globals.IsMusicOn) return;
+
         _audio.pitch = 1;
         _audio.volume = 0.6f;
 
@@ -58,6 +71,50 @@ public class AmbientMusic : MonoBehaviour
                 _audio.clip = loopMelody2;
                 _audio.Play();
                 break;
+
+        }
+    }
+
+    public void PlayScenario1()
+    {
+        if (!Globals.IsMusicOn) return;
+        StartCoroutine(playScenario1());
+    }
+    private IEnumerator playScenario1()
+    {
+        int rows = 0;
+
+        while (true)
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                if (!_audio.isPlaying) break;
+                yield return new WaitForSeconds(Time.deltaTime);
+            }
+
+            PlayAmbient(AmbientMelodies.loop_melody1);
+            _audio.loop = false;
+            _audio.volume = 0.2f;
+            yield return new WaitForSeconds(7.5f);
+
+            for (int i = 0; i < 100; i++)
+            {
+                if (!_audio.isPlaying) break;
+                yield return new WaitForSeconds(Time.deltaTime);
+            }
+
+            PlayAmbient(AmbientMelodies.loop_melody2);
+            _audio.loop = false;
+            _audio.volume = 0.2f;
+            yield return new WaitForSeconds(7.5f);
+
+            rows++;
+
+            if (rows == 3)
+            {
+                rows = 0;
+                yield return new WaitForSeconds(10f);
+            }
 
         }
     }
