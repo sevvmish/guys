@@ -566,8 +566,11 @@ public class PlayerControl : MonoBehaviour
         
     private void SetRagdollState(bool isActive)
     {
+
         if (isActive)
         {
+            _transform.SetParent(playerLocation);
+
             IsCanAct = false;
             IsJumping = false;
             IsFloating = false;
@@ -661,6 +664,7 @@ public class PlayerControl : MonoBehaviour
         IsJumping = false;
         IsFloating = false;
         IsSecondJump = false;
+        _transform.SetParent(playerLocation);
 
         yield return new WaitForSeconds(0.2f);
 
@@ -688,6 +692,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         ragdollRigidbodies[0].transform.localPosition = Vector3.zero;
+
 
         //playIdle();
         //AnimationState = AnimationStates.Idle;

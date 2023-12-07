@@ -1,44 +1,85 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlatformSystem : MonoBehaviour
-{
-    [SerializeField] private float force = 12f;
+{    
+    private float speed = 10;
+    private Vector3 from;
+    private Vector3 to;
+    private PlatformSpawner spawner;
+    //private List<Rigidbody> players = new List<Rigidbody>();
+    private Dictionary<Transform, Transform> players = new Dictionary<Transform, Transform>();
 
-    private Transform from;
-    private Transform to;
+    private bool isOff;
 
-    private Rigidbody _rigidbody;
-
-    private bool isStart;
-
-    public void SetPlay(Transform from, Transform to)
+    public void SetPlay(Vector3 from, Vector3 to, float speed, PlatformSpawner spawner)
     {
+        //boxer.enabled = true;
+        players.Clear();
         this.from = from;
         this.to = to;
-        isStart = true;
-        _rigidbody = GetComponent<Rigidbody>();
-        _rigidbody.transform.position = from.position;
-        _rigidbody.transform.LookAt(to);
+        this.speed = speed;
+        this.spawner = spawner;
+        isOff = false;
+        transform.position = from;
+        transform.LookAt(to);
+        transform.DOMove(to, speed).SetUpdate(UpdateType.Fixed).SetEase(Ease.Linear).OnComplete(Ended);
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void Ended()
     {
-        if (isStart)
+        isOff = true;
+        //boxer.enabled = false;
+
+        foreach (Transform pl in players.Keys)
         {
-            _rigidbody.MovePosition(transform.position + transform.forward * Time.fixedDeltaTime);
-        }        
+            pl.SetParent(players[pl]);
+        }
+
+        spawner.PlatformEnded(this);
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if ((collision.gameObject.layer == Globals.LAYER_PLAYER || collision.gameObject.layer == 3) 
-            && collision.gameObject.TryGetComponent(out Rigidbody rb))
+        if (isOff) return;
+
+        if (!players.ContainsKey(collision.transform) && (collision.gameObject.layer == Globals.LAYER_PLAYER ))
         {
-            //rb.MovePosition(transform.position + transform.forward * Time.fixedDeltaTime);
-            rb.AddForce((to.position - transform.position).normalized * 10, ForceMode.Force);
+            if (collision.gameObject.TryGetComponent(out Rigidbody rb))
+            {
+                rb.velocity = Vector3.zero;
+            }
+
+            players.Add(collision.transform, collision.transform.parent);
+            collision.transform.SetParent(transform);
+        }
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isOff) return;
+
+        if (!players.ContainsKey(collision.transform) && (collision.gameObject.layer == Globals.LAYER_PLAYER))
+        {
+            if (collision.gameObject.TryGetComponent(out Rigidbody rb))
+            {
+                rb.velocity = Vector3.zero;
+            }
+
+            players.Add(collision.transform, collision.transform.parent);
+            collision.transform.SetParent(transform);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {        
+        if (players.ContainsKey(collision.transform))
+        {
+            collision.transform.SetParent(players[collision.transform]);
+            players.Remove(collision.transform);
         }
     }
 }

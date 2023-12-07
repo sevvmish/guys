@@ -54,13 +54,6 @@ public class RespawnPoint : MonoBehaviour
             }
 
             AddPlayerToPoint(resp);
-
-            /*
-            players.Add(other.gameObject);
-            resp.SetNewRespawn(new RespawnControl.RespawnData(new Vector3(
-                other.transform.position.x, 
-                transform.position.y, 
-                other.transform.position.z) , transform.eulerAngles), currentIndex);*/
         }
     }
 

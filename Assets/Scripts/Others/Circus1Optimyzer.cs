@@ -10,6 +10,7 @@ public class Circus1Optimyzer : MonoBehaviour
     [SerializeField] private GameObject part4;
     [SerializeField] private GameObject part5;
     [SerializeField] private GameObject part6;
+    [SerializeField] private GameObject part7;
 
     private int previousPos;
 
@@ -22,6 +23,7 @@ public class Circus1Optimyzer : MonoBehaviour
         part4.SetActive(false);
         part5.SetActive(false);
         part6.SetActive(false);
+        part7.SetActive(false);
 
         yield return new WaitForSeconds(0.05f);
 
@@ -84,11 +86,18 @@ public class Circus1Optimyzer : MonoBehaviour
             if (!part5.activeSelf) part5.SetActive(true);
             if (!part6.activeSelf) part6.SetActive(true);
         }
-        else if (pos >= 14)
+        else if (pos >= 14 && pos < 16)
         {            
             if (part4.activeSelf) part4.SetActive(false);
             if (!part5.activeSelf) part5.SetActive(true);
             if (!part6.activeSelf) part6.SetActive(true);
+            if (!part7.activeSelf) part7.SetActive(true);
+        }
+        else if (pos >= 16 )
+        {            
+            if (part5.activeSelf) part5.SetActive(false);
+            if (!part6.activeSelf) part6.SetActive(true);
+            if (!part7.activeSelf) part7.SetActive(true);
         }
     }
 
