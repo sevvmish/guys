@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using YG;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
 
 [DefaultExecutionOrder(-2)]
 public class GameManager : MonoBehaviour
@@ -23,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private Transform vfx;
     [SerializeField] private UIManager mainUI;
+    [SerializeField] private OptionsMenu options;
 
     public Joystick GetJoystick() => joystick;
     public Camera GetCamera() => _camera;
@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI testText;
     public TextMeshProUGUI GetTestText() => testText;
 
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -82,9 +83,9 @@ public class GameManager : MonoBehaviour
 
 
         //TODEL
-        //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.M1 = 18;
-        //Globals.MainPlayerData.Zoom = 0;
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.M1 = 19;
+        Globals.MainPlayerData.Zoom = 0;
 
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour
 
         if (levelManager == null)
         {
-            IsGameStarted = true;
+            StartTheGame();
             addPlayer(false, Vector3.zero, Vector3.zero);
         }
 
@@ -170,6 +171,8 @@ public class GameManager : MonoBehaviour
     public void StartTheGame()
     {
         if (IsGameStarted) return;
+
+        options.TurnAllOn();
         IsGameStarted = true;
     }
   

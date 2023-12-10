@@ -1,9 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Circus1Optimyzer : MonoBehaviour
 {
+    [Header("mobile movement")]
+    [SerializeField] private GameObject MovementForMobile;
+    [SerializeField] private TextMeshPro MovementLeftJTexter;
+
+    [Header("mobile jump")]
+    [SerializeField] private GameObject JumpForMobile;
+    [SerializeField] private TextMeshPro JumpRightJTexter;
+
+    [Header("PC jump")]
+    [SerializeField] private GameObject JumpForPC;
+    [SerializeField] private TextMeshPro JumpPCTexter;
+
+    [Header("double jump")]
+    [SerializeField] private GameObject DoubleJump;
+    [SerializeField] private TextMeshPro DoubleJumpText;
+
+    [Header("PC movement")]
+    [SerializeField] private GameObject MovementForPC;
+    [SerializeField] private TextMeshPro MovementKeyboard;
+    [SerializeField] private TextMeshPro MovementLeftW;
+    [SerializeField] private TextMeshPro MovementLeftA;
+    [SerializeField] private TextMeshPro MovementLeftS;
+    [SerializeField] private TextMeshPro MovementLeftD;
+
     [SerializeField] private GameObject part1;
     [SerializeField] private GameObject part2;
     [SerializeField] private GameObject part3;
@@ -17,6 +42,12 @@ public class Circus1Optimyzer : MonoBehaviour
     // Start is called before the first frame update
     IEnumerator Start()
     {
+        MovementForMobile.SetActive(false);
+        MovementForPC.SetActive(false);
+        JumpForMobile.SetActive(false);
+        JumpForPC.SetActive(false);
+        DoubleJump.SetActive(false);
+
         part1.SetActive(false);
         part2.SetActive(false);
         part3.SetActive(false);
@@ -47,6 +78,30 @@ public class Circus1Optimyzer : MonoBehaviour
     {        
         if (pos < 4)
         {
+            if (Globals.IsMobile)
+            {
+                MovementForMobile.SetActive(true);
+                MovementLeftJTexter.text = Globals.Language.MovementHintLeftJ;
+
+                JumpForMobile.SetActive(true);
+                JumpRightJTexter.text = Globals.Language.JumpHintRightJ;
+            }
+            else
+            {
+                MovementForPC.SetActive(true);
+                MovementLeftW.text = Globals.Language.UpArrowLetter;
+                MovementLeftS.text = Globals.Language.DownArrowLetter;
+                MovementLeftA.text = Globals.Language.LeftArrowLetter;
+                MovementLeftD.text = Globals.Language.RightArrowLetter;
+                MovementKeyboard.text = Globals.Language.MovementHintLetters;
+
+                JumpForPC.SetActive(true);
+                JumpPCTexter.text = Globals.Language.JumpHintKeyboard;
+            }
+
+            DoubleJump.SetActive(true);
+            DoubleJumpText.text = Globals.Language.DoubleJumpHint;
+
             if (!part1.activeSelf) part1.SetActive(true);
             if (!part2.activeSelf) part2.SetActive(true);
             if (part3.activeSelf) part3.SetActive(false);
@@ -54,6 +109,12 @@ public class Circus1Optimyzer : MonoBehaviour
         }
         else if (pos >= 4 && pos < 5)
         {
+            MovementForMobile.SetActive(false);
+            MovementForPC.SetActive(false);
+            JumpForMobile.SetActive(false);
+            JumpForPC.SetActive(false);
+            DoubleJump.SetActive(false);
+
             if (!part1.activeSelf) part1.SetActive(true);
             if (!part2.activeSelf) part2.SetActive(true);
             if (!part3.activeSelf) part3.SetActive(true);

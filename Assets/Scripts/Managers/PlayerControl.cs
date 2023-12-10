@@ -311,10 +311,11 @@ public class PlayerControl : MonoBehaviour
 
             _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER/* + Vector3.forward * PlayerNonVerticalVelocity * 4*/, ForceMode.Impulse);
             IsJumping = true;
-            jumpCooldown = 0.1f;
+            jumpCooldown = 0.2f;
         }    
         else if (!IsGrounded && IsJumping && !IsSecondJump && jumpCooldown <= 0 && IsCanJump)
         {
+            jumpCooldown = 0.2f;
             effectsControl.MakeJumpFX();
             IsSecondJump = true;
             _rigidbody.velocity = Vector3.zero;
@@ -343,9 +344,9 @@ public class PlayerControl : MonoBehaviour
             AnimationState = AnimationStates.Idle;
             _animator.Play("Idle");
 
-            if (horizontal == 0 && vertical == 0)
+            if (horizontal == 0 && vertical == 0 && jumpCooldown <= 0)
             {
-                //_rigidbody.velocity = Vector3.zero;
+                _rigidbody.velocity = Vector3.zero;
             }
         }
 
@@ -637,6 +638,15 @@ public class PlayerControl : MonoBehaviour
             bot.IsCanDoubleJump = true;
             bot.IsCanJump = true;
             bot.IsCanRun = true;
+        }
+    }
+
+    public void SetPlayerDirection(float y)
+    {
+        if (IsItMainPlayer)
+        {
+            cc.ResetCameraOnRespawn(new Vector3(0, y, 0));
+            angleYForMobile = y;
         }
     }
 

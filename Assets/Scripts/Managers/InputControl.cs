@@ -33,12 +33,12 @@ public class InputControl : MonoBehaviour
         cameraControl = GameManager.Instance.GetCameraControl();
         playerControl = gameObject.GetComponent<PlayerControl>();
         playerTransform = playerControl.transform;
+
         
+
         if (!Globals.IsMobile)
-        {       
-            
-            Cursor.lockState = CursorLockMode.Locked;
-            //Cursor.lockState = CursorLockMode.Confined;            
+        {
+            Cursor.lockState = CursorLockMode.Locked;       
             Cursor.visible = false;
         }
         else
@@ -51,7 +51,7 @@ public class InputControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gm.IsGameStarted) return;
+        if (!gm.IsGameStarted || Globals.IsOptions) return;
 
         if (Globals.IsMobile)
         {

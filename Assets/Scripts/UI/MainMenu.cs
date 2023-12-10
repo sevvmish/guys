@@ -56,6 +56,15 @@ public class MainMenu : MonoBehaviour
                 AudioListener.volume = 0;
             }
 
+            if (Globals.MainPlayerData.Mus == 1)
+            {
+                Globals.IsMusicOn = true;
+            }
+            else
+            {
+                Globals.IsMusicOn = false;
+            }
+
             print("sound is: " + Globals.IsSoundOn);
 
             if (Globals.TimeWhenStartedPlaying == DateTime.MinValue)

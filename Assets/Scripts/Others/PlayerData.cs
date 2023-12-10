@@ -15,8 +15,6 @@ public class PlayerData
     public int MP;
     public int[] B;
 
-    public int Hint1;
-
     public float Zoom;
 
     public PlayerData()
@@ -27,7 +25,6 @@ public class PlayerData
         Mus = 1; // music
         CM = 0; // current map type
         M1 = -1; //map1 progress
-        Hint1 = 0; //tutrial 1 with double jump
         Zoom = 0; //camera zoom
         B = new int[20]; //bonuses collected
         Debug.Log("created PlayerData instance");

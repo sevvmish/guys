@@ -12,6 +12,12 @@ public class Translation : ScriptableObject
     public string JumpLetter;
     public string DoubleJumpHint;
 
+    public string MovementHintLeftJ;
+    public string MovementHintLetters;
+    public string JumpHintRightJ;
+    public string JumpHintKeyboard;
+    public string RightMouseButton;
+
     public string Saved;
     public string PlusBonus;
     public string SkipLevelOffer;

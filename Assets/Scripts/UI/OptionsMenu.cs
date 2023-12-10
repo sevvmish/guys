@@ -31,45 +31,12 @@ public class OptionsMenu : MonoBehaviour
         //options
         optionsButton.onClick.AddListener(() =>
         {
-            if (Globals.IsSoundOn)
-            {
-                soundButton.transform.GetChild(0).GetComponent<Image>().sprite = soundOnSprite;
-            }
-            else
-            {
-                soundButton.transform.GetChild(0).GetComponent<Image>().sprite = soundOffSprite;
-            }
-
-            if (Globals.IsMusicOn)
-            {
-                musicButton.transform.GetChild(0).GetComponent<Image>().sprite = musicOnSprite;
-            }
-            else
-            {
-                musicButton.transform.GetChild(0).GetComponent<Image>().sprite = musicOffSprite;
-            }
-
-            SoundUI.Instance.PlayUISound(SoundsUI.click);
-            optionsButton.gameObject.SetActive(false);
-            optionsPanel.SetActive(true);
-
-
-            continueButton.transform.localScale = Vector3.zero;
-            soundButton.transform.localScale = Vector3.zero;
-            homeButton.transform.localScale = Vector3.zero;
-            musicButton.transform.localScale = Vector3.zero;
-
-            continueButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
-            soundButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
-            homeButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
-            musicButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
+            openOptions();
         });
 
         continueButton.onClick.AddListener(() =>
         {
-            SoundUI.Instance.PlayUISound(SoundsUI.click);
-            optionsButton.gameObject.SetActive(true);
-            optionsPanel.SetActive(false);
+            continuePlay();
         });
 
         soundButton.onClick.AddListener(() =>
@@ -116,15 +83,95 @@ public class OptionsMenu : MonoBehaviour
         });
     }
 
+    private void continuePlay()
+    {
+        if (!Globals.IsMobile)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        Globals.IsOptions = false;
+
+        SoundUI.Instance.PlayUISound(SoundsUI.click);
+        optionsButton.gameObject.SetActive(Globals.IsMobile);
+        optionsPanel.SetActive(false);
+    }
+
+
+
+    private void openOptions()
+    {
+        if (!Globals.IsMobile)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+
+        Globals.IsOptions = true;
+
+        if (Globals.IsSoundOn)
+        {
+            soundButton.transform.GetChild(0).GetComponent<Image>().sprite = soundOnSprite;
+        }
+        else
+        {
+            soundButton.transform.GetChild(0).GetComponent<Image>().sprite = soundOffSprite;
+        }
+
+        if (Globals.IsMusicOn)
+        {
+            musicButton.transform.GetChild(0).GetComponent<Image>().sprite = musicOnSprite;
+        }
+        else
+        {
+            musicButton.transform.GetChild(0).GetComponent<Image>().sprite = musicOffSprite;
+        }
+
+        SoundUI.Instance.PlayUISound(SoundsUI.click);
+        optionsButton.gameObject.SetActive(false);
+        optionsPanel.SetActive(true);
+
+
+        continueButton.transform.localScale = Vector3.zero;
+        soundButton.transform.localScale = Vector3.zero;
+        homeButton.transform.localScale = Vector3.zero;
+        musicButton.transform.localScale = Vector3.zero;
+
+        continueButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
+        soundButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
+        homeButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
+        musicButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
+    }
+
     public void TurnAllOn()
     {
+        Globals.IsOptions = false;
         optionsPanel.SetActive(false);
-        optionsButton.gameObject.SetActive(true);
+        optionsButton.gameObject.SetActive(Globals.IsMobile);
     }
 
     public void TurnAllOff()
     {
+        Globals.IsOptions = false;
         optionsPanel.SetActive(false);
         optionsButton.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!Globals.IsOptions)
+            {
+                
+                openOptions();
+            }
+            else
+            {
+                
+                continuePlay();
+            }            
+        }
     }
 }

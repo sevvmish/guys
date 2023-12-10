@@ -42,7 +42,7 @@ public class AmbientMusic : MonoBehaviour
 
     public void PlayAmbient(AmbientMelodies _type)
     {
-        if (!Globals.IsMusicOn) return;
+        if (!Globals.IsMusicOn || !Globals.IsSoundOn) return;
 
         _audio.pitch = 1;
         _audio.volume = 0.6f;

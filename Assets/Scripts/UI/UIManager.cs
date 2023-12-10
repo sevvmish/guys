@@ -19,11 +19,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI letterLeft;
     [SerializeField] private TextMeshProUGUI letterRight;
     [SerializeField] private TextMeshProUGUI signJump;
-
-    [Header("tutorials")]
-    [SerializeField] private GameObject doubleJumpHint;
-    [SerializeField] private TextMeshProUGUI doubleJumpHintText;
-
+        
     [Header("informer")]
     [SerializeField] private GameObject informerPanel;
     [SerializeField] private TextMeshProUGUI informerText;
@@ -35,13 +31,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button skipLevelForRewardedOK;
     [SerializeField] private Button skipLevelForRewardedNO;
     [SerializeField] private TextMeshProUGUI skipLevelConfirmationText;
-
-    public void SetDoubleJumpHint(bool isActive) => doubleJumpHint.SetActive(isActive);
+        
 
     // Start is called before the first frame update
     void Start()
-    {
-        doubleJumpHint.SetActive(false);
+    {        
         offerSkipLevelForRewarded.gameObject.SetActive(false);
         skipLevelConfirmationPanel.SetActive(false);
 
@@ -67,11 +61,30 @@ public class UIManager : MonoBehaviour
             letterLeft.text = Globals.Language.LeftArrowLetter;
             letterRight.text = Globals.Language.RightArrowLetter;
             signJump.text = Globals.Language.JumpLetter;
-            doubleJumpHintText.text = Globals.Language.DoubleJumpHint;
 
             offerSkipLevelText.text = Globals.Language.SkipLevelOffer;
             skipLevelConfirmationText.text = Globals.Language.SkipLevelConfirmation;
         }
+
+        offerSkipLevelForRewarded.onClick.AddListener(() => 
+        {
+            if (skipLevelConfirmationPanel.activeSelf) return;
+
+            skipLevelConfirmationPanel.SetActive(true);
+            Globals.IsOptions = true;
+        });
+
+        skipLevelForRewardedOK.onClick.AddListener(() =>
+        {
+            skipLevelPhaseOK();
+
+        });
+
+        skipLevelForRewardedNO.onClick.AddListener(() =>
+        {
+            skipLevelConfirmationPanel.SetActive(false);
+            Globals.IsOptions = false;
+        });
     }
 
     public void OfferSkipLevelForRewarded()
@@ -79,6 +92,11 @@ public class UIManager : MonoBehaviour
         if ((DateTime.Now - Globals.TimeWhenLastRewardedWas).TotalSeconds < Globals.REWARDED_COOLDOWN) return;
         SoundUI.Instance.PlayUISound(SoundsUI.pop);
         offerSkipLevelForRewarded.gameObject.SetActive(true);
+    }
+
+    private void skipLevelPhaseOK()
+    {
+        Globals.IsOptions = false;
     }
 
     public void ShowInformer(string text)

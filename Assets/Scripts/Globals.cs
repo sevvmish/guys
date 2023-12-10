@@ -13,9 +13,6 @@ public class Globals : MonoBehaviour
     public static string CurrentLanguage;
     public static Translation Language;
 
-    //public static int CurrentMapCircus = 0;
-    //public static int CurrentRespawnPointOnMap = 0;
-
     public static DateTime TimeWhenStartedPlaying;
     public static DateTime TimeWhenLastInterstitialWas;
     public static DateTime TimeWhenLastRewardedWas;
@@ -25,6 +22,7 @@ public class Globals : MonoBehaviour
 
     public static bool IsMobile;
     public static bool IsDevelopmentBuild = false;
+    public static bool IsOptions;
 
     public const float BASE_SPEED = 7f;
     public const float JUMP_POWER = 40f;

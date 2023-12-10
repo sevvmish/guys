@@ -63,6 +63,7 @@ public class RespawnPoint : MonoBehaviour
     {
         if (vfx != null && resp.TryGetComponent(out PlayerControl pc) && pc.IsItMainPlayer)
         {
+            if (Globals.IsMobile) pc.SetPlayerDirection(transform.eulerAngles.y);
             StartCoroutine(playSound());
         }
 
