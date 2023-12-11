@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7732268663632178443}
   - component: {fileID: 7191568374654830706}
   - component: {fileID: 4831715487630199404}
+  - component: {fileID: 2784029843915535638}
   m_Layer: 0
   m_Name: Direction sign with rotator
   m_TagString: Untagged
@@ -193,6 +194,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2784029843915535638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844387189493655600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9032cd1f2faefdb439265f6b4683de7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upDownDistance: 0.75
+  upDownSpeed: 1.5
+  rotationSpeedDirection: 0
+  upFirst: 0
 --- !u!1 &6388806574998290573
 GameObject:
   m_ObjectHideFlags: 0

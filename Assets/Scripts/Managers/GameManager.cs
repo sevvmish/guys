@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using YG;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 [DefaultExecutionOrder(-2)]
 public class GameManager : MonoBehaviour
@@ -40,9 +41,10 @@ public class GameManager : MonoBehaviour
         deathCount++;
 
         if (deathCount >= 5)
-        {
+        {            
             YandexMetrica.Send("die" + RespawnManager.Instance.GetCurrentIndex);
             mainUI.OfferSkipLevelForRewarded();
+            deathCount = 0;
         }
     }   
     public void ResetDeath() => deathCount = 0;
@@ -63,6 +65,7 @@ public class GameManager : MonoBehaviour
     private List<PlayerControl> bots = new List<PlayerControl>();
     private List<PlayerControl> finishPlaces = new List<PlayerControl>();
 
+    private float cameraShakeCooldown;
 
     //TODEL
     [SerializeField] private TextMeshProUGUI testText;
@@ -83,9 +86,9 @@ public class GameManager : MonoBehaviour
 
 
         //TODEL
-        Globals.MainPlayerData = new PlayerData();
-        Globals.MainPlayerData.M1 = 20;
-        Globals.MainPlayerData.Zoom = 0;
+        //Globals.MainPlayerData = new PlayerData();
+        //Globals.MainPlayerData.M1 = 19;
+        //Globals.MainPlayerData.Zoom = 0;
 
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
@@ -172,13 +175,30 @@ public class GameManager : MonoBehaviour
     {
         if (IsGameStarted) return;
 
+        mainUI.StartTheGame();
         options.TurnAllOn();
         IsGameStarted = true;
+    }
+
+    public void ShakeScreen(float _time, float strength, int vibra)
+    {
+        if (cameraShakeCooldown > 0) return;
+
+        _time = _time < 0.1f ? 0.1f : _time;
+        strength = strength < 1f ? 1f : strength;
+        vibra = vibra < 10 ? 10 : vibra;
+
+
+        _camera.transform.DOShakePosition(_time, strength, vibra);
+        cameraShakeCooldown = _time + 0.1f;
     }
   
 
     private void Update()
     {
+        if (cameraShakeCooldown > 0) cameraShakeCooldown -= Time.deltaTime;
+        
+
         if (IsGameStarted)
         {
             GameSecondsPlayed += Time.deltaTime;
@@ -195,6 +215,8 @@ public class GameManager : MonoBehaviour
         }
 
         
+
+
     }
 
     public int GetFinishPlace(PlayerControl player)

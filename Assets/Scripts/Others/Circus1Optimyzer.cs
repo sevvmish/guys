@@ -21,6 +21,14 @@ public class Circus1Optimyzer : MonoBehaviour
     [SerializeField] private GameObject DoubleJump;
     [SerializeField] private TextMeshPro DoubleJumpText;
 
+    [Header("Camera helper PC")]
+    [SerializeField] private GameObject CameraInfoPC;
+    [SerializeField] private TextMeshPro CameraInfoPCTexter;
+
+    [Header("Camera helper mobile")]
+    [SerializeField] private GameObject CameraInfoMobile;
+    [SerializeField] private TextMeshPro CameraInfoMobileTexter;
+
     [Header("PC movement")]
     [SerializeField] private GameObject MovementForPC;
     [SerializeField] private TextMeshPro MovementKeyboard;
@@ -47,6 +55,8 @@ public class Circus1Optimyzer : MonoBehaviour
         JumpForMobile.SetActive(false);
         JumpForPC.SetActive(false);
         DoubleJump.SetActive(false);
+        CameraInfoPC.SetActive(false);
+        CameraInfoMobile.SetActive(false);
 
         part1.SetActive(false);
         part2.SetActive(false);
@@ -85,6 +95,9 @@ public class Circus1Optimyzer : MonoBehaviour
 
                 JumpForMobile.SetActive(true);
                 JumpRightJTexter.text = Globals.Language.JumpHintRightJ;
+
+                CameraInfoMobile.SetActive(true);
+                CameraInfoMobileTexter.text = Globals.Language.CameraHintMobile;
             }
             else
             {
@@ -97,10 +110,14 @@ public class Circus1Optimyzer : MonoBehaviour
 
                 JumpForPC.SetActive(true);
                 JumpPCTexter.text = Globals.Language.JumpHintKeyboard;
+
+                CameraInfoPC.SetActive(true);
+                CameraInfoPCTexter.text = Globals.Language.CameraHintPC;
             }
 
             DoubleJump.SetActive(true);
             DoubleJumpText.text = Globals.Language.DoubleJumpHint;
+            
 
             if (!part1.activeSelf) part1.SetActive(true);
             if (!part2.activeSelf) part2.SetActive(true);
@@ -152,12 +169,18 @@ public class Circus1Optimyzer : MonoBehaviour
             if (part4.activeSelf) part4.SetActive(false);
             if (!part5.activeSelf) part5.SetActive(true);
             if (!part6.activeSelf) part6.SetActive(true);
-            if (!part7.activeSelf) part7.SetActive(true);
+            
         }
-        else if (pos >= 16 )
+        else if (pos >= 16 && pos < 20)
         {            
             if (part5.activeSelf) part5.SetActive(false);
             if (!part6.activeSelf) part6.SetActive(true);
+            if (!part7.activeSelf) part7.SetActive(true);
+        }
+        else if (pos >= 20)
+        {
+            if (part5.activeSelf) part5.SetActive(false);
+            if (!part6.activeSelf) part6.SetActive(false);
             if (!part7.activeSelf) part7.SetActive(true);
         }
     }

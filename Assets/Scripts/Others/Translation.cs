@@ -11,6 +11,8 @@ public class Translation : ScriptableObject
     public string RightArrowLetter;
     public string JumpLetter;
     public string DoubleJumpHint;
+    public string CameraHintPC;
+    public string CameraHintMobile;
 
     public string MovementHintLeftJ;
     public string MovementHintLetters;
@@ -22,6 +24,7 @@ public class Translation : ScriptableObject
     public string PlusBonus;
     public string SkipLevelOffer;
     public string SkipLevelConfirmation;
+    public string PressButtonWhenSkipLevel;
 
     public Translation() { }
 }

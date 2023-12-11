@@ -742,7 +742,8 @@ public class PlayerControl : MonoBehaviour
         }
         
         if (punchType == ApplyForceType.Punch_large)
-        {            
+        {        
+            gm.ShakeScreen(0.3f, 2, 30);
             StartCoroutine(addAdditionalForceWhenLargePunch(forceVector));
         }
 

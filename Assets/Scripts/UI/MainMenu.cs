@@ -7,6 +7,8 @@ using YG;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] private ScreenSaver screenSaver;
+
     private void Awake()
     {
         if (Globals.IsInitiated)
@@ -16,17 +18,20 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        AmbientMusic.Instance.PlayAmbient(AmbientMelodies.forest);
+    }
+
     private void startTheGame()
     {
         YandexGame.StickyAdActivity(true);
-
-        switch (Globals.MainPlayerData.CM)
-        {
-            case 0:
-                //Globals.CurrentRespawnPointOnMap = Globals.MainPlayerData.M1;
-                break;
-        }
-
+        StartCoroutine(playStart());
+    }
+    private IEnumerator playStart()
+    {
+        screenSaver.HideScreen();
+        yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
         SceneManager.LoadScene("circus1");
     }
 

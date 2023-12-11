@@ -52,4 +52,9 @@ public class RespawnManager : MonoBehaviour
 
         points.Add(number, pointT);
     }
+
+    public RespawnPoint GetRespawnPoint(int index)
+    {
+        return points[index];
+    }
 }

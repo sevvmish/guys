@@ -23,6 +23,7 @@ public class RotatingPhysicsByAngle : MonoBehaviour
     {
         switch (RotationAxis)
         {
+            
             case Axes.axis_X:
                 _rigidbody.DORotate(new Vector3(
                     direction * 360,
@@ -45,6 +46,30 @@ public class RotatingPhysicsByAngle : MonoBehaviour
                     0,
                     direction * 360), HowLongFor360, RotateMode.LocalAxisAdd).SetEase(easeType).SetLoops(-1);
                 break;
+
+            /*
+            case Axes.axis_X:
+                _rigidbody.transform.DORotate(new Vector3(
+                    direction * 360,
+                    0,
+                    0), HowLongFor360, RotateMode.LocalAxisAdd).SetUpdate(UpdateType.Fixed). SetEase(easeType).SetLoops(-1);
+                break;
+
+            case Axes.axis_Y:
+
+                _rigidbody.transform.DORotate(new Vector3(
+                    0,
+                    direction * 360,
+                    0), HowLongFor360, RotateMode.LocalAxisAdd).SetUpdate(UpdateType.Fixed).SetEase(easeType).SetLoops(-1);
+
+                break;
+
+            case Axes.axis_Z:
+                _rigidbody.transform.DORotate(new Vector3(
+                    0,
+                    0,
+                    direction * 360), HowLongFor360, RotateMode.LocalAxisAdd).SetUpdate(UpdateType.Fixed).SetEase(easeType).SetLoops(-1);
+                break;*/
         }
     }
 

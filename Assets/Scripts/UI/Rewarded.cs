@@ -11,21 +11,24 @@ public class Rewarded : MonoBehaviour
 
     private bool isRewardedOK;
 
-    public void ShowRewardedVideo()
+    private void Start()
     {
-        isRewardedOK = false;
-
         YandexGame.OpenVideoEvent = rewardStarted;
         YandexGame.RewardVideoEvent = rewardedClosedOK;
         YandexGame.CloseVideoEvent = advRewardedClosed;
         YandexGame.ErrorVideoEvent = advRewardedError;
+    }
+
+    public void ShowRewardedVideo()
+    {
+        isRewardedOK = false;        
         YandexGame.RewVideoShow(155);
 
     }
 
     private void rewardStarted()
     {
-        //print("reward started OK");
+        print("reward started OK");
         Time.timeScale = 0;
         if (Globals.IsSoundOn)
         {
@@ -39,34 +42,45 @@ public class Rewarded : MonoBehaviour
         if (value == 155)
         {
             isRewardedOK = true;
+            print("reward closed OK 155");
+            OnRewardedEndedOK?.Invoke();
         }
+
+        //OnRewardedEndedOK = null;
+        //OnError = null;
 
         Globals.TimeWhenLastRewardedWas = DateTime.Now;
     }
 
     private void advRewardedClosed()
     {
-        //print("rewarded was closed ok");
+        print("rewarded was closed ok");
         Time.timeScale = 1;
         if (Globals.IsSoundOn)
         {
             AudioListener.volume = 1;
         }
 
+
         if (isRewardedOK)
         {
-            OnRewardedEndedOK?.Invoke();
+            print("invoke when rewarded OK");
+            //OnRewardedEndedOK?.Invoke();
         }
         else
         {
-            OnError?.Invoke();
+            print("invoke when rewarded ERROR");
+            //OnError?.Invoke();
         }
+
+        //OnRewardedEndedOK = null;
+        //OnError = null;
 
     }
 
     private void advRewardedError()
     {
-        //print("rewarded was ERROR!");
+        print("rewarded was ERROR!");
         Time.timeScale = 1;
         if (Globals.IsSoundOn)
         {
@@ -74,6 +88,8 @@ public class Rewarded : MonoBehaviour
         }
 
         OnError?.Invoke();
+        OnRewardedEndedOK = null;
+        OnError = null;
 
     }
 }
