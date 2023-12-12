@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
 
         //TODEL
         //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.M1 = 19;
+        //Globals.MainPlayerData.M1 = 20;
         //Globals.MainPlayerData.Zoom = 0;
 
 

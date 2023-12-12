@@ -763,6 +763,7 @@ public class PlayerControl : MonoBehaviour
         {
             timer += 0.1f;
             yield return new WaitForSeconds(0.1f);
+            if (timer > 5) break;
         }
 
         
