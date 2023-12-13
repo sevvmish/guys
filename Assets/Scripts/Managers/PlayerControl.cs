@@ -61,6 +61,9 @@ public class PlayerControl : MonoBehaviour
     public bool IsRunning { get; private set; }
     public bool IsIdle { get; private set; }
 
+    public bool IsFreeFall { get; private set; }
+    public void SetFreeFall(bool isFree) => IsFreeFall = isFree;
+
     public bool IsSecondJump { get; private set; }
     public bool IsFloating { get; private set; }
     public bool IsCanAct { get; private set; }
@@ -414,19 +417,39 @@ public class PlayerControl : MonoBehaviour
                 vertical = 1;
             }
 
-            if ((PlayerVelocity < PlayerCurrentSpeed && IsGrounded) || (PlayerVelocity < PlayerCurrentSpeed * 1.25f && !IsGrounded))
+            if (!IsFreeFall)
             {
-                float koeff = 0;
-                float addKoeff = IsGrounded ? 1 : 1.3f;
-                                                
-                koeff = PlayerCurrentSpeed * addKoeff * new Vector2(horizontal, vertical).magnitude - PlayerVelocity;
-                                                
-                koeff = koeff > 0 ? koeff : 0;
+                if ((PlayerVelocity < PlayerCurrentSpeed && IsGrounded) || (PlayerVelocity < PlayerCurrentSpeed * 1.25f && !IsGrounded))
+                {
+                    float koeff = 0;
+                    float addKoeff = IsGrounded ? 1 : 1.3f;
 
-                _rigidbody.velocity += _transform.forward * koeff;
+                    koeff = PlayerCurrentSpeed * addKoeff * new Vector2(horizontal, vertical).magnitude - PlayerVelocity;
 
-                if (koeff > 0) playRun();
+                    koeff = koeff > 0 ? koeff : 0;
+
+                    _rigidbody.velocity += _transform.forward * koeff;
+
+                    if (koeff > 0) playRun();
+                }
             }
+            else
+            {
+                if ((PlayerNonVerticalVelocity < PlayerCurrentSpeed && IsGrounded) || (PlayerNonVerticalVelocity < PlayerCurrentSpeed * 1.25f && !IsGrounded))
+                {
+                    float koeff = 0;
+                    float addKoeff = IsGrounded ? 1 : 1.3f;
+
+                    koeff = PlayerCurrentSpeed * addKoeff * new Vector2(horizontal, vertical).magnitude - PlayerNonVerticalVelocity;
+
+                    koeff = koeff > 0 ? koeff : 0;
+
+                    _rigidbody.velocity += _transform.forward * koeff;
+
+                    if (koeff > 0) playRun();
+                }
+            }
+            
             
             howLongMoving = 0;
             horizontal = 0;
@@ -576,6 +599,7 @@ public class PlayerControl : MonoBehaviour
             IsJumping = false;
             IsFloating = false;
             IsSecondJump = false;
+            IsFreeFall = false;
             _rigidbody.velocity = Vector3.zero;
 
             _rigidbody.mass = 0.1f;
@@ -674,6 +698,7 @@ public class PlayerControl : MonoBehaviour
         IsJumping = false;
         IsFloating = false;
         IsSecondJump = false;
+        IsFreeFall = false;
         _transform.SetParent(playerLocation);
 
         yield return new WaitForSeconds(0.2f);
