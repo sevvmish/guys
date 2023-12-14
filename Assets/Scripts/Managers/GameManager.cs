@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     {
         YandexMetrica.Send("point" + number);
         deathCount = 0;
+        mainUI.ResetOfferSkipLevel();
     }
         
 
@@ -86,9 +87,9 @@ public class GameManager : MonoBehaviour
 
 
         //TODEL
-        Globals.MainPlayerData = new PlayerData();
-        Globals.MainPlayerData.M1 = 21;
-        Globals.MainPlayerData.Zoom = 0;
+        //Globals.MainPlayerData = new PlayerData();
+        //Globals.MainPlayerData.M1 = 23;
+        //Globals.MainPlayerData.Zoom = 0;
 
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;

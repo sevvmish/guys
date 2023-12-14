@@ -20,7 +20,7 @@ public class Globals : MonoBehaviour
 
     public static GameTypes CurrentGameType;
 
-    public const int MAX_RESPAWN_POINTS = 60;
+    public const int MAX_RESPAWN_POINTS = 25;
 
     public static bool IsMobile;
     public static bool IsDevelopmentBuild = false;

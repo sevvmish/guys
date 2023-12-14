@@ -13,12 +13,14 @@ public class Translation : ScriptableObject
     public string DoubleJumpHint;
     public string CameraHintPC;
     public string CameraHintMobile;
+    public string DontForgetDoubleJump;
 
     public string MovementHintLeftJ;
     public string MovementHintLetters;
     public string JumpHintRightJ;
     public string JumpHintKeyboard;
-    public string RightMouseButton;
+
+    public string CameraScalerInfo;
 
     public string Saved;
     public string PlusBonus;

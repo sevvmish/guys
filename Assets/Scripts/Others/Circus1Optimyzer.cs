@@ -29,6 +29,10 @@ public class Circus1Optimyzer : MonoBehaviour
     [SerializeField] private GameObject CameraInfoMobile;
     [SerializeField] private TextMeshPro CameraInfoMobileTexter;
 
+    [Header("Dont forget double jump")]
+    [SerializeField] private GameObject DontForgetDJ;
+    [SerializeField] private TextMeshPro DontForgetDJTexter;
+
     [Header("PC movement")]
     [SerializeField] private GameObject MovementForPC;
     [SerializeField] private TextMeshPro MovementKeyboard;
@@ -45,6 +49,7 @@ public class Circus1Optimyzer : MonoBehaviour
     [SerializeField] private GameObject part6;
     [SerializeField] private GameObject part7;
     [SerializeField] private GameObject part8;
+    [SerializeField] private GameObject part9;
 
     private int previousPos;
 
@@ -58,6 +63,7 @@ public class Circus1Optimyzer : MonoBehaviour
         DoubleJump.SetActive(false);
         CameraInfoPC.SetActive(false);
         CameraInfoMobile.SetActive(false);
+        DontForgetDJ.SetActive(false);
 
         part1.SetActive(false);
         part2.SetActive(false);
@@ -67,6 +73,7 @@ public class Circus1Optimyzer : MonoBehaviour
         part6.SetActive(false);
         part7.SetActive(false);
         part8.SetActive(false);
+        part9.SetActive(false);
 
         yield return new WaitForSeconds(0.05f);
 
@@ -119,7 +126,10 @@ public class Circus1Optimyzer : MonoBehaviour
 
             DoubleJump.SetActive(true);
             DoubleJumpText.text = Globals.Language.DoubleJumpHint;
-            
+
+            DontForgetDJ.SetActive(true);
+            DontForgetDJTexter.text = Globals.Language.DontForgetDoubleJump;
+
 
             if (!part1.activeSelf) part1.SetActive(true);
             if (!part2.activeSelf) part2.SetActive(true);
@@ -179,12 +189,23 @@ public class Circus1Optimyzer : MonoBehaviour
             if (!part6.activeSelf) part6.SetActive(true);
             if (!part7.activeSelf) part7.SetActive(true);
         }
-        else if (pos >= 20)
+        else if (pos >= 20 && pos < 23)
         {
             if (part5.activeSelf) part5.SetActive(false);
-            if (!part6.activeSelf) part6.SetActive(false);
+            if (part6.activeSelf) part6.SetActive(false);
             if (!part7.activeSelf) part7.SetActive(true);
             if (!part8.activeSelf) part8.SetActive(true);
+            if (!part9.activeSelf) part9.SetActive(true);
+        }
+        else if (pos >= 23 && pos<24)
+        {   
+            if (part7.activeSelf) part7.SetActive(false);
+            if (!part8.activeSelf) part8.SetActive(true);
+            if (!part9.activeSelf) part9.SetActive(true);
+        }
+        else if (pos >= 24)
+        {            
+            if (!part9.activeSelf) part9.SetActive(true);
         }
     }
 

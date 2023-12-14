@@ -732,6 +732,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ring2
       objectReference: {fileID: 0}
+    - target: {fileID: 4256434999676092364, guid: 0ec1f82e4ad193e4aa2258cd8bc656ae, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c3b1e9839eace954cb60f59657b73b7e, type: 2}
     - target: {fileID: 4941996589212918211, guid: 0ec1f82e4ad193e4aa2258cd8bc656ae, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5

@@ -12,7 +12,9 @@ public class CameraControl : MonoBehaviour
     private Transform mainCamera;
     private Transform mainCamTransformForRaycast;
     private Transform outerCamera;
-    
+
+    private float currentZoom;
+    private float zoomTimer;
 
     private bool isUpdate = true;
     private float _timer;
@@ -41,8 +43,9 @@ public class CameraControl : MonoBehaviour
         mainCamera.localPosition = Globals.BasePosition;
         mainCamera.localEulerAngles = Globals.BaseRotation;
         ignoreMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll", "danger" });
-        
-        zoom(Globals.MainPlayerData.Zoom);
+
+        currentZoom = Globals.MainPlayerData.Zoom;
+        Zoom(Globals.MainPlayerData.Zoom);
     }
 
     public void SwapControlBody(Transform newTransform)
@@ -65,6 +68,7 @@ public class CameraControl : MonoBehaviour
             float add = Globals.ZOOM_DELTA;
             mainCamera.position += mainCamera.forward * add;
             Globals.MainPlayerData.Zoom += add;
+                        
         }
         else if(koeff < 0 && Globals.MainPlayerData.Zoom > -Globals.ZOOM_LIMIT)
         {
@@ -72,9 +76,25 @@ public class CameraControl : MonoBehaviour
             mainCamera.position += mainCamera.forward * add;
             Globals.MainPlayerData.Zoom += add;
         }
+
+        checkCorrectZoom();
     }
 
-    private void zoom(float koeff)
+    private void checkCorrectZoom()
+    {
+        if (Globals.MainPlayerData.Zoom > Globals.ZOOM_LIMIT)
+        {
+            Globals.MainPlayerData.Zoom = Globals.ZOOM_LIMIT;
+            Zoom(Globals.MainPlayerData.Zoom);
+        }
+        else if (Globals.MainPlayerData.Zoom < -Globals.ZOOM_LIMIT)
+        {
+            Globals.MainPlayerData.Zoom = -Globals.ZOOM_LIMIT;
+            Zoom(Globals.MainPlayerData.Zoom);
+        }
+    }
+
+    public void Zoom(float koeff)
     {
         mainCamera.localPosition = Globals.BasePosition;
         mainCamera.position += mainCamera.forward * koeff;
@@ -113,6 +133,21 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {        
+        if (zoomTimer > 2)
+        {
+            zoomTimer = 0;
+
+            if (currentZoom != Globals.MainPlayerData.Zoom)
+            {
+                currentZoom = Globals.MainPlayerData.Zoom;
+                SaveLoadManager.Save();
+            }
+        }
+        else
+        {
+            zoomTimer += Time.deltaTime;
+        }
+
         if (!isUpdate || !gm.IsGameStarted) return;
         outerCamera.position = mainPlayer.position/* + basePosition*/;
         

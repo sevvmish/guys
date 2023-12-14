@@ -24,6 +24,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject informerPanel;
     [SerializeField] private TextMeshProUGUI informerText;
 
+    [Header("mobile scaler")]
+    [SerializeField] private GameObject scalerPanel;
+    [SerializeField] private Button scalerPanelCallButton;
+    [SerializeField] private Button scalerPanelCloseButton;
+    [SerializeField] private Slider scalerSlider;
+    [SerializeField] private TextMeshProUGUI scalerInfoText;
+    
+
     [Header("ADV")]
     [SerializeField] private Rewarded rewarded;
 
@@ -41,12 +49,15 @@ public class UIManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {        
+    {
         gm = GameManager.Instance;
 
         offerSkipLevelForRewarded.gameObject.SetActive(false);
         skipLevelConfirmationPanel.SetActive(false);
         InfoWithButtonSkipLevel.SetActive(false);
+        scalerPanel.SetActive(false);
+        scalerPanelCallButton.gameObject.SetActive(Globals.IsMobile);
+        scalerSlider.value = Globals.MainPlayerData.Zoom;
 
         if (Globals.Language != null)
         {
@@ -59,7 +70,29 @@ public class UIManager : MonoBehaviour
 
             offerSkipLevelText.text = Globals.Language.SkipLevelOffer;
             skipLevelConfirmationText.text = Globals.Language.SkipLevelConfirmation;
+
+            scalerInfoText.text = Globals.Language.CameraScalerInfo;
         }
+
+        scalerPanelCallButton.onClick.AddListener(() =>
+        {
+            if (scalerPanel.activeSelf) return;
+
+            SoundUI.Instance.PlayUISound(SoundsUI.click);
+            scalerPanel.SetActive(true);
+            scalerPanelCallButton.gameObject.SetActive(false);
+        });
+
+        scalerPanelCloseButton.onClick.AddListener(() =>
+        {
+            if (!scalerPanel.activeSelf) return;
+            
+            SoundUI.Instance.PlayUISound(SoundsUI.click);
+            scalerPanel.SetActive(false);
+            scalerPanelCallButton.gameObject.SetActive(Globals.IsMobile);
+        });
+
+        scalerSlider.onValueChanged.AddListener(scaleCameraDistance);
 
         offerSkipLevelForRewarded.onClick.AddListener(() => 
         {
@@ -92,6 +125,12 @@ public class UIManager : MonoBehaviour
         });
     }
 
+    private void scaleCameraDistance(float val)
+    {
+        Globals.MainPlayerData.Zoom = val;
+        gm.GetCameraControl().Zoom(val);
+    }
+
     public void StartTheGame()
     {
         ShowAllControls();
@@ -116,10 +155,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ResetOfferSkipLevel()
+    {
+        offerSkipLevelForRewarded.gameObject.SetActive(false);
+    }
+
     public void OfferSkipLevelForRewarded()
     {
         int newRespID = RespawnManager.Instance.GetCurrentIndex;
-        if (newRespID < 2 || newRespID >= Globals.MAX_RESPAWN_POINTS) return;
+        if (newRespID < 2 || newRespID >= 24) return;
         
         if ((DateTime.Now - Globals.TimeWhenLastRewardedWas).TotalSeconds < Globals.REWARDED_COOLDOWN) return;
         if (offerSkipLevelForRewarded.gameObject.activeSelf || skipLevelConfirmationPanel.activeSelf) return;
