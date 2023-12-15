@@ -189,11 +189,17 @@ public class Circus1Optimyzer : MonoBehaviour
             if (!part6.activeSelf) part6.SetActive(true);
             if (!part7.activeSelf) part7.SetActive(true);
         }
-        else if (pos >= 20 && pos < 23)
+        else if (pos >= 20 && pos < 22)
         {
             if (part5.activeSelf) part5.SetActive(false);
             if (part6.activeSelf) part6.SetActive(false);
             if (!part7.activeSelf) part7.SetActive(true);
+            if (!part8.activeSelf) part8.SetActive(true);
+        }
+        else if (pos >= 22 && pos < 23)
+        {            
+            if (part6.activeSelf) part6.SetActive(false);
+            if (part7.activeSelf) part7.SetActive(false);
             if (!part8.activeSelf) part8.SetActive(true);
             if (!part9.activeSelf) part9.SetActive(true);
         }
