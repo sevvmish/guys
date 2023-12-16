@@ -132,7 +132,7 @@ public class UIManager : MonoBehaviour
     }
 
     public void StartTheGame()
-    {
+    {        
         ShowAllControls();
     }
 
@@ -239,8 +239,9 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            mouseHelper.SetActive(true);
-            lettersHelper.SetActive(true);
+            //RETURN LATER
+            //mouseHelper.SetActive(true);
+            //lettersHelper.SetActive(true);
             joystick.gameObject.SetActive(false);
             jump.gameObject.SetActive(false);
         }

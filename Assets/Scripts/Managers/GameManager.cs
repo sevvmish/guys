@@ -87,9 +87,10 @@ public class GameManager : MonoBehaviour
 
 
         //TODEL
-        //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.M1 = 23;
-        //Globals.MainPlayerData.Zoom = 0;
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.M1 = 24;
+        Globals.MainPlayerData.Zoom = 0;
+        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;

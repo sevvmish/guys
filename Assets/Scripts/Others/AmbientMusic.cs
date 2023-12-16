@@ -78,6 +78,7 @@ public class AmbientMusic : MonoBehaviour
                 _audio.loop = true;
                 _audio.clip = forest;
                 _audio.Play();
+                
                 break;
 
         }
@@ -121,7 +122,7 @@ public class AmbientMusic : MonoBehaviour
             if (rows == 3)
             {
                 rows = 0;
-                yield return new WaitForSeconds(10f);
+                yield return new WaitForSeconds(15f);
             }
 
         }

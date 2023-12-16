@@ -1,24 +1,43 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using YG;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private ScreenSaver screenSaver;
 
+    [Header("Menu")]
+    [SerializeField] private Button playB;
+
     private void Awake()
+    {        
+        screenSaver.ShowScreen();        
+    }
+
+
+    private void Start()
     {
+        playB.onClick.AddListener(() =>
+        {
+            playB.interactable = false;
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+            StartCoroutine(playStart());
+        });
+
         if (Globals.IsInitiated)
         {
+            playWhenInitialized();
             Localize();
             startTheGame();
         }
     }
 
-    private void Start()
+    private void playWhenInitialized()
     {
         AmbientMusic.Instance.PlayAmbient(AmbientMelodies.forest);
     }
@@ -26,7 +45,7 @@ public class MainMenu : MonoBehaviour
     private void startTheGame()
     {
         YandexGame.StickyAdActivity(true);
-        StartCoroutine(playStart());
+        //StartCoroutine(playStart());
     }
     private IEnumerator playStart()
     {
@@ -82,6 +101,7 @@ public class MainMenu : MonoBehaviour
             //Globals.CurrentMapCircus = Globals.MainPlayerData.CM;
 
             Localize();
+            playWhenInitialized();
             startTheGame();
         }
     }
