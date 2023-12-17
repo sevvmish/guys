@@ -43,6 +43,9 @@ public class Globals : MonoBehaviour
     public const float MOUSE_X_SENS = 26f;
     public const float MOUSE_Y_SENS = 13f;
 
+    public const float SPEED_INC_IN_NONGROUND_PC = 0.25f;
+    public const float SPEED_INC_IN_NONGROUND_MOBILE = 0.35f;
+
     public const float MAX_HIT_IMPULSE_MAGNITUDE = 60f;
     public const float MIN_HIT_IMPULSE_MAGNITUDE = 20f;
 

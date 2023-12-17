@@ -240,8 +240,8 @@ public class UIManager : MonoBehaviour
         else
         {
             //RETURN LATER
-            //mouseHelper.SetActive(true);
-            //lettersHelper.SetActive(true);
+            mouseHelper.SetActive(true);
+            lettersHelper.SetActive(true);
             joystick.gameObject.SetActive(false);
             jump.gameObject.SetActive(false);
         }

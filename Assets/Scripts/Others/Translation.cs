@@ -28,5 +28,10 @@ public class Translation : ScriptableObject
     public string SkipLevelConfirmation;
     public string PressButtonWhenSkipLevel;
 
+    public string Play;
+    public string Continue;
+    public string Reset;
+    public string ResetInfoText;
+
     public Translation() { }
 }

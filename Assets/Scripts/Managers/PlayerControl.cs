@@ -43,6 +43,8 @@ public class PlayerControl : MonoBehaviour
     private bool isForward;
     private bool isFunnySound;
 
+    public bool IsPlatformTouched { get; private set; }
+
     //SPEED
     public float PlayerMaxSpeed { get; private set; }
     public float PlayerCurrentSpeed { get; private set; }
@@ -417,12 +419,24 @@ public class PlayerControl : MonoBehaviour
                 vertical = 1;
             }
 
+            float addSpeedKoeff = 1f;
+
+            if (Globals.IsMobile)
+            {
+                addSpeedKoeff += Globals.SPEED_INC_IN_NONGROUND_MOBILE;
+            }
+            else
+            {
+                addSpeedKoeff += Globals.SPEED_INC_IN_NONGROUND_PC;
+            }
+
+
             if (!IsFreeFall)
             {
-                if ((PlayerVelocity < PlayerCurrentSpeed && IsGrounded) || (PlayerVelocity < PlayerCurrentSpeed * 1.25f && !IsGrounded))
+                if ((PlayerVelocity < PlayerCurrentSpeed && IsGrounded) || (PlayerVelocity < PlayerCurrentSpeed * addSpeedKoeff && !IsGrounded))
                 {
                     float koeff = 0;
-                    float addKoeff = IsGrounded ? 1 : 1.3f;
+                    float addKoeff = IsGrounded ? 1 : addSpeedKoeff;
 
                     koeff = PlayerCurrentSpeed * addKoeff * new Vector2(horizontal, vertical).magnitude - PlayerVelocity;
 
@@ -435,10 +449,10 @@ public class PlayerControl : MonoBehaviour
             }
             else
             {
-                if ((PlayerNonVerticalVelocity < PlayerCurrentSpeed && IsGrounded) || (PlayerNonVerticalVelocity < PlayerCurrentSpeed * 1.25f && !IsGrounded))
+                if ((PlayerNonVerticalVelocity < PlayerCurrentSpeed && IsGrounded) || (PlayerNonVerticalVelocity < PlayerCurrentSpeed * addSpeedKoeff && !IsGrounded))
                 {
                     float koeff = 0;
-                    float addKoeff = IsGrounded ? 1 : 1.3f;
+                    float addKoeff = IsGrounded ? 1 : addSpeedKoeff;
 
                     koeff = PlayerCurrentSpeed * addKoeff * new Vector2(horizontal, vertical).magnitude - PlayerNonVerticalVelocity;
 
@@ -586,8 +600,21 @@ public class PlayerControl : MonoBehaviour
             
             _rigidbody.AddForce((_transform.position - another.transform.position).normalized * Globals.PLAYERS_COLLIDE_FORCE, ForceMode.Impulse);
         }
+
+        if (collision.gameObject.layer == 10)
+        {
+            IsPlatformTouched = true;
+        }
     }
-        
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == 10)
+        {
+            IsPlatformTouched = false;
+        }
+    }
+
     private void SetRagdollState(bool isActive)
     {
 

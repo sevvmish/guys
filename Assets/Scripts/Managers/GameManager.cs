@@ -87,10 +87,10 @@ public class GameManager : MonoBehaviour
 
 
         //TODEL
-        Globals.MainPlayerData = new PlayerData();
-        Globals.MainPlayerData.M1 = 24;
-        Globals.MainPlayerData.Zoom = 0;
-        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        //Globals.MainPlayerData = new PlayerData();
+        //Globals.MainPlayerData.M1 = 24;
+        //Globals.MainPlayerData.Zoom = 0;
+        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
@@ -200,25 +200,20 @@ public class GameManager : MonoBehaviour
     {
         if (cameraShakeCooldown > 0) cameraShakeCooldown -= Time.deltaTime;
         
-
         if (IsGameStarted)
         {
             GameSecondsPlayed += Time.deltaTime;
         }
 
+        /*
         if (Input.GetKeyDown(KeyCode.R))
         {
             Globals.MainPlayerData = new PlayerData();
             SaveLoadManager.Save();
 
-            //Globals.CurrentRespawnPointOnMap = Globals.MainPlayerData.M1;
-
             SceneManager.LoadScene("circus1");
         }
-
-        
-
-
+        */
     }
 
     public int GetFinishPlace(PlayerControl player)
