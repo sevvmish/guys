@@ -23,7 +23,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button resetNO;
 
     private void Awake()
-    {        
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         screenSaver.ShowScreen();
         playBText.text = "";
 
