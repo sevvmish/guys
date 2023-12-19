@@ -25,8 +25,8 @@ public class LevelManager : MonoBehaviour
     {
         gm = GameManager.Instance;
         cameraBody = GameManager.Instance.GetCameraBody();
-        //StartCoroutine(playPreview());
-        StartCoroutine(playPreviewDigitalCircus());
+        StartCoroutine(playPreview());
+        
     }
 
     // Update is called once per frame
@@ -54,16 +54,6 @@ public class LevelManager : MonoBehaviour
                     break;
             }
         }
-    }
-
-    private IEnumerator playPreviewDigitalCircus()
-    {
-        ScreenSaver.Instance.ShowScreen();
-        yield return new WaitForSeconds(0);
-
-        gm.StartTheGame();
-        yield return new WaitForSeconds(3f);
-        AmbientMusic.Instance.PlayScenario1();
     }
 
     private IEnumerator playPreview()

@@ -32,20 +32,7 @@ public class DrumJumper : MonoBehaviour
             drum.localScale = Vector3.one;
             drum.DOShakeScale(0.3f, 0.6f, 30).SetEase(Ease.OutQuad);
 
-            StartCoroutine(play(player));
-            /*
-            players.Add(player);
-            StartCoroutine(cleanList(player));
-            drum.localScale = Vector3.one;
-            drum.DOShakeScale(0.3f, 0.6f, 30).SetEase(Ease.OutQuad);
-            player.velocity = Vector3.zero;
-            player.ResetInertiaTensor();
-            player.AddForce(dir * force, ForceMode.Impulse);
-            
-            if (collision.gameObject.TryGetComponent(out PlayerControl pc))
-            {
-                pc.StopJumpPermission(0.5f);
-            }*/
+            StartCoroutine(play(player));           
         }
     }
 
@@ -54,14 +41,16 @@ public class DrumJumper : MonoBehaviour
     {
         vfx.SetActive(true);
         _audio.Play();
+                
+
+        //yield return new WaitForSeconds(Time.fixedDeltaTime);
 
         player.velocity = Vector3.zero;
         player.ResetInertiaTensor();
 
-        yield return new WaitForSeconds(Time.fixedDeltaTime);
         player.AddForce(dir * force, ForceMode.Impulse);
         yield return new WaitForSeconds(Time.fixedDeltaTime);
-        players.Remove(player);
+        
         for (int i = 0; i < 3; i++)
         {
             player.AddForce(dir * 10, ForceMode.Impulse); 

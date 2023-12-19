@@ -15,12 +15,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button playB;
     [SerializeField] private TextMeshProUGUI playBText;
 
-    [Header("Reset")]
-    [SerializeField] private Button resetB;
-    [SerializeField] private GameObject resetPanel;
-    [SerializeField] private TextMeshProUGUI resetText;
-    [SerializeField] private Button resetOK;
-    [SerializeField] private Button resetNO;
+    
 
     private void Awake()
     {
@@ -30,41 +25,11 @@ public class MainMenu : MonoBehaviour
         screenSaver.ShowScreen();
         playBText.text = "";
 
-        resetPanel.SetActive(false);
-        resetB.gameObject.SetActive(false);
     }
 
 
     private void Start()
-    {
-        resetB.onClick.AddListener(() =>
-        {
-            if (resetPanel.activeSelf) return;
-
-            SoundUI.Instance.PlayUISound(SoundsUI.click);
-            resetPanel.SetActive(true);
-            resetB.gameObject.SetActive(false);
-
-        });
-
-        resetOK.onClick.AddListener(() =>
-        {            
-            SoundUI.Instance.PlayUISound(SoundsUI.click);
-
-            Globals.MainPlayerData = new PlayerData();
-            SaveLoadManager.Save();
-
-            SceneManager.LoadScene("MainMenu");
-        });
-
-        resetNO.onClick.AddListener(() =>
-        {
-            SoundUI.Instance.PlayUISound(SoundsUI.click);
-
-            resetPanel.SetActive(false);
-            resetB.gameObject.SetActive(true);
-        });
-
+    {        
         playB.onClick.AddListener(() =>
         {
             playB.interactable = false;
@@ -88,7 +53,6 @@ public class MainMenu : MonoBehaviour
     private void startTheGame()
     {
         YandexGame.StickyAdActivity(true);
-        //StartCoroutine(playStart());
     }
     private IEnumerator playStart()
     {
@@ -153,17 +117,6 @@ public class MainMenu : MonoBehaviour
     {
         Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
-        if (Globals.MainPlayerData.M1 == -1)
-        {
-            playBText.text = Globals.Language.Play;
-            resetB.gameObject.SetActive(false);
-        }
-        else
-        {
-            playBText.text = Globals.Language.Continue;
-            resetB.gameObject.SetActive(true);
-        }
-
-        
+                
     }
 }

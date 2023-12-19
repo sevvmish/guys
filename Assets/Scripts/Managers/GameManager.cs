@@ -34,28 +34,7 @@ public class GameManager : MonoBehaviour
     public Transform GetVFX() => vfx;
     public UIManager GetUI() => mainUI;
     public LevelManager GetLevelManager() => levelManager;
-
-    //death stats
-    public void AddDeath()
-    {
-        deathCount++;
-
-        if (deathCount >= 5)
-        {            
-            YandexMetrica.Send("die" + RespawnManager.Instance.GetCurrentIndex);
-            mainUI.OfferSkipLevelForRewarded();
-            deathCount = 0;
-        }
-    }   
-    public void ResetDeath() => deathCount = 0;
-    private int deathCount;
-    public void RespawnPointReached(int number)
-    {
-        YandexMetrica.Send("point" + number);
-        deathCount = 0;
-        mainUI.ResetOfferSkipLevel();
-    }
-        
+                   
 
     //GAME START
     public float GameSecondsPlayed { get; private set; }
@@ -87,10 +66,11 @@ public class GameManager : MonoBehaviour
 
 
         //TODEL
-        //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.M1 = 24;
-        //Globals.MainPlayerData.Zoom = 0;
-        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.M1 = 24;
+        Globals.MainPlayerData.Zoom = 0;
+        Globals.IsMobile = false;
+        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
@@ -98,7 +78,7 @@ public class GameManager : MonoBehaviour
         mainPlayer.GetComponent<PlayerControl>().SetPlayerToMain();
         mainPlayer.gameObject.name = "Main Player";
 
-        //ArrangePlayers(15);      
+        ArrangePlayers(7);
 
         if (levelManager == null)
         {
@@ -259,7 +239,7 @@ public class GameManager : MonoBehaviour
         g.GetComponent<PlayerControl>().SetEffectControl(vfx.GetComponent<EffectsControl>());
 
         //player
-        GameObject skin = Instantiate(SkinControl.GetSkinGameobject(Skins.pomni), g.transform);
+        GameObject skin = Instantiate(SkinControl.GetSkinGameobject(Skins.civilian_male_1), g.transform);
         skin.transform.localPosition = Vector3.zero;
         skin.transform.localEulerAngles = Vector3.zero;
         SkinControl skinControl = skin.GetComponent<SkinControl>();

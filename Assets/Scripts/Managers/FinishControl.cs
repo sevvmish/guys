@@ -37,13 +37,11 @@ public class FinishControl : MonoBehaviour
         if (other.CompareTag("Player") && other.TryGetComponent(out PlayerControl pc) && !pc.IsFinished)
         {
             GameManager.Instance.AddPlayerFinished(pc);
-            //pc.FinishReached();
             StartCoroutine(checkPlace(pc));
         }
         else if (other.TryGetComponent(out RagdollPartCollisionChecker rag) && !rag.LinkToPlayerControl.gameObject.GetComponent<PlayerControl>().IsFinished)
         {
             PlayerControl plC = rag.LinkToPlayerControl.gameObject.GetComponent<PlayerControl>();
-            //plC.FinishReached();
             GameManager.Instance.AddPlayerFinished(plC);
             StartCoroutine(checkPlace(plC));
         }
@@ -72,7 +70,6 @@ public class FinishControl : MonoBehaviour
             player.transform.position = Vector3.Lerp(otherPlaces[0].position, otherPlaces[1].position, UnityEngine.Random.Range(0f, 1f));
         }
 
-        //yield return new WaitForSeconds(0.3f);
         player.FinishReached();
     }
 }

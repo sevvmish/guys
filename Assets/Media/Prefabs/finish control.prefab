@@ -741,7 +741,7 @@ GameObject:
   - component: {fileID: 3341767479918416724}
   - component: {fileID: 2995145688808540362}
   - component: {fileID: 2525349764041332989}
-  - component: {fileID: 3304397768904521386}
+  - component: {fileID: 7090951101770246209}
   m_Layer: 8
   m_Name: finish control
   m_TagString: Untagged
@@ -808,7 +808,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 33, y: 10, z: 10}
   m_Center: {x: 0, y: 5, z: 0}
---- !u!114 &3304397768904521386
+--- !u!114 &7090951101770246209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -817,7 +817,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8395538224854998957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0293ab3355967de479e7c1e101b02bda, type: 3}
+  m_Script: {fileID: 11500000, guid: e5f222a5ec9a5a94c93938247ecc6753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   places:

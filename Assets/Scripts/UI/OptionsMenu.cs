@@ -146,6 +146,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void TurnAllOn()
     {
+        
         Globals.IsOptions = false;
         optionsPanel.SetActive(false);
         optionsButton.gameObject.SetActive(Globals.IsMobile);

@@ -23,10 +23,10 @@ public class Globals : MonoBehaviour
     public const int MAX_RESPAWN_POINTS = 25;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = false;
+    public static bool IsDevelopmentBuild = true;
     public static bool IsOptions;
 
-    public const float BASE_SPEED = 7f;
+    public const float BASE_SPEED = 6f;
     public const float JUMP_POWER = 40f;
     public const float GRAVITY_KOEFF = 2.75f;
 

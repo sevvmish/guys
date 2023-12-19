@@ -9,6 +9,8 @@ public class SkinControl : MonoBehaviour
 
     public static GameObject GetSkinGameobject(Skins skin)
     {
+        GameObject g = default;
+
         switch(skin)
         {
             case Skins.main_player_template:
@@ -16,6 +18,11 @@ public class SkinControl : MonoBehaviour
 
             case Skins.pomni:
                 return Resources.Load<GameObject>("Skins/Pomni LP");
+
+            case Skins.civilian_male_1:
+                g = Resources.Load<GameObject>("Skins/male skins");
+                g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_male_1);
+                return g;
         }
         return null;
     }
@@ -24,5 +31,6 @@ public class SkinControl : MonoBehaviour
 public enum Skins
 {
     main_player_template,
-    pomni
+    pomni,
+    civilian_male_1
 }

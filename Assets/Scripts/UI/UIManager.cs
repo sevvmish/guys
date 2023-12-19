@@ -35,26 +35,14 @@ public class UIManager : MonoBehaviour
     [Header("ADV")]
     [SerializeField] private Rewarded rewarded;
 
-    [Header("skip level for rewarded")]
-    [SerializeField] private Button offerSkipLevelForRewarded;
-    [SerializeField] private TextMeshProUGUI offerSkipLevelText;
-    [SerializeField] private GameObject skipLevelConfirmationPanel;
-    [SerializeField] private Button skipLevelForRewardedOK;
-    [SerializeField] private Button skipLevelForRewardedNO;
-    [SerializeField] private TextMeshProUGUI skipLevelConfirmationText;
-    [SerializeField] private TextMeshProUGUI InfoWithButtonSkipLevelText;
-    [SerializeField] private GameObject InfoWithButtonSkipLevel;    
-    
+        
     private GameManager gm;
 
     // Start is called before the first frame update
     void Start()
     {
         gm = GameManager.Instance;
-
-        offerSkipLevelForRewarded.gameObject.SetActive(false);
-        skipLevelConfirmationPanel.SetActive(false);
-        InfoWithButtonSkipLevel.SetActive(false);
+                
         scalerPanel.SetActive(false);
         scalerPanelCallButton.gameObject.SetActive(Globals.IsMobile);
         scalerSlider.value = Globals.MainPlayerData.Zoom;
@@ -66,11 +54,7 @@ public class UIManager : MonoBehaviour
             letterLeft.text = Globals.Language.LeftArrowLetter;
             letterRight.text = Globals.Language.RightArrowLetter;
             signJump.text = Globals.Language.JumpLetter;
-            InfoWithButtonSkipLevelText.text = Globals.Language.PressButtonWhenSkipLevel;
-
-            offerSkipLevelText.text = Globals.Language.SkipLevelOffer;
-            skipLevelConfirmationText.text = Globals.Language.SkipLevelConfirmation;
-
+            
             scalerInfoText.text = Globals.Language.CameraScalerInfo;
         }
 
@@ -92,37 +76,7 @@ public class UIManager : MonoBehaviour
             scalerPanelCallButton.gameObject.SetActive(Globals.IsMobile);
         });
 
-        scalerSlider.onValueChanged.AddListener(scaleCameraDistance);
-
-        offerSkipLevelForRewarded.onClick.AddListener(() => 
-        {
-            if (skipLevelConfirmationPanel.activeSelf) return;
-
-            SoundUI.Instance.PlayUISound(SoundsUI.click);
-            skipLevelConfirmationPanel.SetActive(true);
-            offerSkipLevelForRewarded.gameObject.SetActive(false);
-            Globals.IsOptions = true;
-        });
-
-        skipLevelForRewardedOK.onClick.AddListener(() =>
-        {
-            skipLevelPhaseOK();            
-        });
-
-        skipLevelForRewardedNO.onClick.AddListener(() =>
-        {
-            SoundUI.Instance.PlayUISound(SoundsUI.click);
-            InfoWithButtonSkipLevel.SetActive(false);
-            skipLevelConfirmationPanel.SetActive(false);
-            offerSkipLevelForRewarded.gameObject.SetActive(false);
-            Globals.IsOptions = false;
-
-            if (!Globals.IsMobile)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-        });
+        scalerSlider.onValueChanged.AddListener(scaleCameraDistance);                
     }
 
     private void scaleCameraDistance(float val)
@@ -135,98 +89,7 @@ public class UIManager : MonoBehaviour
     {        
         ShowAllControls();
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1) 
-            && offerSkipLevelForRewarded.gameObject.activeSelf 
-            && !skipLevelConfirmationPanel.activeSelf)
-        {            
-            SoundUI.Instance.PlayUISound(SoundsUI.click);
-            skipLevelConfirmationPanel.SetActive(true);
-            Globals.IsOptions = true;
-            offerSkipLevelForRewarded.gameObject.SetActive(false);
-
-            if (!Globals.IsMobile)
-            {
-                Cursor.lockState = CursorLockMode.Confined;
-                Cursor.visible = true;
-            }
-        }
-    }
-
-    public void ResetOfferSkipLevel()
-    {
-        offerSkipLevelForRewarded.gameObject.SetActive(false);
-    }
-
-    public void OfferSkipLevelForRewarded()
-    {
-        int newRespID = RespawnManager.Instance.GetCurrentIndex;
-        if (newRespID < 2 || newRespID >= 24) return;
-        
-        if ((DateTime.Now - Globals.TimeWhenLastRewardedWas).TotalSeconds < Globals.REWARDED_COOLDOWN) return;
-        if (offerSkipLevelForRewarded.gameObject.activeSelf || skipLevelConfirmationPanel.activeSelf) return;
-
-        
-
-        if (!Globals.IsMobile) InfoWithButtonSkipLevel.SetActive(true);
-        SoundUI.Instance.PlayUISound(SoundsUI.pop);
-        offerSkipLevelForRewarded.gameObject.SetActive(true);
-
-    }
-
-    private void skipLevelPhaseOK()
-    {
-        InfoWithButtonSkipLevel.SetActive(false);
-        skipLevelConfirmationPanel.SetActive(false);
-        offerSkipLevelForRewarded.gameObject.SetActive(false);
-        
-        
-
-        rewarded.OnError = rewardNotOK;
-        rewarded.OnRewardedEndedOK = rewardOKSkipLevel;
-        rewarded.ShowRewardedVideo();
-
-    }
-    private void rewardOKSkipLevel()
-    {
-        print("started increasing resp point");
-
-        int currInd = RespawnManager.Instance.GetCurrentIndex;
-
-        if (currInd == 7)
-        {
-            currInd += 2;
-        }
-        else
-        {
-            currInd++;
-        }
-                
-
-        PlayerControl pc = gm.GetMainPlayerTransform().GetComponent<PlayerControl>();
-        pc.SetPlayerDirection(transform.eulerAngles.y);
-        pc.transform.position = RespawnManager.Instance.GetRespawnPoint(currInd).transform.position;
-        SoundUI.Instance.PlayUISound(SoundsUI.positive);
-
-        Globals.IsOptions = false;
-        if (!Globals.IsMobile)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
-    private void rewardNotOK()
-    {
-        SoundUI.Instance.PlayUISound(SoundsUI.error);
-        Globals.IsOptions = false;
-        if (!Globals.IsMobile)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
+     
 
     public void ShowAllControls()
     {
