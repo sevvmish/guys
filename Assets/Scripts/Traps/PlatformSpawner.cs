@@ -29,7 +29,7 @@ public class PlatformSpawner : MonoBehaviour
         }
 
         //nextTime = howOften + UnityEngine.Random.Range(-disperse, disperse);
-        
+        _timer = nextTime + 1;
     }
 
     private void Update()
