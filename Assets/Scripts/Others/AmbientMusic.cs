@@ -36,7 +36,7 @@ public class AmbientMusic : MonoBehaviour
 
     public void ContinuePlaying()
     {
-        PlayScenario1();
+        //PlayScenario1();
     }
 
 

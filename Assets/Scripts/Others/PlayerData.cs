@@ -10,10 +10,12 @@ public class PlayerData
     public int M;
     public int S;
     public int Mus;
-    public int CM;
-    public int M1;
-    public int MP;
-    public int[] B;
+
+    public int D;
+    public int G;
+
+    public int[] Skins;
+    public int CS;
 
     public float Zoom;
 
@@ -23,10 +25,16 @@ public class PlayerData
         M = 1; //mobile platform? 1 - true;
         S = 1; // sound on? 1 - true;        
         Mus = 1; // music
-        CM = 0; // current map type
-        M1 = -1; //map1 progress
         Zoom = 0; //camera zoom
-        B = new int[20]; //bonuses collected
+
+        //currencies
+        D = 0; //Diamonds collected
+        G = 0; //Gold collected
+
+        //skins
+        Skins = new int[20];
+        CS = 2;
+
         Debug.Log("created PlayerData instance");
     }
 

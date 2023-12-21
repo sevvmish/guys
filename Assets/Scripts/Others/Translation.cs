@@ -29,6 +29,7 @@ public class Translation : ScriptableObject
     public string PressButtonWhenSkipLevel;
 
     public string Play;
+    public string Options;
     public string Continue;
     public string Reset;
     public string ResetInfoText;

@@ -64,6 +64,9 @@ public class Globals : MonoBehaviour
     public static readonly Vector3 BaseRotation = new Vector3(25, 0, 0);
 
     public static readonly LayerMask ignoreTriggerMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll" });
+
+    public static Vector3 UIPlayerPosition = new Vector3(0, -0.8f, 0);
+    public static Vector3 UIPlayerRotation = new Vector3(0, 180, 0);
 }
 
 public enum GameTypes

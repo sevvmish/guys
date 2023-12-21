@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,23 +9,24 @@ using UnityEngine.UI;
 using YG;
 
 public class MainMenu : MonoBehaviour
-{
-    [SerializeField] private ScreenSaver screenSaver;
-
+{    
     [Header("Menu")]
     [SerializeField] private Button playB;
     [SerializeField] private TextMeshProUGUI playBText;
-
     
+
+    [Header("Main Player positions")]
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private Transform location;
 
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        ScreenSaver.Instance.ShowScreen();
 
-        screenSaver.ShowScreen();
-        playBText.text = "";
-
+        mainCamera.orthographicSize = 1.5f;
+        mainCamera.transform.position = new Vector3(0, 0, -9);
     }
 
 
@@ -42,12 +44,18 @@ public class MainMenu : MonoBehaviour
             playWhenInitialized();
             Localize();
             startTheGame();
-        }
+        }        
     }
+    
 
     private void playWhenInitialized()
-    {
+    {        
         AmbientMusic.Instance.PlayAmbient(AmbientMelodies.forest);
+
+        //main player template
+        GameObject g = Instantiate(SkinControl.GetSkinGameobject((Skins)Globals.MainPlayerData.CS), location);
+        g.transform.position = Globals.UIPlayerPosition;
+        g.transform.eulerAngles = Globals.UIPlayerRotation;
     }
 
     private void startTheGame()
@@ -56,13 +64,13 @@ public class MainMenu : MonoBehaviour
     }
     private IEnumerator playStart()
     {
-        screenSaver.HideScreen();
+        ScreenSaver.Instance.HideScreen();
         yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
-        SceneManager.LoadScene("circus1");
+        SceneManager.LoadScene("level1");
     }
 
     private void Update()
-    {
+    {        
         if (YandexGame.SDKEnabled && !Globals.IsInitiated)
         {
             Globals.IsInitiated = true;
@@ -105,8 +113,6 @@ public class MainMenu : MonoBehaviour
                 Globals.TimeWhenLastRewardedWas = DateTime.Now;
             }
 
-            //Globals.CurrentMapCircus = Globals.MainPlayerData.CM;
-
             Localize();
             playWhenInitialized();
             startTheGame();
@@ -116,7 +122,7 @@ public class MainMenu : MonoBehaviour
     private void Localize()
     {
         Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        playBText.text = Globals.Language.Play;
 
-                
     }
 }
