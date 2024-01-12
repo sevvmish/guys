@@ -34,5 +34,8 @@ public class Translation : ScriptableObject
     public string Reset;
     public string ResetInfoText;
 
+    public string CustomizeButton;
+    public string ShopButton;
+
     public Translation() { }
 }

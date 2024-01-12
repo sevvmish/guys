@@ -116,7 +116,7 @@ public class EffectsControl : MonoBehaviour
     }
     public void MakeFunnySound(int chanceFrom100)
     {
-        if (woohooSound.activeSelf || yiihaaSound.activeSelf || woohooSound2.activeSelf) return;
+        //if (woohooSound.activeSelf || yiihaaSound.activeSelf || woohooSound2.activeSelf || woohooGirlSound.activeSelf ||) return;
 
         if (chanceFrom100 > 100) chanceFrom100 = 100;
 
@@ -124,7 +124,7 @@ public class EffectsControl : MonoBehaviour
 
         if (rnd > chanceFrom100) return;
 
-        if (pc.CurrentSkin == Skins.pomni)
+        if ((int)pc.CurrentSkin >= 50)
         {
             
             rnd = UnityEngine.Random.Range(0, 2);

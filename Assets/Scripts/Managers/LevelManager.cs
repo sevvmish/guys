@@ -40,7 +40,8 @@ public class LevelManager : MonoBehaviour
         if (!gm.IsGameStarted && countDown.IsCountDownOff)
         {
             gm.StartTheGame();
-
+            AmbientMusic.Instance.PlayScenario1();
+            /*
             int rnd = UnityEngine.Random.Range(0, 2);
 
             switch(rnd)
@@ -52,7 +53,7 @@ public class LevelManager : MonoBehaviour
                 case 1:
                     AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody2);
                     break;
-            }
+            }*/
         }
     }
 
@@ -63,6 +64,8 @@ public class LevelManager : MonoBehaviour
         if (Globals.IsDevelopmentBuild)
         {
             gm.StartTheGame();
+            countDown.IsCountDownOff = true;
+            AmbientMusic.Instance.PlayScenario1();
             yield break;
         }
         

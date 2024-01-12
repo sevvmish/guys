@@ -14,14 +14,24 @@ public class SkinControl : MonoBehaviour
         switch(skin)
         {
             case Skins.main_player_template:
-                return Resources.Load<GameObject>("PlayerTemplate");
+                return Instantiate(Resources.Load<GameObject>("PlayerTemplate"));
 
             case Skins.pomni:
-                return Resources.Load<GameObject>("Skins/Pomni LP");
+                return Instantiate(Resources.Load<GameObject>("Skins/Pomni LP"));
 
             case Skins.civilian_male_1:
-                g = Resources.Load<GameObject>("Skins/male skins");
+                g = Instantiate(Resources.Load<GameObject>("Skins/male skins"));
                 g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_male_1);
+                return g;
+
+            case Skins.civilian_male_2:
+                g = Instantiate(Resources.Load<GameObject>("Skins/male skins"));
+                g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_male_2);
+                return g;
+
+            case Skins.civilian_male_3:
+                g = Instantiate(Resources.Load<GameObject>("Skins/male skins"));
+                g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_male_3);
                 return g;
         }
         return null;
@@ -32,5 +42,12 @@ public enum Skins
 {
     main_player_template,
     pomni,
-    civilian_male_1
+    civilian_male_1,
+    civilian_male_2,
+    civilian_male_3,
+
+
+
+    civilian_female_1 = 25,
+
 }

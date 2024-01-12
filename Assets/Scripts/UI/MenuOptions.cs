@@ -25,6 +25,8 @@ public class MenuOptions : MonoBehaviour
     [SerializeField] private TextMeshProUGUI signName;
     [SerializeField] private GameObject backPart;
 
+    [SerializeField] private MainMenu mainMenu;
+
     private bool isDataUpdated;
 
     private string previousSignName;
@@ -46,10 +48,27 @@ public class MenuOptions : MonoBehaviour
         back.onClick.AddListener(() =>
         {
             SoundUI.Instance.PlayUISound(SoundsUI.click);
-            backPart.SetActive(isBackActive);
-            signName.text = previousSignName;
+
+            mainMenu.OnBackToMainMenu?.Invoke();
+
+            if (!optionsPanel.activeSelf)
+            {
+                backPart.SetActive(false);
+                signName.text = "";
+            }
+            else
+            {
+                backPart.SetActive(isBackActive);
+                signName.text = previousSignName;
+            }
+            
+
+            if (!optionsPanel.activeSelf) mainMenu.BackToMainMenu();
+
             optionsButton.gameObject.SetActive(true);
             optionsPanel.SetActive(false);
+            
+            
         });
 
         soundButton.onClick.AddListener(() =>
@@ -150,5 +169,14 @@ public class MenuOptions : MonoBehaviour
 
         soundButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
         musicButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
+    }
+
+    public void SetBackButtonSign(string sign)
+    {
+        previousSignName = signName.text;
+        signName.text = sign;
+
+        isBackActive = backPart.activeSelf;
+        backPart.SetActive(true);
     }
 }

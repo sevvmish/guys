@@ -66,10 +66,10 @@ public class GameManager : MonoBehaviour
 
 
         //TODEL
-        Globals.MainPlayerData = new PlayerData();
-        Globals.MainPlayerData.Zoom = 0;
-        Globals.IsMobile = true;//false;
-        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        //Globals.MainPlayerData = new PlayerData();
+        //Globals.MainPlayerData.Zoom = 0;
+        //Globals.IsMobile = true;//false;
+        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
@@ -226,7 +226,8 @@ public class GameManager : MonoBehaviour
     private GameObject addPlayer(bool isMain, Vector3 pos, Vector3 rot)
     {
         //main template
-        GameObject g = Instantiate(SkinControl.GetSkinGameobject(Skins.main_player_template), playersLocation);
+        GameObject g = SkinControl.GetSkinGameobject(Skins.main_player_template);
+        g.transform.parent = playersLocation;
         g.transform.position = pos;
         g.transform.eulerAngles = rot;
         
@@ -238,7 +239,8 @@ public class GameManager : MonoBehaviour
         g.GetComponent<PlayerControl>().SetEffectControl(vfx.GetComponent<EffectsControl>());
 
         //player
-        GameObject skin = Instantiate(SkinControl.GetSkinGameobject(Skins.civilian_male_1), g.transform);
+        GameObject skin = SkinControl.GetSkinGameobject(Skins.civilian_male_1);
+        skin.transform.parent = g.transform;
         skin.transform.localPosition = Vector3.zero;
         skin.transform.localEulerAngles = Vector3.zero;
         SkinControl skinControl = skin.GetComponent<SkinControl>();

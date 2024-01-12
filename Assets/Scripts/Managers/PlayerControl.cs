@@ -192,7 +192,7 @@ public class PlayerControl : MonoBehaviour
         for (float i = 0; i < seconds; i+=0.1f)
         {            
             yield return new WaitForSeconds(0.1f);
-            if (IsDead && IsRagdollActive) break;
+            if (IsDead && IsRagdollActive) yield break;
         }
 
         IsSpeedChanged = false;

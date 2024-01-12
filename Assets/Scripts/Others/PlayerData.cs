@@ -32,7 +32,8 @@ public class PlayerData
         G = 0; //Gold collected
 
         //skins
-        Skins = new int[20];
+        Skins = new int[50];
+        Skins[2] = 1;
         CS = 2;
 
         Debug.Log("created PlayerData instance");

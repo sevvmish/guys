@@ -13,11 +13,30 @@ public class MainMenu : MonoBehaviour
     [Header("Menu")]
     [SerializeField] private Button playB;
     [SerializeField] private TextMeshProUGUI playBText;
-    
+    [SerializeField] private Button customizeB;
+    [SerializeField] private TextMeshProUGUI customizeBText;
+    [SerializeField] private Button shopB;
+    [SerializeField] private TextMeshProUGUI shopBText;
+       
+
+    [SerializeField] private MenuOptions menuOptions;
+    [SerializeField] private ShopUI shop;
+    [SerializeField] private CustomizeUI customize;
+
 
     [Header("Main Player positions")]
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform location;
+
+
+    [Header("UIs")]
+    [SerializeField] private GameObject mainMenuUI;
+    [SerializeField] private GameObject shopUI;
+    [SerializeField] private GameObject customizeUI;
+
+    public Action OnBackToMainMenu;
+    public GameObject MainPlayerSkin;
+    public Transform GetCameraTransform => mainCamera.transform;
 
     private void Awake()
     {
@@ -31,12 +50,41 @@ public class MainMenu : MonoBehaviour
 
 
     private void Start()
-    {        
+    {
+        mainMenuUI.SetActive(true);
+        shopUI.SetActive(false);
+        customizeUI.SetActive(false);
+
         playB.onClick.AddListener(() =>
         {
             playB.interactable = false;
             SoundUI.Instance.PlayUISound(SoundsUI.positive);
             StartCoroutine(playStart());
+        });
+
+        customizeB.onClick.AddListener(() =>
+        {
+            customizeB.interactable = false;
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+            customize.SetOn();
+
+            menuOptions.SetBackButtonSign(Globals.Language.CustomizeButton);
+
+            mainMenuUI.SetActive(false);
+            shopUI.SetActive(false);
+            customizeUI.SetActive(true);
+        });
+
+        shopB.onClick.AddListener(() =>
+        {
+            shopB.interactable = false;
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+
+            menuOptions.SetBackButtonSign(Globals.Language.ShopButton);
+
+            mainMenuUI.SetActive(false);
+            shopUI.SetActive(true);
+            customizeUI.SetActive(false);
         });
 
         if (Globals.IsInitiated)
@@ -46,6 +94,21 @@ public class MainMenu : MonoBehaviour
             startTheGame();
         }        
     }
+
+    public void BackToMainMenu()
+    {
+        mainMenuUI.SetActive(true);
+        shopUI.SetActive(false);
+        customizeUI.SetActive(false);
+
+        playB.interactable = true;
+        customizeB.interactable = true;
+        shopB.interactable = true;
+
+        MainPlayerSkin.transform.DOMove(Globals.UIPlayerPosition, 0.3f).SetEase(Ease.Linear);
+        MainPlayerSkin.transform.DORotate(Globals.UIPlayerRotation, 0.3f).SetEase(Ease.Linear);
+        GetCameraTransform.DOMove(new Vector3(0, 0, -9), 0.3f).SetEase(Ease.Linear);
+    }
     
 
     private void playWhenInitialized()
@@ -53,9 +116,15 @@ public class MainMenu : MonoBehaviour
         AmbientMusic.Instance.PlayAmbient(AmbientMelodies.forest);
 
         //main player template
-        GameObject g = Instantiate(SkinControl.GetSkinGameobject((Skins)Globals.MainPlayerData.CS), location);
-        g.transform.position = Globals.UIPlayerPosition;
-        g.transform.eulerAngles = Globals.UIPlayerRotation;
+
+        if (MainPlayerSkin == null)
+        {
+            MainPlayerSkin = SkinControl.GetSkinGameobject((Skins)Globals.MainPlayerData.CS);
+            MainPlayerSkin.transform.parent = location;
+        }
+            
+        MainPlayerSkin.transform.position = Globals.UIPlayerPosition;
+        MainPlayerSkin.transform.eulerAngles = Globals.UIPlayerRotation;
     }
 
     private void startTheGame()
@@ -124,5 +193,7 @@ public class MainMenu : MonoBehaviour
         Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
         playBText.text = Globals.Language.Play;
 
+        customizeBText.text = Globals.Language.CustomizeButton;
+        shopBText.text = Globals.Language.ShopButton;
     }
 }
