@@ -558,7 +558,7 @@ public class PlayerControl : MonoBehaviour
         {            
             float i = collision.impulse.magnitude;
             Vector3 impulse = collision.impulse;
-            if (i < Globals.BASE_SPEED) return;
+            //if (i < Globals.BASE_SPEED) return;
             
 
             ApplyForceType punchType = ApplyForceType.Punch_easy;
@@ -578,7 +578,7 @@ public class PlayerControl : MonoBehaviour
             }
             else if (i < Globals.MIN_HIT_IMPULSE_MAGNITUDE)
             {
-                return;
+                //return;
             }
                         
             ApplyTrapForce(impulse, collision.GetContact(0).point, punchType, additionalForce);

@@ -71,5 +71,8 @@ public class FinishControl : MonoBehaviour
         }
 
         player.FinishReached();
+
+        yield return new WaitForSeconds(0.1f);
+        player.transform.eulerAngles = new Vector3(0, 180, 0);
     }
 }

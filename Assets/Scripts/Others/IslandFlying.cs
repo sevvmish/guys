@@ -32,7 +32,7 @@ public class IslandFlying : MonoBehaviour
 
     private void Update()
     {
-        island.localEulerAngles = new Vector3(0, island.localEulerAngles.y + rotationSpeedDirection * Time.deltaTime, 0);        
+        if (rotationSpeedDirection != 0) island.localEulerAngles = new Vector3(0, island.localEulerAngles.y + rotationSpeedDirection * Time.deltaTime, 0);        
     }
 
 }

@@ -78,7 +78,15 @@ public class GameManager : MonoBehaviour
         mainPlayer.GetComponent<PlayerControl>().SetPlayerToMain();
         mainPlayer.gameObject.name = "Main Player";
 
-        ArrangePlayers(7);
+        if (Globals.IsMobile)
+        {
+            ArrangePlayers(7);
+        }
+        else
+        {
+            ArrangePlayers(15);
+        }
+        
 
         if (levelManager == null)
         {
@@ -105,11 +113,11 @@ public class GameManager : MonoBehaviour
             switch(sex)
             {
                 case 0:
-                    skins = (Skins)UnityEngine.Random.Range(2, 5);
+                    skins = (Skins)UnityEngine.Random.Range(2, 18);
                     break;
 
                 case 1:
-                    skins = (Skins)UnityEngine.Random.Range(25, 28);
+                    skins = (Skins)UnityEngine.Random.Range(25, 39);
                     break;
             }
 
@@ -231,7 +239,7 @@ public class GameManager : MonoBehaviour
 
         if (player.Equals(mainPlayerControl))
         {
-
+            mainUI.EndGame(true);
         }
         else
         {

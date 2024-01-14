@@ -19,6 +19,8 @@ public class PlayerData
 
     public float Zoom;
 
+    public bool AdvOff;
+
     public PlayerData()
     {        
         L = ""; //prefered language
@@ -38,19 +40,19 @@ public class PlayerData
         switch(randomSkinSex)
         {
             case 0:
-                int skin = UnityEngine.Random.Range(2, 5);
+                int skin = UnityEngine.Random.Range(2, 6);
                 Skins[skin] = 1;
                 CS = skin;
                 break;
 
             case 1:
-                skin = UnityEngine.Random.Range(25, 28);
+                skin = UnityEngine.Random.Range(25, 29);
                 Skins[skin] = 1;
                 CS = skin;
                 break;
         }
 
-        
+        AdvOff = false;
 
         Debug.Log("created PlayerData instance");
     }

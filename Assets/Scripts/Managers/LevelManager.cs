@@ -90,6 +90,25 @@ public class LevelManager : MonoBehaviour
         cameraBody.DOLocalRotate(Globals.BaseRotation, 1f).SetEase(Ease.Linear);
         cameraBody.parent.DOMove(gm.GetMainPlayerTransform().position, 1f).SetEase(Ease.Linear);
     }
+
+    public static LevelData GetLevelData(LevelTypes level)
+    {
+        LevelData result = new LevelData();
+
+        switch(level)
+        {
+            case LevelTypes.level1:
+                return new LevelData(Globals.Language.Level1Name, "", LevelTypes.level1, Globals.Language.Aim_Finish);
+
+            case LevelTypes.level2:
+                return new LevelData(Globals.Language.Level2Name, "", LevelTypes.level2, Globals.Language.Aim_Finish);
+
+            case LevelTypes.level3:
+                return new LevelData(Globals.Language.Level3Name, "", LevelTypes.level3, Globals.Language.Aim_Finish);
+        }
+
+        return result;
+    }
 }
 
 public enum LevelTypes
@@ -98,4 +117,20 @@ public enum LevelTypes
     level1,
     level2,
     level3    
+}
+
+public struct LevelData
+{
+    public string LevelName;
+    public string LevelDescription;
+    public LevelTypes LevelType;
+    public string LevelAim;
+
+    public LevelData(string name, string descr, LevelTypes lvl, string aim)
+    {
+        LevelName = name;
+        LevelDescription = descr;
+        LevelType = lvl;
+        LevelAim = aim;
+    }
 }

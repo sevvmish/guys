@@ -44,7 +44,16 @@ public class MainMenu : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        ScreenSaver.Instance.ShowScreen();
+
+        if (Globals.IsDontShowIntro)
+        {            
+            ScreenSaver.Instance.FastShowScreen();
+        }
+        else
+        {
+            ScreenSaver.Instance.ShowScreen();
+        }
+        
 
         mainCamera.orthographicSize = 1.5f;
         mainCamera.transform.position = new Vector3(0, 0, -9);
@@ -100,7 +109,12 @@ public class MainMenu : MonoBehaviour
 
     public void BackToMainMenu()
     {
-        if (isToUpdate) SceneManager.LoadScene("MainMenu");
+        if (isToUpdate)
+        {
+            Globals.IsDontShowIntro = true;
+            SceneManager.LoadScene("MainMenu");            
+        }
+            
 
         mainMenuUI.SetActive(true);
         shopUI.SetActive(false);
@@ -120,8 +134,25 @@ public class MainMenu : MonoBehaviour
     
 
     private void playWhenInitialized()
-    {        
-        AmbientMusic.Instance.PlayAmbient(AmbientMelodies.forest);
+    {
+        //AmbientMusic.Instance.PlayAmbient(AmbientMelodies.forest);
+        int ambMusic = UnityEngine.Random.Range(0, 3);
+        switch(ambMusic)
+        {
+            case 0:
+                AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody3);
+                break;
+
+            case 1:
+                AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody4);
+                break;
+
+            case 2:
+                AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody5);
+                break;
+        }
+
+
 
         //main player template
 
@@ -138,6 +169,7 @@ public class MainMenu : MonoBehaviour
     public void ChangeMainSkin(bool isToUpdate)
     {
         this.isToUpdate = isToUpdate;
+        Globals.IsDontShowIntro = true;
 
         Vector3 pos = MainPlayerSkin.transform.position;
         Vector3 rot = MainPlayerSkin.transform.eulerAngles;

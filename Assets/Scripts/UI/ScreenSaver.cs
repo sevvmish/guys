@@ -62,10 +62,15 @@ public class ScreenSaver : MonoBehaviour
         type2[1].DOAnchorPos3D(new Vector3(0, -400, 0), Globals.SCREEN_SAVER_AWAIT + additionalWait).SetEase(Ease.Linear);
     }
 
+    public void FastShowScreen()
+    {        
+        StartCoroutine(deactivateAfter(0));
+    }
+
     public void ShowScreen()
     {
-        if (Globals.IsDevelopmentBuild)
-        {
+        if (Globals.IsDevelopmentBuild || Globals.IsDontShowIntro)
+        {            
             type1[0].gameObject.SetActive(true);
             type1[0].anchoredPosition = new Vector3(-3000, 0, 0);
 
@@ -115,6 +120,8 @@ public class ScreenSaver : MonoBehaviour
         type1[2].gameObject.SetActive(false);
         type2[0].gameObject.SetActive(false);
         type2[1].gameObject.SetActive(false);
+
+        Globals.IsDontShowIntro = false;
     }
 
 

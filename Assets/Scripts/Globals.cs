@@ -22,8 +22,10 @@ public class Globals : MonoBehaviour
 
     public const int MAX_RESPAWN_POINTS = 25;
 
+    public static bool IsDontShowIntro;
+
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = true;
+    public static bool IsDevelopmentBuild = false;
     public static bool IsOptions;
 
     public const float BASE_SPEED = 7f;
@@ -47,7 +49,7 @@ public class Globals : MonoBehaviour
     public const float SPEED_INC_IN_NONGROUND_MOBILE = 0.35f;
 
     public const float MAX_HIT_IMPULSE_MAGNITUDE = 60f;
-    public const float MIN_HIT_IMPULSE_MAGNITUDE = 20f;
+    public const float MIN_HIT_IMPULSE_MAGNITUDE = 1f;
 
     public const int LAYER_HELPER = 6;
     public const int LAYER_DANGER = 7;

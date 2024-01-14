@@ -9,6 +9,7 @@ public class CustomizeUI : MonoBehaviour
 {
     [SerializeField] private MainMenu mainMenu;
     [SerializeField] private Transform location;
+    [SerializeField] private GameObject back;
 
     [Header("Buttons")]
     [SerializeField] private Button boysB;
@@ -32,8 +33,8 @@ public class CustomizeUI : MonoBehaviour
 
     private bool isReady;
     private GameObject[] PlayerSkins;
-    private Vector2 boysRange = new Vector2(2,4);
-    private Vector2 girlsRange = new Vector2(25, 27);
+    private Vector2 boysRange = new Vector2(2,18);
+    private Vector2 girlsRange = new Vector2(25, 39);
     
     private DressTypes currentDressType;
     private int currentIndex;
@@ -54,7 +55,7 @@ public class CustomizeUI : MonoBehaviour
     {
         PlayerSkins = new GameObject[50];
         mainMenu.OnBackToMainMenu += ReturnBack;
-
+        back.SetActive(false);
 
         for (int i = (int)boysRange.x; i <= (int)boysRange.y; i++)
         {
@@ -113,7 +114,10 @@ public class CustomizeUI : MonoBehaviour
 
         useButton.onClick.AddListener(() =>
         {
-            switch(useButtonBehaviour.Cost)
+            int d = 0;
+            bool isOK = false;
+
+            switch (useButtonBehaviour.Cost)
             {
                 case SkinCost.CostType.none:
                     SoundUI.Instance.PlayUISound(SoundsUI.error);
@@ -121,24 +125,113 @@ public class CustomizeUI : MonoBehaviour
 
                 case SkinCost.CostType.free:
                     SoundUI.Instance.PlayUISound(SoundsUI.positive);
-                    cooldown = delay;
+                    isOK = true;
+                    
+                    break;
 
-                    Globals.MainPlayerData.Skins[currentIndex] = 1;
-                    Globals.MainPlayerData.CS = currentIndex;
-                    SaveLoadManager.Save();
-
-                    int d = currentIndex + 1;
-                    updateByIndex(d, 1);
-
-                    mainMenu.ChangeMainSkin(currentDressType == DressTypes.BoySkin);
+                case SkinCost.CostType.gold:
+                    SoundUI.Instance.PlayUISound(SoundsUI.positive);
+                    isOK = true;
+                    Globals.MainPlayerData.G -= useButtonBehaviour.Gold;
 
                     break;
+
+                case SkinCost.CostType.gem:
+                    SoundUI.Instance.PlayUISound(SoundsUI.positive);
+                    isOK = true;
+                    Globals.MainPlayerData.D -= useButtonBehaviour.Gem;
+
+                    break;
+            }
+
+            if (isOK)
+            {
+                cooldown = delay;
+
+                Globals.MainPlayerData.Skins[currentIndex] = 1;
+                Globals.MainPlayerData.CS = currentIndex;
+                SaveLoadManager.Save();
+
+
+                switch (currentDressType)
+                {
+                    case DressTypes.BoySkin:
+                        if (currentIndex >= boysRange.y)
+                        {
+                            d = currentIndex - 1;
+                            updateByIndex(d, -1);
+                        }
+                        else
+                        {
+                            d = currentIndex + 1;
+                            updateByIndex(d, 1);
+                        }
+                        break;
+
+                    case DressTypes.GirlSkin:
+                        if (currentIndex >= girlsRange.y)
+                        {
+                            d = currentIndex - 1;
+                            updateByIndex(d, -1);
+                        }
+                        else
+                        {
+                            d = currentIndex + 1;
+                            updateByIndex(d, 1);
+                        }
+                        break;
+                }
+
+                mainMenu.ChangeMainSkin(true);
             }
         });
     }
 
+    private void checkBorders()
+    {
+        switch(currentDressType)
+        {
+            case DressTypes.BoySkin:
+                if (currentIndex == boysRange.x || (currentIndex == (boysRange.x + 1) && Globals.MainPlayerData.CS == boysRange.x))
+                {
+                    leftScroll.gameObject.SetActive(false);
+                    rightScroll.gameObject.SetActive(true);
+                }
+                else if(currentIndex == boysRange.y || (currentIndex == (boysRange.y - 1) && Globals.MainPlayerData.CS == boysRange.y))
+                {
+                    leftScroll.gameObject.SetActive(true);
+                    rightScroll.gameObject.SetActive(false);
+                }
+                else
+                {
+                    leftScroll.gameObject.SetActive(true);
+                    rightScroll.gameObject.SetActive(true);
+                }
+                break;
+
+            case DressTypes.GirlSkin:
+                if (currentIndex == girlsRange.x || (currentIndex == (girlsRange.x + 1) && Globals.MainPlayerData.CS == girlsRange.x))
+                {
+                    leftScroll.gameObject.SetActive(false);
+                    rightScroll.gameObject.SetActive(true);
+                }
+                else if (currentIndex == girlsRange.y || (currentIndex == (girlsRange.y - 1) && Globals.MainPlayerData.CS == girlsRange.y))
+                {
+                    leftScroll.gameObject.SetActive(true);
+                    rightScroll.gameObject.SetActive(false);
+                }
+                else
+                {
+                    leftScroll.gameObject.SetActive(true);
+                    rightScroll.gameObject.SetActive(true);
+                }
+                break;
+        }
+    }
+
     public void SetOn()
     {
+        back.SetActive(true);
         mainMenu.GetCameraTransform.DOMove(new Vector3(1.4f+5f, 0, -9), 0.2f).SetEase(Ease.Linear);
         //mainMenu.MainPlayerSkin.transform.eulerAngles = new Vector3(0, 150, 0);
         mainMenu.MainPlayerSkin.SetActive(false);
@@ -155,7 +248,7 @@ public class CustomizeUI : MonoBehaviour
             if (rightScroll.interactable) rightScroll.interactable = false;
             if (boysB.interactable) boysB.interactable = false;
             if (girlsB.interactable) girlsB.interactable = false;
-            if (accessoriesB.interactable) accessoriesB.interactable = false;
+            //if (accessoriesB.interactable) accessoriesB.interactable = false;
             if (useButton.interactable) useButton.interactable = false;
             cooldown -= Time.deltaTime;
         }
@@ -165,7 +258,7 @@ public class CustomizeUI : MonoBehaviour
             if (!rightScroll.interactable) rightScroll.interactable = true;
             if (!boysB.interactable) boysB.interactable = true;
             if (!girlsB.interactable) girlsB.interactable = true;
-            if (!accessoriesB.interactable) accessoriesB.interactable = true;
+            //if (!accessoriesB.interactable) accessoriesB.interactable = true;
             if (!useButton.interactable) useButton.interactable = true;
         }
 
@@ -243,6 +336,7 @@ public class CustomizeUI : MonoBehaviour
                 currentIndex = indexToTake;
                 //print(indexToTake  + " = " + currentIndex + " !!!!yes!!!!");
                 updateUI();
+                checkBorders();
                 return;
             }
         }
@@ -311,6 +405,7 @@ public class CustomizeUI : MonoBehaviour
                     useButton.GetComponent<Image>().sprite = greyBSprite;
                     goldAmountText.color = Color.red;
                     useButtonBehaviour = sc;
+                    useButtonBehaviour.Cost = SkinCost.CostType.none;
                 }
 
                 goldAmountText.text = sc.Gold.ToString();
@@ -336,6 +431,7 @@ public class CustomizeUI : MonoBehaviour
                     useButton.GetComponent<Image>().sprite = greyBSprite;
                     gemAmountText.color = Color.red;
                     useButtonBehaviour = sc;
+                    useButtonBehaviour.Cost = SkinCost.CostType.none;
                 }
 
                 gemAmountText.text = sc.Gem.ToString();
@@ -359,6 +455,35 @@ public class CustomizeUI : MonoBehaviour
                 return result.SkinCostFree();
             case 4:
                 return result.SkinCostFree();
+            case 5:
+                return result.SkinCostFree();
+            case 6:
+                return result.SkinCostFree();
+            case 7:
+                return result.SkinCostFree();
+
+            case 8:
+                return result.SkinCostGold(50);
+            case 9:
+                return result.SkinCostGold(50);
+            case 10:
+                return result.SkinCostGold(50);
+            case 11:
+                return result.SkinCostGold(80);
+            case 12:
+                return result.SkinCostGold(80);
+            case 13:
+                return result.SkinCostGold(80);
+            case 14:
+                return result.SkinCostGold(120);
+            case 15:
+                return result.SkinCostGold(120);
+            case 16:
+                return result.SkinCostGold(150);
+            case 17:
+                return result.SkinCostGold(150);
+            case 18:
+                return result.SkinCostGold(150);
 
 
 
@@ -369,6 +494,31 @@ public class CustomizeUI : MonoBehaviour
                 return result.SkinCostFree();
             case 27:
                 return result.SkinCostFree();
+            case 28:
+                return result.SkinCostFree();
+            case 29:
+                return result.SkinCostFree();
+
+            case 30:
+                return result.SkinCostGold(50);
+            case 31:
+                return result.SkinCostGold(50);
+            case 32:
+                return result.SkinCostGold(50);
+            case 33:
+                return result.SkinCostGold(80);
+            case 34:
+                return result.SkinCostGold(80);
+            case 35:
+                return result.SkinCostGold(120);
+            case 36:
+                return result.SkinCostGold(120);
+            case 37:
+                return result.SkinCostGold(120);
+            case 38:
+                return result.SkinCostGold(150);
+            case 39:
+                return result.SkinCostGold(150);
         }
 
         return result;
@@ -380,7 +530,7 @@ public class CustomizeUI : MonoBehaviour
         currentDressType = DressTypes.BoySkin;        
         boysB.GetComponent<Image>().color = new Color(0.6f, 0.6f, 0.6f, 1);
         girlsB.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        accessoriesB.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        //accessoriesB.GetComponent<Image>().color = new Color(1, 1, 1, 1);
     }
 
     private void setGirls()
@@ -389,7 +539,7 @@ public class CustomizeUI : MonoBehaviour
         currentDressType = DressTypes.GirlSkin;
         boysB.GetComponent<Image>().color = new Color(1, 1, 1, 1);
         girlsB.GetComponent<Image>().color = new Color(0.6f, 0.6f, 0.6f, 1);
-        accessoriesB.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        //accessoriesB.GetComponent<Image>().color = new Color(1, 1, 1, 1);
     }
 
     private void setAccessories()
@@ -397,7 +547,7 @@ public class CustomizeUI : MonoBehaviour
         currentDressType = DressTypes.Accessories;
         boysB.GetComponent<Image>().color = new Color(1, 1, 1, 1);
         girlsB.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        accessoriesB.GetComponent<Image>().color = new Color(0.6f, 0.6f, 0.6f, 1);
+        //accessoriesB.GetComponent<Image>().color = new Color(0.6f, 0.6f, 0.6f, 1);
     }
 
     private void setAllGameobjectsToFalse()

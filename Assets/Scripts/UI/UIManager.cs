@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
@@ -30,21 +31,41 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button scalerPanelCloseButton;
     [SerializeField] private Slider scalerSlider;
     [SerializeField] private TextMeshProUGUI scalerInfoText;
-    
+
+    [Header("Aims")]
+    [SerializeField] private GameObject aimBeforeStart;
+    [SerializeField] private TextMeshProUGUI aimBeforeStartText;
+    [SerializeField] private GameObject aimDuringGame;
+    [SerializeField] private TextMeshProUGUI aimDuringGameText;
+    [SerializeField] private GameObject endGameWin;
+    [SerializeField] private TextMeshProUGUI endGameWinText;
+    [SerializeField] private GameObject endGameLose;
+    [SerializeField] private TextMeshProUGUI endGameLoseText;
 
     [Header("ADV")]
     [SerializeField] private Rewarded rewarded;
 
         
     private GameManager gm;
+    private LevelData levelData;
 
     // Start is called before the first frame update
     void Start()
     {
         gm = GameManager.Instance;
-                
-        scalerPanel.SetActive(false);
-        scalerPanelCallButton.gameObject.SetActive(Globals.IsMobile);
+
+        HideAllControls();
+
+        aimBeforeStart.SetActive(false);
+        aimDuringGame.SetActive(false);
+        endGameWin.SetActive(false);
+        endGameLose.SetActive(false);
+
+        levelData = LevelManager.GetLevelData(gm.GetLevelManager().GetCurrentLevelType());
+
+        aimBeforeStart.SetActive(true);
+        aimBeforeStartText.text = Globals.Language.Aim + ": " + levelData.LevelAim + "!";
+
         scalerSlider.value = Globals.MainPlayerData.Zoom;
 
         if (Globals.Language != null)
@@ -88,11 +109,48 @@ public class UIManager : MonoBehaviour
     public void StartTheGame()
     {        
         ShowAllControls();
+        aimBeforeStart.SetActive(false);
+        aimDuringGame.SetActive(true);
+        aimDuringGameText.text = levelData.LevelAim + "!";
     }
-     
+
+    public void EndGame(bool isWin)
+    {
+        HideAllControls();
+        aimBeforeStart.SetActive(false);
+        aimDuringGame.SetActive(false);
+
+        RectTransform r = default;
+
+        if (isWin)
+        {
+            endGameWin.SetActive(true);
+            endGameWinText.text = Globals.Language.WinText;
+            r = endGameWin.GetComponent<RectTransform>();
+            SoundUI.Instance.PlayUISound(SoundsUI.success);
+        }
+        else
+        {
+            endGameLose.SetActive(true);
+            endGameLoseText.text = Globals.Language.LoseText;
+            r = endGameLose.GetComponent<RectTransform>();
+            SoundUI.Instance.PlayUISound(SoundsUI.lose);
+        }
+
+        StartCoroutine(playLastAim(r));
+    }
+    private IEnumerator playLastAim(RectTransform t)
+    {
+        t.DOPunchScale(new Vector3(50,50,50), 0.3f, 30).SetEase(Ease.OutSine);
+        yield return new WaitForSeconds(3);
+        t.DOAnchorPos3D(new Vector3(0, 280, 0), 0.5f).SetEase(Ease.OutSine);
+    }
+
 
     public void ShowAllControls()
     {
+        scalerPanelCallButton.gameObject.SetActive(Globals.IsMobile);
+
         if (Globals.IsMobile)
         {
             lettersHelper.SetActive(false);
@@ -112,6 +170,9 @@ public class UIManager : MonoBehaviour
 
     public void HideAllControls()
     {
+        scalerPanel.SetActive(false);
+        scalerPanelCallButton.gameObject.SetActive(false);
+
         lettersHelper.SetActive(false);
         mouseHelper.SetActive(false);
         joystick.gameObject.SetActive(false);

@@ -39,5 +39,15 @@ public class Translation : ScriptableObject
     public string usePutOn;
     public string useBuy;
 
+    public string Aim;
+    public string Aim_Finish;
+    public string Aim_DontFall;
+    public string WinText;
+    public string LoseText;
+
+    public string Level1Name;
+    public string Level2Name;
+    public string Level3Name;
+
     public Translation() { }
 }
