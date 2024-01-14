@@ -38,6 +38,8 @@ public class MainMenu : MonoBehaviour
     public GameObject MainPlayerSkin;
     public Transform GetCameraTransform => mainCamera.transform;
 
+    private bool isToUpdate;
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -66,13 +68,14 @@ public class MainMenu : MonoBehaviour
         {
             customizeB.interactable = false;
             SoundUI.Instance.PlayUISound(SoundsUI.positive);
-            customize.SetOn();
+            
 
             menuOptions.SetBackButtonSign(Globals.Language.CustomizeButton);
 
             mainMenuUI.SetActive(false);
             shopUI.SetActive(false);
             customizeUI.SetActive(true);
+            customize.SetOn();
         });
 
         shopB.onClick.AddListener(() =>
@@ -97,6 +100,8 @@ public class MainMenu : MonoBehaviour
 
     public void BackToMainMenu()
     {
+        if (isToUpdate) SceneManager.LoadScene("MainMenu");
+
         mainMenuUI.SetActive(true);
         shopUI.SetActive(false);
         customizeUI.SetActive(false);
@@ -105,9 +110,12 @@ public class MainMenu : MonoBehaviour
         customizeB.interactable = true;
         shopB.interactable = true;
 
+        MainPlayerSkin.SetActive(true);
         MainPlayerSkin.transform.DOMove(Globals.UIPlayerPosition, 0.3f).SetEase(Ease.Linear);
         MainPlayerSkin.transform.DORotate(Globals.UIPlayerRotation, 0.3f).SetEase(Ease.Linear);
         GetCameraTransform.DOMove(new Vector3(0, 0, -9), 0.3f).SetEase(Ease.Linear);
+
+
     }
     
 
@@ -125,6 +133,24 @@ public class MainMenu : MonoBehaviour
             
         MainPlayerSkin.transform.position = Globals.UIPlayerPosition;
         MainPlayerSkin.transform.eulerAngles = Globals.UIPlayerRotation;
+    }
+
+    public void ChangeMainSkin(bool isToUpdate)
+    {
+        this.isToUpdate = isToUpdate;
+
+        Vector3 pos = MainPlayerSkin.transform.position;
+        Vector3 rot = MainPlayerSkin.transform.eulerAngles;
+        Vector3 scale = MainPlayerSkin.transform.localScale;
+
+        Destroy(MainPlayerSkin);
+
+        MainPlayerSkin = SkinControl.GetSkinGameobject((Skins)Globals.MainPlayerData.CS);
+        MainPlayerSkin.transform.parent = location;
+
+        MainPlayerSkin.transform.position = pos;
+        MainPlayerSkin.transform.eulerAngles = rot;
+        MainPlayerSkin.transform.localScale = scale;
     }
 
     private void startTheGame()

@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
+        //YandexGame.StickyAdActivity(true);
 
         //TODEL
         //Globals.MainPlayerData = new PlayerData();
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour
         //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
 
-        mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero).transform;
+        mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero, (Skins)Globals.MainPlayerData.CS).transform;
         cameraControl.SetData(mainPlayer, cameraBody, _camera.transform);
         mainPlayer.GetComponent<PlayerControl>().SetPlayerToMain();
         mainPlayer.gameObject.name = "Main Player";
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour
         if (levelManager == null)
         {
             StartTheGame();
-            addPlayer(false, Vector3.zero, Vector3.zero);
+            addPlayer(false, Vector3.zero, Vector3.zero, Skins.civilian_male_1);
         }
 
         
@@ -98,7 +99,22 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < botsAmount; i++)
         {
-            g = addPlayer(false, new Vector3(0, 0, 0), Vector3.zero);
+            int sex = UnityEngine.Random.Range(0, 2);
+            Skins skins = Skins.civilian_male_1;
+
+            switch(sex)
+            {
+                case 0:
+                    skins = (Skins)UnityEngine.Random.Range(2, 5);
+                    break;
+
+                case 1:
+                    skins = (Skins)UnityEngine.Random.Range(25, 28);
+                    break;
+            }
+
+
+            g = addPlayer(false, new Vector3(0, 0, 0), Vector3.zero, skins);
             g.transform.localPosition = Vector3.zero;
             players.Add(g);
         }
@@ -223,7 +239,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private GameObject addPlayer(bool isMain, Vector3 pos, Vector3 rot)
+    private GameObject addPlayer(bool isMain, Vector3 pos, Vector3 rot, Skins skinType)
     {
         //main template
         GameObject g = SkinControl.GetSkinGameobject(Skins.main_player_template);
@@ -239,7 +255,7 @@ public class GameManager : MonoBehaviour
         g.GetComponent<PlayerControl>().SetEffectControl(vfx.GetComponent<EffectsControl>());
 
         //player
-        GameObject skin = SkinControl.GetSkinGameobject(Skins.civilian_male_1);
+        GameObject skin = SkinControl.GetSkinGameobject(skinType);
         skin.transform.parent = g.transform;
         skin.transform.localPosition = Vector3.zero;
         skin.transform.localEulerAngles = Vector3.zero;

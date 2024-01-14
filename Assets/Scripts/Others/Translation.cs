@@ -36,6 +36,8 @@ public class Translation : ScriptableObject
 
     public string CustomizeButton;
     public string ShopButton;
+    public string usePutOn;
+    public string useBuy;
 
     public Translation() { }
 }

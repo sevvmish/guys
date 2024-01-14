@@ -8,6 +8,11 @@ public class MaleSkinsManager : MonoBehaviour
     [SerializeField] private GameObject[] civilian2;
     [SerializeField] private GameObject[] civilian3;
 
+
+    [SerializeField] private GameObject[] female1;
+    [SerializeField] private GameObject[] female2;
+    [SerializeField] private GameObject[] female3;
+
     public Skins CurrentSkin { get; private set; }
 
     public void SetSkin(Skins skin)
@@ -26,6 +31,21 @@ public class MaleSkinsManager : MonoBehaviour
 
             case Skins.civilian_male_3:
                 makeActiveModel(civilian3);
+                break;
+
+
+
+
+            case Skins.civilian_female_1:
+                makeActiveModel(female1);
+                break;
+
+            case Skins.civilian_female_2:
+                makeActiveModel(female2);
+                break;
+
+            case Skins.civilian_female_3:
+                makeActiveModel(female3);
                 break;
         }
     }

@@ -27,7 +27,7 @@ public class Globals : MonoBehaviour
     public static bool IsOptions;
 
     public const float BASE_SPEED = 7f;
-    public const float JUMP_POWER = 50f;
+    public const float JUMP_POWER = 40f;
     public const float GRAVITY_KOEFF = 2.75f;
 
     public const float SHADOW_Y_DISTANCE = 8f;
@@ -65,7 +65,7 @@ public class Globals : MonoBehaviour
 
     public static readonly LayerMask ignoreTriggerMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll" });
 
-    public static Vector3 UIPlayerPosition = new Vector3(0, -0.8f, 0);
+    public static Vector3 UIPlayerPosition = new Vector3(0.1f, -0.8f, 0);
     public static Vector3 UIPlayerRotation = new Vector3(0, 180, 0);
 }
 

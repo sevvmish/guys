@@ -33,8 +33,24 @@ public class PlayerData
 
         //skins
         Skins = new int[50];
-        Skins[2] = 1;
-        CS = 2;
+        int randomSkinSex = UnityEngine.Random.Range(0, 2);
+
+        switch(randomSkinSex)
+        {
+            case 0:
+                int skin = UnityEngine.Random.Range(2, 5);
+                Skins[skin] = 1;
+                CS = skin;
+                break;
+
+            case 1:
+                skin = UnityEngine.Random.Range(25, 28);
+                Skins[skin] = 1;
+                CS = skin;
+                break;
+        }
+
+        
 
         Debug.Log("created PlayerData instance");
     }

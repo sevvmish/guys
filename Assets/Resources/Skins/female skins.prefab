@@ -5938,7 +5938,7 @@ CharacterJoint:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3736677124626260604}
-  m_ConnectedBody: {fileID: 0}
+  m_ConnectedBody: {fileID: 7568126769195037654}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
@@ -7320,10 +7320,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.27
+  m_Radius: 0.28
   m_Height: 0.5
   m_Direction: 0
-  m_Center: {x: -0.25, y: 0, z: 0}
+  m_Center: {x: -0.27, y: 0, z: 0}
 --- !u!1 &4945308382604472924
 GameObject:
   m_ObjectHideFlags: 0
@@ -7516,7 +7516,7 @@ CharacterJoint:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5063041793007465092}
-  m_ConnectedBody: {fileID: 0}
+  m_ConnectedBody: {fileID: 7568126769195037654}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
@@ -7647,7 +7647,7 @@ CharacterJoint:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5176872590541494558}
-  m_ConnectedBody: {fileID: 0}
+  m_ConnectedBody: {fileID: 7568126769195037654}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
@@ -7910,7 +7910,7 @@ CharacterJoint:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5347100376204204496}
-  m_ConnectedBody: {fileID: 0}
+  m_ConnectedBody: {fileID: 7568126769195037654}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
@@ -9582,7 +9582,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 717318cbdd0fc5a409237d48b0331ed5, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -9623,6 +9623,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   civilian1: []
+  civilian2: []
+  civilian3: []
+  female1:
+  - {fileID: 8655277114668059425}
+  - {fileID: 6976223516700416566}
+  female2:
+  - {fileID: 3130480756126188241}
+  - {fileID: 2885873758255498276}
+  female3:
+  - {fileID: 3064599770175118264}
+  - {fileID: 3098652255288311941}
 --- !u!1 &6810570375826506157
 GameObject:
   m_ObjectHideFlags: 0
@@ -11866,7 +11877,7 @@ CapsuleCollider:
   m_Radius: 0.3
   m_Height: 0.6
   m_Direction: 1
-  m_Center: {x: -0.25, y: 0.05, z: 0}
+  m_Center: {x: -0.26, y: 0.03, z: 0}
 --- !u!144 &1301542039429554463
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -11874,7 +11885,7 @@ CharacterJoint:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8177176348008380294}
-  m_ConnectedBody: {fileID: 0}
+  m_ConnectedBody: {fileID: 7568126769195037654}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}

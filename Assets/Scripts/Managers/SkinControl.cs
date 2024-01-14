@@ -33,6 +33,24 @@ public class SkinControl : MonoBehaviour
                 g = Instantiate(Resources.Load<GameObject>("Skins/male skins"));
                 g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_male_3);
                 return g;
+
+
+
+
+            case Skins.civilian_female_1:
+                g = Instantiate(Resources.Load<GameObject>("Skins/female skins"));
+                g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_female_1);
+                return g;
+
+            case Skins.civilian_female_2:
+                g = Instantiate(Resources.Load<GameObject>("Skins/female skins"));
+                g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_female_2);
+                return g;
+
+            case Skins.civilian_female_3:
+                g = Instantiate(Resources.Load<GameObject>("Skins/female skins"));
+                g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_female_3);
+                return g;
         }
         return null;
     }
@@ -49,5 +67,6 @@ public enum Skins
 
 
     civilian_female_1 = 25,
-
+    civilian_female_2,
+    civilian_female_3
 }
