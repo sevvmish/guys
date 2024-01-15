@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour
 
     private Transform cameraBody;
     private GameManager gm;
+    private bool isLevelStarted;
 
     public Transform GetStartPoint => startPoint;
     public LevelTypes GetCurrentLevelType() { return levelType; }
@@ -37,23 +38,11 @@ public class LevelManager : MonoBehaviour
             countDown.StartCountDown();
         }
 
-        if (!gm.IsGameStarted && countDown.IsCountDownOff)
+        if (!isLevelStarted && !gm.IsGameStarted && countDown.IsCountDownOff)
         {
+            isLevelStarted = true;
             gm.StartTheGame();
-            AmbientMusic.Instance.PlayScenario1();
-            /*
-            int rnd = UnityEngine.Random.Range(0, 2);
-
-            switch(rnd)
-            {
-                case 0:
-                    AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody1);
-                    break;
-
-                case 1:
-                    AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody2);
-                    break;
-            }*/
+            AmbientMusic.Instance.PlayScenario1();            
         }
     }
 

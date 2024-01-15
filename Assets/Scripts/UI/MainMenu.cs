@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,6 +28,7 @@ public class MainMenu : MonoBehaviour
     [Header("Main Player positions")]
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform location;
+    [SerializeField] private PointerBase pointer;
 
 
     [Header("UIs")]
@@ -84,6 +86,7 @@ public class MainMenu : MonoBehaviour
             mainMenuUI.SetActive(false);
             shopUI.SetActive(false);
             customizeUI.SetActive(true);
+            //pointer.gameObject.SetActive(false);
             customize.SetOn();
         });
 
@@ -97,6 +100,8 @@ public class MainMenu : MonoBehaviour
             mainMenuUI.SetActive(false);
             shopUI.SetActive(true);
             customizeUI.SetActive(false);
+            //pointer.gameObject.SetActive(false);
+            shop.SetOn();
         });
 
         if (Globals.IsInitiated)
@@ -115,7 +120,7 @@ public class MainMenu : MonoBehaviour
             SceneManager.LoadScene("MainMenu");            
         }
             
-
+        pointer.gameObject.SetActive(true);
         mainMenuUI.SetActive(true);
         shopUI.SetActive(false);
         customizeUI.SetActive(false);
@@ -196,8 +201,28 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("level3");
     }
 
+    private void rotateCharacters(Vector2 delta)
+    {
+        float speed = 2f;
+        float civilY = 0;
+
+        if (delta.x < 0)
+        {
+            civilY = MainPlayerSkin.transform.eulerAngles.y + speed;
+        }
+        else
+        {
+            civilY = MainPlayerSkin.transform.eulerAngles.y - speed;
+        }
+
+        MainPlayerSkin.transform.eulerAngles = new Vector3(MainPlayerSkin.transform.eulerAngles.x, civilY, MainPlayerSkin.transform.eulerAngles.z);
+    }
+
     private void Update()
-    {        
+    {
+        Vector2 delta = pointer.DeltaPosition;
+        if (delta.x != 0) rotateCharacters(delta);
+
         if (YandexGame.SDKEnabled && !Globals.IsInitiated)
         {
             Globals.IsInitiated = true;

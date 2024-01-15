@@ -107,7 +107,8 @@ public class UIManager : MonoBehaviour
     }
 
     public void StartTheGame()
-    {        
+    {
+        print("startted in UI");
         ShowAllControls();
         aimBeforeStart.SetActive(false);
         aimDuringGame.SetActive(true);
@@ -116,6 +117,7 @@ public class UIManager : MonoBehaviour
 
     public void EndGame(bool isWin)
     {
+        print("ended in UI");
         HideAllControls();
         aimBeforeStart.SetActive(false);
         aimDuringGame.SetActive(false);

@@ -8,8 +8,10 @@ using UnityEngine.UI;
 public class CustomizeUI : MonoBehaviour
 {
     [SerializeField] private MainMenu mainMenu;
+    [SerializeField] private MenuOptions menuOptions;
     [SerializeField] private Transform location;
     [SerializeField] private GameObject back;
+    [SerializeField] private PointerBase pointer;
 
     [Header("Buttons")]
     [SerializeField] private Button boysB;
@@ -40,6 +42,8 @@ public class CustomizeUI : MonoBehaviour
     private int currentIndex;
     private float cooldown = 0;
     private float delay = 0.16f;
+
+    private GameObject currentSkin;
 
     private SkinCost useButtonBehaviour;
 
@@ -151,7 +155,7 @@ public class CustomizeUI : MonoBehaviour
                 Globals.MainPlayerData.Skins[currentIndex] = 1;
                 Globals.MainPlayerData.CS = currentIndex;
                 SaveLoadManager.Save();
-
+                menuOptions.UpdateCurrencyData();
 
                 switch (currentDressType)
                 {
@@ -232,7 +236,7 @@ public class CustomizeUI : MonoBehaviour
     public void SetOn()
     {
         back.SetActive(true);
-        mainMenu.GetCameraTransform.DOMove(new Vector3(1.4f+5f, 0, -9), 0.2f).SetEase(Ease.Linear);
+        mainMenu.GetCameraTransform.DOMove(new Vector3(1.4f+5f, 0, -9), 0.5f).SetEase(Ease.Linear);
         //mainMenu.MainPlayerSkin.transform.eulerAngles = new Vector3(0, 150, 0);
         mainMenu.MainPlayerSkin.SetActive(false);
         currentIndex = (int)boysRange.x;
@@ -240,8 +244,28 @@ public class CustomizeUI : MonoBehaviour
         updateByIndex(currentIndex,0);
     }
 
+    private void rotateCharacters(Vector2 delta)
+    {
+        float speed = 2f;
+        float civilY = 0;
+
+        if (delta.x < 0)
+        {
+            civilY = currentSkin.transform.eulerAngles.y + speed;
+        }
+        else
+        {
+            civilY = currentSkin.transform.eulerAngles.y - speed;
+        }
+
+        currentSkin.transform.eulerAngles = new Vector3(currentSkin.transform.eulerAngles.x, civilY, currentSkin.transform.eulerAngles.z);
+    }
+
     private void Update()
     {
+        Vector2 delta = pointer.DeltaPosition;
+        if (delta.x != 0) rotateCharacters(delta);
+
         if (cooldown > 0)
         {
             if (leftScroll.interactable) leftScroll.interactable = false;
@@ -334,6 +358,7 @@ public class CustomizeUI : MonoBehaviour
                 //PlayerSkins[indexToTake].SetActive(true);
                 StartCoroutine(playChange(currentIndex, indexToTake));
                 currentIndex = indexToTake;
+                currentSkin = PlayerSkins[currentIndex];
                 //print(indexToTake  + " = " + currentIndex + " !!!!yes!!!!");
                 updateUI();
                 checkBorders();
@@ -358,6 +383,7 @@ public class CustomizeUI : MonoBehaviour
         yield return new WaitForSeconds(delay/2f);
         PlayerSkins[from].transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
         setAllGameobjectsToFalse();
+        
         PlayerSkins[to].SetActive(true);
         PlayerSkins[to].transform.localScale = new Vector3(0, 0.9f, 0.9f);
         PlayerSkins[to].transform.DOScale(new Vector3(0.9f, 0.9f, 0.9f), delay / 2f).SetEase(Ease.Linear);

@@ -148,18 +148,12 @@ public class CameraControl : MonoBehaviour
             zoomTimer += Time.deltaTime;
         }
 
+        
+
+        outerCamera.position = mainPlayer.position;
+        outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, playerControl.angleYForMobile, outerCamera.eulerAngles.z);
+
         if (!isUpdate || !gm.IsGameStarted) return;
-        outerCamera.position = mainPlayer.position/* + basePosition*/;
-        
-        
-        //if (Globals.IsMobile)
-        //{
-            outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, playerControl.angleYForMobile, outerCamera.eulerAngles.z);
-        /*}
-        else
-        {
-            outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, mainPlayer.eulerAngles.y, outerCamera.eulerAngles.z);
-        }*/
 
         if (_timer > 0.1f)
         {

@@ -185,6 +185,14 @@ public class GameManager : MonoBehaviour
         IsGameStarted = true;
     }
 
+    public void EndTheGame()
+    {        
+        
+        mainUI.EndGame(true);
+        options.TurnAllOff();
+        IsGameStarted = false;
+    }
+
     public void ShakeScreen(float _time, float strength, int vibra)
     {
         if (cameraShakeCooldown > 0) return;
@@ -237,9 +245,9 @@ public class GameManager : MonoBehaviour
             finishPlaces.Add(player);
         }
 
-        if (player.Equals(mainPlayerControl))
+        if (player == mainPlayerControl)
         {
-            mainUI.EndGame(true);
+            EndTheGame();
         }
         else
         {
