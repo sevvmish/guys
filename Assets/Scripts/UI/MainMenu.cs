@@ -193,7 +193,7 @@ public class MainMenu : MonoBehaviour
     {
         ScreenSaver.Instance.HideScreen();
         yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
-        SceneManager.LoadScene("level1");
+        SceneManager.LoadScene("level3");
     }
 
     private void Update()

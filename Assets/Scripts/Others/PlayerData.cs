@@ -21,6 +21,9 @@ public class PlayerData
 
     public bool AdvOff;
 
+    public int DR;
+    public int LDR;
+
     public PlayerData()
     {        
         L = ""; //prefered language
@@ -53,6 +56,9 @@ public class PlayerData
         }
 
         AdvOff = false;
+
+        LDR = 0; //last number of day when reward was
+        DR = 0; //how many daily rewards
 
         Debug.Log("created PlayerData instance");
     }

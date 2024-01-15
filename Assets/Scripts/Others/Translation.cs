@@ -49,5 +49,9 @@ public class Translation : ScriptableObject
     public string Level2Name;
     public string Level3Name;
 
+    public string Take;
+    public string DailyRewards;
+    public string Day;
+
     public Translation() { }
 }

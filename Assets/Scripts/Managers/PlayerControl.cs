@@ -333,7 +333,7 @@ public class PlayerControl : MonoBehaviour
 
     private bool checkGround()
     {
-        bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), Quaternion.identity, 3, QueryTriggerInteraction.Ignore);
+        bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), _transform.rotation, 3, QueryTriggerInteraction.Ignore);
         
         //bool result1 = Physics.CheckBox(_transform.position + Vector3.down * 0.2f + _transform.forward * 0.2f, new Vector3(0.25f, 0.05f, 0.05f), Quaternion.identity, 3, QueryTriggerInteraction.Ignore);
         //bool result2 = Physics.CheckBox(_transform.position + Vector3.down * 0.2f + _transform.forward * -0.2f, new Vector3(0.25f, 0.05f, 0.05f), Quaternion.identity, 3, QueryTriggerInteraction.Ignore);
@@ -380,7 +380,7 @@ public class PlayerControl : MonoBehaviour
         
     private void movement(bool forward)
     {
-        if (!IsCanAct || !IsCanWalk)
+        if (!IsCanAct || !IsCanWalk || (IsPlatformTouched && !IsGrounded))
         {            
             if (AnimationState != AnimationStates.Idle)
             {
@@ -601,7 +601,7 @@ public class PlayerControl : MonoBehaviour
             _rigidbody.AddForce((_transform.position - another.transform.position).normalized * Globals.PLAYERS_COLLIDE_FORCE, ForceMode.Impulse);
         }
 
-        if (collision.gameObject.layer == 10)
+        if (collision != null && collision.collider.gameObject.layer == 0)
         {
             IsPlatformTouched = true;
         }
@@ -609,7 +609,7 @@ public class PlayerControl : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.layer == 10)
+        if (collision.collider.gameObject.layer == 0)
         {
             IsPlatformTouched = false;
         }
