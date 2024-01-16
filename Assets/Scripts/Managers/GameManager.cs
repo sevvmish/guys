@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        //YandexGame.StickyAdActivity(true);
+        YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
 
         //TODEL
         //Globals.MainPlayerData = new PlayerData();

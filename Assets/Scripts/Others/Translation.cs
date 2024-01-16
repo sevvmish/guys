@@ -53,5 +53,21 @@ public class Translation : ScriptableObject
     public string DailyRewards;
     public string Day;
 
+    public string Yan;
+    public string Close;
+    public string PurchaseError;
+
+    public string NoAdsTitle;
+    public string NoAdsMainDescription;
+    public string NoAdsAddDescription1;
+    public string NoAdsAddDescription2;
+
+    public string AllSkinsTitle;
+    public string AllSkinsMainDescription1;
+    public string AllSkinsMainDescription2;
+
+    public string StarterTitle;
+    public string StarterDescription;
+
     public Translation() { }
 }

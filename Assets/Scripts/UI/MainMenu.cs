@@ -191,8 +191,8 @@ public class MainMenu : MonoBehaviour
     }
 
     private void startTheGame()
-    {
-        YandexGame.StickyAdActivity(true);
+    {        
+        YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
     }
     private IEnumerator playStart()
     {

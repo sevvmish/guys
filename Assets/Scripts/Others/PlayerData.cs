@@ -20,6 +20,7 @@ public class PlayerData
     public float Zoom;
 
     public bool AdvOff;
+    public bool AllSkins;
 
     public int DR;
     public int LDR;
@@ -56,6 +57,7 @@ public class PlayerData
         }
 
         AdvOff = false;
+        AllSkins = false;
 
         LDR = 0; //last number of day when reward was
         DR = 0; //how many daily rewards

@@ -18,6 +18,7 @@ public class MenuOptions : MonoBehaviour
     [SerializeField] private Sprite soundOffSprite;
     [SerializeField] private Sprite musicOnSprite;
     [SerializeField] private Sprite musicOffSprite;
+    [SerializeField] private GameObject NOAds;
 
     [Header("Data")]
     [SerializeField] private TextMeshProUGUI gemsText;
@@ -35,6 +36,7 @@ public class MenuOptions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        NOAds.SetActive(false);
         signName.text = "";
 
         optionsButton.gameObject.SetActive(true);
@@ -114,6 +116,7 @@ public class MenuOptions : MonoBehaviour
     {
         gemsText.text = Globals.MainPlayerData.D.ToString();
         goldText.text = Globals.MainPlayerData.G.ToString();
+        NOAds.SetActive(Globals.MainPlayerData.AdvOff);
     }
 
     // Update is called once per frame

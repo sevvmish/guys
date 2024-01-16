@@ -397,6 +397,7 @@ public class CustomizeUI : MonoBehaviour
         {
             useButton.GetComponent<Image>().sprite = greenBSprite;
             useButtonBehaviour = sc;
+            useButtonBehaviour.Cost = SkinCost.CostType.free;
             useType.SetActive(true);
             buyType.SetActive(false);
             return;

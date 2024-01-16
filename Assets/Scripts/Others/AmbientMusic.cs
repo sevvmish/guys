@@ -80,6 +80,7 @@ public class AmbientMusic : MonoBehaviour
 
             case AmbientMelodies.loop_melody3:
                 _audio.Stop();
+                _audio.pitch = 0.96f;
                 _audio.volume = 0.2f;
                 _audio.loop = true;
                 _audio.clip = loopMelody3;
@@ -96,6 +97,7 @@ public class AmbientMusic : MonoBehaviour
 
             case AmbientMelodies.loop_melody5:
                 _audio.Stop();
+                _audio.pitch = 0.96f;
                 _audio.volume = 0.2f;
                 _audio.loop = true;
                 _audio.clip = loopMelody5;
