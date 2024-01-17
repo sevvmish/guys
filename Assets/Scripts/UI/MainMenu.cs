@@ -2,7 +2,6 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,7 +17,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI customizeBText;
     [SerializeField] private Button shopB;
     [SerializeField] private TextMeshProUGUI shopBText;
-       
+    [SerializeField] private Button rewardsB;
+    [SerializeField] private TextMeshProUGUI rewardsBText;
+
 
     [SerializeField] private MenuOptions menuOptions;
     [SerializeField] private ShopUI shop;
@@ -31,6 +32,16 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private PointerBase pointer;
 
 
+    [Header("Progress")]
+    [SerializeField] private Button progressB;
+    [SerializeField] private TextMeshProUGUI progressBText;
+    [SerializeField] private TextMeshProUGUI levelFromText;
+    [SerializeField] private TextMeshProUGUI levelToText;
+    [SerializeField] private TextMeshProUGUI XPText;
+    [SerializeField] private Slider progressSlider;
+    [SerializeField] private GameObject notification;
+
+
     [Header("UIs")]
     [SerializeField] private GameObject mainMenuUI;
     [SerializeField] private GameObject shopUI;
@@ -41,6 +52,19 @@ public class MainMenu : MonoBehaviour
     public Transform GetCameraTransform => mainCamera.transform;
 
     private bool isToUpdate;
+
+    private static int[] levelXP = new int[] {0,
+        0, //1 lvl
+        100, //2 lvl
+        250,
+        450,
+        700,
+        1000,
+        1350,
+        1750,
+        2200,
+        2700 //10 lvl
+    };
 
     private void Awake()
     {
@@ -61,12 +85,33 @@ public class MainMenu : MonoBehaviour
         mainCamera.transform.position = new Vector3(0, 0, -9);
     }
 
+    private void showProgress()
+    {        
+        notification.SetActive(Globals.MainPlayerData.XPN);
+        int lvl = GetLevelByXP(Globals.MainPlayerData.XP);
+        levelFromText.text = lvl.ToString();
+        int nextLvl = lvl + 1;
+        levelToText.text = nextLvl.ToString();
+
+        int prevXP = 0;
+
+        if (lvl > 1)
+        {
+            int prevLVL = lvl;
+            prevXP = GetMaxXPByLVL(prevLVL);
+        }
+
+        XPText.text = (Globals.MainPlayerData.XP - prevXP) + "/" + (GetMaxXPByLVL(nextLvl) - prevXP);
+        progressSlider.value = (float)(Globals.MainPlayerData.XP-prevXP) / (GetMaxXPByLVL(nextLvl) - prevXP);
+    }
+
 
     private void Start()
     {
         mainMenuUI.SetActive(true);
         shopUI.SetActive(false);
         customizeUI.SetActive(false);
+        notification.SetActive(false);
 
         playB.onClick.AddListener(() =>
         {
@@ -108,7 +153,6 @@ public class MainMenu : MonoBehaviour
         {
             playWhenInitialized();
             Localize();
-            startTheGame();
         }        
     }
 
@@ -134,13 +178,15 @@ public class MainMenu : MonoBehaviour
         MainPlayerSkin.transform.DORotate(Globals.UIPlayerRotation, 0.3f).SetEase(Ease.Linear);
         GetCameraTransform.DOMove(new Vector3(0, 0, -9), 0.3f).SetEase(Ease.Linear);
 
-
+        showProgress();
     }
     
 
     private void playWhenInitialized()
     {
-        //AmbientMusic.Instance.PlayAmbient(AmbientMelodies.forest);
+        YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
+        showProgress();
+
         int ambMusic = UnityEngine.Random.Range(0, 3);
         switch(ambMusic)
         {
@@ -190,10 +236,7 @@ public class MainMenu : MonoBehaviour
         MainPlayerSkin.transform.localScale = scale;
     }
 
-    private void startTheGame()
-    {        
-        YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
-    }
+    
     private IEnumerator playStart()
     {
         ScreenSaver.Instance.HideScreen();
@@ -203,7 +246,7 @@ public class MainMenu : MonoBehaviour
 
     private void rotateCharacters(Vector2 delta)
     {
-        float speed = 2f;
+        float speed = 5f;
         float civilY = 0;
 
         if (delta.x < 0)
@@ -220,6 +263,11 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Globals.AddXP(50);
+        }
+
         Vector2 delta = pointer.DeltaPosition;
         if (delta.x != 0) rotateCharacters(delta);
 
@@ -267,8 +315,29 @@ public class MainMenu : MonoBehaviour
 
             Localize();
             playWhenInitialized();
-            startTheGame();
         }
+    }
+
+    public static int GetLevelByXP(int xp)
+    {
+        if (xp < levelXP[2]) return 1;
+        if (xp >= levelXP[levelXP.Length - 1]) return levelXP.Length;
+        int result = 1;
+
+        for (int i = 0; i < levelXP.Length; i++)
+        {
+            if (xp == levelXP[i] || ((i+1) < levelXP.Length && xp > levelXP[i] && xp < levelXP[i+1]))
+            {
+                return i;
+            }
+        }
+
+        return result;
+    }
+
+    public static int GetMaxXPByLVL(int lvl)
+    {
+        return levelXP[lvl];
     }
 
     private void Localize()
@@ -278,5 +347,7 @@ public class MainMenu : MonoBehaviour
 
         customizeBText.text = Globals.Language.CustomizeButton;
         shopBText.text = Globals.Language.ShopButton;
+        rewardsBText.text = Globals.Language.RewardButton;
+        progressBText.text = Globals.Language.Progress;
     }
 }

@@ -53,8 +53,16 @@ public class MakePurchase : MonoBehaviour
 
         switch(id)
         {
-            case "no_ads":
+            case "no_adv":
                 Globals.MainPlayerData.AdvOff = true;
+                SaveLoadManager.Save();
+                Globals.IsDontShowIntro = true;
+                SceneManager.LoadScene("MainMenu");
+                break;
+
+            case "starter":
+                Globals.MainPlayerData.G += 1000;
+                Globals.MainPlayerData.D += 20;
                 SaveLoadManager.Save();
                 Globals.IsDontShowIntro = true;
                 SceneManager.LoadScene("MainMenu");

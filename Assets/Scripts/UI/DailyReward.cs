@@ -59,7 +59,7 @@ public class DailyReward : MonoBehaviour
                 }
                 else if (i == Globals.MainPlayerData.DR)
                 {
-                    g.transform.localScale = Vector3.one * 1.1f;
+                    g.transform.localScale = Vector3.one * 1.2f;
                     g.transform.GetChild(7).gameObject.SetActive(true);
                 }
 
@@ -68,12 +68,12 @@ public class DailyReward : MonoBehaviour
                 {
                     case DailyRewardTypes.RewardsTypes.Gold:
                         g.transform.GetChild(2).gameObject.SetActive(true);
-                        g.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = drt.Amount.ToString();
+                        g.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = "+"+ drt.Amount.ToString();
                         break;
 
                     case DailyRewardTypes.RewardsTypes.Gem:
                         g.transform.GetChild(3).gameObject.SetActive(true);
-                        g.transform.GetChild(3).GetChild(1).GetComponent<TextMeshProUGUI>().text = drt.Amount.ToString();
+                        g.transform.GetChild(3).GetChild(1).GetComponent<TextMeshProUGUI>().text = "+" + drt.Amount.ToString();
                         break;
 
                     case DailyRewardTypes.RewardsTypes.Level:

@@ -64,13 +64,13 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
+        if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
 
         //TODEL
-        //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.Zoom = 0;
-        //Globals.IsMobile = true;//false;
-        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.Zoom = 0;
+        Globals.IsMobile = false;
+        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero, (Skins)Globals.MainPlayerData.CS).transform;

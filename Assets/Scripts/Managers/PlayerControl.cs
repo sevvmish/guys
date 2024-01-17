@@ -62,6 +62,7 @@ public class PlayerControl : MonoBehaviour
     public bool IsJumping { get; private set; }
     public bool IsRunning { get; private set; }
     public bool IsIdle { get; private set; }
+    public bool IsSlide { get; private set; }
 
     public bool IsFreeFall { get; private set; }
     public void SetFreeFall(bool isFree) => IsFreeFall = isFree;
@@ -163,6 +164,11 @@ public class PlayerControl : MonoBehaviour
         IsCanJump = true;
     }
 
+    public void SetSlide(bool isActive)
+    {
+        IsSlide = isActive;
+    }
+
     public void StopWalkPermission(float seconds)
     {
         StartCoroutine(walkPermission(seconds));
@@ -238,15 +244,12 @@ public class PlayerControl : MonoBehaviour
         PlayerNonVerticalVelocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude;
         PlayerVerticalVelocity = new Vector3(0, _rigidbody.velocity.y, 0).magnitude;
 
-        /*
-        if (PlayerVelocity > 30)
-        {            
-            effectsControl.MakeFunnySound(50);
-
+        if (IsSlide)
+        {
+            _rigidbody.AddRelativeForce(_transform.forward * 20, ForceMode.Force);
         }
-        */
 
-        if (!IsGrounded)
+        if (!IsGrounded || IsSlide)
         {
             howLongNonGrounded += Time.deltaTime;
             
@@ -361,8 +364,15 @@ public class PlayerControl : MonoBehaviour
             IsFloating = false;
             IsSecondJump = false;
         }
-                        
-        return result;
+
+        if (IsSlide)
+        {
+            return true;
+        }
+        else
+        {
+            return result;
+        }        
     }
 
     private void checkShadow()
@@ -380,6 +390,27 @@ public class PlayerControl : MonoBehaviour
         
     private void movement(bool forward)
     {
+        /*
+        if (IsSlide)
+        {
+            if (horizontal>0)
+            {
+                _rigidbody.AddRelativeForce(Vector3.right * 50, ForceMode.Force);
+            }
+            else if (horizontal < 0)
+            {
+                _rigidbody.AddRelativeForce(Vector3.left * 50, ForceMode.Force);
+            }
+
+            horizontal = 0;
+
+            float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
+            angle = horizontal == 0 ? 0 : angle;
+            _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);
+
+            return;
+        }*/
+
         if (!IsCanAct || !IsCanWalk || (IsPlatformTouched && !IsGrounded))
         {            
             if (AnimationState != AnimationStates.Idle)
@@ -412,6 +443,8 @@ public class PlayerControl : MonoBehaviour
             }
           
             angleY = 0;
+
+            if (IsSlide) return;
 
             if (forward)
             {
@@ -471,6 +504,8 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
+            if (IsSlide) return;
+
             if (howLongMoving < 2 && IsGrounded)
             {                
                 howLongMoving++;                

@@ -69,5 +69,8 @@ public class Translation : ScriptableObject
     public string StarterTitle;
     public string StarterDescription;
 
+    public string RewardButton;
+    public string Progress;
+
     public Translation() { }
 }

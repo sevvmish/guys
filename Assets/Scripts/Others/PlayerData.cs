@@ -25,6 +25,9 @@ public class PlayerData
     public int DR;
     public int LDR;
 
+    public int XP;
+    public bool XPN;
+
     public PlayerData()
     {        
         L = ""; //prefered language
@@ -61,6 +64,9 @@ public class PlayerData
 
         LDR = 0; //last number of day when reward was
         DR = 0; //how many daily rewards
+
+        XP = 0;
+        XPN = false;
 
         Debug.Log("created PlayerData instance");
     }

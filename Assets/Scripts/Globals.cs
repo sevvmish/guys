@@ -25,7 +25,7 @@ public class Globals : MonoBehaviour
     public static bool IsDontShowIntro;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = false;
+    public static bool IsDevelopmentBuild = true;
     public static bool IsOptions;
 
     public const float BASE_SPEED = 7f;
@@ -49,7 +49,7 @@ public class Globals : MonoBehaviour
     public const float SPEED_INC_IN_NONGROUND_MOBILE = 0.35f;
 
     public const float MAX_HIT_IMPULSE_MAGNITUDE = 60f;
-    public const float MIN_HIT_IMPULSE_MAGNITUDE = 1f;
+    public const float MIN_HIT_IMPULSE_MAGNITUDE = 10f;
 
     public const int LAYER_HELPER = 6;
     public const int LAYER_DANGER = 7;
@@ -69,6 +69,21 @@ public class Globals : MonoBehaviour
 
     public static Vector3 UIPlayerPosition = new Vector3(0.1f, -0.8f, 0);
     public static Vector3 UIPlayerRotation = new Vector3(0, 180, 0);
+
+    public static void AddXP(int addedXP)
+    {
+        int lvl = MainMenu.GetLevelByXP(Globals.MainPlayerData.XP);
+        int moreXP = Globals.MainPlayerData.XP + addedXP;
+        int nextLvl = MainMenu.GetLevelByXP(moreXP);
+
+        if (nextLvl > lvl)
+        {
+            Globals.MainPlayerData.XPN = true;
+        }
+
+        Globals.MainPlayerData.XP += addedXP;
+        SaveLoadManager.Save();
+    }
 }
 
 public enum GameTypes

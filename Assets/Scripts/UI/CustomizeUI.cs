@@ -246,7 +246,7 @@ public class CustomizeUI : MonoBehaviour
 
     private void rotateCharacters(Vector2 delta)
     {
-        float speed = 2f;
+        float speed = 5f;
         float civilY = 0;
 
         if (delta.x < 0)
