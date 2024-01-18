@@ -167,6 +167,12 @@ public class PlayerControl : MonoBehaviour
     public void SetSlide(bool isActive)
     {
         IsSlide = isActive;
+        StartCoroutine(setSliderData());
+    }
+    private IEnumerator setSliderData()
+    {
+        yield return new WaitForSeconds(0.1f);
+        mainCollider.material = gm.GetSlidingPhysicsMaterial();        
     }
 
     public void StopWalkPermission(float seconds)
@@ -211,14 +217,28 @@ public class PlayerControl : MonoBehaviour
 
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
         
-        if (isForward && IsCanWalk)
-        {            
-            movement(true);
+        if (!IsSlide)
+        {
+            if (isForward && IsCanWalk)
+            {
+                movement(true);
+            }
+            else
+            {
+                movement(false);
+            }
         }
         else
         {
-            movement(false);
-        }     
+            if (isForward && IsCanWalk)
+            {
+                movementSliding(true);
+            }
+            else
+            {
+                movementSliding(false);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -246,32 +266,36 @@ public class PlayerControl : MonoBehaviour
 
         if (IsSlide)
         {
-            _rigidbody.AddRelativeForce(_transform.forward * 20, ForceMode.Force);
-        }
-
-        if (!IsGrounded || IsSlide)
-        {
-            howLongNonGrounded += Time.deltaTime;
-            
-            if (!IsRagdollActive)
-            {
-                GravityScale(_rigidbody);
-            }
-            else
-            {
-                for (int i = 0; i < ragdollRigidbodies.Length; i++)
-                {
-                    GravityScale(ragdollRigidbodies[i]);
-                }
-            }
-            
+            _rigidbody.AddRelativeForce(_transform.forward * 60 + Vector3.down * 100, ForceMode.Force);
         }
         else
         {
-            howLongNonGrounded = 0;
+            if (!IsGrounded)
+            {
+                howLongNonGrounded += Time.deltaTime;
 
-            if (_rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag) _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag;
+                if (!IsRagdollActive)
+                {
+                    GravityScale(_rigidbody);
+                }
+                else
+                {
+                    for (int i = 0; i < ragdollRigidbodies.Length; i++)
+                    {
+                        GravityScale(ragdollRigidbodies[i]);
+                    }
+                }
+
+            }
+            else
+            {
+                howLongNonGrounded = 0;
+
+                if (_rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag) _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag;
+            }
         }
+
+        
 
         if (isJump) makeJump();
 
@@ -365,14 +389,7 @@ public class PlayerControl : MonoBehaviour
             IsSecondJump = false;
         }
 
-        if (IsSlide)
-        {
-            return true;
-        }
-        else
-        {
-            return result;
-        }        
+        return result;
     }
 
     private void checkShadow()
@@ -387,29 +404,30 @@ public class PlayerControl : MonoBehaviour
         }
         
     }
-        
+
+    private void movementSliding(bool forward)
+    {
+        if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(angleY) > 0)
+        {
+            angleYForMobile += angleY;
+            float angle = 0;
+
+            if (Mathf.Abs(horizontal) > 0)
+            {
+                angleYForMobile += horizontal;
+            }
+
+            _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);
+        }
+
+        horizontal = 0;
+        angleY = 0;
+    }
+
+
     private void movement(bool forward)
     {
-        /*
-        if (IsSlide)
-        {
-            if (horizontal>0)
-            {
-                _rigidbody.AddRelativeForce(Vector3.right * 50, ForceMode.Force);
-            }
-            else if (horizontal < 0)
-            {
-                _rigidbody.AddRelativeForce(Vector3.left * 50, ForceMode.Force);
-            }
-
-            horizontal = 0;
-
-            float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
-            angle = horizontal == 0 ? 0 : angle;
-            _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);
-
-            return;
-        }*/
+        
 
         if (!IsCanAct || !IsCanWalk || (IsPlatformTouched && !IsGrounded))
         {            
@@ -444,7 +462,7 @@ public class PlayerControl : MonoBehaviour
           
             angleY = 0;
 
-            if (IsSlide) return;
+            
 
             if (forward)
             {
@@ -504,7 +522,7 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            if (IsSlide) return;
+            
 
             if (howLongMoving < 2 && IsGrounded)
             {                
@@ -547,6 +565,12 @@ public class PlayerControl : MonoBehaviour
 
     private void playAnimation()
     {
+        if (IsSlide)
+        {
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("JumpLoop")) _animator.Play("JumpLoop");
+            return;
+        }
+
         if (!IsGrounded)        
         {
             if (IsJumping)

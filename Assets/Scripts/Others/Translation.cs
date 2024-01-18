@@ -48,6 +48,7 @@ public class Translation : ScriptableObject
     public string Level1Name;
     public string Level2Name;
     public string Level3Name;
+    public string Level4Name;
 
     public string Take;
     public string DailyRewards;
@@ -71,6 +72,10 @@ public class Translation : ScriptableObject
 
     public string RewardButton;
     public string Progress;
+
+    public string Gold;
+    public string Gem;
+    public string XP;
 
     public Translation() { }
 }

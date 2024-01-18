@@ -181,6 +181,14 @@ public class MainMenu : MonoBehaviour
         showProgress();
     }
     
+    public void UpdateCurrencies()
+    {
+        menuOptions.UpdateCurrencyData();
+    }
+    public void UpdateXP()
+    {
+        showProgress();
+    }
 
     private void playWhenInitialized()
     {
@@ -266,6 +274,24 @@ public class MainMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Globals.AddXP(50);
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Globals.MainPlayerData.G += 500;
+            SaveLoadManager.Save();
+            GetRewardSystem.Instance.ShowEffect(RewardTypes.gold, 500);
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            Globals.MainPlayerData.D += 5;
+            SaveLoadManager.Save();
+            GetRewardSystem.Instance.ShowEffect(RewardTypes.gem, 5);
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            Globals.AddXP(100);
+            GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, 100);
         }
 
         Vector2 delta = pointer.DeltaPosition;

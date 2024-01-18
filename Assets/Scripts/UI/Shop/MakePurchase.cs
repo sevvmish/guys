@@ -64,8 +64,10 @@ public class MakePurchase : MonoBehaviour
                 Globals.MainPlayerData.G += 1000;
                 Globals.MainPlayerData.D += 20;
                 SaveLoadManager.Save();
-                Globals.IsDontShowIntro = true;
-                SceneManager.LoadScene("MainMenu");
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.gold, 1000);
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.gem, 20);
+                //Globals.IsDontShowIntro = true;
+                //SceneManager.LoadScene("MainMenu");
                 break;
 
             case "all_skins":

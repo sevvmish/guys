@@ -96,10 +96,12 @@ public class DailyReward : MonoBehaviour
                 {
                     case DailyRewardTypes.RewardsTypes.Gold:
                         Globals.MainPlayerData.G += currentDailyReward.Amount;
+                        GetRewardSystem.Instance.ShowEffect(RewardTypes.gold, currentDailyReward.Amount);
                         break;
 
                     case DailyRewardTypes.RewardsTypes.Gem:
                         Globals.MainPlayerData.D += currentDailyReward.Amount;
+                        GetRewardSystem.Instance.ShowEffect(RewardTypes.gem, currentDailyReward.Amount);
                         break;
 
                     case DailyRewardTypes.RewardsTypes.Level:

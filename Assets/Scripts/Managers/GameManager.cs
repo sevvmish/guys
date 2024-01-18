@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using YG;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 [DefaultExecutionOrder(-2)]
@@ -24,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform vfx;
     [SerializeField] private UIManager mainUI;
     [SerializeField] private OptionsMenu options;
+    [SerializeField] private PhysicMaterial sliderMaterial;
 
     public Joystick GetJoystick() => joystick;
     public Camera GetCamera() => _camera;
@@ -34,7 +33,8 @@ public class GameManager : MonoBehaviour
     public Transform GetVFX() => vfx;
     public UIManager GetUI() => mainUI;
     public LevelManager GetLevelManager() => levelManager;
-                   
+    public PhysicMaterial GetSlidingPhysicsMaterial() => sliderMaterial;
+                       
 
     //GAME START
     public float GameSecondsPlayed { get; private set; }
@@ -277,6 +277,7 @@ public class GameManager : MonoBehaviour
         skin.transform.localEulerAngles = Vector3.zero;
         SkinControl skinControl = skin.GetComponent<SkinControl>();
         g.GetComponent<PlayerControl>().SetSkinData(skinControl.ragdollColliders, skinControl._animator, Skins.pomni);
+        g.GetComponent<PlayerControl>().SetSlide(true);
 
         if (isMain)
         {
@@ -291,6 +292,7 @@ public class GameManager : MonoBehaviour
         }
 
         g.SetActive(true);
+        
 
         return g;
     }

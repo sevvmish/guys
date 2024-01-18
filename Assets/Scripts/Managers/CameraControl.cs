@@ -42,6 +42,12 @@ public class CameraControl : MonoBehaviour
         outerCamera = mainCamera.parent;
         mainCamera.localPosition = Globals.BasePosition;
         mainCamera.localEulerAngles = Globals.BaseRotation;
+
+        if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
+        {
+            outerCamera.eulerAngles += new Vector3(30, 0, 0);
+        }
+
         ignoreMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll", "danger" });
 
         currentZoom = Globals.MainPlayerData.Zoom;
@@ -111,8 +117,9 @@ public class CameraControl : MonoBehaviour
     }
 
     public void ChangeCameraAngleY(float angleY)
-    {       
-        //outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, angleY, outerCamera.eulerAngles.z);
+    {
+        
+        outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, playerControl.angleYForMobile + angleY, outerCamera.eulerAngles.z);
     }
 
     public void ChangeCameraAngleX(float angleX)

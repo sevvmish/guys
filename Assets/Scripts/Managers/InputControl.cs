@@ -106,7 +106,7 @@ public class InputControl : MonoBehaviour
             cameraControl.ChangeCameraAngleX(delta.y * -70 * Time.deltaTime);
         }
 
-        cameraControl.ChangeCameraAngleY(playerControl.angleYForMobile);
+        //cameraControl.ChangeCameraAngleY(playerControl.angleYForMobile);
     }
 
     private void forPC()
@@ -165,7 +165,7 @@ public class InputControl : MonoBehaviour
             cameraControl.ChangeCameraAngleX(mouseDelta.y * -7 * Time.deltaTime);
         }
 
-        cameraControl.ChangeCameraAngleY(playerTransform.eulerAngles.y);
+        //cameraControl.ChangeCameraAngleY(playerTransform.eulerAngles.y);
         mousePosition = Input.mousePosition;
     }
 

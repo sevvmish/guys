@@ -94,6 +94,9 @@ public class LevelManager : MonoBehaviour
 
             case LevelTypes.level3:
                 return new LevelData(Globals.Language.Level3Name, "", LevelTypes.level3, Globals.Language.Aim_Finish);
+
+            case LevelTypes.level4:
+                return new LevelData(Globals.Language.Level4Name, "", LevelTypes.level4, Globals.Language.Aim_Finish);
         }
 
         return result;
@@ -105,7 +108,8 @@ public enum LevelTypes
     none,
     level1,
     level2,
-    level3    
+    level3,
+    level4
 }
 
 public struct LevelData
