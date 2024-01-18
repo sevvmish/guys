@@ -45,7 +45,7 @@ public class CameraControl : MonoBehaviour
 
         if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
         {
-            outerCamera.eulerAngles += new Vector3(30, 0, 0);
+            //outerCamera.eulerAngles += new Vector3(30, 0, 0);
         }
 
         ignoreMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll", "danger" });

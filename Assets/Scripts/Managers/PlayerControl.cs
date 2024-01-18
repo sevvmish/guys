@@ -266,7 +266,17 @@ public class PlayerControl : MonoBehaviour
 
         if (IsSlide)
         {
-            _rigidbody.AddRelativeForce(_transform.forward * 60 + Vector3.down * 100, ForceMode.Force);
+            //_rigidbody.AddRelativeForce(_transform.forward * 60, ForceMode.Force);
+            //_rigidbody.AddForce(Vector3.down * 100, ForceMode.Force);
+
+            /*
+            float koeff = PlayerCurrentSpeed - PlayerVelocity;
+
+            //koeff = koeff > 0 ? koeff : 0;
+
+            _rigidbody.velocity += (_transform.forward * koeff + Vector3.down);
+            */
+            
         }
         else
         {
@@ -410,15 +420,25 @@ public class PlayerControl : MonoBehaviour
         if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(angleY) > 0)
         {
             angleYForMobile += angleY;
-            float angle = 0;
-
+            
             if (Mathf.Abs(horizontal) > 0)
             {
                 angleYForMobile += horizontal;
             }
 
-            _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);
+            _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);
         }
+
+        if (!IsFreeFall)
+        {
+            _rigidbody.AddForce(_transform.forward * 100 + Vector3.down * 100, ForceMode.Force);
+        }
+        else
+        {
+            _rigidbody.AddForce(_transform.forward * 100 + Vector3.down * 30, ForceMode.Force);
+        }
+        
+        
 
         horizontal = 0;
         angleY = 0;
