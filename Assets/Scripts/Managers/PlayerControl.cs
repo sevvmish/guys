@@ -417,6 +417,16 @@ public class PlayerControl : MonoBehaviour
 
     private void movementSliding(bool forward)
     {
+        if (!IsCanAct || !IsCanWalk || (IsPlatformTouched && !IsGrounded))
+        {
+            if (AnimationState != AnimationStates.Idle)
+            {
+                playIdle();
+            }
+
+            return;
+        }
+
         if (Mathf.Abs(horizontal) > 0 || Mathf.Abs(angleY) > 0)
         {
             angleYForMobile += angleY;
@@ -431,7 +441,7 @@ public class PlayerControl : MonoBehaviour
 
         if (!IsFreeFall)
         {
-            _rigidbody.AddForce(_transform.forward * 100 + Vector3.down * 100, ForceMode.Force);
+            _rigidbody.AddForce(_transform.forward * 120 + Vector3.down * 100, ForceMode.Force);
         }
         else
         {

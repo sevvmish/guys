@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class ActivateDeactivateOnTrigger : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject[] toActivate;
+    [SerializeField] private GameObject[] toDeActivate;
 
-    // Update is called once per frame
-    void Update()
+    
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (toActivate.Length > 0)
+        {
+            for (int i = 0; i < toActivate.Length; i++)
+            {
+                toActivate[i].SetActive(true);
+            }
+        }
+
+        if (toDeActivate.Length > 0)
+        {
+            for (int i = 0; i < toDeActivate.Length; i++)
+            {
+                toDeActivate[i].SetActive(false);
+            }
+        }
     }
 }

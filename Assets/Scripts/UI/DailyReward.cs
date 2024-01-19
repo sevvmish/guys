@@ -27,12 +27,7 @@ public class DailyReward : MonoBehaviour
     {        
         back.SetActive(false);
         panelExample.SetActive(false);
-
-        
-
-        
-
-        
+                
     }
 
     private void Update()
@@ -68,12 +63,12 @@ public class DailyReward : MonoBehaviour
                 {
                     case DailyRewardTypes.RewardsTypes.Gold:
                         g.transform.GetChild(2).gameObject.SetActive(true);
-                        g.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = "+"+ drt.Amount.ToString();
+                        g.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = drt.Amount.ToString();
                         break;
 
                     case DailyRewardTypes.RewardsTypes.Gem:
                         g.transform.GetChild(3).gameObject.SetActive(true);
-                        g.transform.GetChild(3).GetChild(1).GetComponent<TextMeshProUGUI>().text = "+" + drt.Amount.ToString();
+                        g.transform.GetChild(3).GetChild(1).GetComponent<TextMeshProUGUI>().text = drt.Amount.ToString();
                         break;
 
                     case DailyRewardTypes.RewardsTypes.Level:
