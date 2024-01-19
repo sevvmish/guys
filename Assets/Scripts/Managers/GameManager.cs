@@ -67,10 +67,10 @@ public class GameManager : MonoBehaviour
         if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
 
         //TODEL
-        Globals.MainPlayerData = new PlayerData();
-        Globals.MainPlayerData.Zoom = 0;
-        Globals.IsMobile = false;
-        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        //Globals.MainPlayerData = new PlayerData();
+        //Globals.MainPlayerData.Zoom = 0;
+        //Globals.IsMobile = false;
+        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
 
         mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero, (Skins)Globals.MainPlayerData.CS).transform;
@@ -277,7 +277,12 @@ public class GameManager : MonoBehaviour
         skin.transform.localEulerAngles = Vector3.zero;
         SkinControl skinControl = skin.GetComponent<SkinControl>();
         g.GetComponent<PlayerControl>().SetSkinData(skinControl.ragdollColliders, skinControl._animator, Skins.pomni);
-        g.GetComponent<PlayerControl>().SetSlide(true);
+        
+        if (levelManager.GetCurrentLevelType() == LevelTypes.level4)
+        {
+            g.GetComponent<PlayerControl>().SetSlide(true);
+        }
+        
 
         if (isMain)
         {

@@ -211,10 +211,7 @@ public class MainMenu : MonoBehaviour
                 break;
         }
 
-
-
         //main player template
-
         if (MainPlayerSkin == null)
         {
             MainPlayerSkin = SkinControl.GetSkinGameobject((Skins)Globals.MainPlayerData.CS);
@@ -252,6 +249,7 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("level4");
     }
 
+
     private void rotateCharacters(Vector2 delta)
     {
         float speed = 5f;
@@ -268,6 +266,7 @@ public class MainMenu : MonoBehaviour
 
         MainPlayerSkin.transform.eulerAngles = new Vector3(MainPlayerSkin.transform.eulerAngles.x, civilY, MainPlayerSkin.transform.eulerAngles.z);
     }
+
 
     private void Update()
     {

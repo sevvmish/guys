@@ -38,12 +38,13 @@ public class LevelManager : MonoBehaviour
             countDown.StartCountDown();
         }
 
+        /*
         if (!isLevelStarted && !gm.IsGameStarted && countDown.IsCountDownOff)
         {
             isLevelStarted = true;
             gm.StartTheGame();
             AmbientMusic.Instance.PlayScenario1();            
-        }
+        }*/
     }
 
     private IEnumerator playPreview()
@@ -78,6 +79,18 @@ public class LevelManager : MonoBehaviour
         cameraBody.DOLocalMove(Globals.BasePosition, 1f).SetEase(Ease.Linear);
         cameraBody.DOLocalRotate(Globals.BaseRotation, 1f).SetEase(Ease.Linear);
         cameraBody.parent.DOMove(gm.GetMainPlayerTransform().position, 1f).SetEase(Ease.Linear);
+
+        for (float i = 0; i < 10; i+=0.1f)
+        {
+            if (!gm.IsGameStarted && countDown.IsCountDownOff)
+            {                
+                gm.StartTheGame();
+                AmbientMusic.Instance.PlayScenario1();
+                break;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     public static LevelData GetLevelData(LevelTypes level)

@@ -213,7 +213,12 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
-        if (!gm.IsGameStarted || IsFinished) return;
+        if (!gm.IsGameStarted || IsFinished)
+        {
+            _rigidbody.velocity = Vector3.zero;
+            return;
+        }
+            
 
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
         
@@ -441,11 +446,11 @@ public class PlayerControl : MonoBehaviour
 
         if (!IsFreeFall)
         {
-            _rigidbody.AddForce(_transform.forward * 120 + Vector3.down * 100, ForceMode.Force);
+            _rigidbody.AddForce(_transform.forward * 160 + Vector3.down * 140, ForceMode.Force);
         }
         else
         {
-            _rigidbody.AddForce(_transform.forward * 100 + Vector3.down * 30, ForceMode.Force);
+            _rigidbody.AddForce(_transform.forward * 160 + Vector3.down * 30, ForceMode.Force);
         }
         
         

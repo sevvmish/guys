@@ -10,20 +10,24 @@ public class ActivateDeactivateOnTrigger : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (toActivate.Length > 0)
+        if (other.TryGetComponent(out PlayerControl pc) && pc.IsItMainPlayer)
         {
-            for (int i = 0; i < toActivate.Length; i++)
+            if (toActivate.Length > 0)
             {
-                toActivate[i].SetActive(true);
+                for (int i = 0; i < toActivate.Length; i++)
+                {
+                    toActivate[i].SetActive(true);
+                }
             }
-        }
 
-        if (toDeActivate.Length > 0)
-        {
-            for (int i = 0; i < toDeActivate.Length; i++)
+            if (toDeActivate.Length > 0)
             {
-                toDeActivate[i].SetActive(false);
+                for (int i = 0; i < toDeActivate.Length; i++)
+                {
+                    toDeActivate[i].SetActive(false);
+                }
             }
         }
+        
     }
 }
