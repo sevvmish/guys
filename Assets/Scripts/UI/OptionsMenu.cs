@@ -102,6 +102,8 @@ public class OptionsMenu : MonoBehaviour
 
     private void openOptions()
     {
+        if (!GameManager.Instance.IsGameStarted) return;
+
         if (!Globals.IsMobile)
         {
             Cursor.lockState = CursorLockMode.Confined;

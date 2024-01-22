@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIManager mainUI;
     [SerializeField] private OptionsMenu options;
     [SerializeField] private PhysicMaterial sliderMaterial;
+    public PlayerControl MainPlayerControl { get; private set; }
 
     public Joystick GetJoystick() => joystick;
     public Camera GetCamera() => _camera;
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
     public bool IsGameStarted { get; private set; }
 
     private Transform mainPlayer;
-    private PlayerControl mainPlayerControl;
+    
     private List<PlayerControl> bots = new List<PlayerControl>();
     private List<PlayerControl> finishPlaces = new List<PlayerControl>();
 
@@ -67,12 +68,12 @@ public class GameManager : MonoBehaviour
         if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
 
         //TODEL
-        Globals.MainPlayerData = new PlayerData();
-        Globals.MainPlayerData.Zoom = 0;
-        Globals.IsMobile = false;
-        Globals.IsSoundOn = true;
-        Globals.IsMusicOn = true;
-        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        //Globals.MainPlayerData = new PlayerData();
+        //Globals.MainPlayerData.Zoom = 0;
+        //Globals.IsMobile = true;
+        //Globals.IsSoundOn = true;
+        //Globals.IsMusicOn = true;
+        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
 
         mainPlayer = AddPlayer(true, Vector3.zero, Vector3.zero, (Skins)Globals.MainPlayerData.CS).transform;
@@ -233,6 +234,47 @@ public class GameManager : MonoBehaviour
         */
     }
 
+    public void AssessReward(out int xp, out int gold)
+    {
+        xp = 0;
+        gold = 0;
+
+        LevelData ld = LevelManager.GetLevelData(levelManager.GetCurrentLevelType());
+
+        switch(ld.GameType)
+        {
+            case GameTypes.Tutorial:
+                xp = 50;
+                gold = 20;
+                break;
+
+            case GameTypes.Finish_line:
+                int place = GetFinishPlace(MainPlayerControl);
+
+                if (place == 1)
+                {
+                    xp = 100;
+                    gold = 50;
+                }
+                else if (place <=3)
+                {
+                    xp = 75;
+                    gold = 35;
+                }
+                else
+                {
+                    xp = 50;
+                    gold = 20;
+                }
+
+                break;
+
+            case GameTypes.Dont_fall:
+
+                break;
+        }
+    }
+
     public int GetFinishPlace(PlayerControl player)
     {
         if (finishPlaces.Contains(player))
@@ -251,7 +293,7 @@ public class GameManager : MonoBehaviour
             finishPlaces.Add(player);
         }
 
-        if (player == mainPlayerControl)
+        if (player == MainPlayerControl)
         {
             EndTheGame();
         }
@@ -294,7 +336,7 @@ public class GameManager : MonoBehaviour
         {
             g.AddComponent<InputControl>();
             g.AddComponent<AudioListener>();
-            mainPlayerControl = g.GetComponent<PlayerControl>();
+            MainPlayerControl = g.GetComponent<PlayerControl>();
         }
         else
         {

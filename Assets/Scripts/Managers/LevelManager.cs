@@ -102,19 +102,19 @@ public class LevelManager : MonoBehaviour
         switch(level)
         {
             case LevelTypes.tutorial:
-                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Tutorial, Globals.Language.Aim_Tutorial);
+                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Tutorial, LevelTypes.tutorial, Globals.Language.Aim_Tutorial, "tutorial");
 
             case LevelTypes.level1:
-                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Finish_line, Globals.Language.Aim_Finish);
+                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Finish_line, LevelTypes.level1, Globals.Language.Aim_Finish, "level1");
 
             case LevelTypes.level2:
-                return new LevelData(Globals.Language.Level2Name, "", GameTypes.Finish_line, Globals.Language.Aim_Finish);
+                return new LevelData(Globals.Language.Level2Name, "", GameTypes.Finish_line, LevelTypes.level2, Globals.Language.Aim_Finish, "level2");
 
             case LevelTypes.level3:
-                return new LevelData(Globals.Language.Level3Name, "", GameTypes.Finish_line, Globals.Language.Aim_Finish);
+                return new LevelData(Globals.Language.Level3Name, "", GameTypes.Finish_line, LevelTypes.level3, Globals.Language.Aim_Finish, "level3");
 
             case LevelTypes.level4:
-                return new LevelData(Globals.Language.Level4Name, "", GameTypes.Finish_line, Globals.Language.Aim_Finish);
+                return new LevelData(Globals.Language.Level4Name, "", GameTypes.Finish_line, LevelTypes.level4, Globals.Language.Aim_Finish, "level4");
         }
 
         return result;
@@ -135,14 +135,18 @@ public struct LevelData
 {
     public string LevelName;
     public string LevelDescription;
-    public GameTypes LevelType;
+    public GameTypes GameType;
+    public LevelTypes LevelType;
     public string LevelAim;
+    public string LevelInInspector;
 
-    public LevelData(string name, string descr, GameTypes lvl, string aim)
+    public LevelData(string name, string descr, GameTypes gameType, LevelTypes levelType, string aim, string levelInInspector)
     {
         LevelName = name;
         LevelDescription = descr;
-        LevelType = lvl;
+        GameType = gameType;
+        LevelType = levelType;
         LevelAim = aim;
+        LevelInInspector = levelInInspector;
     }
 }

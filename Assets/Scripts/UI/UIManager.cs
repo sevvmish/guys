@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -45,7 +46,20 @@ public class UIManager : MonoBehaviour
     [Header("ADV")]
     [SerializeField] private Rewarded rewarded;
 
-        
+    [Header("result reward")]
+    [SerializeField] private GameObject rewardPanel;
+    [SerializeField] private GameObject goldPanel;
+    [SerializeField] private GameObject xpPanel;
+    [SerializeField] private TextMeshProUGUI goldText;
+    [SerializeField] private TextMeshProUGUI xpText;
+    [SerializeField] private Button continueButton;
+    [SerializeField] private Button mainMenuButton;
+    [SerializeField] private Button repeatButton;
+    [SerializeField] private TextMeshProUGUI continueButtonText;
+    [SerializeField] private TextMeshProUGUI mainMenuButtonText;
+    [SerializeField] private TextMeshProUGUI repeatButtonText;
+
+
     private GameManager gm;
     private LevelData levelData;
 
@@ -60,6 +74,7 @@ public class UIManager : MonoBehaviour
         aimDuringGame.SetActive(false);
         endGameWin.SetActive(false);
         endGameLose.SetActive(false);
+        rewardPanel.SetActive(false);
 
         levelData = LevelManager.GetLevelData(gm.GetLevelManager().GetCurrentLevelType());
 
@@ -97,7 +112,35 @@ public class UIManager : MonoBehaviour
             scalerPanelCallButton.gameObject.SetActive(Globals.IsMobile);
         });
 
-        scalerSlider.onValueChanged.AddListener(scaleCameraDistance);                
+        scalerSlider.onValueChanged.AddListener(scaleCameraDistance);
+
+        continueButton.onClick.AddListener(() =>
+        {            
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+            continueButton.interactable = false;
+            //=
+        });
+
+        repeatButton.onClick.AddListener(() =>
+        {
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+            repeatButton.interactable = false;
+            StartCoroutine(playStartLevel(levelData.LevelInInspector));
+        });
+
+        mainMenuButton.onClick.AddListener(() =>
+        {
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+            mainMenuButton.interactable = false;
+            StartCoroutine(playStartLevel("MainMenu"));
+        });
+    }
+
+    private IEnumerator playStartLevel(string level)
+    {
+        ScreenSaver.Instance.HideScreen();
+        yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
+        SceneManager.LoadScene(level);
     }
 
     private void scaleCameraDistance(float val)
@@ -113,7 +156,7 @@ public class UIManager : MonoBehaviour
                 
         aimBeforeStart.SetActive(false);
         
-        if (levelData.LevelType != GameTypes.Tutorial)
+        if (levelData.GameType != GameTypes.Tutorial)
         {
             aimDuringGame.SetActive(true);
             aimDuringGameText.text = levelData.LevelAim + "!";
@@ -134,7 +177,7 @@ public class UIManager : MonoBehaviour
         {
             endGameWin.SetActive(true);
 
-            if (levelData.LevelType == GameTypes.Tutorial)
+            if (levelData.GameType == GameTypes.Tutorial)
             {
                 endGameWinText.text = Globals.Language.TutorialDone;
             }
@@ -164,8 +207,62 @@ public class UIManager : MonoBehaviour
         t.DOPunchScale(new Vector3(50,50,50), 0.3f, 30).SetEase(Ease.OutSine);
         yield return new WaitForSeconds(3);
         t.DOAnchorPos3D(new Vector3(0, 320, 0), 0.5f).SetEase(Ease.OutSine);
+        yield return new WaitForSeconds(0.3f);
+
+        rewards();
     }
 
+    private void rewards()
+    {
+        if (!Globals.IsMobile)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+
+        rewardPanel.SetActive(true);
+        rewardPanel.transform.localScale = Vector3.zero;
+        rewardPanel.transform.DOScale(Vector3.one, 0.2f).SetEase (Ease.OutSine);
+
+        goldPanel.SetActive(true);
+        xpPanel.SetActive(true);
+
+        continueButtonText.text = Globals.Language.ContinueCamelCase;
+        mainMenuButtonText.text = Globals.Language.ToMenu;
+        repeatButtonText.text = Globals.Language.Repeat;
+
+        if (levelData.GameType == GameTypes.Tutorial)
+        {
+            repeatButton.gameObject.SetActive(false);
+            Globals.MainPlayerData.TutL = true;            
+        }
+        else
+        {
+            int place = gm.GetFinishPlace(gm.MainPlayerControl);
+            Globals.MainPlayerData.WR.AddResult(new GameSessionResult(levelData.LevelType, levelData.GameType, place));
+        }
+
+        int xpReward = 0;
+        int goldReward = 0;
+        gm.AssessReward(out xpReward, out goldReward);
+
+        if (xpReward > 0)
+        {
+            GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, xpReward);
+            Globals.AddXP(xpReward);
+        }
+
+        if (goldReward > 0)
+        {
+            GetRewardSystem.Instance.ShowEffect(RewardTypes.gold, goldReward);
+            Globals.MainPlayerData.G += goldReward;            
+        }
+
+        xpText.text = xpReward.ToString();
+        goldText.text = goldReward.ToString();
+
+        SaveLoadManager.Save();
+    }
 
     public void ShowAllControls()
     {

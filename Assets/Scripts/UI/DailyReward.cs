@@ -71,8 +71,9 @@ public class DailyReward : MonoBehaviour
                         g.transform.GetChild(3).GetChild(1).GetComponent<TextMeshProUGUI>().text = drt.Amount.ToString();
                         break;
 
-                    case DailyRewardTypes.RewardsTypes.Level:
+                    case DailyRewardTypes.RewardsTypes.XP:
                         g.transform.GetChild(4).gameObject.SetActive(true);
+                        g.transform.GetChild(4).GetChild(1).GetComponent<TextMeshProUGUI>().text = drt.Amount.ToString();
                         break;
                 }
             }
@@ -99,8 +100,9 @@ public class DailyReward : MonoBehaviour
                         GetRewardSystem.Instance.ShowEffect(RewardTypes.gem, currentDailyReward.Amount);
                         break;
 
-                    case DailyRewardTypes.RewardsTypes.Level:
-
+                    case DailyRewardTypes.RewardsTypes.XP:
+                        Globals.AddXP(currentDailyReward.Amount);
+                        GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, currentDailyReward.Amount);
                         break;
                 }
 
@@ -130,37 +132,37 @@ public class DailyReward : MonoBehaviour
                 return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 20);
 
             case 1:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 35);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 30);
 
             case 2:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 50);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 50);
 
             case 3:
                 return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 1);
 
             case 4:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 80);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 50);
 
             case 5:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 100);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 60);
 
             case 6:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 150);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 100);
 
             case 7:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 5);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 3);
 
             case 8:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 200);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 80);
 
             case 9:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 230);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 100);
 
             case 10:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 270);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 150);
 
             case 11:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 10);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 5);
 
         }
 
@@ -175,7 +177,8 @@ public struct DailyRewardTypes
     {
         Gold,
         Gem,
-        Level
+        Level,
+        XP
     }
 
     public RewardsTypes RewardType;

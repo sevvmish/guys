@@ -33,6 +33,9 @@ public class Translation : ScriptableObject
     public string Continue;
     public string Reset;
     public string ResetInfoText;
+    public string ContinueCamelCase;
+    public string ToMenu;
+    public string Repeat;
 
     public string CustomizeButton;
     public string ShopButton;

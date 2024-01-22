@@ -28,6 +28,12 @@ public class PlayerData
     public int XP;
     public bool XPN;
 
+    public bool TutL;
+    public int[] LvlA;
+
+    public int LDA;
+    public WinRating WR;
+
     public PlayerData()
     {        
         L = ""; //prefered language
@@ -65,8 +71,14 @@ public class PlayerData
         LDR = 0; //last number of day when reward was
         DR = 0; //how many daily rewards
 
-        XP = 0;
-        XPN = false;
+        XP = 0; //how many XP
+        XPN = false; //XP notofocator when new level received
+
+        TutL = false; //tutorial level done
+        LvlA = new int[10] {1,1,1,1,1, 0,0,0,0,0 }; //what levels are available
+
+        LDA = 0; //last number of day for analytics
+        WR = new WinRating();
 
         Debug.Log("created PlayerData instance");
     }

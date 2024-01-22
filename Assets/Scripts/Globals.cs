@@ -58,7 +58,7 @@ public class Globals : MonoBehaviour
     public const float ZOOM_DELTA = 0.22f;
     public const float ZOOM_LIMIT = 6f;
 
-    public const float SCREEN_SAVER_AWAIT = 1;
+    public const float SCREEN_SAVER_AWAIT = 1f;
 
     public const float PLAYERS_COLLIDE_FORCE = 7f;
 

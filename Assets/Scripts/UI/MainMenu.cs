@@ -71,16 +71,6 @@ public class MainMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        if (Globals.IsDontShowIntro)
-        {            
-            ScreenSaver.Instance.FastShowScreen();
-        }
-        else
-        {
-            ScreenSaver.Instance.ShowScreen();
-        }
-        
-
         mainCamera.orthographicSize = 1.5f;
         mainCamera.transform.position = new Vector3(0, 0, -9);
     }
@@ -190,8 +180,35 @@ public class MainMenu : MonoBehaviour
         showProgress();
     }
 
+    private void winRatingChecker()
+    {
+        if (Globals.MainPlayerData.LDA == 0 || Mathf.Abs(DateTime.Now.Day - Globals.MainPlayerData.LDR) > 0)
+        {
+            Globals.MainPlayerData.LDA = DateTime.Now.Day;
+            Globals.MainPlayerData.WR = new WinRating();
+            SaveLoadManager.Save();
+        }
+    }
+
     private void playWhenInitialized()
     {
+        if (!Globals.MainPlayerData.TutL)
+        {
+            SceneManager.LoadScene("tutorial");
+            return;
+        }
+
+        if (Globals.IsDontShowIntro)
+        {
+            ScreenSaver.Instance.FastShowScreen();
+        }
+        else
+        {
+            ScreenSaver.Instance.ShowScreen();
+        }
+
+        winRatingChecker();
+
         YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
         showProgress();
 
@@ -216,6 +233,7 @@ public class MainMenu : MonoBehaviour
         {
             MainPlayerSkin = SkinControl.GetSkinGameobject((Skins)Globals.MainPlayerData.CS);
             MainPlayerSkin.transform.parent = location;
+            MainPlayerSkin.GetComponent<Animator>().Play("IdlePlus");
         }
             
         MainPlayerSkin.transform.position = Globals.UIPlayerPosition;
@@ -246,7 +264,7 @@ public class MainMenu : MonoBehaviour
     {
         ScreenSaver.Instance.HideScreen();
         yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
-        SceneManager.LoadScene("level4");
+        SceneManager.LoadScene("level1");
     }
 
 
