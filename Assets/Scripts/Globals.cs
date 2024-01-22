@@ -88,6 +88,7 @@ public class Globals : MonoBehaviour
 
 public enum GameTypes
 {
+    Tutorial,
     Dont_fall,
     Finish_line
 }

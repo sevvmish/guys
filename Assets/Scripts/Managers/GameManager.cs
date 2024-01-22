@@ -67,31 +67,37 @@ public class GameManager : MonoBehaviour
         if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
 
         //TODEL
-        //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.Zoom = 0;
-        //Globals.IsMobile = false;
-        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.Zoom = 0;
+        Globals.IsMobile = false;
+        Globals.IsSoundOn = true;
+        Globals.IsMusicOn = true;
+        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
 
-        mainPlayer = addPlayer(true, Vector3.zero, Vector3.zero, (Skins)Globals.MainPlayerData.CS).transform;
+        mainPlayer = AddPlayer(true, Vector3.zero, Vector3.zero, (Skins)Globals.MainPlayerData.CS).transform;
         cameraControl.SetData(mainPlayer, cameraBody, _camera.transform);
         mainPlayer.GetComponent<PlayerControl>().SetPlayerToMain();
         mainPlayer.gameObject.name = "Main Player";
 
-        if (Globals.IsMobile)
+        if (levelManager.GetCurrentLevelType() != LevelTypes.tutorial)
         {
-            ArrangePlayers(7);
+            if (Globals.IsMobile)
+            {
+                ArrangePlayers(7);
+            }
+            else
+            {
+                ArrangePlayers(15);
+            }
         }
-        else
-        {
-            ArrangePlayers(15);
-        }
+        
         
 
         if (levelManager == null)
         {
             StartTheGame();
-            addPlayer(false, Vector3.zero, Vector3.zero, Skins.civilian_male_1);
+            AddPlayer(false, Vector3.zero, Vector3.zero, Skins.civilian_male_1);
         }
 
         
@@ -122,7 +128,7 @@ public class GameManager : MonoBehaviour
             }
 
 
-            g = addPlayer(false, new Vector3(0, 0, 0), Vector3.zero, skins);
+            g = AddPlayer(false, new Vector3(0, 0, 0), Vector3.zero, skins);
             g.transform.localPosition = Vector3.zero;
             players.Add(g);
         }
@@ -255,7 +261,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private GameObject addPlayer(bool isMain, Vector3 pos, Vector3 rot, Skins skinType)
+    public GameObject AddPlayer(bool isMain, Vector3 pos, Vector3 rot, Skins skinType)
     {
         //main template
         GameObject g = SkinControl.GetSkinGameobject(Skins.main_player_template);

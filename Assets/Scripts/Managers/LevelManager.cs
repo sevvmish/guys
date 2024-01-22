@@ -38,13 +38,6 @@ public class LevelManager : MonoBehaviour
             countDown.StartCountDown();
         }
 
-        /*
-        if (!isLevelStarted && !gm.IsGameStarted && countDown.IsCountDownOff)
-        {
-            isLevelStarted = true;
-            gm.StartTheGame();
-            AmbientMusic.Instance.PlayScenario1();            
-        }*/
     }
 
     private IEnumerator playPreview()
@@ -74,11 +67,20 @@ public class LevelManager : MonoBehaviour
             yield return new WaitForSeconds(previewTime[i]);
         }
 
-        countDown.StartCountDown();
-
         cameraBody.DOLocalMove(Globals.BasePosition, 1f).SetEase(Ease.Linear);
         cameraBody.DOLocalRotate(Globals.BaseRotation, 1f).SetEase(Ease.Linear);
         cameraBody.parent.DOMove(gm.GetMainPlayerTransform().position, 1f).SetEase(Ease.Linear);
+
+        if (levelType == LevelTypes.tutorial)
+        {
+            countDown.IsCountDownOff = true;
+        }
+        else
+        {
+            countDown.StartCountDown();
+        }
+
+        yield return new WaitForSeconds(1f);
 
         for (float i = 0; i < 10; i+=0.1f)
         {
@@ -99,17 +101,20 @@ public class LevelManager : MonoBehaviour
 
         switch(level)
         {
+            case LevelTypes.tutorial:
+                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Tutorial, Globals.Language.Aim_Tutorial);
+
             case LevelTypes.level1:
-                return new LevelData(Globals.Language.Level1Name, "", LevelTypes.level1, Globals.Language.Aim_Finish);
+                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Finish_line, Globals.Language.Aim_Finish);
 
             case LevelTypes.level2:
-                return new LevelData(Globals.Language.Level2Name, "", LevelTypes.level2, Globals.Language.Aim_Finish);
+                return new LevelData(Globals.Language.Level2Name, "", GameTypes.Finish_line, Globals.Language.Aim_Finish);
 
             case LevelTypes.level3:
-                return new LevelData(Globals.Language.Level3Name, "", LevelTypes.level3, Globals.Language.Aim_Finish);
+                return new LevelData(Globals.Language.Level3Name, "", GameTypes.Finish_line, Globals.Language.Aim_Finish);
 
             case LevelTypes.level4:
-                return new LevelData(Globals.Language.Level4Name, "", LevelTypes.level4, Globals.Language.Aim_Finish);
+                return new LevelData(Globals.Language.Level4Name, "", GameTypes.Finish_line, Globals.Language.Aim_Finish);
         }
 
         return result;
@@ -118,21 +123,22 @@ public class LevelManager : MonoBehaviour
 
 public enum LevelTypes
 {
-    none,
+    tutorial,
     level1,
     level2,
     level3,
     level4
 }
 
+
 public struct LevelData
 {
     public string LevelName;
     public string LevelDescription;
-    public LevelTypes LevelType;
+    public GameTypes LevelType;
     public string LevelAim;
 
-    public LevelData(string name, string descr, LevelTypes lvl, string aim)
+    public LevelData(string name, string descr, GameTypes lvl, string aim)
     {
         LevelName = name;
         LevelDescription = descr;

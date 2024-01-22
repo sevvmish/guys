@@ -110,9 +110,15 @@ public class UIManager : MonoBehaviour
     {
         print("startted in UI");
         ShowAllControls();
+                
         aimBeforeStart.SetActive(false);
-        aimDuringGame.SetActive(true);
-        aimDuringGameText.text = levelData.LevelAim + "!";
+        
+        if (levelData.LevelType != GameTypes.Tutorial)
+        {
+            aimDuringGame.SetActive(true);
+            aimDuringGameText.text = levelData.LevelAim + "!";
+        }
+        
     }
 
     public void EndGame(bool isWin)
@@ -127,7 +133,18 @@ public class UIManager : MonoBehaviour
         if (isWin)
         {
             endGameWin.SetActive(true);
-            endGameWinText.text = Globals.Language.WinText;
+
+            if (levelData.LevelType == GameTypes.Tutorial)
+            {
+                endGameWinText.text = Globals.Language.TutorialDone;
+            }
+            else
+            {
+                endGameWinText.text = Globals.Language.WinText;
+            }
+            
+            
+            
             r = endGameWin.GetComponent<RectTransform>();
             SoundUI.Instance.PlayUISound(SoundsUI.success);
         }
@@ -143,9 +160,10 @@ public class UIManager : MonoBehaviour
     }
     private IEnumerator playLastAim(RectTransform t)
     {
+        t.anchoredPosition3D = new Vector3 (0, 0, 0);
         t.DOPunchScale(new Vector3(50,50,50), 0.3f, 30).SetEase(Ease.OutSine);
         yield return new WaitForSeconds(3);
-        t.DOAnchorPos3D(new Vector3(0, 280, 0), 0.5f).SetEase(Ease.OutSine);
+        t.DOAnchorPos3D(new Vector3(0, 320, 0), 0.5f).SetEase(Ease.OutSine);
     }
 
 

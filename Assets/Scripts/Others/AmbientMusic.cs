@@ -47,9 +47,7 @@ public class AmbientMusic : MonoBehaviour
     {
         if (!Globals.IsMusicOn || !Globals.IsSoundOn) return;
 
-        //StopAllCoroutines();
-        //_audio.Stop();
-
+        
         _audio.pitch = 1;
         _audio.volume = 0.6f;
 

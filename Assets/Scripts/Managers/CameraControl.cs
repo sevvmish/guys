@@ -22,9 +22,12 @@ public class CameraControl : MonoBehaviour
     private Ray ray;
     private RaycastHit hit;
 
-    
+    private float xLimitUp = 40;
+    private float xLimitDown = 320;
+
+
     //private float zoomKoeff = 0;
-    
+
     private Dictionary<MeshRenderer, Material> changedMeshRenderers = new Dictionary<MeshRenderer, Material>();
     private HashSet<MeshRenderer> renderers = new HashSet<MeshRenderer>();
     //private HashSet<MeshRenderer> changedRanderers = new HashSet<MeshRenderer>();
@@ -45,7 +48,8 @@ public class CameraControl : MonoBehaviour
 
         if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
         {
-            //outerCamera.eulerAngles += new Vector3(30, 0, 0);
+            xLimitDown += 29;
+            outerCamera.eulerAngles += new Vector3(10, 0, 0);
         }
 
         ignoreMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll", "danger" });
@@ -127,8 +131,8 @@ public class CameraControl : MonoBehaviour
         if (!Globals.IsMobile && Mathf.Abs(angleX) > 5) return;
         
 
-        if (angleX > 0 && outerCamera.localEulerAngles.x > 30 && outerCamera.localEulerAngles.x < 40) return;
-        if (angleX < 0 && outerCamera.localEulerAngles.x < 330 && outerCamera.localEulerAngles.x > 320) return;
+        if (angleX > 0 && outerCamera.localEulerAngles.x > (xLimitUp - 10) && outerCamera.localEulerAngles.x < xLimitUp) return;
+        if (angleX < 0 && outerCamera.localEulerAngles.x < (xLimitDown + 10) && outerCamera.localEulerAngles.x > xLimitDown) return;
 
         //if ((angleX > 0 && (outerCamera.localEulerAngles.x < 20 || outerCamera.localEulerAngles.x > 340)) || (angleX < 0 && ((outerCamera.localEulerAngles.x > 340 && outerCamera.localEulerAngles.x < 359.9f) || (outerCamera.localEulerAngles.x >= 0 && outerCamera.localEulerAngles.x < 359.9f))))
         //{
