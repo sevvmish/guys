@@ -13,11 +13,12 @@ public class InputControl : MonoBehaviour
     private Transform playerTransform;
     private PointerBase jump;
     private PointerBase mover;
+    private PointerBase ability;
     private Vector3 mousePosition;
     private float koeff;
     private readonly float XLimit = 10;
     private GameManager gm;
-
+    private AbilityManager abilityManager;
     private bool isLockedUsed;
 
     private bool isTouchZoom;
@@ -29,12 +30,14 @@ public class InputControl : MonoBehaviour
     void Start()
     {
         gm = GameManager.Instance;
+        
         joystick = GameManager.Instance.GetJoystick();
         cameraControl = GameManager.Instance.GetCameraControl();
         playerControl = gameObject.GetComponent<PlayerControl>();
         playerTransform = playerControl.transform;
+        abilityManager = playerControl.GetComponent<AbilityManager>();
+        ability = GameObject.Find("AbilityButton").GetComponent<PointerBase>();
 
-        
 
         if (!Globals.IsMobile)
         {
@@ -44,7 +47,7 @@ public class InputControl : MonoBehaviour
         else
         {
             jump = GameObject.Find("JumpButton").GetComponent<PointerBase>();
-            mover = GameObject.Find("Screen mover").GetComponent<PointerBase>();
+            mover = GameObject.Find("Screen mover").GetComponent<PointerBase>();            
         }
     }
 
@@ -56,11 +59,23 @@ public class InputControl : MonoBehaviour
         if (Globals.IsMobile)
         {
             forMobile();
+
+            if (ability.IsPressed)
+            {
+                abilityManager.ActivateAbility();
+            }
         }
         else
         {
             forPC();
-        }              
+
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E))
+            {
+                abilityManager.ActivateAbility();
+            }
+        }
+
+        
     }
 
 

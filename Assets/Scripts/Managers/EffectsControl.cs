@@ -30,6 +30,8 @@ public class EffectsControl : MonoBehaviour
 
     [SerializeField] private GameObject smallPunchSound;
 
+    [SerializeField] private GameObject fastEffect;
+
 
     [SerializeField] private GameObject jumpEffect;
     private AudioSource jumpSound;
@@ -67,6 +69,8 @@ public class EffectsControl : MonoBehaviour
         smallPunchSound.SetActive(false);
 
         frozen.SetActive(false);
+
+        fastEffect.SetActive(false);
     }
 
     public void SetShadow(PlayerControl player)
@@ -108,6 +112,11 @@ public class EffectsControl : MonoBehaviour
     public void MakeWoohooGirlSound2()
     {
         StartCoroutine(playEffect(1, woohooGirlSound2));
+    }
+
+    public void MakeFastEffect(float duration)
+    {
+        StartCoroutine(playEffectBreakable(duration, fastEffect));
     }
 
     public void MakeFunnySound()

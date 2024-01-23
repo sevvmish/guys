@@ -88,5 +88,7 @@ public class Translation : ScriptableObject
     public string Difficulty;
     public string New;
 
+    public string PressForAbilityButton;
+
     public Translation() { }
 }

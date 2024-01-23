@@ -60,13 +60,33 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI repeatButtonText;
 
 
+    [Header("ability button")]
+    [SerializeField] private GameObject abilityButtonPanel;    
+    [SerializeField] private Image abilityButtonImage;
+    [SerializeField] private Vector2 placeWhenMobile;
+    [SerializeField] private Vector2 placeWhenPC;
+    [SerializeField] private Vector2 jumpStandartPlace = Vector2.zero;
+    [SerializeField] private Vector2 jumpAbilityPlace;
+    [SerializeField] private TextMeshProUGUI abilityButtonTextPC;
+
+
+    [Header("ability sprites")]
+    [SerializeField] private Sprite accelerationSprite;
+    [SerializeField] private Sprite rocketPackSprite;
+
+
     private GameManager gm;
     private LevelData levelData;
+    private AbilityManager mainPlayerAbilityManager;
 
     // Start is called before the first frame update
     void Start()
     {
         gm = GameManager.Instance;
+
+        //jumpStandartPlace = jump.GetComponent<RectTransform>().anchoredPosition;
+        jump.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        
 
         HideAllControls();
 
@@ -90,7 +110,7 @@ public class UIManager : MonoBehaviour
             letterLeft.text = Globals.Language.LeftArrowLetter;
             letterRight.text = Globals.Language.RightArrowLetter;
             signJump.text = Globals.Language.JumpLetter;
-            
+            abilityButtonTextPC.text = Globals.Language.PressForAbilityButton;
             scalerInfoText.text = Globals.Language.CameraScalerInfo;
         }
 
@@ -141,6 +161,46 @@ public class UIManager : MonoBehaviour
         ScreenSaver.Instance.HideScreen();
         yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
         SceneManager.LoadScene(level);
+    }
+
+    public void SetMainPlayerAbilityManager(AbilityManager manager) => mainPlayerAbilityManager = manager;
+    
+    public void ShowAbilityButton(AbilityTypes _type)
+    {
+        abilityButtonPanel.SetActive(true);
+
+        switch(_type)
+        {
+            case AbilityTypes.Acceleration:
+                abilityButtonImage.sprite = accelerationSprite;
+                break;
+
+            case AbilityTypes.RocketBack:
+                abilityButtonImage.sprite = rocketPackSprite;
+                break;
+        }
+
+        if (Globals.IsMobile)
+        {
+            jump.GetComponent<RectTransform>().anchoredPosition = jumpAbilityPlace;
+            abilityButtonPanel.GetComponent<RectTransform>().anchoredPosition = placeWhenMobile;
+            abilityButtonTextPC.gameObject.SetActive(false);
+        }
+        else
+        {
+            abilityButtonPanel.GetComponent<RectTransform>().anchoredPosition = placeWhenPC;
+            abilityButtonTextPC.gameObject.SetActive(true);
+        }
+    }
+
+    public void HideAbilityButton()
+    {
+        abilityButtonPanel.SetActive(false);
+
+        if (Globals.IsMobile)
+        {
+            jump.GetComponent<RectTransform>().anchoredPosition = jumpStandartPlace;            
+        }        
     }
 
     private void scaleCameraDistance(float val)
@@ -298,6 +358,7 @@ public class UIManager : MonoBehaviour
         mouseHelper.SetActive(false);
         joystick.gameObject.SetActive(false);
         jump.gameObject.SetActive(false);
+        abilityButtonPanel.SetActive(false);
     }
 
     public void ShowInformer(string text)

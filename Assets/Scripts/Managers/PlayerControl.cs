@@ -110,7 +110,7 @@ public class PlayerControl : MonoBehaviour
 
         //Abilities
         abilityManager = this.gameObject.AddComponent<AbilityManager>();
-
+        abilityManager.SetData(this, effectsControl);
     }
 
     public void SetEffectControl(EffectsControl ef) => effectsControl = ef;

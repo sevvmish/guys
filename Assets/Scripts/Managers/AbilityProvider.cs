@@ -62,6 +62,13 @@ public class AbilityProvider : MonoBehaviour
         _timer = 0;
         currentVisual.SetActive(false);
         mainCollider.enabled = false;
+        StartCoroutine(playDe());
+    }
+    private IEnumerator playDe()
+    {
+        VFX.SetActive(true);
+        yield return new WaitForSeconds(1);
+        VFX.SetActive(false);
     }
 
     // Update is called once per frame
