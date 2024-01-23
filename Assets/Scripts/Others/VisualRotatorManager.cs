@@ -37,6 +37,8 @@ public class VisualRotatorManager : MonoBehaviour
         {
             for (int i = 0; i < data.Count; i++)
             {
+                //if (!data[i].CurrentTransform.gameObject.activeSelf) continue;
+
                 switch(data[i].Ax)
                 {
                     case Axis.X_Axis:

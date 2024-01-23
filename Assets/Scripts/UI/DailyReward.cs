@@ -85,7 +85,7 @@ public class DailyReward : MonoBehaviour
 
             getPrize.onClick.AddListener(() =>
             {
-                SoundUI.Instance.PlayUISound(SoundsUI.cash);
+                //SoundUI.Instance.PlayUISound(SoundsUI.cash);
                 
 
                 switch (currentDailyReward.RewardType)
@@ -101,8 +101,13 @@ public class DailyReward : MonoBehaviour
                         break;
 
                     case DailyRewardTypes.RewardsTypes.XP:
-                        Globals.AddXP(currentDailyReward.Amount);
+                        bool isLvl = Globals.AddXP(currentDailyReward.Amount);
                         GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, currentDailyReward.Amount);
+
+                        if (isLvl)
+                        {
+                            GetRewardSystem.Instance.ShowEffect(RewardTypes.newLvl, MainMenu.GetCurrentLevel());
+                        }
                         break;
                 }
 

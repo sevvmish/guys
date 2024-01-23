@@ -102,19 +102,19 @@ public class LevelManager : MonoBehaviour
         switch(level)
         {
             case LevelTypes.tutorial:
-                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Tutorial, LevelTypes.tutorial, Globals.Language.Aim_Tutorial, "tutorial");
+                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Tutorial, LevelTypes.tutorial, Globals.Language.Aim_Tutorial, "tutorial", 1, null, 0);
 
             case LevelTypes.level1:
-                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Finish_line, LevelTypes.level1, Globals.Language.Aim_Finish, "level1");
+                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Finish_line, LevelTypes.level1, Globals.Language.Aim_Finish, "level1", 1, Resources.Load<Sprite>("Sprites/map1"), 0);
 
             case LevelTypes.level2:
-                return new LevelData(Globals.Language.Level2Name, "", GameTypes.Finish_line, LevelTypes.level2, Globals.Language.Aim_Finish, "level2");
+                return new LevelData(Globals.Language.Level2Name, "", GameTypes.Finish_line, LevelTypes.level2, Globals.Language.Aim_Finish, "level2", 1, Resources.Load<Sprite>("Sprites/map2"), 0);
 
             case LevelTypes.level3:
-                return new LevelData(Globals.Language.Level3Name, "", GameTypes.Finish_line, LevelTypes.level3, Globals.Language.Aim_Finish, "level3");
+                return new LevelData(Globals.Language.Level3Name, "", GameTypes.Finish_line, LevelTypes.level3, Globals.Language.Aim_Finish, "level3", 2, Resources.Load<Sprite>("Sprites/map3"), 2);
 
             case LevelTypes.level4:
-                return new LevelData(Globals.Language.Level4Name, "", GameTypes.Finish_line, LevelTypes.level4, Globals.Language.Aim_Finish, "level4");
+                return new LevelData(Globals.Language.Level4Name, "", GameTypes.Finish_line, LevelTypes.level4, Globals.Language.Aim_Finish, "level4", 2, Resources.Load<Sprite>("Sprites/map4"), 3);
         }
 
         return result;
@@ -139,8 +139,11 @@ public struct LevelData
     public LevelTypes LevelType;
     public string LevelAim;
     public string LevelInInspector;
+    public int Difficulty;
+    public Sprite ImageSprite;
+    public int LevelRestriction;
 
-    public LevelData(string name, string descr, GameTypes gameType, LevelTypes levelType, string aim, string levelInInspector)
+    public LevelData(string name, string descr, GameTypes gameType, LevelTypes levelType, string aim, string levelInInspector, int difficulty, Sprite sprite, int levelRestr)
     {
         LevelName = name;
         LevelDescription = descr;
@@ -148,5 +151,8 @@ public struct LevelData
         LevelType = levelType;
         LevelAim = aim;
         LevelInInspector = levelInInspector;
+        Difficulty = difficulty;
+        ImageSprite = sprite;
+        LevelRestriction = levelRestr;
     }
 }

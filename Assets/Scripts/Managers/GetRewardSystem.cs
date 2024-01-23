@@ -12,6 +12,7 @@ public class GetRewardSystem : MonoBehaviour
     [SerializeField] private RectTransform goldRect;
     [SerializeField] private RectTransform gemRect;
     [SerializeField] private RectTransform xpRect;
+    [SerializeField] private RectTransform newLvlRect;
 
     private List<ShowRewardEffect> effects = new List<ShowRewardEffect>();
     private bool isActive;
@@ -42,6 +43,7 @@ public class GetRewardSystem : MonoBehaviour
             goldRect.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = Globals.Language.Gold;
             gemRect.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = Globals.Language.Gem;
             xpRect.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = Globals.Language.XP;
+            newLvlRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.NewLVL;
         }
 
         if (effects.Count > 0 && !isActive)
@@ -62,18 +64,27 @@ public class GetRewardSystem : MonoBehaviour
             switch(effects[i].RewardType)
             {
                 case RewardTypes.gold:
+                    SoundUI.Instance.PlayUISound(SoundsUI.cash);
                     g = Instantiate(goldRect.gameObject, transform);
                     pos = new Vector3(500, 500,0);
                     break;
 
                 case RewardTypes.gem:
+                    SoundUI.Instance.PlayUISound(SoundsUI.cash);
                     g = Instantiate(gemRect.gameObject, transform);
                     pos = new Vector3(700, 500,0);
                     break;
 
                 case RewardTypes.xp:
+                    SoundUI.Instance.PlayUISound(SoundsUI.success3);
                     g = Instantiate(xpRect.gameObject, transform);
                     pos = new Vector3(-700, -500,0);
+                    break;
+
+                case RewardTypes.newLvl:
+                    g = Instantiate(newLvlRect.gameObject, transform);
+                    SoundUI.Instance.PlayUISound(SoundsUI.success2);
+                    pos = new Vector3(-700, -500, 0);                    
                     break;
             }
 
@@ -103,25 +114,29 @@ public class GetRewardSystem : MonoBehaviour
         r.DOAnchorPos3D(pos, 0.4f).SetEase(Ease.Linear);
         r.transform.DOScale(Vector3.zero, 0.4f).SetEase(Ease.Linear);
 
-        SoundUI.Instance.PlayUISound(SoundsUI.cash);
-        if (menu != null)
+
+        switch (_type)
         {
-            switch (_type)
-            {
-                case RewardTypes.gold:
-                    menu.UpdateCurrencies();
-                    break;
+            case RewardTypes.gold:
+                
+                if (menu != null) menu.UpdateCurrencies();
+                break;
 
-                case RewardTypes.gem:
-                    menu.UpdateCurrencies();
-                    break;
+            case RewardTypes.gem:
+                
+                if (menu != null) menu.UpdateCurrencies();
+                break;
 
-                case RewardTypes.xp:
-                    menu.UpdateXP();
-                    break;
-            }
+            case RewardTypes.xp:
+                if (menu != null) menu.UpdateXP();
+                break;
+
+            case RewardTypes.newLvl:
+                
+                if (menu != null) menu.UpdateXP();
+                break;
         }
-        
+
 
         yield return new WaitForSeconds(0.5f);
         Destroy(r.gameObject);
@@ -132,7 +147,8 @@ public enum RewardTypes
 {
     gold,
     gem,
-    xp
+    xp,
+    newLvl
 }
 
 public struct ShowRewardEffect

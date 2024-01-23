@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     public bool IsItMainPlayer { get; private set; }
     private ConditionControl conditions;
     private EffectsControl effectsControl;
+    private AbilityManager abilityManager;
 
     [Header("Ragdoll")]
     private CapsuleCollider[] ragdollColliders;
@@ -106,6 +107,10 @@ public class PlayerControl : MonoBehaviour
         IsCanAct = true;
         IsCanJump = true;
         IsCanWalk = true;
+
+        //Abilities
+        abilityManager = this.gameObject.AddComponent<AbilityManager>();
+
     }
 
     public void SetEffectControl(EffectsControl ef) => effectsControl = ef;
@@ -218,7 +223,7 @@ public class PlayerControl : MonoBehaviour
             _rigidbody.velocity = Vector3.zero;
             return;
         }
-            
+
 
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
         

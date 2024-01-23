@@ -23,6 +23,7 @@ public class Globals : MonoBehaviour
     public const int MAX_RESPAWN_POINTS = 25;
 
     public static bool IsDontShowIntro;
+    public static bool IsShowArrowNotificatorOnPlay;
 
     public static bool IsMobile;
     public static bool IsDevelopmentBuild = false;
@@ -70,8 +71,9 @@ public class Globals : MonoBehaviour
     public static Vector3 UIPlayerPosition = new Vector3(0.1f, -0.8f, 0);
     public static Vector3 UIPlayerRotation = new Vector3(0, 180, 0);
 
-    public static void AddXP(int addedXP)
+    public static bool AddXP(int addedXP)
     {
+        bool result = false;
         int lvl = MainMenu.GetLevelByXP(Globals.MainPlayerData.XP);
         int moreXP = Globals.MainPlayerData.XP + addedXP;
         int nextLvl = MainMenu.GetLevelByXP(moreXP);
@@ -79,10 +81,26 @@ public class Globals : MonoBehaviour
         if (nextLvl > lvl)
         {
             Globals.MainPlayerData.XPN = true;
+            result = true;
         }
 
         Globals.MainPlayerData.XP += addedXP;
+        int newLevel = MainMenu.GetLevelByXP(Globals.MainPlayerData.XP);
+
+        for (int i = 1; i < Globals.MainPlayerData.LvlA.Length; i++)
+        {
+            if (Globals.MainPlayerData.LvlA[i] == 0)
+            {
+                LevelData ld = LevelManager.GetLevelData((LevelTypes)i);
+                if (newLevel >= ld.LevelRestriction)
+                {
+                    Globals.MainPlayerData.LvlA[i] = 1;
+                }
+            }
+        }
+
         SaveLoadManager.Save();
+        return result;
     }
 }
 

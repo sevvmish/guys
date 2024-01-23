@@ -39,6 +39,7 @@ public class Translation : ScriptableObject
 
     public string CustomizeButton;
     public string ShopButton;
+    public string ProgressButton;
     public string usePutOn;
     public string useBuy;
 
@@ -81,6 +82,11 @@ public class Translation : ScriptableObject
     public string Gold;
     public string Gem;
     public string XP;
+    public string NewLVL;
+
+    public string LevelShort;
+    public string Difficulty;
+    public string New;
 
     public Translation() { }
 }

@@ -296,7 +296,7 @@ public class CustomizeUI : MonoBehaviour
 
     private void updateByIndex(int index, int direction)
     {
-        print("update from " + currentIndex + " to " + index);
+        //print("update from " + currentIndex + " to " + index);
 
         if (direction == 0)
         {

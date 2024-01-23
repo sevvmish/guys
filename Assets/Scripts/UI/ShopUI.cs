@@ -18,7 +18,7 @@ public class ShopUI : MonoBehaviour
     }
 
     public void SetOn()
-    {
+    {        
         back.SetActive(true);
         mainMenu.GetCameraTransform.DOMove(new Vector3(-6, 0, -9), 0.5f).SetEase(Ease.Linear);
         mainMenu.MainPlayerSkin.SetActive(false);        

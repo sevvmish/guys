@@ -249,7 +249,11 @@ public class UIManager : MonoBehaviour
         if (xpReward > 0)
         {
             GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, xpReward);
-            Globals.AddXP(xpReward);
+            bool isLvl = Globals.AddXP(xpReward);
+            if (isLvl)
+            {
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.newLvl, MainMenu.GetCurrentLevel());
+            }
         }
 
         if (goldReward > 0)

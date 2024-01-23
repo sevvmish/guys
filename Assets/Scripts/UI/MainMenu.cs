@@ -33,6 +33,7 @@ public class MainMenu : MonoBehaviour
 
 
     [Header("Progress")]
+    [SerializeField] private ProgressUI progressUI;
     [SerializeField] private Button progressB;
     [SerializeField] private TextMeshProUGUI progressBText;
     [SerializeField] private TextMeshProUGUI levelFromText;
@@ -46,6 +47,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject mainMenuUI;
     [SerializeField] private GameObject shopUI;
     [SerializeField] private GameObject customizeUI;
+
+    [Header("Notificator arrows")]
+    [SerializeField] private GameObject playArrowNotificator;
 
     public Action OnBackToMainMenu;
     public GameObject MainPlayerSkin;
@@ -102,6 +106,7 @@ public class MainMenu : MonoBehaviour
         shopUI.SetActive(false);
         customizeUI.SetActive(false);
         notification.SetActive(false);
+        playArrowNotificator.SetActive(false);
 
         playB.onClick.AddListener(() =>
         {
@@ -121,12 +126,11 @@ public class MainMenu : MonoBehaviour
             mainMenuUI.SetActive(false);
             shopUI.SetActive(false);
             customizeUI.SetActive(true);
-            //pointer.gameObject.SetActive(false);
             customize.SetOn();
         });
 
         shopB.onClick.AddListener(() =>
-        {
+        {            
             shopB.interactable = false;
             SoundUI.Instance.PlayUISound(SoundsUI.positive);
 
@@ -135,8 +139,20 @@ public class MainMenu : MonoBehaviour
             mainMenuUI.SetActive(false);
             shopUI.SetActive(true);
             customizeUI.SetActive(false);
-            //pointer.gameObject.SetActive(false);
             shop.SetOn();
+        });
+
+        progressB.onClick.AddListener(() =>
+        {
+            progressB.interactable = false;
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+
+            menuOptions.SetBackButtonSign(Globals.Language.ProgressButton);
+
+            mainMenuUI.SetActive(false);
+            shopUI.SetActive(false);
+            customizeUI.SetActive(false);
+            progressUI.SetOn();
         });
 
         if (Globals.IsInitiated)
@@ -162,6 +178,7 @@ public class MainMenu : MonoBehaviour
         playB.interactable = true;
         customizeB.interactable = true;
         shopB.interactable = true;
+        progressB.interactable = true;
 
         MainPlayerSkin.SetActive(true);
         MainPlayerSkin.transform.DOMove(Globals.UIPlayerPosition, 0.3f).SetEase(Ease.Linear);
@@ -192,8 +209,15 @@ public class MainMenu : MonoBehaviour
 
     private void playWhenInitialized()
     {
+        if (Globals.IsShowArrowNotificatorOnPlay)
+        {
+            Globals.IsShowArrowNotificatorOnPlay = false;
+            playArrowNotificator.SetActive(true);
+        }
+
         if (!Globals.MainPlayerData.TutL)
         {
+            Globals.IsShowArrowNotificatorOnPlay = true;
             SceneManager.LoadScene("tutorial");
             return;
         }
@@ -287,30 +311,8 @@ public class MainMenu : MonoBehaviour
 
 
     private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Globals.AddXP(50);
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Globals.MainPlayerData.G += 500;
-            SaveLoadManager.Save();
-            GetRewardSystem.Instance.ShowEffect(RewardTypes.gold, 500);
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            Globals.MainPlayerData.D += 5;
-            SaveLoadManager.Save();
-            GetRewardSystem.Instance.ShowEffect(RewardTypes.gem, 5);
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            Globals.AddXP(100);
-            GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, 100);
-        }
-
+    {        
+        
         Vector2 delta = pointer.DeltaPosition;
         if (delta.x != 0) rotateCharacters(delta);
 
@@ -376,6 +378,11 @@ public class MainMenu : MonoBehaviour
         }
 
         return result;
+    }
+
+    public static int GetCurrentLevel()
+    {        
+        return GetLevelByXP(Globals.MainPlayerData.XP);
     }
 
     public static int GetMaxXPByLVL(int lvl)

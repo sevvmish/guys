@@ -17,6 +17,8 @@ public class SoundUI : MonoBehaviour
     [SerializeField] private AudioClip BeepTick;
     [SerializeField] private AudioClip BeepOut;
     [SerializeField] private AudioClip Success;
+    [SerializeField] private AudioClip Success2;
+    [SerializeField] private AudioClip Success3;
     [SerializeField] private AudioClip Cash;
 
     // Start is called before the first frame update
@@ -103,6 +105,20 @@ public class SoundUI : MonoBehaviour
                 _audio.Play();
                 break;
 
+            case SoundsUI.success2:
+                _audio.Stop();
+                _audio.pitch = 1f;
+                _audio.clip = Success2;
+                _audio.Play();
+                break;
+
+            case SoundsUI.success3:
+                _audio.Stop();
+                _audio.pitch = 1f;
+                _audio.clip = Success3;
+                _audio.Play();
+                break;
+
             case SoundsUI.cash:
                 _audio.Stop();
                 _audio.pitch = 1f;
@@ -128,5 +144,7 @@ public enum SoundsUI
     beep_tick,
     beep_out, 
     success,
-    cash
+    cash,
+    success2,
+    success3
 }
