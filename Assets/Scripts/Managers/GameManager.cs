@@ -68,12 +68,12 @@ public class GameManager : MonoBehaviour
         if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
 
         //TODEL
-        //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.Zoom = 0;
-        //Globals.IsMobile = true;
-        //Globals.IsSoundOn = true;
-        //Globals.IsMusicOn = true;
-        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.Zoom = 0;
+        Globals.IsMobile = false;
+        Globals.IsSoundOn = true;
+        Globals.IsMusicOn = true;
+        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
 
         mainPlayer = AddPlayer(true, Vector3.zero, Vector3.zero, (Skins)Globals.MainPlayerData.CS).transform;
@@ -92,17 +92,13 @@ public class GameManager : MonoBehaviour
                 ArrangePlayers(15);
             }
         }
-        
-        
 
         if (levelManager == null)
         {
             StartTheGame();
             AddPlayer(false, Vector3.zero, Vector3.zero, Skins.civilian_male_1);
         }
-
         
-
     }
 
     public void ArrangePlayers(int botsAmount)

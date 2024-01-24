@@ -69,8 +69,9 @@ public class MenuOptions : MonoBehaviour
 
             optionsButton.gameObject.SetActive(true);
             optionsPanel.SetActive(false);
-            
-            
+
+            backPart.SetActive(false);
+            signName.text = "";
         });
 
         soundButton.onClick.AddListener(() =>

@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerControl : MonoBehaviour
 {
-    [Header("Controls")]    
+    [Header("Controls")]
     private Animator _animator;
     public Skins CurrentSkin { get; private set; }
     public AnimationStates AnimationState { get; private set; }
@@ -108,9 +108,10 @@ public class PlayerControl : MonoBehaviour
         IsCanJump = true;
         IsCanWalk = true;
 
-        //Abilities
-        abilityManager = this.gameObject.AddComponent<AbilityManager>();
+        //Abilities        
+        abilityManager = this.gameObject.GetComponent<AbilityManager>();
         abilityManager.SetData(this, effectsControl);
+        effectsControl.SetData(_animator, _rigidbody);
     }
 
     public void SetEffectControl(EffectsControl ef) => effectsControl = ef;
@@ -163,7 +164,7 @@ public class PlayerControl : MonoBehaviour
         for (float i = 0; i < seconds; i += 0.1f)
         {
             yield return new WaitForSeconds(0.1f);
-            if (IsDead && IsRagdollActive) break;
+            if (IsDead || IsRagdollActive) break;
         }
 
         IsCanJump = true;
@@ -191,7 +192,7 @@ public class PlayerControl : MonoBehaviour
         for (float i = 0; i < seconds; i += 0.1f)
         {
             yield return new WaitForSeconds(0.1f);
-            if (IsDead && IsRagdollActive) break;
+            if (IsDead || IsRagdollActive) break;
         }
 
         IsCanWalk = true;
@@ -209,7 +210,7 @@ public class PlayerControl : MonoBehaviour
         for (float i = 0; i < seconds; i+=0.1f)
         {            
             yield return new WaitForSeconds(0.1f);
-            if (IsDead && IsRagdollActive) yield break;
+            if (IsDead || IsRagdollActive) yield break;
         }
 
         IsSpeedChanged = false;
@@ -223,7 +224,6 @@ public class PlayerControl : MonoBehaviour
             _rigidbody.velocity = Vector3.zero;
             return;
         }
-
 
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
         
@@ -825,6 +825,7 @@ public class PlayerControl : MonoBehaviour
         IsFloating = false;
         IsSecondJump = false;
         IsFreeFall = false;
+        abilityManager.HideAbility(false);
         _transform.SetParent(playerLocation);
 
         yield return new WaitForSeconds(0.2f);
@@ -866,7 +867,7 @@ public class PlayerControl : MonoBehaviour
         effectsControl.PlayRespawnEffect();
 
         IsDead = false;
-        
+        IsSpeedChanged = false;
         PlayerCurrentSpeed = PlayerMaxSpeed;
     }
 
@@ -904,7 +905,7 @@ public class PlayerControl : MonoBehaviour
     private IEnumerator playTurnOffRagdoll()
     {        
         float timer = 0;
-        while (ragdollRigidbodies[0].velocity.magnitude > Globals.BASE_SPEED && !IsDead)
+        while (ragdollRigidbodies[0].velocity.magnitude > Globals.BASE_SPEED && !IsDead && !IsGrounded)
         {
             timer += 0.1f;
             yield return new WaitForSeconds(0.1f);

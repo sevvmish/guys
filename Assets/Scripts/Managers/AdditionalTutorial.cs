@@ -33,6 +33,14 @@ public class AdditionalTutorial : MonoBehaviour
     [SerializeField] private GameObject DontForgetDJ;
     [SerializeField] private TextMeshPro DontForgetDJTexter;
 
+    [Header("Ability for PC")]
+    [SerializeField] private GameObject AbilityPC;
+    [SerializeField] private TextMeshPro AbilityPCText;
+
+    [Header("Ability for mobile")]
+    [SerializeField] private GameObject AbilityMobile;
+    [SerializeField] private TextMeshPro AbilityMobileText;
+
     [Header("PC movement")]
     [SerializeField] private GameObject MovementForPC;
     [SerializeField] private TextMeshPro MovementKeyboard;
@@ -63,6 +71,8 @@ public class AdditionalTutorial : MonoBehaviour
         CameraInfoPC.SetActive(false);
         CameraInfoMobile.SetActive(false);
         DontForgetDJ.SetActive(false);
+        AbilityPC.SetActive(false);
+        AbilityMobile.SetActive(false);
 
 
         gm = GameManager.Instance;
@@ -164,6 +174,9 @@ public class AdditionalTutorial : MonoBehaviour
 
                 CameraInfoMobile.SetActive(true);
                 CameraInfoMobileTexter.text = Globals.Language.CameraHintMobile;
+
+                AbilityMobile.SetActive(true);
+                AbilityMobileText.text = Globals.Language.AbilityForMobile;
             }
             else
             {
@@ -179,6 +192,9 @@ public class AdditionalTutorial : MonoBehaviour
 
                 CameraInfoPC.SetActive(true);
                 CameraInfoPCTexter.text = Globals.Language.CameraHintPC;
+
+                AbilityPC.SetActive(true);
+                AbilityPCText.text = Globals.Language.AbilityForPC;
             }
 
             DoubleJump.SetActive(true);

@@ -144,6 +144,11 @@ public class OptionsMenu : MonoBehaviour
         soundButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
         homeButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
         musicButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
+
+        if (GameManager.Instance.GetLevelManager().GetCurrentLevelType() == LevelTypes.tutorial)
+        {
+            homeButton.gameObject.SetActive(false);
+        }
     }
 
     public void TurnAllOn()

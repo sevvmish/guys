@@ -7,6 +7,7 @@ public class ShopUI : MonoBehaviour
 {
     [SerializeField] private MainMenu mainMenu;
     [SerializeField] private GameObject back;
+    [SerializeField] private RectTransform mainRect;
 
     private bool isReady;
 
@@ -15,6 +16,7 @@ public class ShopUI : MonoBehaviour
     {
         back.SetActive(false);
         mainMenu.OnBackToMainMenu += ReturnBack;
+                
     }
 
     public void SetOn()
@@ -30,6 +32,14 @@ public class ShopUI : MonoBehaviour
         {
             isReady = true;
 
+            if (Globals.IsMobile)
+            {
+                mainRect.anchoredPosition = new Vector2(0,-70);
+            }
+            else
+            {
+                mainRect.anchoredPosition = new Vector2(0, 0);
+            }
         }
     }
 

@@ -68,6 +68,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Vector2 jumpStandartPlace = Vector2.zero;
     [SerializeField] private Vector2 jumpAbilityPlace;
     [SerializeField] private TextMeshProUGUI abilityButtonTextPC;
+    [SerializeField] private Image circleForAbilityTimer;
 
 
     [Header("ability sprites")]
@@ -85,6 +86,7 @@ public class UIManager : MonoBehaviour
         gm = GameManager.Instance;
 
         //jumpStandartPlace = jump.GetComponent<RectTransform>().anchoredPosition;
+        circleForAbilityTimer = abilityButtonPanel.transform.GetChild(0).GetComponent<Image>();
         jump.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         
 
@@ -168,8 +170,10 @@ public class UIManager : MonoBehaviour
     public void ShowAbilityButton(AbilityTypes _type)
     {
         abilityButtonPanel.SetActive(true);
+        abilityButtonPanel.transform.GetChild(0).localScale = Vector3.one;
+        circleForAbilityTimer.fillAmount = 1;
 
-        switch(_type)
+        switch (_type)
         {
             case AbilityTypes.Acceleration:
                 abilityButtonImage.sprite = accelerationSprite;
@@ -193,14 +197,56 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void HideAbilityButton()
+    public void SetFillAmountAbilityTimer(float amount)
     {
+        circleForAbilityTimer.fillAmount = amount;
+    }
+
+    public void HideAbilityButton(bool isPressed)
+    {
+        StartCoroutine(playPressAbility(isPressed));
+    }
+    private IEnumerator playPressAbility(bool isPressed)
+    {
+        if (!isPressed)
+        {
+            SoundUI.Instance.PlayUISound(SoundsUI.error);
+
+            abilityButtonPanel.transform.GetChild(0).DOScale(Vector3.one * 0.1f, 0.3f).SetEase(Ease.Linear);
+            yield return new WaitForSeconds(0.3f);
+
+            abilityButtonPanel.SetActive(false);
+
+            if (Globals.IsMobile)
+            {
+                jump.GetComponent<RectTransform>().anchoredPosition = jumpStandartPlace;
+            }
+
+            yield break;
+        }
+        
+
+
+        SoundUI.Instance.PlayUISound(SoundsUI.success3);
+
+        abilityButtonPanel.transform.GetChild(0).DOPunchPosition(new Vector3(20, 20, 1), 0.15f, 30).SetEase(Ease.InOutQuad);
+        yield return new WaitForSeconds(0.15f);
+
+        abilityButtonPanel.transform.GetChild(0).DOScale(Vector3.one * 3.5f, 0.25f).SetEase(Ease.Linear);
+        abilityButtonPanel.transform.GetChild(0).GetComponent<Image>().DOFade(0, 0.25f).SetEase(Ease.Linear);
+        abilityButtonPanel.transform.GetChild(0).GetChild(0).GetComponent<Image>().DOFade(0, 0.25f).SetEase(Ease.Linear);
+        yield return new WaitForSeconds(0.25f);
+
+        
+        abilityButtonPanel.transform.GetChild(0).GetComponent<Image>().DOFade(1, 0).SetEase(Ease.Linear);
+        abilityButtonPanel.transform.GetChild(0).GetChild(0).GetComponent<Image>().DOFade(1, 0).SetEase(Ease.Linear);
+
         abilityButtonPanel.SetActive(false);
 
         if (Globals.IsMobile)
         {
-            jump.GetComponent<RectTransform>().anchoredPosition = jumpStandartPlace;            
-        }        
+            jump.GetComponent<RectTransform>().anchoredPosition = jumpStandartPlace;
+        }
     }
 
     private void scaleCameraDistance(float val)
@@ -266,7 +312,7 @@ public class UIManager : MonoBehaviour
         t.anchoredPosition3D = new Vector3 (0, 0, 0);
         t.DOPunchScale(new Vector3(50,50,50), 0.3f, 30).SetEase(Ease.OutSine);
         yield return new WaitForSeconds(3);
-        t.DOAnchorPos3D(new Vector3(0, 320, 0), 0.5f).SetEase(Ease.OutSine);
+        t.DOAnchorPos3D(new Vector3(0, 340, 0), 0.5f).SetEase(Ease.OutSine);
         yield return new WaitForSeconds(0.3f);
 
         rewards();

@@ -10,8 +10,10 @@ public class ProgressUI : MonoBehaviour
     [SerializeField] private GameObject back;
     [SerializeField] private GameObject mapExample;
     [SerializeField] private Transform location;
+    [SerializeField] private RectTransform mainRect;
     private RectTransform locationRect;
     
+
     List <MapUI> maps = new List<MapUI>();
     private bool isReady;
 
@@ -83,6 +85,17 @@ public class ProgressUI : MonoBehaviour
         if (Globals.IsInitiated && !isReady)
         {
             isReady = true;
+
+            if (Globals.IsMobile)
+            {
+                mainRect.anchoredPosition = new Vector2(0, -70);
+            }
+            else
+            {
+                mainRect.anchoredPosition = new Vector2(0, 0);
+            }
+
+
             for (int i = 1; i < Globals.MainPlayerData.LvlA.Length; i++)
             {
                 GameObject map = Instantiate(mapExample, location);

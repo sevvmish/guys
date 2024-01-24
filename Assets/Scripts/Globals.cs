@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using YG;
 
 
 public class Globals : MonoBehaviour
@@ -26,7 +27,7 @@ public class Globals : MonoBehaviour
     public static bool IsShowArrowNotificatorOnPlay;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = false;
+    public static bool IsDevelopmentBuild = true;
     public static bool IsOptions;
 
     public const float BASE_SPEED = 7f;
@@ -62,6 +63,11 @@ public class Globals : MonoBehaviour
     public const float SCREEN_SAVER_AWAIT = 1f;
 
     public const float PLAYERS_COLLIDE_FORCE = 7f;
+
+    //abilities
+    public const float ABILITY_DURATION = 10f;
+    public const float ACCELERATION_DURATION = 4f;
+    public const float ROCKETPACK_DURATION = 3f;
 
     public static readonly Vector3 BasePosition = new Vector3(0, 5.5f, -8);
     public static readonly Vector3 BaseRotation = new Vector3(25, 0, 0);
@@ -100,6 +106,7 @@ public class Globals : MonoBehaviour
         }
 
         SaveLoadManager.Save();
+        YandexGame.NewLeaderboardScores("lider", Globals.MainPlayerData.XP);
         return result;
     }
 }

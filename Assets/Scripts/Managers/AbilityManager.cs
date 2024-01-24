@@ -9,6 +9,8 @@ public class AbilityManager : MonoBehaviour
     private EffectsControl effectsControl;
     private GameManager gm;
 
+
+
     public void SetData(PlayerControl pc, EffectsControl ec)
     {
         gm = GameManager.Instance;
@@ -19,8 +21,7 @@ public class AbilityManager : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        //if (CurrentAbility != AbilityTypes.none) { return; }
+    {        
 
         if (other.TryGetComponent(out AbilityProvider ap))
         {
@@ -31,6 +32,11 @@ public class AbilityManager : MonoBehaviour
             if (currentPlayerControl.IsItMainPlayer)
             {
                 gm.GetUI().ShowAbilityButton(CurrentAbility);
+                StartCoroutine(playTimerForAbility(Globals.ABILITY_DURATION));
+            }
+            else
+            {
+                ActivateAbility();
             }
 
             ap.Deactivate();
@@ -44,16 +50,45 @@ public class AbilityManager : MonoBehaviour
         switch (CurrentAbility)
         {
             case AbilityTypes.Acceleration:
-
+                currentPlayerControl.ChangeSpeed(1.5f, Globals.ACCELERATION_DURATION);
+                effectsControl.MakeFastEffect(Globals.ACCELERATION_DURATION);
                 break;
 
             case AbilityTypes.RocketBack:
-
+                effectsControl.MakeRocketPackView(Globals.ROCKETPACK_DURATION);
                 break;
         }
 
+        if (currentPlayerControl.IsItMainPlayer)
+        {
+            gm.ShakeScreen(0.2f, 2f, 30);
+        }
+
+        HideAbility(true);
+    }
+
+    public void HideAbility(bool isPressed)
+    {        
+        if (CurrentAbility == AbilityTypes.none) { return; }
+
         CurrentAbility = AbilityTypes.none;
-        gm.GetUI().HideAbilityButton();
+        
+        if (currentPlayerControl.IsItMainPlayer)
+        {
+            gm.GetUI().HideAbilityButton(isPressed);
+        }        
+    }
+
+    private IEnumerator playTimerForAbility(float duration)
+    {
+        for (float i = 0; i < duration; i += 0.1f)
+        {
+            gm.GetUI().SetFillAmountAbilityTimer(1f - (i/duration));
+            yield return new WaitForSeconds(0.1f);
+            if (currentPlayerControl.IsDead || CurrentAbility == AbilityTypes.none) yield break;
+        }
+
+        HideAbility(false);
     }
 
 }

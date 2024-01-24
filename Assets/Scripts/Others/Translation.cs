@@ -14,6 +14,8 @@ public class Translation : ScriptableObject
     public string CameraHintPC;
     public string CameraHintMobile;
     public string DontForgetDoubleJump;
+    public string AbilityForPC;
+    public string AbilityForMobile;
 
     public string MovementHintLeftJ;
     public string MovementHintLetters;

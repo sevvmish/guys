@@ -39,11 +39,17 @@ public class EffectsControl : MonoBehaviour
     [SerializeField] private ParticleSystem landEffect;
 
     private PlayerControl pc;
+    private Animator _animator;
+    private Rigidbody rb;
+
+    private GameObject rocketPack;
 
     // Start is called before the first frame update
     void Start()
     {
         pc = transform.parent.GetComponent<PlayerControl>();
+
+        
 
         shadow.SetActive(false);
         respawnFX.SetActive(false);
@@ -71,6 +77,15 @@ public class EffectsControl : MonoBehaviour
         frozen.SetActive(false);
 
         fastEffect.SetActive(false);
+    }
+
+    public void SetData(Animator a, Rigidbody r)
+    {
+        _animator = a;
+        rb = r;
+
+        rocketPack = _animator.gameObject.GetComponent<SkinControl>().RocketPack;
+        rocketPack.SetActive(false);
     }
 
     public void SetShadow(PlayerControl player)
@@ -116,7 +131,27 @@ public class EffectsControl : MonoBehaviour
 
     public void MakeFastEffect(float duration)
     {
+        MakeFunnySound();
         StartCoroutine(playEffectBreakable(duration, fastEffect));
+    }
+
+    public void MakeRocketPackView(float duration)
+    {
+        MakeFunnySound();
+        StartCoroutine(playEffectBreakable(duration, rocketPack));
+        StartCoroutine(playRocketPack(duration));
+    }
+    private IEnumerator playRocketPack(float duration)
+    {        
+        for (float i = 0; i < (duration-0.1f); i += 0.05f)
+        {
+            float addForce = 200f;
+            rb.AddForce(Vector3.up * addForce, ForceMode.Force);
+            rb.AddForce(rb.transform.forward * addForce/5, ForceMode.Force);
+
+            yield return new WaitForSeconds(0.05f);
+            if (pc.IsDead) break;
+        }        
     }
 
     public void MakeFunnySound()
@@ -133,7 +168,7 @@ public class EffectsControl : MonoBehaviour
 
         if (rnd > chanceFrom100) return;
 
-        if ((int)pc.CurrentSkin >= 50)
+        if ((int)pc.CurrentSkin >= 25)
         {
             
             rnd = UnityEngine.Random.Range(0, 2);
@@ -262,7 +297,7 @@ public class EffectsControl : MonoBehaviour
         for (float i = 0; i < duration; i += 0.1f)
         {
             yield return new WaitForSeconds(0.1f);
-            if (pc.IsDead && pc.IsRagdollActive) break;
+            if (pc.IsDead) break;
         }
         fx.SetActive(false);
     }
@@ -295,7 +330,7 @@ public class EffectsControl : MonoBehaviour
         for (float i = 0; i < duration; i += 0.1f)
         {
             yield return new WaitForSeconds(0.1f);
-            if (pc.IsDead && pc.IsRagdollActive) break;
+            if (pc.IsDead || pc.IsRagdollActive) break;
         }
 
         frozen.transform.GetChild(1).gameObject.SetActive(true);
