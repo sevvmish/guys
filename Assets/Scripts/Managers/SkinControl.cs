@@ -7,6 +7,7 @@ public class SkinControl : MonoBehaviour
     public CapsuleCollider[] ragdollColliders;
     public Animator _animator;
     public GameObject RocketPack;
+    public GameObject[] Ski;
 
     public static GameObject GetSkinGameobject(Skins skin)
     {

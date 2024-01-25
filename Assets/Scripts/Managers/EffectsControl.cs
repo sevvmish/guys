@@ -32,6 +32,7 @@ public class EffectsControl : MonoBehaviour
 
     [SerializeField] private GameObject fastEffect;
 
+    [SerializeField] private GameObject skiEffect;
 
     [SerializeField] private GameObject jumpEffect;
     private AudioSource jumpSound;
@@ -41,15 +42,17 @@ public class EffectsControl : MonoBehaviour
     private PlayerControl pc;
     private Animator _animator;
     private Rigidbody rb;
+    private GameManager gm;
 
     private GameObject rocketPack;
+    private GameObject[] ski;
+    private bool isSkiEffects;
 
     // Start is called before the first frame update
     void Start()
     {
         pc = transform.parent.GetComponent<PlayerControl>();
-
-        
+        gm = GameManager.Instance;
 
         shadow.SetActive(false);
         respawnFX.SetActive(false);
@@ -75,8 +78,28 @@ public class EffectsControl : MonoBehaviour
         smallPunchSound.SetActive(false);
 
         frozen.SetActive(false);
-
+        skiEffect.SetActive(false);
         fastEffect.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (gm.IsGameStarted && !isSkiEffects && gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
+        {
+            SetSkiEffect(true);
+        }
+
+        if (isSkiEffects)
+        {
+            if (pc.IsGrounded && !skiEffect.activeSelf && gm.IsGameStarted)
+            {
+                skiEffect.SetActive(true);
+            }
+            else if ((!pc.IsGrounded && skiEffect.activeSelf) || (!gm.IsGameStarted && skiEffect.activeSelf))
+            {
+                skiEffect.SetActive(false);
+            }
+        }
     }
 
     public void SetData(Animator a, Rigidbody r)
@@ -86,6 +109,12 @@ public class EffectsControl : MonoBehaviour
 
         rocketPack = _animator.gameObject.GetComponent<SkinControl>().RocketPack;
         rocketPack.SetActive(false);
+
+        ski = _animator.gameObject.GetComponent<SkinControl>().Ski;
+        ski[0].SetActive(false);
+        ski[1].SetActive(false);
+
+        
     }
 
     public void SetShadow(PlayerControl player)
@@ -133,6 +162,22 @@ public class EffectsControl : MonoBehaviour
     {
         MakeFunnySound();
         StartCoroutine(playEffectBreakable(duration, fastEffect));
+    }
+
+    public void SetSkiEffect(bool isON)
+    {
+        if (isON)
+        {
+            ski[0].SetActive(true);
+            ski[1].SetActive(true);
+            isSkiEffects = true;
+        }
+        else
+        {
+            ski[0].SetActive(false);
+            ski[1].SetActive(false);
+            isSkiEffects = false;
+        }
     }
 
     public void MakeRocketPackView(float duration)
