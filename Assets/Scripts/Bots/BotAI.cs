@@ -44,7 +44,7 @@ public class BotAI : MonoBehaviour
         playerTransform = playerControl.transform;
 
         //delay before start
-        float delay = UnityEngine.Random.Range(0.1f, 0.75f);
+        float delay = UnityEngine.Random.Range(Globals.DelayForBots.x, Globals.DelayForBots.y);
         _timer = delay;
         _timerForChecking = delay;
 

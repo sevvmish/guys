@@ -92,5 +92,7 @@ public class Translation : ScriptableObject
 
     public string PressForAbilityButton;
 
+    public string GoGoGo;
+
     public Translation() { }
 }

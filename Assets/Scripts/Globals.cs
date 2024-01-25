@@ -40,6 +40,8 @@ public class Globals : MonoBehaviour
     public const float DRAG = 5f; //1
     public const float ANGULAR_DRAG = 5f;
 
+    public static Vector2 DelayForBots = new Vector2(0.3f, 1.3f);
+
     public const float RAGDOLL_MASS = 0.25f;
     public const float RAGDOLL_DRAG = 1f;
     public const float RAGDOLL_ANGULAR_DRAG = 0.5f;

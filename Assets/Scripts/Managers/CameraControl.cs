@@ -25,8 +25,9 @@ public class CameraControl : MonoBehaviour
     private float xLimitUp = 40;
     private float xLimitDown = 320;
 
-
-    //private float zoomKoeff = 0;
+    private bool isPhotoRegime = false;
+    private Transform photoPoint;
+    private GameObject mainCanvas;
 
     private Dictionary<MeshRenderer, Material> changedMeshRenderers = new Dictionary<MeshRenderer, Material>();
     private HashSet<MeshRenderer> renderers = new HashSet<MeshRenderer>();
@@ -45,6 +46,9 @@ public class CameraControl : MonoBehaviour
         outerCamera = mainCamera.parent;
         mainCamera.localPosition = Globals.BasePosition;
         mainCamera.localEulerAngles = Globals.BaseRotation;
+
+        photoPoint = GameObject.Find("PhotoPoint").transform;
+        mainCanvas = GameObject.Find("Gameplay Canvas"); 
 
         if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
         {
@@ -159,10 +163,25 @@ public class CameraControl : MonoBehaviour
             zoomTimer += Time.deltaTime;
         }
 
-        
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            isPhotoRegime = !isPhotoRegime;
+        }
 
-        outerCamera.position = mainPlayer.position;
-        outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, playerControl.angleYForMobile, outerCamera.eulerAngles.z);
+        if (isPhotoRegime && photoPoint != null)
+        {
+            outerCamera.position = photoPoint.position;
+            outerCamera.eulerAngles = photoPoint.eulerAngles;
+            outerCamera.transform.GetChild(0).localPosition = Vector3.zero;
+            outerCamera.transform.GetChild(0).localEulerAngles = Vector3.zero;
+            mainCanvas.SetActive(false);
+        }
+        else
+        {
+            outerCamera.position = mainPlayer.position;
+            outerCamera.eulerAngles = new Vector3(outerCamera.eulerAngles.x, playerControl.angleYForMobile, outerCamera.eulerAngles.z);
+        }
+        
 
         if (!isUpdate || !gm.IsGameStarted) return;
 

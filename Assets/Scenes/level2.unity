@@ -20047,6 +20047,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7723729297712867752, guid: 54f5d79868879aa4bbae3df1db280c35, type: 3}
   m_PrefabInstance: {fileID: 2004584025}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2013464563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2013464564}
+  m_Layer: 0
+  m_Name: PhotoPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2013464564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013464563}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.22951305, y: -0.1707269, z: 0.038757842, w: -0.9574309}
+  m_LocalPosition: {x: -4.1589146, y: 17.717966, z: 22.757378}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2013499366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21802,3 +21833,4 @@ SceneRoots:
   - {fileID: 215735219}
   - {fileID: 1468997292}
   - {fileID: 374881607}
+  - {fileID: 2013464564}
