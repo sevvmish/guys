@@ -50,6 +50,8 @@ public class FinishControl : MonoBehaviour
     private IEnumerator checkPlace(PlayerControl player)
     {
         setVisuals(true);
+        //Rigidbody rb = player.GetComponent<Rigidbody>();
+        //rb.velocity = Vector3.zero;
 
         yield return new WaitForSeconds(0.1f);
 

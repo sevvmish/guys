@@ -84,18 +84,18 @@ public class EffectsControl : MonoBehaviour
 
     private void Update()
     {
-        if (gm.IsGameStarted && !isSkiEffects && gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
+        if (!pc.IsFinished && !isSkiEffects && gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
         {
             SetSkiEffect(true);
         }
 
         if (isSkiEffects)
         {
-            if (pc.IsGrounded && !skiEffect.activeSelf && gm.IsGameStarted)
+            if (pc.IsGrounded && !skiEffect.activeSelf && !pc.IsFinished)
             {
                 skiEffect.SetActive(true);
             }
-            else if ((!pc.IsGrounded && skiEffect.activeSelf) || (!gm.IsGameStarted && skiEffect.activeSelf))
+            else if ((!pc.IsGrounded && skiEffect.activeSelf) || (pc.IsFinished && skiEffect.activeSelf))
             {
                 skiEffect.SetActive(false);
             }

@@ -343,6 +343,7 @@ public class PlayerControl : MonoBehaviour
         isForward = false;
 
         _rigidbody.velocity = Vector3.zero;
+        _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
         AnimationState = AnimationStates.Idle;
         _animator.Play("IdlePlus");
@@ -451,11 +452,11 @@ public class PlayerControl : MonoBehaviour
 
         if (!IsFreeFall)
         {
-            _rigidbody.AddForce(_transform.forward * 160 + Vector3.down * 140, ForceMode.Force);
+            if (!IsFinished) _rigidbody.AddForce(_transform.forward * 160 + Vector3.down * 140, ForceMode.Force);
         }
         else
         {
-            _rigidbody.AddForce(_transform.forward * 160 + Vector3.down * 30, ForceMode.Force);
+            if (!IsFinished) _rigidbody.AddForce(_transform.forward * 160 + Vector3.down * 30, ForceMode.Force);
         }
         
         
