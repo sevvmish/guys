@@ -151,6 +151,10 @@ public class UIManager : MonoBehaviour
             {
                 StartCoroutine(playStartLevel("level1"));
             }
+            else
+            {
+                StartCoroutine(playStartLevel("LevelSetter"));
+            }
         });
 
         repeatButton.onClick.AddListener(() =>

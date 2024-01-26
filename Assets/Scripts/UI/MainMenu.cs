@@ -114,11 +114,11 @@ public class MainMenu : MonoBehaviour
         notification.SetActive(false);
         playArrowNotificator.SetActive(false);
 
-        resetB.gameObject.SetActive(Globals.IsDevelopmentBuild);
-        level1B.gameObject.SetActive(Globals.IsDevelopmentBuild);
-        level2B.gameObject.SetActive(Globals.IsDevelopmentBuild);
-        level3B.gameObject.SetActive(Globals.IsDevelopmentBuild);
-        level4B.gameObject.SetActive(Globals.IsDevelopmentBuild);
+        resetB.gameObject.SetActive(true);
+        level1B.gameObject.SetActive(true);
+        level2B.gameObject.SetActive(true);
+        level3B.gameObject.SetActive(true);
+        level4B.gameObject.SetActive(true);
 
         level1B.onClick.AddListener(() => { SceneManager.LoadScene("level1"); });
         level2B.onClick.AddListener(() => { SceneManager.LoadScene("level2"); });
