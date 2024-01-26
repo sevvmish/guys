@@ -51,6 +51,12 @@ public class MainMenu : MonoBehaviour
     [Header("Notificator arrows")]
     [SerializeField] private GameObject playArrowNotificator;
 
+    [SerializeField] private Button resetB;
+    [SerializeField] private Button level1B;
+    [SerializeField] private Button level2B;
+    [SerializeField] private Button level3B;
+    [SerializeField] private Button level4B;
+
     public Action OnBackToMainMenu;
     public GameObject MainPlayerSkin;
     public Transform GetCameraTransform => mainCamera.transform;
@@ -108,6 +114,17 @@ public class MainMenu : MonoBehaviour
         notification.SetActive(false);
         playArrowNotificator.SetActive(false);
 
+        resetB.gameObject.SetActive(Globals.IsDevelopmentBuild);
+        level1B.gameObject.SetActive(Globals.IsDevelopmentBuild);
+        level2B.gameObject.SetActive(Globals.IsDevelopmentBuild);
+        level3B.gameObject.SetActive(Globals.IsDevelopmentBuild);
+        level4B.gameObject.SetActive(Globals.IsDevelopmentBuild);
+
+        level1B.onClick.AddListener(() => { SceneManager.LoadScene("level1"); });
+        level2B.onClick.AddListener(() => { SceneManager.LoadScene("level2"); });
+        level3B.onClick.AddListener(() => { SceneManager.LoadScene("level3"); });
+        level4B.onClick.AddListener(() => { SceneManager.LoadScene("level4"); });
+
         playB.onClick.AddListener(() =>
         {
             playB.interactable = false;
@@ -140,6 +157,17 @@ public class MainMenu : MonoBehaviour
             shopUI.SetActive(true);
             customizeUI.SetActive(false);
             shop.SetOn();
+        });
+
+        resetB.onClick.AddListener(() =>
+        {
+            resetB.interactable = false;
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+
+            Globals.MainPlayerData = new PlayerData();
+            SaveLoadManager.Save();
+
+            SceneManager.LoadScene("MainMenu");
         });
 
         progressB.onClick.AddListener(() =>
@@ -202,25 +230,27 @@ public class MainMenu : MonoBehaviour
         if (Globals.MainPlayerData.LDA == 0 || Mathf.Abs(DateTime.Now.Day - Globals.MainPlayerData.LDR) > 0)
         {
             Globals.MainPlayerData.LDA = DateTime.Now.Day;
-            Globals.MainPlayerData.WR = new WinRating();
+            Globals.MainPlayerData.WR = new GameSessionResult[0];
             SaveLoadManager.Save();
         }
     }
 
     private void playWhenInitialized()
     {
+        /*
         if (Globals.IsShowArrowNotificatorOnPlay)
         {
             Globals.IsShowArrowNotificatorOnPlay = false;
             playArrowNotificator.SetActive(true);
         }
+        */
 
         if (!Globals.MainPlayerData.TutL)
-        {
-            Globals.IsShowArrowNotificatorOnPlay = true;
+        {            
             SceneManager.LoadScene("tutorial");
             return;
         }
+        
 
         if (Globals.IsDontShowIntro)
         {
@@ -288,7 +318,7 @@ public class MainMenu : MonoBehaviour
     {
         ScreenSaver.Instance.HideScreen();
         yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
-        SceneManager.LoadScene("level4");
+        SceneManager.LoadScene("LevelSetter");
     }
 
 
@@ -311,8 +341,15 @@ public class MainMenu : MonoBehaviour
 
 
     private void Update()
-    {        
-        
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Globals.MainPlayerData = new PlayerData();
+            SaveLoadManager.Save();
+
+            SceneManager.LoadScene("MainMenu");
+        }
+
         Vector2 delta = pointer.DeltaPosition;
         if (delta.x != 0) rotateCharacters(delta);
 

@@ -84,10 +84,7 @@ public class EffectsControl : MonoBehaviour
 
     private void Update()
     {
-        if (!pc.IsFinished && !isSkiEffects && gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
-        {
-            SetSkiEffect(true);
-        }
+        
 
         if (isSkiEffects)
         {
@@ -114,7 +111,16 @@ public class EffectsControl : MonoBehaviour
         ski[0].SetActive(false);
         ski[1].SetActive(false);
 
-        
+        StartCoroutine(playAfterInit());
+    }
+    private IEnumerator playAfterInit()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        if (!pc.IsFinished && !isSkiEffects && gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
+        {
+            SetSkiEffect(true);
+        }
     }
 
     public void SetShadow(PlayerControl player)

@@ -171,8 +171,7 @@ public class OptionsMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!Globals.IsOptions)
-            {
-                
+            {                
                 openOptions();
             }
             else

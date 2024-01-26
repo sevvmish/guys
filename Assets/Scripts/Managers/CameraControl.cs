@@ -47,8 +47,8 @@ public class CameraControl : MonoBehaviour
         mainCamera.localPosition = Globals.BasePosition;
         mainCamera.localEulerAngles = Globals.BaseRotation;
 
-        photoPoint = GameObject.Find("PhotoPoint").transform;
-        mainCanvas = GameObject.Find("Gameplay Canvas"); 
+        //photoPoint = GameObject.Find("PhotoPoint").transform;
+        //mainCanvas = GameObject.Find("Gameplay Canvas"); 
 
         if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
         {

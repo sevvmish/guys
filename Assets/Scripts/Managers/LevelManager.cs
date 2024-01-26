@@ -77,6 +77,11 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
+            if (GetCurrentLevelType() == LevelTypes.level4)
+            {
+                yield return new WaitForSeconds(1f);
+            }
+
             countDown.StartCountDown();
         }
 

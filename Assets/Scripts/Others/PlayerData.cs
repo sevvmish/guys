@@ -32,7 +32,7 @@ public class PlayerData
     public int[] LvlA;
 
     public int LDA;
-    public WinRating WR;
+    public GameSessionResult[] WR;
 
     public PlayerData()
     {        
@@ -78,7 +78,7 @@ public class PlayerData
         LvlA = new int[] {1,1,1,0,0 }; //what levels are available
 
         LDA = 0; //last number of day for analytics
-        WR = new WinRating();
+        WR = new GameSessionResult[0];
 
         Debug.Log("created PlayerData instance");
     }

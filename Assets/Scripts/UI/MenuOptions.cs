@@ -123,13 +123,7 @@ public class MenuOptions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Globals.MainPlayerData = new PlayerData();
-            SaveLoadManager.Save();
-
-            SceneManager.LoadScene("MainMenu");
-        }
+        
 
         if (Globals.IsInitiated && !isDataUpdated)
         {

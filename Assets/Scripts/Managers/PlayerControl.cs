@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(Rigidbody))]
@@ -444,10 +445,13 @@ public class PlayerControl : MonoBehaviour
             
             if (Mathf.Abs(horizontal) > 0)
             {
-                angleYForMobile += horizontal;
+                //angleYForMobile += horizontal * 1.5f;
+                int sign = horizontal > 0 ? 1 : -1;
+                _rigidbody.AddRelativeForce(Vector3.right * sign * 100, ForceMode.Force);
             }
 
-            _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);
+            //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);
+            _rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z)));
         }
 
         if (!IsFreeFall)
@@ -493,17 +497,18 @@ public class PlayerControl : MonoBehaviour
                 }
 
                 float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
-                _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);
+                //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);
+                _rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z)));
             }
             else if (horizontal == 0 && vertical == 0 && Mathf.Abs(angleY) > 0)
             {
-                angleYForMobile += angleY;                    
-                _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);                
+                angleYForMobile += angleY;
+                //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);                
+                _rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z)));
             }
           
             angleY = 0;
-
-            
+                        
 
             if (forward)
             {

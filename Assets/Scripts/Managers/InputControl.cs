@@ -26,6 +26,8 @@ public class InputControl : MonoBehaviour
     private Vector3 zoom2Finger;
     private float zoomDistance;
 
+    private float level4Koeff = 1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +50,12 @@ public class InputControl : MonoBehaviour
         {
             jump = GameObject.Find("JumpButton").GetComponent<PointerBase>();
             mover = GameObject.Find("Screen mover").GetComponent<PointerBase>();            
+        }
+
+        
+        if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
+        {
+            level4Koeff = 0.5f;
         }
     }
 
@@ -104,14 +112,24 @@ public class InputControl : MonoBehaviour
         {
             playerControl.SetJump();
         }
-                
-        Vector2 delta = mover.DeltaPosition.normalized;
-     
-        if (delta.x > 0 || delta.x < 0)
+
+        Vector2 delta2 = mover.DeltaPosition;
+        Vector2 delta = delta2.normalized;
+        
+
+        if (delta2.x > 0 || delta2.x < 0)
         {
-            playerControl.SetRotationAngle(delta.x * 300 * Time.deltaTime);
+            /*
+            float koeff = delta2.x * 300 * Time.deltaTime;
+
+            koeff = koeff > XLimit ? XLimit : koeff;
+
+            playerControl.SetRotationAngle(koeff * level4Koeff);*/
+            int sign = delta2.x > 0 ? 1 : -1;
+            playerControl.SetRotationAngle(300 * sign * Time.deltaTime * level4Koeff);
+
         }        
-        else if (delta.x == 0)
+        else if (delta2.x == 0)
         {
             playerControl.SetRotationAngle(0);
         }
@@ -121,7 +139,6 @@ public class InputControl : MonoBehaviour
             cameraControl.ChangeCameraAngleX(delta.y * -70 * Time.deltaTime);
         }
 
-        //cameraControl.ChangeCameraAngleY(playerControl.angleYForMobile);
     }
 
     private void forPC()

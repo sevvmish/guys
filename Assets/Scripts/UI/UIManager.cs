@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 
@@ -103,6 +104,11 @@ public class UIManager : MonoBehaviour
         aimBeforeStart.SetActive(true);
         aimBeforeStartText.text = Globals.Language.Aim + ": " + levelData.LevelAim + "!";
 
+        if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
+        {
+            StartCoroutine(hideAimAfterSec(5));
+        }
+
         scalerSlider.value = Globals.MainPlayerData.Zoom;
 
         if (Globals.Language != null)
@@ -140,7 +146,11 @@ public class UIManager : MonoBehaviour
         {            
             SoundUI.Instance.PlayUISound(SoundsUI.positive);
             continueButton.interactable = false;
-            //=
+
+            if (levelData.GameType == GameTypes.Tutorial)
+            {
+                StartCoroutine(playStartLevel("level1"));
+            }
         });
 
         repeatButton.onClick.AddListener(() =>
@@ -157,6 +167,12 @@ public class UIManager : MonoBehaviour
             StartCoroutine(playStartLevel("MainMenu"));
         });
     }
+    private IEnumerator hideAimAfterSec(float sec)
+    {        
+        yield return new WaitForSeconds(sec);
+        aimBeforeStart.SetActive(false);
+    }
+
 
     private IEnumerator playStartLevel(string level)
     {
@@ -340,12 +356,14 @@ public class UIManager : MonoBehaviour
         if (levelData.GameType == GameTypes.Tutorial)
         {
             repeatButton.gameObject.SetActive(false);
+            mainMenuButton.gameObject.SetActive(false);
             Globals.MainPlayerData.TutL = true;            
         }
         else
         {
+            print("here saving");
             int place = gm.GetFinishPlace(gm.MainPlayerControl);
-            Globals.MainPlayerData.WR.AddResult(new GameSessionResult(levelData.LevelType, levelData.GameType, place));
+            Globals.MainPlayerData.WR = Globals.MainPlayerData.WR.Append(new GameSessionResult(levelData.LevelType, levelData.GameType, place)).ToArray();
         }
 
         int xpReward = 0;
