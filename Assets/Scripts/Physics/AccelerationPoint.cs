@@ -60,6 +60,8 @@ public class AccelerationPoint : MonoBehaviour
             }
         }
 
+        rb.velocity /= 2;
+
         if (players.Contains(pc))
         {
             players.Remove(pc);

@@ -268,6 +268,7 @@ public class PlayerControl : MonoBehaviour
         }
 
 
+
         //IsGrounded = checkGround();
         //if (IsItMainPlayer) print(IsGrounded);
         checkShadow();
@@ -275,48 +276,31 @@ public class PlayerControl : MonoBehaviour
         PlayerNonVerticalVelocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude;
         PlayerVerticalVelocity = new Vector3(0, _rigidbody.velocity.y, 0).magnitude;
 
-        if (IsSlide)
+        if (!IsGrounded)
         {
-            //_rigidbody.AddRelativeForce(_transform.forward * 60, ForceMode.Force);
-            //_rigidbody.AddForce(Vector3.down * 100, ForceMode.Force);
+            howLongNonGrounded += Time.deltaTime;
 
-            /*
-            float koeff = PlayerCurrentSpeed - PlayerVelocity;
-
-            //koeff = koeff > 0 ? koeff : 0;
-
-            _rigidbody.velocity += (_transform.forward * koeff + Vector3.down);
-            */
-            
-        }
-        else
-        {
-            if (!IsGrounded)
+            if (!IsRagdollActive)
             {
-                howLongNonGrounded += Time.deltaTime;
-
-                if (!IsRagdollActive)
-                {
-                    GravityScale(_rigidbody);
-                }
-                else
-                {
-                    for (int i = 0; i < ragdollRigidbodies.Length; i++)
-                    {
-                        GravityScale(ragdollRigidbodies[i]);
-                    }
-                }
-
+                GravityScale(_rigidbody);
             }
             else
             {
-                howLongNonGrounded = 0;
-
-                if (_rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag) _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag;
+                for (int i = 0; i < ragdollRigidbodies.Length; i++)
+                {
+                    GravityScale(ragdollRigidbodies[i]);
+                }
             }
+
+        }
+        else
+        {
+            howLongNonGrounded = 0;
+
+            if (_rigidbody.drag != PhysicsCustomizing.GetData(PhysicObjects.Player).Drag) _rigidbody.drag = PhysicsCustomizing.GetData(PhysicObjects.Player).Drag;
         }
 
-        
+
 
         if (isJump) makeJump();
 
@@ -357,17 +341,25 @@ public class PlayerControl : MonoBehaviour
 
         if (IsGrounded && jumpCooldown <= 0 && !IsJumping && IsCanJump)
         {
+            float addKoef = 1;
+           
             _rigidbody.velocity = Vector3.zero;
             effectsControl.MakeJumpFX();
             
             _animator.Play("JumpStart");
             AnimationState = AnimationStates.Fly;
 
-            _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER/* + Vector3.forward * PlayerNonVerticalVelocity * 4*/, ForceMode.Impulse);
+            if (IsSlide)
+            {
+                addKoef = 2;
+                //_rigidbody.AddForce(Vector3.up * 5, ForceMode.Impulse);
+            }
+
+            _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER * addKoef, ForceMode.Impulse);
             IsJumping = true;
             jumpCooldown = 0.2f;
         }    
-        else if (!IsGrounded && IsJumping && !IsSecondJump && jumpCooldown <= 0 && IsCanJump)
+        else if (!IsSlide && !IsGrounded && IsJumping && !IsSecondJump && jumpCooldown <= 0 && IsCanJump)
         {
             jumpCooldown = 0.2f;
             effectsControl.MakeJumpFX();
@@ -400,7 +392,7 @@ public class PlayerControl : MonoBehaviour
 
             if (horizontal == 0 && vertical == 0 && jumpCooldown <= 0)
             {
-                _rigidbody.velocity = Vector3.zero;
+                if (!IsSlide) _rigidbody.velocity = Vector3.zero;
             }
         }
 
@@ -720,7 +712,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void SetRagdollState(bool isActive)
+    public void SetRagdollState(bool isActive)
     {
 
         if (isActive)

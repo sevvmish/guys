@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         //Globals.MainPlayerData = new PlayerData();
         //Globals.MainPlayerData.Zoom = 0;
         //Globals.IsInitiated = true;
-        //Globals.IsMobile = true;
+        //Globals.IsMobile = false;
         //Globals.IsSoundOn = true;
         //Globals.IsMusicOn = true;
         //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
