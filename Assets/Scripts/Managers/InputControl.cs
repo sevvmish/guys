@@ -87,6 +87,7 @@ public class InputControl : MonoBehaviour
     }
 
 
+
     private void forMobile()
     {        
 
@@ -115,20 +116,15 @@ public class InputControl : MonoBehaviour
 
         Vector2 delta2 = mover.DeltaPosition;
         Vector2 delta = delta2.normalized;
-        
+
 
         if (delta2.x > 0 || delta2.x < 0)
         {
-            /*
-            float koeff = delta2.x * 300 * Time.deltaTime;
-
-            koeff = koeff > XLimit ? XLimit : koeff;
-
-            playerControl.SetRotationAngle(koeff * level4Koeff);*/
+            
             int sign = delta2.x > 0 ? 1 : -1;
-            playerControl.SetRotationAngle(300 * sign * Time.deltaTime * level4Koeff);
+            playerControl.SetRotationAngle(200 * sign * Time.deltaTime * level4Koeff);
 
-        }        
+        }
         else if (delta2.x == 0)
         {
             playerControl.SetRotationAngle(0);

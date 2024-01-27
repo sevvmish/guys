@@ -227,7 +227,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
-        
+
         if (!IsSlide)
         {
             if (isForward && IsCanWalk)
@@ -315,6 +315,8 @@ public class PlayerControl : MonoBehaviour
         {
             ragdollRigidbodies[0].transform.localPosition = Vector3.zero;
         }
+
+        
     }
 
     public void FinishReached()
@@ -442,8 +444,16 @@ public class PlayerControl : MonoBehaviour
                 _rigidbody.AddRelativeForce(Vector3.right * sign * 100, ForceMode.Force);
             }
 
-            //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);
-            _rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z)));
+            if (Globals.IsMobile)
+            {
+                _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), Time.deltaTime * 10);
+            }
+            else
+            {
+                _rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z)));
+            }
+            
+            //_rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z)));
         }
 
         if (!IsFreeFall)
@@ -489,14 +499,34 @@ public class PlayerControl : MonoBehaviour
                 }
 
                 float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
+
+                if (Globals.IsMobile)
+                {
+                    _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), Time.deltaTime * 10);
+                }
+                else
+                {
+                    _rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z)));
+                }
+
                 //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);
-                _rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z)));
+                //_rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z)));
             }
             else if (horizontal == 0 && vertical == 0 && Mathf.Abs(angleY) > 0)
             {
                 angleYForMobile += angleY;
+                
+                if (Globals.IsMobile)
+                {
+                    _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), Time.deltaTime * 10);
+                }
+                else
+                {
+                    _rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z)));
+                }
+                
                 //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);                
-                _rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z)));
+                //_rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z)));
             }
           
             angleY = 0;
