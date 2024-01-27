@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -227,10 +228,11 @@ public class MainMenu : MonoBehaviour
 
     private void winRatingChecker()
     {
-        if (Globals.MainPlayerData.LDA == 0 || Mathf.Abs(DateTime.Now.Day - Globals.MainPlayerData.LDR) > 0)
+        if (Globals.MainPlayerData.LDA == 0 || Mathf.Abs(DateTime.Now.Day - Globals.MainPlayerData.LDA) > 0)
         {
             Globals.MainPlayerData.LDA = DateTime.Now.Day;
             Globals.MainPlayerData.WR = new GameSessionResult[0];
+            //Globals.MainPlayerData.WR = Globals.MainPlayerData.WR.Append(new GameSessionResult(LevelTypes.level1, GameTypes.Finish_line, 1)).ToArray();
             SaveLoadManager.Save();
         }
     }
@@ -244,6 +246,8 @@ public class MainMenu : MonoBehaviour
             playArrowNotificator.SetActive(true);
         }
         */
+
+        winRatingChecker();
 
         if (!Globals.MainPlayerData.TutL)
         {            
@@ -261,8 +265,7 @@ public class MainMenu : MonoBehaviour
             ScreenSaver.Instance.ShowScreen();
         }
 
-        winRatingChecker();
-
+        
         YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
         showProgress();
 
