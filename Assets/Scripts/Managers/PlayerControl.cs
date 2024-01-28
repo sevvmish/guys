@@ -211,7 +211,7 @@ public class PlayerControl : MonoBehaviour
         for (float i = 0; i < seconds; i+=0.1f)
         {            
             yield return new WaitForSeconds(0.1f);
-            if (IsDead || IsRagdollActive) yield break;
+            if (IsDead || IsRagdollActive) break;
         }
 
         IsSpeedChanged = false;
@@ -495,7 +495,7 @@ public class PlayerControl : MonoBehaviour
             {                    
                 if (Mathf.Abs(angleY) > 0)
                 {
-                    angleYForMobile += angleY;
+                    angleYForMobile += angleY;                    
                 }
 
                 float angle = Mathf.Atan2(horizontal, vertical) * 180 / Mathf.PI;
@@ -515,7 +515,8 @@ public class PlayerControl : MonoBehaviour
             else if (horizontal == 0 && vertical == 0 && Mathf.Abs(angleY) > 0)
             {
                 angleYForMobile += angleY;
-                
+                                
+
                 if (Globals.IsMobile)
                 {
                     _rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), Time.deltaTime * 10);
@@ -528,7 +529,8 @@ public class PlayerControl : MonoBehaviour
                 //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);                
                 //_rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z)));
             }
-          
+
+            //if (angleY != 0) print(angleY);
             angleY = 0;
                         
 

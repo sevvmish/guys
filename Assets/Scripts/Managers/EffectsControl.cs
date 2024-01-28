@@ -18,8 +18,12 @@ public class EffectsControl : MonoBehaviour
     [SerializeField] private GameObject punchLarge;
 
     [SerializeField] private GameObject paintBlue;
+    [SerializeField] private GameObject paintBluePatch;
     [SerializeField] private GameObject paintGreen;
+    [SerializeField] private GameObject paintGreenPatch;
     [SerializeField] private GameObject paintPink;
+    [SerializeField] private GameObject paintPinkPatch;
+
 
     [SerializeField] private GameObject woohooSound;
     [SerializeField] private GameObject woohooSound2;
@@ -38,7 +42,7 @@ public class EffectsControl : MonoBehaviour
     private AudioSource jumpSound;
 
     [SerializeField] private ParticleSystem landEffect;
-
+        
     private PlayerControl pc;
     private Animator _animator;
     private Rigidbody rb;
@@ -67,6 +71,9 @@ public class EffectsControl : MonoBehaviour
         paintBlue.SetActive(false);
         paintGreen.SetActive(false);
         paintPink.SetActive(false);
+        paintBluePatch.SetActive(false);
+        paintGreenPatch.SetActive(false);
+        paintPinkPatch.SetActive(false);
 
         woohooSound.SetActive(false);
         woohooSound2.SetActive(false);
@@ -316,20 +323,25 @@ public class EffectsControl : MonoBehaviour
     public void MakePainted(Color color, float timer)
     {
         GameObject g = default;
+        GameObject p = default;
         if (color == Color.green)
         {
             g = paintGreen;
+            p = paintGreenPatch;
         }
         else if (color == Color.blue)
         {
             g = paintBlue;
+            p = paintBluePatch;
         }
         else if (color == Color.magenta)
         {
             g = paintPink;
+            p = paintPinkPatch;
         }
 
         StartCoroutine(playEffectBreakable(timer, g));
+        //StartCoroutine(playEffectBreakable(timer, p));
     }
     
 
@@ -348,7 +360,7 @@ public class EffectsControl : MonoBehaviour
         for (float i = 0; i < duration; i += 0.1f)
         {
             yield return new WaitForSeconds(0.1f);
-            if (pc.IsDead) break;
+            if (pc.IsDead || pc.IsRagdollActive) break;
         }
         fx.SetActive(false);
     }

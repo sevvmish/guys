@@ -61,7 +61,7 @@ public class ConditionControl : MonoBehaviour
         for (float i = 0; i < timer; i+=0.1f)
         {
             yield return new WaitForSeconds(0.1f);
-            if (pc.IsDead && pc.IsRagdollActive) break;
+            if (pc.IsDead || pc.IsRagdollActive) break;
         }
 
         conditions.Remove(cond);
