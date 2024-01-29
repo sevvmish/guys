@@ -50,10 +50,16 @@ public class CameraControl : MonoBehaviour
         //photoPoint = GameObject.Find("PhotoPoint").transform;
         //mainCanvas = GameObject.Find("Gameplay Canvas"); 
 
-        if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
+        switch(gm.GetLevelManager().GetCurrentLevelType())
         {
-            xLimitDown += 29;
-            outerCamera.eulerAngles += new Vector3(10, 0, 0);
+            case LevelTypes.level5:
+                xLimitDown += 29;
+                outerCamera.eulerAngles += new Vector3(10, 0, 0);
+                break;
+
+            case LevelTypes.level3:                
+                outerCamera.eulerAngles += new Vector3(15, 0, 0);
+                break;
         }
 
         ignoreMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll", "danger" });

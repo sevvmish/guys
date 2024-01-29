@@ -124,7 +124,7 @@ public class EffectsControl : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
-        if (!pc.IsFinished && !isSkiEffects && gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
+        if (!pc.IsFinished && !isSkiEffects && gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level5)
         {
             SetSkiEffect(true);
         }
@@ -208,7 +208,7 @@ public class EffectsControl : MonoBehaviour
             rb.AddForce(rb.transform.forward * addForce/5, ForceMode.Force);
 
             yield return new WaitForSeconds(0.05f);
-            if (pc.IsDead) break;
+            if (pc.IsDead || pc.IsRagdollActive) break;
         }        
     }
 
@@ -229,7 +229,7 @@ public class EffectsControl : MonoBehaviour
         if ((int)pc.CurrentSkin >= 25)
         {
             
-            rnd = UnityEngine.Random.Range(0, 2);
+            rnd = UnityEngine.Random.Range(0, 3);
             switch (rnd)
             {
                 case 0:
@@ -239,10 +239,15 @@ public class EffectsControl : MonoBehaviour
                 case 1:
                     MakeWoohooGirlSound2();
                     break;
+
+                case 2:
+                    MakeWoohooSound();
+                    break;
             }
         }
         else
         {
+            
             rnd = UnityEngine.Random.Range(0, 3);
             switch (rnd)
             {

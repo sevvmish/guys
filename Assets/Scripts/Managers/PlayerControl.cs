@@ -2,7 +2,6 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(Rigidbody))]
@@ -146,6 +145,7 @@ public class PlayerControl : MonoBehaviour
         collisionChecker = ragdollRigidbodies[0].GetComponent<RagdollPartCollisionChecker>();
         collisionChecker.LinkToPlayerControl = this;
         IsRagdollActive = false;
+
     }
 
     public void SetPlayerToMain()
@@ -353,7 +353,7 @@ public class PlayerControl : MonoBehaviour
 
             if (IsSlide)
             {
-                addKoef = 2;
+                addKoef = 2.2f;
                 //_rigidbody.AddForce(Vector3.up * 5, ForceMode.Impulse);
             }
 
@@ -439,9 +439,9 @@ public class PlayerControl : MonoBehaviour
             
             if (Mathf.Abs(horizontal) > 0)
             {
-                //angleYForMobile += horizontal * 1.5f;
-                int sign = horizontal > 0 ? 1 : -1;
-                _rigidbody.AddRelativeForce(Vector3.right * sign * 100, ForceMode.Force);
+                angleYForMobile += horizontal * 2f;
+                //int sign = horizontal > 0 ? 1 : -1;
+                //_rigidbody.AddRelativeForce(Vector3.right * sign * 100, ForceMode.Force);
             }
 
             if (Globals.IsMobile)
@@ -464,8 +464,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (!IsFinished) _rigidbody.AddForce(_transform.forward * 160 + Vector3.down * 30, ForceMode.Force);
         }
-        
-        
+               
 
         horizontal = 0;
         angleY = 0;
@@ -473,9 +472,7 @@ public class PlayerControl : MonoBehaviour
 
 
     private void movement(bool forward)
-    {
-        
-
+    {        
         if (!IsCanAct || !IsCanWalk || (IsPlatformTouched && !IsGrounded))
         {            
             if (AnimationState != AnimationStates.Idle)
@@ -844,7 +841,28 @@ public class PlayerControl : MonoBehaviour
 
     public void Respawn(Vector3 pos, Vector3 rot)
     {        
-        StartCoroutine(playRespawn(pos, rot));
+        if (gm.GameType == GameTypes.Dont_fall)
+        {
+            if (IsItMainPlayer)
+            {
+                IsDead = true;
+                _rigidbody.velocity = Vector3.zero;
+                _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                gm.AddPlayerFinished(this);
+            }
+            else
+            {
+                IsDead = true;
+                gameObject.SetActive(false);
+            }
+            
+        }
+        else
+        {
+            StartCoroutine(playRespawn(pos, rot));
+        }
+
+        
     }
     private IEnumerator playRespawn(Vector3 pos, Vector3 rot)
     {

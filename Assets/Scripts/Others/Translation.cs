@@ -56,6 +56,7 @@ public class Translation : ScriptableObject
     public string Level1Name;
     public string Level2Name;
     public string Level3Name;
+    public string Level3NewLVLName;
     public string Level4Name;
 
     public string Take;

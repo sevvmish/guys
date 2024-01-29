@@ -35,10 +35,12 @@ public class GameManager : MonoBehaviour
     public UIManager GetUI() => mainUI;
     public LevelManager GetLevelManager() => levelManager;
     public PhysicMaterial GetSlidingPhysicsMaterial() => sliderMaterial;
-                       
+    public GameTypes GameType { get; private set; }
+
 
     //GAME START
     public float GameSecondsPlayed { get; private set; }
+    public float GameSecondsLeft { get; private set; }
     public bool IsGameStarted { get; private set; }
 
     private Transform mainPlayer;
@@ -47,6 +49,8 @@ public class GameManager : MonoBehaviour
     private List<PlayerControl> finishPlaces = new List<PlayerControl>();
 
     private float cameraShakeCooldown;
+    private float _forTimer;
+    private bool isTimerActive;
 
     //TODEL
     [SerializeField] private TextMeshProUGUI testText;
@@ -66,33 +70,77 @@ public class GameManager : MonoBehaviour
         }
 
         if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
-
+                
         //TODEL
-        Globals.MainPlayerData = new PlayerData();
-        Globals.MainPlayerData.Zoom = 0;
-        Globals.IsInitiated = true;
-        Globals.IsMobile = false;
-        Globals.IsSoundOn = true;
-        Globals.IsMusicOn = true;
-        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        //Globals.MainPlayerData = new PlayerData();
+        //Globals.MainPlayerData.Zoom = 0;
+        //Globals.IsInitiated = true;
+        //Globals.IsMobile = false;
+        //Globals.IsSoundOn = true;
+        //Globals.IsMusicOn = true;
+        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
+        //additional systems
+        if (levelManager.GetCurrentLevelType() == LevelTypes.level3)
+        {
+            Globals.IsBotAntiStuckON = false;
+        }
+
+        GameType = LevelManager.GetLevelData(levelManager.GetCurrentLevelType()).GameType;
+
+
+        if (GameType == GameTypes.Dont_fall)
+        {
+            isTimerActive = true;
+            GameSecondsLeft = 30;
+            mainUI.ShowTimerData(GameSecondsLeft);
+        }
 
         mainPlayer = AddPlayer(true, Vector3.zero, Vector3.zero, (Skins)Globals.MainPlayerData.CS).transform;
         cameraControl.SetData(mainPlayer, cameraBody, _camera.transform);
         mainPlayer.GetComponent<PlayerControl>().SetPlayerToMain();
         mainPlayer.gameObject.name = "Main Player";
 
+        int playerAmount = 0;
+        Globals.LastPlayedLevel = levelManager.GetCurrentLevelType();
+
 
         if (levelManager.GetCurrentLevelType() != LevelTypes.tutorial)
         {
+            //Analytics
+            string dataForA = "lvl" + (int)levelManager.GetCurrentLevelType() + "s";
+            YandexMetrica.Send(dataForA);
+
             if (Globals.IsMobile)
             {
-                ArrangePlayers(7);
+                if (Globals.MainPlayerData.FPS < 52)
+                {
+                    playerAmount = 7;
+                }
+                else
+                {
+                    playerAmount = 15;
+                }
             }
             else
             {
-                ArrangePlayers(15);
+                playerAmount = 15;
             }
+
+            if (Globals.IsMobile)
+            {
+                ArrangePlayers(playerAmount);
+            }
+            else
+            {
+                ArrangePlayers(playerAmount);
+            }
+        }
+        else
+        {
+            //Analytics
+            string dataForA = "tuts";
+            YandexMetrica.Send(dataForA);
         }
 
         if (levelManager == null)
@@ -100,7 +148,7 @@ public class GameManager : MonoBehaviour
             StartTheGame();
             AddPlayer(false, Vector3.zero, Vector3.zero, Skins.civilian_male_1);
         }
-        
+
     }
 
     public void ArrangePlayers(int botsAmount)
@@ -142,15 +190,50 @@ public class GameManager : MonoBehaviour
 
             
         float delta = 2.4f;
+        float deltaPlus = 0f;
 
         if (players.Count <= 8)
         {
             int amount = players.Count;
+            float addX = 1.2f;
             for (int i = 0; i < amount; i++)
             {
-                int index = UnityEngine.Random.Range(0, players.Count);                
-                players[index].transform.position = new Vector3(startPoint.x - 8.4f + i * delta, startPoint.y, startPoint.z);                
-                players.Remove(players[index]);
+                float addZ = 0;
+
+                if (levelManager.GetCurrentLevelType() == LevelTypes.level3)
+                {
+                    deltaPlus = 1.6f;
+                    if (i < 4)
+                    {
+                        addZ = 2f;
+                    }
+                    else
+                    {
+                        addZ = -2f;
+                    }
+                    
+
+                    if (i == 0 || i == 4)
+                    {
+                        addX = 0;
+                    }
+                    else
+                    {
+                        addX++;
+                    }
+
+                    int index = UnityEngine.Random.Range(0, players.Count);
+                    players[index].transform.position = new Vector3(startPoint.x - 4f + addX * (delta + deltaPlus), startPoint.y, startPoint.z + addZ);
+                    players.Remove(players[index]);
+                }
+                else
+                {
+                    int index = UnityEngine.Random.Range(0, players.Count);
+                    players[index].transform.position = new Vector3(startPoint.x - 4f + i * (delta + deltaPlus), startPoint.y, startPoint.z);
+                    players.Remove(players[index]);
+                }
+
+                
             }
         }
         else if(players.Count <= 16)
@@ -160,23 +243,58 @@ public class GameManager : MonoBehaviour
             int amount = players.Count;
             for (int i = 0; i < amount; i++)
             {
-                if (i < 8)
+                if (levelManager.GetCurrentLevelType() == LevelTypes.level3)
                 {
-                    addZ = 1.3f;
+                    deltaPlus = 1.6f;
+
+                    if (i < 6)
+                    {
+                        addZ = 4f;
+                    }
+                    else if (i < 12)
+                    {
+                        addZ = 0;
+                    }
+                    else
+                    {
+                        addZ = -4f;
+                    }
+
+                    if (i==0 || i == 6 || i == 12)
+                    {
+                        addX = 0;
+                    }
+                    else
+                    {
+                        addX++;
+                    }
+
+                    int index = UnityEngine.Random.Range(0, players.Count);
+                    players[index].transform.position = new Vector3(startPoint.x - 10f + addX * (delta + deltaPlus), startPoint.y, startPoint.z + addZ);
+                    players.Remove(players[index]);
                 }
                 else
                 {
-                    addZ = -1.3f;
+                    if (i < 8)
+                    {
+                        addZ = 1.3f;
+                    }
+                    else
+                    {
+                        addZ = -1.3f;
+                    }
+
+                    if (i == 8)
+                    {
+                        addX -= 18f;
+                    }
+
+                    int index = UnityEngine.Random.Range(0, players.Count);
+                    players[index].transform.position = new Vector3(startPoint.x - 10f + i * (delta + deltaPlus) + addX, startPoint.y, startPoint.z + addZ);
+                    players.Remove(players[index]);
                 }
 
-                if (i == 8)
-                {
-                    addX -= 18f;
-                }
-
-                int index = UnityEngine.Random.Range(0, players.Count);
-                players[index].transform.position = new Vector3(startPoint.x - 8.4f + i * delta + addX, startPoint.y, startPoint.z + addZ);
-                players.Remove(players[index]);
+                
             }
         }
     }
@@ -190,10 +308,10 @@ public class GameManager : MonoBehaviour
         IsGameStarted = true;
     }
 
-    public void EndTheGame()
+    public void EndTheGame(bool isWin)
     {        
         
-        mainUI.EndGame(true);
+        mainUI.EndGame(isWin);
         options.TurnAllOff();
         IsGameStarted = false;
     }
@@ -219,7 +337,34 @@ public class GameManager : MonoBehaviour
         if (IsGameStarted)
         {
             GameSecondsPlayed += Time.deltaTime;
+            
+
+            if (isTimerActive)
+            {
+                if (GameSecondsLeft <= 0 && !MainPlayerControl.IsDead)
+                {
+                    AddPlayerFinished(MainPlayerControl);
+                    return;
+                }
+
+                GameSecondsLeft -= Time.deltaTime;
+
+                if (_forTimer > 1f)
+                {
+                    _forTimer = 0;
+                    mainUI.ShowTimerData(GameSecondsLeft);
+                }
+                else
+                {
+                    _forTimer += Time.deltaTime;
+                }
+            }
+
+            
         }
+        
+
+        
 
         /*
         if (Input.GetKeyDown(KeyCode.R))
@@ -286,19 +431,53 @@ public class GameManager : MonoBehaviour
 
     public void AddPlayerFinished(PlayerControl player)
     {
-        if (!finishPlaces.Contains(player))
+        LevelData data = LevelManager.GetLevelData(levelManager.GetCurrentLevelType());
+
+        switch(data.GameType)
         {
-            finishPlaces.Add(player);
+            case GameTypes.Finish_line:
+                if (!finishPlaces.Contains(player))
+                {
+                    finishPlaces.Add(player);
+                }
+
+                if (player == MainPlayerControl)
+                {
+                    EndTheGame(true);
+                }
+                break;
+
+            case GameTypes.Tutorial:
+                if (!finishPlaces.Contains(player))
+                {
+                    finishPlaces.Add(player);
+                }
+
+                if (player == MainPlayerControl)
+                {
+                    EndTheGame(true);
+                }
+                break;
+
+            case GameTypes.Dont_fall:
+                if (player.IsItMainPlayer)
+                {
+                    if (player.IsDead && GameSecondsLeft > 0)
+                    {
+                        EndTheGame(false);
+                    }
+                    else if (!player.IsDead && GameSecondsLeft <= 0)
+                    {
+                        EndTheGame(true);
+                    }
+                }
+                
+                
+
+                break;
         }
 
-        if (player == MainPlayerControl)
-        {
-            EndTheGame();
-        }
-        else
-        {
-
-        }
+              
     }
 
     public GameObject AddPlayer(bool isMain, Vector3 pos, Vector3 rot, Skins skinType)
@@ -322,9 +501,9 @@ public class GameManager : MonoBehaviour
         skin.transform.localPosition = Vector3.zero;
         skin.transform.localEulerAngles = Vector3.zero;
         SkinControl skinControl = skin.GetComponent<SkinControl>();
-        g.GetComponent<PlayerControl>().SetSkinData(skinControl.ragdollColliders, skinControl._animator, Skins.pomni);
+        g.GetComponent<PlayerControl>().SetSkinData(skinControl.ragdollColliders, skinControl._animator, skinType);
         
-        if (levelManager.GetCurrentLevelType() == LevelTypes.level4)
+        if (levelManager.GetCurrentLevelType() == LevelTypes.level5)
         {
             g.GetComponent<PlayerControl>().SetSlide(true);
         }

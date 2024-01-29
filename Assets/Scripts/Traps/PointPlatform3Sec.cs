@@ -128,6 +128,15 @@ public class PointPlatform3Sec : MonoBehaviour
 
     private void stage3()
     {
+        if (recovery == 0)
+        {
+            point.SetActive(false);
+            state3.SetActive(false);
+            setBoxes(false);            
+            return;
+        }
+
+
         isState3 = false;
         isStateOff = true;
         _timer = recovery;
@@ -138,6 +147,8 @@ public class PointPlatform3Sec : MonoBehaviour
         state3.SetActive(false);
         setBoxes(false);
         point.SetActive(false);
+
+        
     }
 
     private void setBoxes(bool isActive)

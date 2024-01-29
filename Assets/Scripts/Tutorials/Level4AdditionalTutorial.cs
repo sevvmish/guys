@@ -22,7 +22,7 @@ public class Level4AdditionalTutorial : MonoBehaviour
         CameraInfoPC.SetActive(false);
     }
 
-    // Update is called once per frame
+    /*
     void Update()
     {
         if (Globals.Language != null && !isReady)
@@ -49,5 +49,5 @@ public class Level4AdditionalTutorial : MonoBehaviour
             obj.eulerAngles = new Vector3 (0,10,0);
 
         }
-    }
+    }*/
 }

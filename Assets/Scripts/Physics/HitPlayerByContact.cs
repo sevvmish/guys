@@ -8,6 +8,7 @@ public class HitPlayerByContact : MonoBehaviour
     public Transform from;
     public Transform to;
     public float Delay = 1;
+    public ApplyForceType Punch = ApplyForceType.Punch_medium;
 
     private Vector3 dir;
     private List<PlayerControl> players = new List<PlayerControl>();
@@ -17,6 +18,7 @@ public class HitPlayerByContact : MonoBehaviour
         dir = (to.position - from.position).normalized;
     }
 
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && other.TryGetComponent(out PlayerControl pc) && !players.Contains(pc) && !pc.IsRagdollActive)
@@ -24,7 +26,7 @@ public class HitPlayerByContact : MonoBehaviour
             players.Add(pc);
             StartCoroutine(play(pc, pc.transform.position + Vector3.up + pc.transform.forward));
         }
-    }
+    }*/
 
     private void OnCollisionEnter(Collision other)
     {
@@ -38,7 +40,7 @@ public class HitPlayerByContact : MonoBehaviour
 
     private IEnumerator play(PlayerControl pc, Vector3 point)
     {
-        pc.ApplyTrapForce(dir * ImpulseForce, point, ApplyForceType.Punch_medium, 2);
+        pc.ApplyTrapForce(dir * ImpulseForce, point, Punch, 2);
        
         yield return new WaitForSeconds(Delay);
         players.Remove(pc);

@@ -56,10 +56,10 @@ public class LevelSetter : MonoBehaviour
 
         for (int i = 1; i < Globals.MainPlayerData.LvlA.Length; i++)
         {
-            if (Globals.MainPlayerData.LvlA[i] > 0)
+            if (Globals.MainPlayerData.LvlA[i] > 0 && (int)Globals.LastPlayedLevel != i)
             {
                 levels.Add((LevelTypes)i, 0);
-            }            
+            }
         }
 
         if (Globals.MainPlayerData.WR.Length > 0)
@@ -159,10 +159,10 @@ public class LevelSetter : MonoBehaviour
 
         SoundUI.Instance.PlayUISound(SoundsUI.success);
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
 
         map.transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InOutFlash);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
 
         SceneManager.LoadScene(data.LevelInInspector);
     }

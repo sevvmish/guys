@@ -20,6 +20,9 @@ public class Globals : MonoBehaviour
     public const float REWARDED_COOLDOWN = 65;
 
     public static GameTypes CurrentGameType;
+    public static LevelTypes LastPlayedLevel = LevelTypes.tutorial;
+
+    public static bool IsBotAntiStuckON = true;
 
     public const int MAX_RESPAWN_POINTS = 25;
 
@@ -27,7 +30,7 @@ public class Globals : MonoBehaviour
     public static bool IsShowArrowNotificatorOnPlay;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = true;
+    public static bool IsDevelopmentBuild = false;
     public static bool IsOptions;
 
     public const float BASE_SPEED = 7f;

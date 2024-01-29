@@ -38,7 +38,14 @@ public class ShopUI : MonoBehaviour
             }
             else
             {
-                mainRect.anchoredPosition = new Vector2(0, 0);
+                if (!Globals.MainPlayerData.AdvOff)
+                {
+                    mainRect.anchoredPosition = new Vector2(0, 50);
+                }
+                else
+                {
+                    mainRect.anchoredPosition = new Vector2(0, 0);
+                }
             }
         }
     }

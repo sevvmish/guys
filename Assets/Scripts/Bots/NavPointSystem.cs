@@ -35,8 +35,9 @@ public class NavPointSystem : MonoBehaviour
 
             for (int i = 0; i < navPoints.Count; i++)
             {
-                
-                if (navPoints[i].Index > index && navPoints[i].Index < (index+3) && navPoints[i].IsActive && navPoints[i].Index <= minIndex)
+                if (!navPoints[i].gameObject.activeSelf) continue;
+
+                if (navPoints[i].Index > index && navPoints[i].Index < (index+3) &&  navPoints[i].Index <= minIndex)
                 {
                     float currDistance = (pos - navPoints[i].transform.position).magnitude;
 

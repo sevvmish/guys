@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using YG;
 
 public class UIManager : MonoBehaviour
 {
@@ -26,6 +27,10 @@ public class UIManager : MonoBehaviour
     [Header("informer")]
     [SerializeField] private GameObject informerPanel;
     [SerializeField] private TextMeshProUGUI informerText;
+
+    [Header("timer")]
+    [SerializeField] private GameObject timerPanel;
+    [SerializeField] private TextMeshProUGUI timerText;
 
     [Header("mobile scaler")]
     [SerializeField] private GameObject scalerPanel;
@@ -306,16 +311,24 @@ public class UIManager : MonoBehaviour
             if (levelData.GameType == GameTypes.Tutorial)
             {
                 endGameWinText.text = Globals.Language.TutorialDone;
+                //Analytics
+                string dataForA = "tutd";
+                YandexMetrica.Send(dataForA);
             }
             else
             {
                 endGameWinText.text = Globals.Language.WinText;
+                //Analytics
+                string dataForA = "lvl" + (int)levelData.LevelType + "w";
+                YandexMetrica.Send(dataForA);
             }
             
             
             
             r = endGameWin.GetComponent<RectTransform>();
             SoundUI.Instance.PlayUISound(SoundsUI.success);
+
+            
         }
         else
         {
@@ -323,6 +336,10 @@ public class UIManager : MonoBehaviour
             endGameLoseText.text = Globals.Language.LoseText;
             r = endGameLose.GetComponent<RectTransform>();
             SoundUI.Instance.PlayUISound(SoundsUI.lose);
+
+            //Analytics
+            string dataForA = "lvl" + (int)levelData.LevelType + "l";
+            YandexMetrica.Send(dataForA);
         }
 
         StartCoroutine(playLastAim(r));
@@ -393,7 +410,24 @@ public class UIManager : MonoBehaviour
         xpText.text = xpReward.ToString();
         goldText.text = goldReward.ToString();
 
+        //FPS
+        if (FPSController.Instance != null)
+        {
+            float fps = FPSController.Instance.GetAverage();
+            Globals.MainPlayerData.FPS = fps;
+            print("FPS during the game is " + fps);
+        }
+        
+
         SaveLoadManager.Save();
+    }
+
+    public void ShowTimerData(float _time)
+    {
+        if (!timerPanel.activeSelf) timerPanel.SetActive(true);
+        if (_time < 0) _time = 0;
+
+        timerText.text = _time.ToString("f0");
     }
 
     public void ShowAllControls()

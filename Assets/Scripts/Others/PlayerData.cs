@@ -34,6 +34,8 @@ public class PlayerData
     public int LDA;
     public GameSessionResult[] WR;
 
+    public float FPS;
+
     public PlayerData()
     {        
         L = ""; //prefered language
@@ -75,10 +77,12 @@ public class PlayerData
         XPN = false; //XP notofocator when new level received
 
         TutL = false; //tutorial level done
-        LvlA = new int[] {1,1,1,0,0 }; //what levels are available
+        LvlA = new int[] {1,1,0,0,0,0 }; //what levels are available
 
         LDA = 0; //last number of day for analytics
         WR = new GameSessionResult[0];
+
+        FPS = 0;
 
         Debug.Log("created PlayerData instance");
     }

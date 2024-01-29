@@ -7,7 +7,6 @@ public class RespawnControl : MonoBehaviour
     private PlayerControl playerControl;
     private Vector3 position;
     private Vector3 rotation;
-    
 
 
     // Start is called before the first frame update
@@ -15,6 +14,7 @@ public class RespawnControl : MonoBehaviour
     {        
         playerControl = GetComponent<PlayerControl>();
         SetNewRespawn(new RespawnData(playerControl.transform.position, playerControl.transform.eulerAngles), -1);
+        
     }
 
     public void SetNewRespawn(RespawnData _data, int index)
@@ -25,11 +25,10 @@ public class RespawnControl : MonoBehaviour
 
     public void Die()
     {
-        if (!playerControl.IsDead)
-        {
-            playerControl.Respawn(position, rotation);                        
-        }
-            
+        if (playerControl.IsDead) return;
+
+        playerControl.Respawn(position, rotation);
+
     }
 
     public struct RespawnData

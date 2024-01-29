@@ -26,7 +26,7 @@ public class InputControl : MonoBehaviour
     private Vector3 zoom2Finger;
     private float zoomDistance;
 
-    private float level4Koeff = 1;
+    private float level5Koeff = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -53,9 +53,9 @@ public class InputControl : MonoBehaviour
         }
 
         
-        if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
+        if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level5)
         {
-            level4Koeff = 0.5f;
+            level5Koeff = 0.5f;
         }
     }
 
@@ -122,7 +122,7 @@ public class InputControl : MonoBehaviour
         {
             
             int sign = delta2.x > 0 ? 1 : -1;
-            playerControl.SetRotationAngle(200 * sign * Time.deltaTime * level4Koeff);
+            playerControl.SetRotationAngle(200 * sign * Time.deltaTime * level5Koeff);
 
         }
         else if (delta2.x == 0)

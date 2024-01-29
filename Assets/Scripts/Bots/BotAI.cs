@@ -68,7 +68,7 @@ public class BotAI : MonoBehaviour
             _timerForChecking -= Time.deltaTime;
         }
 
-        if (_timerCheckForLastPosition > 1f)
+        if (_timerCheckForLastPosition > 1f && Globals.IsBotAntiStuckON)
         {
             _timerCheckForLastPosition = 0;
 
@@ -131,7 +131,7 @@ public class BotAI : MonoBehaviour
     private void decisionMaking()
     {
         currentPoint = nps.GetBotNavPoint(CurrentIndex, playerControl.transform.position);
-        
+                
         if (currentPoint != null)
         {
             
@@ -336,9 +336,19 @@ public class BotAI : MonoBehaviour
     {
         if (!usedNavPoints.Contains(other.gameObject) && other.TryGetComponent(out BotNavPoint p) && CurrentIndex < p.Index)
         {
-            CurrentIndex = p.Index;
-            decisionMaking();
-            usedNavPoints.Add(other.gameObject);
+            if (!p.IsOnlyToFollow)
+            {
+                CurrentIndex = p.Index;
+                decisionMaking();
+                usedNavPoints.Add(other.gameObject);
+            }
+            else
+            {
+                usedNavPoints.Add(other.gameObject);                
+                decisionMaking();                
+            }
+
+            
         }
     }
 

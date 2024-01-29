@@ -7,6 +7,7 @@ public class BotNavPoint : MonoBehaviour
     [SerializeField] private int index = 1;
     public int Index { get; private set; }
     public bool IsActive;
+    public bool IsOnlyToFollow = false;
     private NavPointSystem nps;
 
     // Start is called before the first frame update
@@ -18,6 +19,7 @@ public class BotNavPoint : MonoBehaviour
         IsActive = gameObject.activeSelf;
     }
 
+    
     public void SetNewIndex(int newIndex)
     {
         index = newIndex;
