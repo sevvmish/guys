@@ -11,9 +11,9 @@ public class InputControl : MonoBehaviour
     private PlayerControl playerControl;
     private CameraControl cameraControl;
     private Transform playerTransform;
-    private PointerBase jump;
-    private PointerBase mover;
-    private PointerBase ability;
+    private PointerDownOnly jump;
+    private PointerMoveOnly mover;
+    private PointerDownOnly ability;
     private Vector3 mousePosition;
     private float koeff;
     private readonly float XLimit = 10;
@@ -38,18 +38,19 @@ public class InputControl : MonoBehaviour
         playerControl = gameObject.GetComponent<PlayerControl>();
         playerTransform = playerControl.transform;
         abilityManager = playerControl.GetComponent<AbilityManager>();
-        ability = GameObject.Find("AbilityButton").GetComponent<PointerBase>();
+        ability = GameObject.Find("AbilityButton").GetComponent<PointerDownOnly>();
 
 
         if (!Globals.IsMobile)
         {
             Cursor.lockState = CursorLockMode.Locked;       
             Cursor.visible = false;
+            GameObject.Find("Screen mover").SetActive(false);
         }
         else
         {
-            jump = GameObject.Find("JumpButton").GetComponent<PointerBase>();
-            mover = GameObject.Find("Screen mover").GetComponent<PointerBase>();            
+            jump = GameObject.Find("JumpButton").GetComponent<PointerDownOnly>();
+            mover = GameObject.Find("Screen mover").GetComponent<PointerMoveOnly>();            
         }
 
         

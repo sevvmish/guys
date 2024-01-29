@@ -4,25 +4,19 @@ using UnityEngine;
 
 public class PointPlatformShort : MonoBehaviour
 {
-    [SerializeField] private GameObject state1;
-    [SerializeField] private GameObject state2;
-    [SerializeField] private GameObject state3;
+    [SerializeField] private Material material1;
+    [SerializeField] private Material material2;
+    [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private BoxCollider _collider;
     [SerializeField] private GameObject vfx;
-    [SerializeField] private GameObject point;    
-    private float _state1base = 0.2f;
-    private float _state2base = 0.2f;
-    private float _state3base = 0.2f;
-
-    private bool isStarted;
+   
+    private bool isStarted, isOne, isTwo, isThree;
     private float _timer;
 
     // Start is called before the first frame update
     void Start()
     {
-        state1.SetActive(true);
-        state2.SetActive(false);
-        state3.SetActive(false);
-        point.SetActive(true);
+        meshRenderer.material = material1;
         vfx.SetActive(false);
     }
 
@@ -33,41 +27,33 @@ public class PointPlatformShort : MonoBehaviour
         {
             _timer += Time.deltaTime;
 
-            if (_timer > _state1base && state1.activeSelf)
+            if (_timer > 0.1f && !isOne)
             {
-                state1.SetActive(false);
-                state2.SetActive(true);
-                vfx.SetActive(false);
+                isOne = true;
+                meshRenderer.material = material2;                
                 vfx.SetActive(true);
             }
 
-            if (_timer > (_state1base + _state2base) && state2.activeSelf)
-            {                
-                state2.SetActive(false);
-                state3.SetActive(true);
-                vfx.SetActive(false);
-                vfx.SetActive(true);
-            }
-
-            if (_timer > (_state1base + _state2base + _state3base) && state3.activeSelf)
+            if (_timer > 0.5f && !isTwo)
             {
-                state3.SetActive(false);                
-                vfx.SetActive(false);
-                vfx.SetActive(true);
+                isTwo = true;
+                _collider.enabled = false;
+                meshRenderer.enabled = false;
             }
 
-            if (_timer > (_state1base + _state2base + _state3base + 0.2f) && !state3.activeSelf && !state1.activeSelf && !state1.activeSelf)
-            {                
-                point.SetActive(false);
-                this.gameObject.SetActive(false);
+            if (_timer > 1f && !isThree)
+            {
+                isThree = true;
+                vfx.SetActive(false);
+                gameObject.SetActive(false);
             }
         }
     }
+   
 
-    
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("Player") && !isStarted)
+        if (other.gameObject.CompareTag("Player") && !isStarted)
         {
             isStarted = true;
         }

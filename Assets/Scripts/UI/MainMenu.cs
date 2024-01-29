@@ -57,6 +57,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button level2B;
     [SerializeField] private Button level3B;
     [SerializeField] private Button level4B;
+    [SerializeField] private Button level5B;
 
     public Action OnBackToMainMenu;
     public GameObject MainPlayerSkin;
@@ -120,11 +121,13 @@ public class MainMenu : MonoBehaviour
         level2B.gameObject.SetActive(true);
         level3B.gameObject.SetActive(true);
         level4B.gameObject.SetActive(true);
+        level5B.gameObject.SetActive(true);
 
         level1B.onClick.AddListener(() => { SceneManager.LoadScene("level1"); });
         level2B.onClick.AddListener(() => { SceneManager.LoadScene("level2"); });
         level3B.onClick.AddListener(() => { SceneManager.LoadScene("level3"); });
         level4B.onClick.AddListener(() => { SceneManager.LoadScene("level4"); });
+        level5B.onClick.AddListener(() => { SceneManager.LoadScene("level5"); });
 
         playB.onClick.AddListener(() =>
         {
@@ -238,15 +241,7 @@ public class MainMenu : MonoBehaviour
     }
 
     private void playWhenInitialized()
-    {
-        /*
-        if (Globals.IsShowArrowNotificatorOnPlay)
-        {
-            Globals.IsShowArrowNotificatorOnPlay = false;
-            playArrowNotificator.SetActive(true);
-        }
-        */
-
+    {        
         winRatingChecker();
 
         if (!Globals.MainPlayerData.TutL)

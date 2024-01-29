@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: operative atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: WebGL
+      m_MaxTextureSize: 256
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 12
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 8
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 5b56d9fa0e8bd6e409ed188db38a692c, type: 3}
+    - {fileID: 2800000, guid: 48c0d4d6bebaa934384b07aa1e2f8184, type: 3}
+    - {fileID: 2800000, guid: 89bfafeec14b047a4ac5510b8751485d, type: 3}
+    - {fileID: 2800000, guid: 8acfeb5a6583a438f96e712889558795, type: 3}
+    - {fileID: 2800000, guid: 3191730e352f0497aa312254cbdd9df8, type: 3}
+    - {fileID: 2800000, guid: 010a6e5305fa7004f89c5d317b7b47d4, type: 3}
+    - {fileID: 2800000, guid: 354c311ffdcdf4cea9a7e9326e0fa90b, type: 3}
+    - {fileID: 2800000, guid: 1d9622e5003ca72439aacb861f66ec3a, type: 3}
+    - {fileID: 2800000, guid: 52e73adc7c9572740a3924de1aba0cbb, type: 3}
+    - {fileID: 2800000, guid: 4cb8c6ff46d379c429cee1754153bf13, type: 3}
+    - {fileID: 2800000, guid: 0c6a56aa214b44688bb7f2dd8b0811c9, type: 3}
+    - {fileID: 2800000, guid: bb686ea4c141046129a10074d93b72fd, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 010a6e5305fa7004f89c5d317b7b47d4: 21300000
+    - bb686ea4c141046129a10074d93b72fd: 21300000
+    - 1d9622e5003ca72439aacb861f66ec3a: 21300000
+    - 48c0d4d6bebaa934384b07aa1e2f8184: 21300000
+    - 8acfeb5a6583a438f96e712889558795: 21300000
+    - 0c6a56aa214b44688bb7f2dd8b0811c9: 21300000
+    - 5b56d9fa0e8bd6e409ed188db38a692c: 21300000
+    - 52e73adc7c9572740a3924de1aba0cbb: 21300000
+    - 3191730e352f0497aa312254cbdd9df8: 21300000
+    - 89bfafeec14b047a4ac5510b8751485d: 21300000
+    - 354c311ffdcdf4cea9a7e9326e0fa90b: 21300000
+    - 4cb8c6ff46d379c429cee1754153bf13: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 010a6e5305fa7004f89c5d317b7b47d4, type: 3}
+  - {fileID: 21300000, guid: bb686ea4c141046129a10074d93b72fd, type: 3}
+  - {fileID: 21300000, guid: 1d9622e5003ca72439aacb861f66ec3a, type: 3}
+  - {fileID: 21300000, guid: 48c0d4d6bebaa934384b07aa1e2f8184, type: 3}
+  - {fileID: 21300000, guid: 8acfeb5a6583a438f96e712889558795, type: 3}
+  - {fileID: 21300000, guid: 0c6a56aa214b44688bb7f2dd8b0811c9, type: 3}
+  - {fileID: 21300000, guid: 5b56d9fa0e8bd6e409ed188db38a692c, type: 3}
+  - {fileID: 21300000, guid: 52e73adc7c9572740a3924de1aba0cbb, type: 3}
+  - {fileID: 21300000, guid: 3191730e352f0497aa312254cbdd9df8, type: 3}
+  - {fileID: 21300000, guid: 89bfafeec14b047a4ac5510b8751485d, type: 3}
+  - {fileID: 21300000, guid: 354c311ffdcdf4cea9a7e9326e0fa90b, type: 3}
+  - {fileID: 21300000, guid: 4cb8c6ff46d379c429cee1754153bf13, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Handle_Plain
+  - Icon_PictoIcon_Setting
+  - left mouse
+  - AllAxis_Outline_Arrows
+  - button_5_Blue
+  - up arrow s
+  - AllAxis_Outline
+  - right mouse
+  - fx_circle_line_blue
+  - Btn_OtherButton_SideButton01_Left
+  - Label_LeftLabel02
+  - space
+  m_RenderDataMap: {}
+  m_Tag: operative atlas
+  m_IsVariant: 0
