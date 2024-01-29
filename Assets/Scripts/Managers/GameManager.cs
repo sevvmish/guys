@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     public LevelManager GetLevelManager() => levelManager;
     public PhysicMaterial GetSlidingPhysicsMaterial() => sliderMaterial;
     public GameTypes GameType { get; private set; }
+    public int PlayersAmount { get; private set; }
+    public bool IsMainPlayerWin { get; private set; }
 
 
     //GAME START
@@ -126,6 +128,8 @@ public class GameManager : MonoBehaviour
             {
                 playerAmount = 15;
             }
+
+            PlayersAmount = playerAmount + 1;
 
             if (Globals.IsMobile)
             {
@@ -306,6 +310,11 @@ public class GameManager : MonoBehaviour
         mainUI.StartTheGame();
         options.TurnAllOn();
         IsGameStarted = true;
+
+        if (isTimerActive)
+        {
+            mainUI.ShowTimerData(GameSecondsLeft);
+        }
     }
 
     public void EndTheGame(bool isWin)
@@ -394,12 +403,35 @@ public class GameManager : MonoBehaviour
             case GameTypes.Finish_line:
                 int place = GetFinishPlace(MainPlayerControl);
 
-                if (place == 1)
+                if (IsMainPlayerWin)
                 {
-                    xp = 100;
-                    gold = 50;
+                    if (place == 1)
+                    {
+                        xp = 100;
+                        gold = 50;
+                    }
+                    else if (place <= 3)
+                    {
+                        xp = 75;
+                        gold = 35;
+                    }
+                    else
+                    {
+                        xp = 50;
+                        gold = 20;
+                    }
                 }
-                else if (place <=3)
+                else
+                {
+                    xp = 40;
+                    gold = 15;
+                }
+                
+
+                break;
+
+            case GameTypes.Dont_fall:
+                if (IsMainPlayerWin)
                 {
                     xp = 75;
                     gold = 35;
@@ -409,11 +441,6 @@ public class GameManager : MonoBehaviour
                     xp = 50;
                     gold = 20;
                 }
-
-                break;
-
-            case GameTypes.Dont_fall:
-
                 break;
         }
     }
@@ -443,7 +470,17 @@ public class GameManager : MonoBehaviour
 
                 if (player == MainPlayerControl)
                 {
-                    EndTheGame(true);
+                    int place = GetFinishPlace(player);
+                    if (place == PlayersAmount)
+                    {
+                        IsMainPlayerWin = false;
+                    }
+                    else
+                    {
+                        IsMainPlayerWin = true;
+                    }
+
+                    EndTheGame(IsMainPlayerWin);
                 }
                 break;
 
@@ -464,15 +501,15 @@ public class GameManager : MonoBehaviour
                 {
                     if (player.IsDead && GameSecondsLeft > 0)
                     {
-                        EndTheGame(false);
+                        IsMainPlayerWin = false;
                     }
                     else if (!player.IsDead && GameSecondsLeft <= 0)
                     {
-                        EndTheGame(true);
+                        IsMainPlayerWin = true;
                     }
                 }
-                
-                
+
+                EndTheGame(IsMainPlayerWin);
 
                 break;
         }

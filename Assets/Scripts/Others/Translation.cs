@@ -95,5 +95,7 @@ public class Translation : ScriptableObject
 
     public string GoGoGo;
 
+    public string Unblock;
+
     public Translation() { }
 }

@@ -102,22 +102,22 @@ public class LevelManager : MonoBehaviour
         switch(level)
         {
             case LevelTypes.tutorial:
-                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Tutorial, LevelTypes.tutorial, Globals.Language.Aim_Tutorial, "tutorial", 1, null, 0);
+                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Tutorial, LevelTypes.tutorial, Globals.Language.Aim_Tutorial, "tutorial", 1, null, 0,0);
 
             case LevelTypes.level1:
-                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Finish_line, LevelTypes.level1, Globals.Language.Aim_Finish, "level1", 1, Resources.Load<Sprite>("Sprites/map1"), 0);
+                return new LevelData(Globals.Language.Level1Name, "", GameTypes.Finish_line, LevelTypes.level1, Globals.Language.Aim_Finish, "level1", 1, Resources.Load<Sprite>("Sprites/map1"), 0, 0);
 
             case LevelTypes.level2:
-                return new LevelData(Globals.Language.Level2Name, "", GameTypes.Finish_line, LevelTypes.level2, Globals.Language.Aim_Finish, "level2", 2, Resources.Load<Sprite>("Sprites/map2"), 2);
+                return new LevelData(Globals.Language.Level2Name, "", GameTypes.Finish_line, LevelTypes.level2, Globals.Language.Aim_Finish, "level2", 2, Resources.Load<Sprite>("Sprites/map2"), 2, 5);
 
             case LevelTypes.level3:
-                return new LevelData(Globals.Language.Level3NewLVLName, "", GameTypes.Dont_fall, LevelTypes.level3, Globals.Language.Aim_DontFall, "level3", 3, Resources.Load<Sprite>("Sprites/map3"), 2);
+                return new LevelData(Globals.Language.Level3NewLVLName, "", GameTypes.Dont_fall, LevelTypes.level3, Globals.Language.Aim_DontFall, "level3", 3, Resources.Load<Sprite>("Sprites/map3"), 2, 5);
 
             case LevelTypes.level4:
-                return new LevelData(Globals.Language.Level3Name, "", GameTypes.Finish_line, LevelTypes.level4, Globals.Language.Aim_Finish, "level4", 2, Resources.Load<Sprite>("Sprites/map4"), 3);
+                return new LevelData(Globals.Language.Level3Name, "", GameTypes.Finish_line, LevelTypes.level4, Globals.Language.Aim_Finish, "level4", 2, Resources.Load<Sprite>("Sprites/map4"), 3, 5);
 
             case LevelTypes.level5:
-                return new LevelData(Globals.Language.Level4Name, "", GameTypes.Finish_line, LevelTypes.level5, Globals.Language.Aim_Finish, "level5", 2, Resources.Load<Sprite>("Sprites/map5"), 4);
+                return new LevelData(Globals.Language.Level4Name, "", GameTypes.Finish_line, LevelTypes.level5, Globals.Language.Aim_Finish, "level5", 2, Resources.Load<Sprite>("Sprites/map5"), 4, 5);
         }
 
         return result;
@@ -146,8 +146,9 @@ public struct LevelData
     public int Difficulty;
     public Sprite ImageSprite;
     public int LevelRestriction;
+    public int UblockGemPrice;
 
-    public LevelData(string name, string descr, GameTypes gameType, LevelTypes levelType, string aim, string levelInInspector, int difficulty, Sprite sprite, int levelRestr)
+    public LevelData(string name, string descr, GameTypes gameType, LevelTypes levelType, string aim, string levelInInspector, int difficulty, Sprite sprite, int levelRestr, int price)
     {
         LevelName = name;
         LevelDescription = descr;
@@ -158,5 +159,6 @@ public struct LevelData
         Difficulty = difficulty;
         ImageSprite = sprite;
         LevelRestriction = levelRestr;
+        UblockGemPrice = price;
     }
 }

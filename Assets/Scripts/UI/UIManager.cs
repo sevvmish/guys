@@ -100,6 +100,7 @@ public class UIManager : MonoBehaviour
 
         aimBeforeStart.SetActive(false);
         aimDuringGame.SetActive(false);
+        timerPanel.SetActive(false);
         endGameWin.SetActive(false);
         endGameLose.SetActive(false);
         rewardPanel.SetActive(false);
@@ -108,12 +109,7 @@ public class UIManager : MonoBehaviour
 
         aimBeforeStart.SetActive(true);
         aimBeforeStartText.text = Globals.Language.Aim + ": " + levelData.LevelAim + "!";
-
-        if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level4)
-        {
-            StartCoroutine(hideAimAfterSec(5));
-        }
-
+                
         scalerSlider.value = Globals.MainPlayerData.Zoom;
 
         if (Globals.Language != null)
@@ -282,7 +278,7 @@ public class UIManager : MonoBehaviour
 
     public void StartTheGame()
     {
-        print("startted in UI");
+        
         ShowAllControls();
                 
         aimBeforeStart.SetActive(false);
@@ -297,7 +293,7 @@ public class UIManager : MonoBehaviour
 
     public void EndGame(bool isWin)
     {
-        print("ended in UI");
+        
         HideAllControls();
         aimBeforeStart.SetActive(false);
         aimDuringGame.SetActive(false);
