@@ -16,7 +16,7 @@ public class LevelManagerLevel6 : MonoBehaviour
     private float platformWidth = 4;
 
     private float _timer, _timerAct;
-    private bool isActStarted;
+    private bool isActStarted, isFirstReorder;
     private float _cooldown;
     private int iterationAmount;
 
@@ -56,22 +56,22 @@ public class LevelManagerLevel6 : MonoBehaviour
         }
 
         setAllAlarms(false);
-        //changeBotPoints();
-        
-
     }
 
     private void Start()
     {
-        gm = GameManager.Instance;
-        StartCoroutine(playChangeAfterSec(0.15f, 6));
-        StartCoroutine(playChangeAfterSec(1.2f, 7));
-        StartCoroutine(playChangeAfterSec(2.4f, 0));
+        gm = GameManager.Instance;        
     }
 
     private void Update()
     {
         if (!gm.IsGameStarted) return;
+
+        if (!isFirstReorder)
+        {
+            isFirstReorder = true;
+            StartCoroutine(playChangeAfterSec(new float[] { 0.15f, 1.4f, 1.4f, 0.6f }, new int[] { 6, 7, 6, 0 }));
+        }
 
         if (isActStarted)
         {
@@ -82,9 +82,7 @@ public class LevelManagerLevel6 : MonoBehaviour
                 setAllAlarms(false);
                 //changeBotPoints();
 
-                StartCoroutine(playChangeAfterSec(0.15f, 6));
-                StartCoroutine(playChangeAfterSec(1.5f, 7));
-                StartCoroutine(playChangeAfterSec(2f, 0));
+                StartCoroutine(playChangeAfterSec(new float[] { 0.15f, 1.4f, 1.4f, 0.6f }, new int[] { 6, 7, 6, 0 }));
             }
             else
             {
@@ -228,10 +226,29 @@ public class LevelManagerLevel6 : MonoBehaviour
         
     }
 
+    private IEnumerator playChangeAfterSec(float[] seconds, int[] numbers  )
+    {
+        for (int i = 0; i < seconds.Length; i++)
+        {
+            yield return new WaitForSeconds(seconds[i]);
+            int number = numbers[i];
+
+            if (number == 0)
+            {
+                setAllPlatformPoints(true);
+            }
+            else
+            {
+                setPlatformsON(number);
+            }
+        }
+                
+    }
+
     private void setPlatformsON(int number)
     {
         setAllPlatformPoints(false);
-        print("number is: " + number);
+        //print("number is: " + number);
 
         int[] arr = new int[0];
 

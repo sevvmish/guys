@@ -50,6 +50,7 @@ public class EffectsControl : MonoBehaviour
 
     private GameObject rocketPack;
     private GameObject[] ski;
+    [SerializeField] private Material[] skiMat;
     private bool isSkiEffects;
 
     private WaitForSeconds ZeroOne = new WaitForSeconds(0.1f);
@@ -119,6 +120,9 @@ public class EffectsControl : MonoBehaviour
         ski = _animator.gameObject.GetComponent<SkinControl>().Ski;
         ski[0].SetActive(false);
         ski[1].SetActive(false);
+        Material skiM = skiMat[UnityEngine.Random.Range(0, skiMat.Length)];
+        ski[0].GetComponent<MeshRenderer>().material = skiM;
+        ski[1].GetComponent<MeshRenderer>().material = skiM;
 
         StartCoroutine(playAfterInit());
     }

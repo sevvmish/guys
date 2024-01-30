@@ -68,6 +68,8 @@ public class BotAI : MonoBehaviour
 
     private void Update()
     {
+        if (!gm.IsGameStarted) return;
+
         if (!Globals.IsBotAntiStuckON)
         {
             if (_timerForDecisionUpdate > 0) _timerForDecisionUpdate -= Time.deltaTime;
@@ -77,17 +79,17 @@ public class BotAI : MonoBehaviour
             {
                 //print("follow");
                 followPoint(currentPoint);
-                _timerForFollowUpdate = followCooldown;
-            }
+                _timerForFollowUpdate = UnityEngine.Random.Range(0.3f, 1.2f);
+            }/*
             else if (_timerForFollowUpdate <= 0 && currentPoint == null)
             {
                 playerTransform.eulerAngles += new Vector3(0, UnityEngine.Random.Range(-100, 100), 0);
                 _timerForFollowUpdate = followCooldown;
-            }
+            }*/
 
             if (_timerForDecisionUpdate <= 0)
             {
-                _timerForDecisionUpdate = decisionCooldown;
+                _timerForDecisionUpdate = UnityEngine.Random.Range(0.3f, 1.2f);
                 decisionMaking();
             }
         }
@@ -391,7 +393,7 @@ public class BotAI : MonoBehaviour
 
                 if (_timerForDecisionUpdate <= 0)
                 {
-                    _timerForDecisionUpdate = decisionCooldown;
+                    _timerForDecisionUpdate = UnityEngine.Random.Range(0.3f, 1.2f); ;
                     decisionMaking();
                 }
 

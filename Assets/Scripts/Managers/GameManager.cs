@@ -74,13 +74,13 @@ public class GameManager : MonoBehaviour
         if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
                 
         //TODEL
-        Globals.MainPlayerData = new PlayerData();
-        Globals.MainPlayerData.Zoom = 0;
-        Globals.IsInitiated = true;
-        Globals.IsMobile = false;
-        Globals.IsSoundOn = true;
-        Globals.IsMusicOn = true;
-        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        //Globals.MainPlayerData = new PlayerData();
+        //Globals.MainPlayerData.Zoom = 0;
+        //Globals.IsInitiated = true;
+        //Globals.IsMobile = false;
+        //Globals.IsSoundOn = true;
+        //Globals.IsMusicOn = true;
+        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
         //additional systems
         GameType = LevelManager.GetLevelData(levelManager.GetCurrentLevelType()).GameType;
@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
                     break;
 
                 case LevelTypes.level6:
-                    GameSecondsLeft = 50;
+                    GameSecondsLeft = 45;
                     break;
 
                 default:
@@ -132,11 +132,24 @@ public class GameManager : MonoBehaviour
 
             if (Globals.IsMobile)
             {
-                if (Globals.MainPlayerData.FPS < 52)
+                if (Globals.MainPlayerData.FPS <= 1)
+                {
+                    playerAmount = 15;
+                }
+                else if (Globals.MainPlayerData.FPS < 40)
+                {
+                    playerAmount = 4;
+                }
+                else if (Globals.MainPlayerData.FPS < 50)
                 {
                     playerAmount = 7;
                 }
                 else
+                {
+                    playerAmount = 15;
+                }
+
+                if (levelManager.GetCurrentLevelType() == LevelTypes.level6)
                 {
                     playerAmount = 15;
                 }
@@ -244,13 +257,13 @@ public class GameManager : MonoBehaviour
                     }
 
                     int index = UnityEngine.Random.Range(0, players.Count);
-                    players[index].transform.position = new Vector3(startPoint.x - 4f + addX * (delta + deltaPlus), startPoint.y, startPoint.z + addZ);
+                    players[index].transform.position = new Vector3(startPoint.x - 6 + addX * (delta + deltaPlus), startPoint.y, startPoint.z + addZ);
                     players.Remove(players[index]);
                 }
                 else
                 {
                     int index = UnityEngine.Random.Range(0, players.Count);
-                    players[index].transform.position = new Vector3(startPoint.x - 4f + i * (delta + deltaPlus), startPoint.y, startPoint.z);
+                    players[index].transform.position = new Vector3(startPoint.x - players.Count + i * (delta + deltaPlus), startPoint.y, startPoint.z);
                     players.Remove(players[index]);
                 }
 

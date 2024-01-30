@@ -10,7 +10,7 @@ public class ActivateDeactivateOnTriggerStay : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent(out PlayerControl pc) && pc.IsItMainPlayer)
+        if ((other.TryGetComponent(out PlayerControl pc) && pc.IsItMainPlayer) || (other.TryGetComponent(out RagdollPartCollisionChecker rag) && rag.LinkToPlayerControl.IsItMainPlayer))
         {
             if (toActivate.Length > 0)
             {
