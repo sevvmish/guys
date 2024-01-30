@@ -30,7 +30,7 @@ public class Globals : MonoBehaviour
     public static bool IsShowArrowNotificatorOnPlay;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = false;
+    public static bool IsDevelopmentBuild = true;
     public static bool IsOptions;
 
     public const float BASE_SPEED = 7f;
@@ -38,6 +38,8 @@ public class Globals : MonoBehaviour
     public const float GRAVITY_KOEFF = 2.75f;
 
     public const float SHADOW_Y_DISTANCE = 8f;
+
+    //public static WaitForSeconds ZeroOne = new WaitForSeconds(0.1f);
 
     public const float MASS = 1.5f; //3
     public const float DRAG = 5f; //1
@@ -56,7 +58,7 @@ public class Globals : MonoBehaviour
     public const float SPEED_INC_IN_NONGROUND_MOBILE = 0.35f;
 
     public const float MAX_HIT_IMPULSE_MAGNITUDE = 60f;
-    public const float MIN_HIT_IMPULSE_MAGNITUDE = 10f;
+    public const float MIN_HIT_IMPULSE_MAGNITUDE = 15f;
 
     public const int LAYER_HELPER = 6;
     public const int LAYER_DANGER = 7;

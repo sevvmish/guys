@@ -74,27 +74,44 @@ public class GameManager : MonoBehaviour
         if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
                 
         //TODEL
-        //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.Zoom = 0;
-        //Globals.IsInitiated = true;
-        //Globals.IsMobile = false;
-        //Globals.IsSoundOn = true;
-        //Globals.IsMusicOn = true;
-        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.Zoom = 0;
+        Globals.IsInitiated = true;
+        Globals.IsMobile = false;
+        Globals.IsSoundOn = true;
+        Globals.IsMusicOn = true;
+        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
         //additional systems
-        if (levelManager.GetCurrentLevelType() == LevelTypes.level3)
+        GameType = LevelManager.GetLevelData(levelManager.GetCurrentLevelType()).GameType;
+
+        if (GameType == GameTypes.Dont_fall)
         {
             Globals.IsBotAntiStuckON = false;
         }
 
-        GameType = LevelManager.GetLevelData(levelManager.GetCurrentLevelType()).GameType;
+        
 
 
         if (GameType == GameTypes.Dont_fall)
         {
+            switch(levelManager.GetCurrentLevelType())
+            {
+                case LevelTypes.level3:
+                    GameSecondsLeft = 30;
+                    break;
+
+                case LevelTypes.level6:
+                    GameSecondsLeft = 50;
+                    break;
+
+                default:
+                    GameSecondsLeft = 30;
+                    break;
+            }
+
             isTimerActive = true;
-            GameSecondsLeft = 30;
+            
             mainUI.ShowTimerData(GameSecondsLeft);
         }
 
@@ -204,7 +221,7 @@ public class GameManager : MonoBehaviour
             {
                 float addZ = 0;
 
-                if (levelManager.GetCurrentLevelType() == LevelTypes.level3)
+                if (GameType == GameTypes.Dont_fall)
                 {
                     deltaPlus = 1.6f;
                     if (i < 4)
@@ -247,7 +264,7 @@ public class GameManager : MonoBehaviour
             int amount = players.Count;
             for (int i = 0; i < amount; i++)
             {
-                if (levelManager.GetCurrentLevelType() == LevelTypes.level3)
+                if (GameType == GameTypes.Dont_fall)
                 {
                     deltaPlus = 1.6f;
 

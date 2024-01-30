@@ -8,7 +8,7 @@ public class AbilityManager : MonoBehaviour
     private PlayerControl currentPlayerControl;
     private EffectsControl effectsControl;
     private GameManager gm;
-
+    private WaitForSeconds ZeroOne = new WaitForSeconds(0.1f);
 
 
     public void SetData(PlayerControl pc, EffectsControl ec)
@@ -84,7 +84,7 @@ public class AbilityManager : MonoBehaviour
         for (float i = 0; i < duration; i += 0.1f)
         {
             gm.GetUI().SetFillAmountAbilityTimer(1f - (i/duration));
-            yield return new WaitForSeconds(0.1f);
+            yield return ZeroOne;
             if (currentPlayerControl.IsDead || CurrentAbility == AbilityTypes.none) yield break;
         }
 

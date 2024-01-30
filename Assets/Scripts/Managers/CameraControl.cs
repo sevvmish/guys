@@ -60,6 +60,10 @@ public class CameraControl : MonoBehaviour
             case LevelTypes.level3:                
                 outerCamera.eulerAngles += new Vector3(15, 0, 0);
                 break;
+
+            case LevelTypes.level6:
+                outerCamera.eulerAngles += new Vector3(15, 0, 0);
+                break;
         }
 
         ignoreMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll", "danger" });

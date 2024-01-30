@@ -20,7 +20,15 @@ public class BotAI : MonoBehaviour
     private float _timerCheckForLastPosition;
     private bool isIndexDowned;
 
+    private float limitDistanceForAim = 1;
+
     private float _timer;
+    private float _timerForFollowUpdate;
+    private float followCooldown = 0.5f;
+
+    private float _timerForDecisionUpdate;
+    private float decisionCooldown = 0.5f;
+
     private float _timerForChecking;
     
     private BotNavPoint currentPoint;
@@ -36,6 +44,8 @@ public class BotAI : MonoBehaviour
     private readonly float oneJumpAltitude = 2.4f;
     private readonly float twoJumpAltitude = 3.1f;
 
+    private WaitForSeconds ZeroOne = new WaitForSeconds(0.1f);
+
     private void Start()
     {
         nps = NavPointSystem.Instance;
@@ -49,10 +59,40 @@ public class BotAI : MonoBehaviour
         _timerForChecking = delay;
 
         lastPosition = playerTransform.position;
+
+        if (gm.GameType == GameTypes.Dont_fall)
+        {
+            limitDistanceForAim = 2f;
+        }
     }
 
     private void Update()
     {
+        if (!Globals.IsBotAntiStuckON)
+        {
+            if (_timerForDecisionUpdate > 0) _timerForDecisionUpdate -= Time.deltaTime;
+            if (_timerForFollowUpdate > 0) _timerForFollowUpdate -= Time.deltaTime;
+
+            if (_timerForFollowUpdate<=0 && currentPoint != null)
+            {
+                //print("follow");
+                followPoint(currentPoint);
+                _timerForFollowUpdate = followCooldown;
+            }
+            else if (_timerForFollowUpdate <= 0 && currentPoint == null)
+            {
+                playerTransform.eulerAngles += new Vector3(0, UnityEngine.Random.Range(-100, 100), 0);
+                _timerForFollowUpdate = followCooldown;
+            }
+
+            if (_timerForDecisionUpdate <= 0)
+            {
+                _timerForDecisionUpdate = decisionCooldown;
+                decisionMaking();
+            }
+        }
+
+
         if (isStopAction() || !gm.IsGameStarted || playerControl.IsFinished) return;
 
         //redirect after non walking
@@ -131,11 +171,14 @@ public class BotAI : MonoBehaviour
     private void decisionMaking()
     {
         currentPoint = nps.GetBotNavPoint(CurrentIndex, playerControl.transform.position);
-                
+
+
+        //if (currentPoint != null) print("posi: " + currentPoint.transform.position);
+
         if (currentPoint != null)
         {
             
-            if ((currentPoint.transform.position - playerTransform.position).magnitude > 1)
+            if ((currentPoint.transform.position - playerTransform.position).magnitude > limitDistanceForAim)
             {
                 //print(currentPoint.Index + " = " + currentPoint.transform.position);
                 followPoint(currentPoint);
@@ -287,7 +330,7 @@ public class BotAI : MonoBehaviour
         {
             yield return new WaitForSeconds(0.05f);
         }
-        yield return new WaitForSeconds(0.1f);
+        yield return ZeroOne;
 
         playerControl.SetJump();
         playerControl.SetForward(true);
@@ -344,12 +387,27 @@ public class BotAI : MonoBehaviour
             }
             else
             {
-                usedNavPoints.Add(other.gameObject);                
-                decisionMaking();                
-            }
+                //StartCoroutine(playIgnoreAfterSec(1, other.gameObject));
 
-            
+                if (_timerForDecisionUpdate <= 0)
+                {
+                    _timerForDecisionUpdate = decisionCooldown;
+                    decisionMaking();
+                }
+
+                //usedNavPoints.Add(other.gameObject);                
+                //decisionMaking();                
+            }            
         }
+    }
+
+    private IEnumerator playIgnoreAfterSec(float sec, GameObject cell)
+    {
+        yield return new WaitForSeconds(sec);
+        usedNavPoints.Add(cell);
+        decisionMaking();
+        yield return new WaitForSeconds(5);
+        usedNavPoints.Remove(cell);
     }
 
     public void ResetIndexToValue(int newIndex)

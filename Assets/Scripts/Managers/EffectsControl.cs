@@ -52,6 +52,8 @@ public class EffectsControl : MonoBehaviour
     private GameObject[] ski;
     private bool isSkiEffects;
 
+    private WaitForSeconds ZeroOne = new WaitForSeconds(0.1f);
+
     // Start is called before the first frame update
     void Start()
     {
@@ -122,7 +124,7 @@ public class EffectsControl : MonoBehaviour
     }
     private IEnumerator playAfterInit()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return ZeroOne;
 
         if (!pc.IsFinished && !isSkiEffects && gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level5)
         {
@@ -364,7 +366,7 @@ public class EffectsControl : MonoBehaviour
         fx.SetActive(true);
         for (float i = 0; i < duration; i += 0.1f)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return ZeroOne;
             if (pc.IsDead || pc.IsRagdollActive) break;
         }
         fx.SetActive(false);
@@ -379,7 +381,7 @@ public class EffectsControl : MonoBehaviour
         for (float i = 0; i < duration - 0.3f; i += 0.1f)
         {
             if (!isFrozenBusy) break;
-            yield return new WaitForSeconds(0.1f);
+            yield return ZeroOne;
         }
 
         if (isFrozenBusy) yield break;
@@ -397,7 +399,7 @@ public class EffectsControl : MonoBehaviour
 
         for (float i = 0; i < duration; i += 0.1f)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return ZeroOne;
             if (pc.IsDead || pc.IsRagdollActive) break;
         }
 

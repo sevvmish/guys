@@ -7,6 +7,7 @@ public class ConditionControl : MonoBehaviour
     private PlayerControl pc;
     private EffectsControl ec;
     private HashSet<Conditions> conditions = new HashSet<Conditions>();
+    private WaitForSeconds ZeroOne = new WaitForSeconds(0.1f);
 
     // Start is called before the first frame update
     public void SetData(PlayerControl control, EffectsControl effects)
@@ -60,7 +61,7 @@ public class ConditionControl : MonoBehaviour
     {
         for (float i = 0; i < timer; i+=0.1f)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return ZeroOne;
             if (pc.IsDead || pc.IsRagdollActive) break;
         }
 

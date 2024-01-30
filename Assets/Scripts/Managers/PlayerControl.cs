@@ -85,6 +85,8 @@ public class PlayerControl : MonoBehaviour
     private float howLongMoving;
     private float checkGroundTimer;
 
+    private WaitForSeconds ZeroOne = new WaitForSeconds(0.1f);
+
     // Start is called before the first frame update
     void Start()
     {
@@ -164,7 +166,7 @@ public class PlayerControl : MonoBehaviour
 
         for (float i = 0; i < seconds; i += 0.1f)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return ZeroOne;
             if (IsDead || IsRagdollActive) break;
         }
 
@@ -178,7 +180,7 @@ public class PlayerControl : MonoBehaviour
     }
     private IEnumerator setSliderData()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return ZeroOne;
         mainCollider.material = gm.GetSlidingPhysicsMaterial();        
     }
 
@@ -192,7 +194,7 @@ public class PlayerControl : MonoBehaviour
 
         for (float i = 0; i < seconds; i += 0.1f)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return ZeroOne;
             if (IsDead || IsRagdollActive) break;
         }
 
@@ -210,7 +212,7 @@ public class PlayerControl : MonoBehaviour
                 
         for (float i = 0; i < seconds; i+=0.1f)
         {            
-            yield return new WaitForSeconds(0.1f);
+            yield return ZeroOne;
             if (IsDead || IsRagdollActive) break;
         }
 
@@ -956,13 +958,14 @@ public class PlayerControl : MonoBehaviour
         while (ragdollRigidbodies[0].velocity.magnitude > Globals.BASE_SPEED && !IsDead && !IsGrounded)
         {
             timer += 0.1f;
-            yield return new WaitForSeconds(0.1f);
+            yield return ZeroOne;
+
         }
 
         while(!IsGrounded && !IsDead)
         {
             timer += 0.1f;
-            yield return new WaitForSeconds(0.1f);
+            yield return ZeroOne;
             if (timer > 5) break;
         }
 
