@@ -10,6 +10,8 @@ public class FPSController : MonoBehaviour
     private List<float> fps = new List<float>();
     private float _timer;
 
+    private GameManager gm;
+
     public float GetAverage()
     {
         float result = 0;
@@ -33,8 +35,15 @@ public class FPSController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        gm = GameManager.Instance;
+    }
+
     private void Update()
     {
+        if (!gm.IsGameStarted) return;
+
         if (_timer > 0.5f)
         {
             _timer = 0;

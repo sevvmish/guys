@@ -11,7 +11,7 @@ public class SaveLoadManager
     {        
         Globals.MainPlayerData.L = Globals.CurrentLanguage;
         Globals.MainPlayerData.M = Globals.IsMobile ? 1 : 0;
-        Globals.MainPlayerData.M = Globals.IsMusicOn ? 1 : 0;
+        Globals.MainPlayerData.Mus = Globals.IsMusicOn ? 1 : 0;
         Globals.MainPlayerData.S = Globals.IsSoundOn ? 1 : 0;
 
         string data = JsonUtility.ToJson(Globals.MainPlayerData);

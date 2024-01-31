@@ -20,21 +20,25 @@ public class LevelSetter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int ambMusic = UnityEngine.Random.Range(0, 3);
-        switch (ambMusic)
+        if (Globals.IsMusicOn)
         {
-            case 0:
-                AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody3);
-                break;
+            int ambMusic = UnityEngine.Random.Range(0, 3);
+            switch (ambMusic)
+            {
+                case 0:
+                    AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody3);
+                    break;
 
-            case 1:
-                AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody4);
-                break;
+                case 1:
+                    AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody4);
+                    break;
 
-            case 2:
-                AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody5);
-                break;
+                case 2:
+                    AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody5);
+                    break;
+            }
         }
+        
 
 
         for (int i = 1; i < Globals.MainPlayerData.LvlA.Length; i++)

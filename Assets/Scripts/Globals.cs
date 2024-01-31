@@ -17,7 +17,8 @@ public class Globals : MonoBehaviour
     public static DateTime TimeWhenStartedPlaying;
     public static DateTime TimeWhenLastInterstitialWas;
     public static DateTime TimeWhenLastRewardedWas;
-    public const float REWARDED_COOLDOWN = 65;
+    public const float REWARDED_COOLDOWN = 70;
+    public const float INTERSTITIAL_COOLDOWN = 70;
 
     public static GameTypes CurrentGameType;
     public static LevelTypes LastPlayedLevel = LevelTypes.tutorial;

@@ -291,21 +291,25 @@ public class MainMenu : MonoBehaviour
         YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
         showProgress();
 
-        int ambMusic = UnityEngine.Random.Range(0, 3);
-        switch(ambMusic)
+        if (Globals.IsMusicOn)
         {
-            case 0:
-                AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody3);
-                break;
+            int ambMusic = UnityEngine.Random.Range(0, 3);
+            switch (ambMusic)
+            {
+                case 0:
+                    AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody3);
+                    break;
 
-            case 1:
-                AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody4);
-                break;
+                case 1:
+                    AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody4);
+                    break;
 
-            case 2:
-                AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody5);
-                break;
+                case 2:
+                    AmbientMusic.Instance.PlayAmbient(AmbientMelodies.loop_melody5);
+                    break;
+            }
         }
+        
 
         //main player template
         if (MainPlayerSkin == null)

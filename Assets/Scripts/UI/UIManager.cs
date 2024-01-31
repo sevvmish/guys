@@ -81,6 +81,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite accelerationSprite;
     [SerializeField] private Sprite rocketPackSprite;
 
+    [Header("ADV")]
+    [SerializeField] private Interstitial interstitial;
+    private string whatLevelToLoadAfterAdv;
+
 
     private GameManager gm;
     private LevelData levelData;
@@ -94,7 +98,8 @@ public class UIManager : MonoBehaviour
         //jumpStandartPlace = jump.GetComponent<RectTransform>().anchoredPosition;
         circleForAbilityTimer = abilityButtonPanel.transform.GetChild(0).GetComponent<Image>();
         jump.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        
+
+        interstitial.OnEnded = null;
 
         HideAllControls();
 
@@ -179,11 +184,36 @@ public class UIManager : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            HideAllControls();
+            aimDuringGame.SetActive(false);
+        }
+    }
+
+
     private IEnumerator playStartLevel(string level)
     {
         ScreenSaver.Instance.HideScreen();
         yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
+
+        //print("seconds: " + (DateTime.Now - Globals.TimeWhenLastInterstitialWas).TotalSeconds);
+
+        if (!Globals.MainPlayerData.AdvOff && (DateTime.Now - Globals.TimeWhenLastInterstitialWas).TotalSeconds >= Globals.INTERSTITIAL_COOLDOWN)
+        {
+            whatLevelToLoadAfterAdv = level;
+            interstitial.OnEnded = continueAfterInterstitial;
+            interstitial.ShowInterstitialVideo();
+        }
+
         SceneManager.LoadScene(level);
+    }
+
+    private void continueAfterInterstitial()
+    {
+        SceneManager.LoadScene(whatLevelToLoadAfterAdv);
     }
 
     public void SetMainPlayerAbilityManager(AbilityManager manager) => mainPlayerAbilityManager = manager;
