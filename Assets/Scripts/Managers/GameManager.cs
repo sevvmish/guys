@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public GameTypes GameType { get; private set; }
     public int PlayersAmount { get; private set; }
     public bool IsMainPlayerWin { get; private set; }
+    public bool IsPause { get; private set; }
 
 
     //GAME START
@@ -140,7 +141,7 @@ public class GameManager : MonoBehaviour
                 {
                     playerAmount = 4;
                 }
-                else if (Globals.MainPlayerData.FPS < 50)
+                else if (Globals.MainPlayerData.FPS < 56)
                 {
                     playerAmount = 7;
                 }
@@ -151,7 +152,7 @@ public class GameManager : MonoBehaviour
 
                 if (levelManager.GetCurrentLevelType() == LevelTypes.level6)
                 {
-                    playerAmount = 15;
+                    playerAmount = 11;
                 }
             }
             else
@@ -262,6 +263,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    delta = 1.8f;
                     int index = UnityEngine.Random.Range(0, players.Count);
                     players[index].transform.position = new Vector3(startPoint.x - players.Count + i * (delta + deltaPlus), startPoint.y, startPoint.z);
                     players.Remove(players[index]);
@@ -353,6 +355,22 @@ public class GameManager : MonoBehaviour
         mainUI.EndGame(isWin);
         options.TurnAllOff();
         IsGameStarted = false;
+    }
+
+    public void SetPause(bool isPause)
+    {
+        /*
+        if (isPause && IsGameStarted && !IsPause)
+        {
+            IsPause = true;
+            Time.timeScale = 0;
+        }
+        else if (!isPause && IsPause)
+        {
+            IsPause = false;
+            IsGameStarted = true;
+            Time.timeScale = 1;
+        }*/
     }
 
     public void ShakeScreen(float _time, float strength, int vibra)
@@ -511,6 +529,14 @@ public class GameManager : MonoBehaviour
                     }
 
                     EndTheGame(IsMainPlayerWin);
+                }
+                else
+                {
+                    int place = GetFinishPlace(player);
+                    if (place == (PlayersAmount-1))
+                    {
+                        EndTheGame(false);
+                    }
                 }
                 break;
 

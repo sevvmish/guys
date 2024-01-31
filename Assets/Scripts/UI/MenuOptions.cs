@@ -122,9 +122,7 @@ public class MenuOptions : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
-
+    {        
         if (Globals.IsInitiated && !isDataUpdated)
         {
             isDataUpdated = true;

@@ -36,6 +36,8 @@ public class PlayerData
 
     public float FPS;
 
+    public int[] QRT;
+
     public PlayerData()
     {        
         L = ""; //prefered language
@@ -82,7 +84,9 @@ public class PlayerData
         LDA = 0; //last number of day for analytics
         WR = new GameSessionResult[0];
 
-        FPS = 0;
+        FPS = 0; //fps value
+        QRT = new int[] {1,1,0,0,0,0}; //quest reward taken
+
 
         Debug.Log("created PlayerData instance");
     }

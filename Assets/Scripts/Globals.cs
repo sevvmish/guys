@@ -24,6 +24,8 @@ public class Globals : MonoBehaviour
 
     public static bool IsBotAntiStuckON = true;
 
+    public static bool IsShowQuestNotification;
+
     public const int MAX_RESPAWN_POINTS = 25;
 
     public static bool IsDontShowIntro;
@@ -70,6 +72,8 @@ public class Globals : MonoBehaviour
     public const float SCREEN_SAVER_AWAIT = 1f;
 
     public const float PLAYERS_COLLIDE_FORCE = 7f;
+
+    public const float OFFER_UPDATE = 1f;
 
     //abilities
     public const float ABILITY_DURATION = 10f;

@@ -6,11 +6,12 @@ public class PointPlatformShort : MonoBehaviour
 {
     [SerializeField] private Material material1;
     [SerializeField] private Material material2;
+    [SerializeField] private Material material3;
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private BoxCollider _collider;
     [SerializeField] private GameObject vfx;
    
-    private bool isStarted, isOne, isTwo, isThree;
+    private bool isStarted, isOne, isTwo, isThree, isEnd;
     private float _timer;
 
     // Start is called before the first frame update
@@ -37,13 +38,19 @@ public class PointPlatformShort : MonoBehaviour
             if (_timer > 0.5f && !isTwo)
             {
                 isTwo = true;
+                meshRenderer.material = material3;                
+            }
+
+            if (_timer > 0.8f && !isThree)
+            {
+                isThree = true;
                 _collider.enabled = false;
                 meshRenderer.enabled = false;
             }
 
-            if (_timer > 1f && !isThree)
+            if (_timer > 1.1f && !isEnd)
             {
-                isThree = true;
+                isEnd = true;
                 vfx.SetActive(false);
                 gameObject.SetActive(false);
             }

@@ -67,13 +67,13 @@ public class LevelSetter : MonoBehaviour
             List<GameSessionResult> results = new List<GameSessionResult>(Globals.MainPlayerData.WR);
             for (int i = 0; i < results.Count; i++)
             {
-                if (levels.ContainsKey(results[i].LevelType))
+                if (levels.ContainsKey(results[i].LT))
                 {
-                    levels[results[i].LevelType]++;
+                    levels[results[i].LT]++;
                 }
                 else
                 {
-                    levels.Add(results[i].LevelType, 1);
+                    levels.Add(results[i].LT, 1);
                 }
             }
         }

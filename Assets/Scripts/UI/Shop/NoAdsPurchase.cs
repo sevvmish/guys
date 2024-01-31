@@ -20,13 +20,15 @@ public class NoAdsPurchase : MonoBehaviour
 
     [SerializeField] private Button buyButton;
     [SerializeField] private Button close;
+    [SerializeField] private GameObject back;
 
     private bool isReady;
 
     // Start is called before the first frame update
     void Start()
     {
-        close.gameObject.SetActive(false);
+        //close.gameObject.SetActive(false);
+        //back.SetActive(false);
 
         buyButton.onClick.AddListener(() =>
         {
@@ -42,7 +44,18 @@ public class NoAdsPurchase : MonoBehaviour
         });
     }
 
-    public void TurnOnCloseButton() => close.gameObject.SetActive(true);
+    public void TurnOnCloseButton()
+    {        
+        close.gameObject.SetActive(true);        
+        back.SetActive(true);
+        //StartCoroutine (playON());
+    }
+    private IEnumerator playON()
+    {
+        yield return new WaitForSeconds(1);
+        close.gameObject.SetActive(true);
+        back.SetActive(true);
+    }
 
     private void Update()
     {

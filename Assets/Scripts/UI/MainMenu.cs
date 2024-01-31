@@ -49,6 +49,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject shopUI;
     [SerializeField] private GameObject customizeUI;
 
+
+    [SerializeField] private QuestsUI questsUI;
+    [SerializeField] private GameObject questNotificator;
+
     [Header("Notificator arrows")]
     [SerializeField] private GameObject playArrowNotificator;
 
@@ -116,6 +120,7 @@ public class MainMenu : MonoBehaviour
         customizeUI.SetActive(false);
         notification.SetActive(false);
         playArrowNotificator.SetActive(false);
+        questNotificator.SetActive(false);
 
         resetB.gameObject.SetActive(true);
         level1B.gameObject.SetActive(true);
@@ -166,6 +171,19 @@ public class MainMenu : MonoBehaviour
             shop.SetOn();
         });
 
+        rewardsB.onClick.AddListener(() =>
+        {
+            rewardsB.interactable = false;
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+
+            menuOptions.SetBackButtonSign(Globals.Language.QuestButton);
+
+            mainMenuUI.SetActive(false);
+            shopUI.SetActive(false);
+            customizeUI.SetActive(false);
+            questsUI.SetOn();            
+        });
+
         resetB.onClick.AddListener(() =>
         {
             resetB.interactable = false;
@@ -214,6 +232,7 @@ public class MainMenu : MonoBehaviour
         customizeB.interactable = true;
         shopB.interactable = true;
         progressB.interactable = true;
+        rewardsB.interactable = true;
 
         MainPlayerSkin.SetActive(true);
         MainPlayerSkin.transform.DOMove(Globals.UIPlayerPosition, 0.3f).SetEase(Ease.Linear);
@@ -232,20 +251,25 @@ public class MainMenu : MonoBehaviour
         showProgress();
     }
 
-    private void winRatingChecker()
+    private void resetAnalytics()
     {
         if (Globals.MainPlayerData.LDA == 0 || Mathf.Abs(DateTime.Now.Day - Globals.MainPlayerData.LDA) > 0)
         {
             Globals.MainPlayerData.LDA = DateTime.Now.Day;
             Globals.MainPlayerData.WR = new GameSessionResult[0];
-            //Globals.MainPlayerData.WR = Globals.MainPlayerData.WR.Append(new GameSessionResult(LevelTypes.level1, GameTypes.Finish_line, 1)).ToArray();
+
+            for (int i = 0; i < Globals.MainPlayerData.QRT.Length; i++)
+            {
+                Globals.MainPlayerData.QRT[i] = 0;
+            }
+         
             SaveLoadManager.Save();
         }
     }
 
     private void playWhenInitialized()
     {        
-        winRatingChecker();
+        resetAnalytics();
 
         if (!Globals.MainPlayerData.TutL)
         {            
@@ -343,6 +367,16 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
+        if (Globals.IsShowQuestNotification && !questNotificator.activeSelf)
+        {
+            questNotificator.SetActive(true);
+        }
+        else if (!Globals.IsShowQuestNotification && questNotificator.activeSelf)
+        {
+            questNotificator.SetActive(false);
+        }
+
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             Globals.MainPlayerData = new PlayerData();

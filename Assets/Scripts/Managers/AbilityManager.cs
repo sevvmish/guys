@@ -25,7 +25,7 @@ public class AbilityManager : MonoBehaviour
 
         if (other.TryGetComponent(out AbilityProvider ap))
         {
-            print(ap.CurrentAbility + " !!!!!!!!!!!!!!!!!!!!!!");
+            //print(ap.CurrentAbility + " !!!!!!!!!!!!!!!!!!!!!!");
 
             CurrentAbility = ap.CurrentAbility;
 

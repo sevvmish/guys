@@ -12,11 +12,7 @@ public class ShopOffers : MonoBehaviour
 
     private bool isReady;
 
-    private void Start()
-    {
-        noAdv.SetActive(false);
-        allSkins.SetActive(false);
-    }
+    
 
     private void Update()
     {

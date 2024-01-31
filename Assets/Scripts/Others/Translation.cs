@@ -42,6 +42,7 @@ public class Translation : ScriptableObject
     public string CustomizeButton;
     public string ShopButton;
     public string ProgressButton;
+    public string QuestButton;
     public string usePutOn;
     public string useBuy;
 
@@ -97,6 +98,19 @@ public class Translation : ScriptableObject
     public string GoGoGo;
 
     public string Unblock;
+
+    public string Quest0Name;
+    public string Quest0Descr;
+    public string Quest1Name;
+    public string Quest1Descr;
+    public string Quest2Name;
+    public string Quest2Descr;
+    public string Quest3Name;
+    public string Quest3Descr;
+    public string Quest4Name;
+    public string Quest4Descr;
+    public string Quest5Name;
+    public string Quest5Descr;
 
     public Translation() { }
 }

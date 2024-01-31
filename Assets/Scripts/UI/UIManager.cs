@@ -341,6 +341,33 @@ public class UIManager : MonoBehaviour
             YandexMetrica.Send(dataForA);
         }
 
+
+        //save results
+        if (levelData.GameType == GameTypes.Tutorial)
+        {
+            repeatButton.gameObject.SetActive(false);
+            mainMenuButton.gameObject.SetActive(false);
+            Globals.MainPlayerData.TutL = true;
+        }
+        else
+        {
+            print("here saving winrate");
+
+            if (levelData.GameType == GameTypes.Finish_line)
+            {
+                int place = gm.GetFinishPlace(gm.MainPlayerControl);
+                Globals.MainPlayerData.WR = Globals.MainPlayerData.WR.Append(new GameSessionResult(levelData.LevelType, levelData.GameType, place)).ToArray();
+            }
+            else if (levelData.GameType == GameTypes.Dont_fall)
+            {
+                int place = isWin ? 1 : 0;
+                Globals.MainPlayerData.WR = Globals.MainPlayerData.WR.Append(new GameSessionResult(levelData.LevelType, levelData.GameType, place)).ToArray();
+            }
+            
+        }
+
+        SaveLoadManager.Save();
+
         StartCoroutine(playLastAim(r));
     }
     private IEnumerator playLastAim(RectTransform t)
@@ -372,20 +399,7 @@ public class UIManager : MonoBehaviour
         continueButtonText.text = Globals.Language.ContinueCamelCase;
         mainMenuButtonText.text = Globals.Language.ToMenu;
         repeatButtonText.text = Globals.Language.Repeat;
-
-        if (levelData.GameType == GameTypes.Tutorial)
-        {
-            repeatButton.gameObject.SetActive(false);
-            mainMenuButton.gameObject.SetActive(false);
-            Globals.MainPlayerData.TutL = true;            
-        }
-        else
-        {
-            print("here saving");
-            int place = gm.GetFinishPlace(gm.MainPlayerControl);
-            Globals.MainPlayerData.WR = Globals.MainPlayerData.WR.Append(new GameSessionResult(levelData.LevelType, levelData.GameType, place)).ToArray();
-        }
-
+                
         int xpReward = 0;
         int goldReward = 0;
         gm.AssessReward(out xpReward, out goldReward);

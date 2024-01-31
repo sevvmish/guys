@@ -173,6 +173,12 @@ public class LevelManagerLevel6 : MonoBehaviour
         platform.PrepareTurn(prepareTime);
         yield return new WaitForSeconds(prepareTime + 0.1f);
 
+        if (!gm.IsGameStarted) 
+        {
+
+            yield break;
+        }
+
         platform.MakeTurn();
         yield return new WaitForSeconds(downTime);
 

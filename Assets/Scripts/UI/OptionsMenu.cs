@@ -60,6 +60,7 @@ public class OptionsMenu : MonoBehaviour
 
         homeButton.onClick.AddListener(() =>
         {
+            GameManager.Instance.SetPause(false);
             SceneManager.LoadScene("MainMenu");
         });
 
@@ -85,6 +86,8 @@ public class OptionsMenu : MonoBehaviour
 
     private void continuePlay()
     {
+        GameManager.Instance.SetPause(false);
+
         if (!Globals.IsMobile)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -103,6 +106,8 @@ public class OptionsMenu : MonoBehaviour
     private void openOptions()
     {
         if (!GameManager.Instance.IsGameStarted) return;
+
+        GameManager.Instance.SetPause(true);
 
         if (!Globals.IsMobile)
         {
@@ -134,7 +139,7 @@ public class OptionsMenu : MonoBehaviour
         optionsButton.gameObject.SetActive(false);
         optionsPanel.SetActive(true);
 
-
+        
         continueButton.transform.localScale = Vector3.zero;
         soundButton.transform.localScale = Vector3.zero;
         homeButton.transform.localScale = Vector3.zero;
@@ -144,6 +149,7 @@ public class OptionsMenu : MonoBehaviour
         soundButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
         homeButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
         musicButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
+        
 
         if (GameManager.Instance.GetLevelManager().GetCurrentLevelType() == LevelTypes.tutorial)
         {
@@ -168,6 +174,8 @@ public class OptionsMenu : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.Instance.IsGameStarted) return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!Globals.IsOptions)

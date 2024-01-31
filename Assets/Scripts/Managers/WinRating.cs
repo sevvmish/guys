@@ -22,14 +22,14 @@ public class WinRating
 [Serializable]
 public struct GameSessionResult
 {
-    public LevelTypes LevelType;
-    public GameTypes GameType;
-    public int Place;
+    public LevelTypes LT;
+    public GameTypes GT;
+    public int Pl;
 
     public GameSessionResult(LevelTypes levelType, GameTypes gameType, int place)
     {
-        LevelType = levelType;
-        GameType = gameType;
-        Place = place;
+        LT = levelType;
+        GT = gameType;
+        Pl = place;
     }
 }
