@@ -11,6 +11,9 @@ public class QuestsUI : MonoBehaviour
     [SerializeField] private Transform location;
     [SerializeField] private GameObject questExample;
 
+    [SerializeField] private RectTransform forResize1;
+    [SerializeField] private RectTransform forResize2;
+
     private bool isReady;
     private List<QuestPanelUI> quests = new List<QuestPanelUI>();
 
@@ -69,7 +72,20 @@ public class QuestsUI : MonoBehaviour
             
             if (Globals.IsMobile)
             {
-                mainRect.anchoredPosition = new Vector2(0, 50);
+                if (Globals.MainPlayerData.AdvOff)
+                {
+                    forResize1.sizeDelta = new Vector2(3000, 2000);
+                    forResize1.sizeDelta = new Vector2(1500, 780);
+                    mainRect.anchoredPosition = new Vector2(0, 20);
+                }
+                else
+                {
+                    forResize1.sizeDelta = new Vector2(3000, 2000);
+                    forResize1.sizeDelta = new Vector2(1500, 720);
+                    mainRect.anchoredPosition = new Vector2(0, 40);
+                }
+
+                
             }
             else
             {

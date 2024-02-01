@@ -46,7 +46,6 @@ public class Interstitial : MonoBehaviour
 
         Globals.TimeWhenLastInterstitialWas = DateTime.Now;
 
-        OnEnded?.Invoke();
-        OnEnded = null;
+        OnEnded?.Invoke();        
     }
 }

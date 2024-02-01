@@ -203,12 +203,22 @@ public class UIManager : MonoBehaviour
 
         if (!Globals.MainPlayerData.AdvOff && (DateTime.Now - Globals.TimeWhenLastInterstitialWas).TotalSeconds >= Globals.INTERSTITIAL_COOLDOWN)
         {
-            whatLevelToLoadAfterAdv = level;
-            interstitial.OnEnded = continueAfterInterstitial;
-            interstitial.ShowInterstitialVideo();
+            playInterstitial(level);
+            yield break;
         }
+        else
+        {
+            SceneManager.LoadScene(level);
+        }
+        
+    }
 
-        SceneManager.LoadScene(level);
+    private void playInterstitial(string level)
+    {
+        AmbientMusic.Instance.StopAll();
+        whatLevelToLoadAfterAdv = level;
+        interstitial.OnEnded = continueAfterInterstitial;
+        interstitial.ShowInterstitialVideo();
     }
 
     private void continueAfterInterstitial()

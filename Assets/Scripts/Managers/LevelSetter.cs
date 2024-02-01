@@ -56,6 +56,8 @@ public class LevelSetter : MonoBehaviour
 
     private LevelTypes getNextLevel()
     {
+        if (MainMenu.GetCurrentLevel() == 1) return LevelTypes.level1;
+
         Dictionary<LevelTypes, int> levels = new Dictionary<LevelTypes, int>();
 
         for (int i = 1; i < Globals.MainPlayerData.LvlA.Length; i++)
