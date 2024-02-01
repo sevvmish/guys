@@ -490,21 +490,21 @@ public class CustomizeUI : MonoBehaviour
                 return result.SkinCostFree();
 
             case 8:
-                return result.SkinCostGold(50);
+                return result.SkinCostGold(80);
             case 9:
-                return result.SkinCostGold(50);
+                return result.SkinCostGold(80);
             case 10:
-                return result.SkinCostGold(50);
+                return result.SkinCostGold(80);
             case 11:
-                return result.SkinCostGold(80);
+                return result.SkinCostGold(100);
             case 12:
-                return result.SkinCostGold(80);
+                return result.SkinCostGold(100);
             case 13:
-                return result.SkinCostGold(80);
+                return result.SkinCostGold(100);
             case 14:
-                return result.SkinCostGold(120);
+                return result.SkinCostGold(125);
             case 15:
-                return result.SkinCostGold(120);
+                return result.SkinCostGold(125);
             case 16:
                 return result.SkinCostGold(150);
             case 17:
@@ -527,21 +527,21 @@ public class CustomizeUI : MonoBehaviour
                 return result.SkinCostFree();
 
             case 30:
-                return result.SkinCostGold(50);
+                return result.SkinCostGold(80);
             case 31:
-                return result.SkinCostGold(50);
+                return result.SkinCostGold(80);
             case 32:
-                return result.SkinCostGold(50);
+                return result.SkinCostGold(80);
             case 33:
-                return result.SkinCostGold(80);
+                return result.SkinCostGold(100);
             case 34:
-                return result.SkinCostGold(80);
+                return result.SkinCostGold(100);
             case 35:
-                return result.SkinCostGold(120);
+                return result.SkinCostGold(125);
             case 36:
-                return result.SkinCostGold(120);
+                return result.SkinCostGold(125);
             case 37:
-                return result.SkinCostGold(120);
+                return result.SkinCostGold(125);
             case 38:
                 return result.SkinCostGold(150);
             case 39:

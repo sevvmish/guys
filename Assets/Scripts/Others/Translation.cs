@@ -88,6 +88,7 @@ public class Translation : ScriptableObject
     public string Gem;
     public string XP;
     public string NewLVL;
+    public string NewMap;
 
     public string LevelShort;
     public string Difficulty;
@@ -111,6 +112,26 @@ public class Translation : ScriptableObject
     public string Quest4Descr;
     public string Quest5Name;
     public string Quest5Descr;
+    public string Quest6Name;
+    public string Quest6Descr;
+    public string Quest7Name;
+    public string Quest7Descr;
+    public string Quest8Name;
+    public string Quest8Descr;
+    public string Quest9Name;
+    public string Quest9Descr;
+
+
+
+
+    public string GetAllTitle;
+    public string GetAllMainDescription;
+    public string GetAllAddDescription1;
+    public string GetAllAddDescription2;
+    public string GetAllAddDescription3;
+
+    public string AllMapsTitle;
+    public string AllMapsMainDescription;
 
     public Translation() { }
 }

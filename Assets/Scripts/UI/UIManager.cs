@@ -208,6 +208,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
+            print("ordinary load level from UI");
             SceneManager.LoadScene(level);
         }
         
@@ -215,6 +216,7 @@ public class UIManager : MonoBehaviour
 
     private void playInterstitial(string level)
     {
+        print("in playInterstitial");
         AmbientMusic.Instance.StopAll();
         whatLevelToLoadAfterAdv = level;
         interstitial.OnEnded = continueAfterInterstitial;
@@ -223,6 +225,7 @@ public class UIManager : MonoBehaviour
 
     private void continueAfterInterstitial()
     {
+        print("in continueAfterInterstitial - " + Time.timeScale);
         SceneManager.LoadScene(whatLevelToLoadAfterAdv);
     }
 
@@ -446,12 +449,15 @@ public class UIManager : MonoBehaviour
 
         if (xpReward > 0)
         {
+            
+            Globals.AddXP(xpReward);
+            /*
             GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, xpReward);
-            bool isLvl = Globals.AddXP(xpReward);
+
             if (isLvl)
             {
                 GetRewardSystem.Instance.ShowEffect(RewardTypes.newLvl, MainMenu.GetCurrentLevel());
-            }
+            }*/
         }
 
         if (goldReward > 0)

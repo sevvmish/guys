@@ -17,12 +17,15 @@ public class Interstitial : MonoBehaviour
     }
 
     private void advStarted()
-    {        
+    {
+        
         Time.timeScale = 0;
         if (Globals.IsSoundOn)
         {
             AudioListener.volume = 0;
         }
+
+        print("interstitial started");
     }
 
     private void advError()
@@ -34,6 +37,8 @@ public class Interstitial : MonoBehaviour
         }
         OnEnded?.Invoke();
         OnEnded = null;
+
+        print("interstitial error");
     }
 
     private void advClosed()
@@ -46,6 +51,9 @@ public class Interstitial : MonoBehaviour
 
         Globals.TimeWhenLastInterstitialWas = DateTime.Now;
 
-        OnEnded?.Invoke();        
+        print("interstitial OK");
+
+        OnEnded?.Invoke();
+        OnEnded = null;
     }
 }

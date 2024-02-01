@@ -61,16 +61,54 @@ public class MakePurchase : MonoBehaviour
                 break;
 
             case "starter":
-                Globals.MainPlayerData.G += 1000;
-                Globals.MainPlayerData.D += 20;
+                Globals.MainPlayerData.G += 500;
+                Globals.MainPlayerData.D += 5;
                 SaveLoadManager.Save();
-                GetRewardSystem.Instance.ShowEffect(RewardTypes.gold, 1000);
-                GetRewardSystem.Instance.ShowEffect(RewardTypes.gem, 20);
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.gold, 500);
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.gem, 5);
                 //Globals.IsDontShowIntro = true;
                 //SceneManager.LoadScene("MainMenu");
                 break;
 
+            case "all_maps":
+                for (int i = 0; i < Globals.MainPlayerData.LvlA.Length; i++)
+                {
+                    Globals.MainPlayerData.LvlA[i] = 1;
+                }
+
+                Globals.MainPlayerData.AllMaps = true;
+
+                SaveLoadManager.Save();
+                Globals.IsDontShowIntro = true;
+                SceneManager.LoadScene("MainMenu");
+                break;
+
             case "all_skins":
+                for (int i = 2; i <= 18; i++)
+                {
+                    Globals.MainPlayerData.Skins[i] = 1;
+                }
+
+                for (int i = 25; i <= 39; i++)
+                {
+                    Globals.MainPlayerData.Skins[i] = 1;
+                }
+                Globals.MainPlayerData.AllSkins = true;
+                SaveLoadManager.Save();
+                Globals.IsDontShowIntro = true;
+                SceneManager.LoadScene("MainMenu");
+                break;
+
+            case "get_all":
+                for (int i = 0; i < Globals.MainPlayerData.LvlA.Length; i++)
+                {
+                    Globals.MainPlayerData.LvlA[i] = 1;
+                }
+
+                Globals.MainPlayerData.AllMaps = true;
+
+                Globals.MainPlayerData.AdvOff = true;
+
                 for (int i = 2; i <= 18; i++)
                 {
                     Globals.MainPlayerData.Skins[i] = 1;

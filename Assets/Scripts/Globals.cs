@@ -74,7 +74,7 @@ public class Globals : MonoBehaviour
 
     public const float PLAYERS_COLLIDE_FORCE = 7f;
 
-    public const float OFFER_UPDATE = 1f;
+    public const float OFFER_UPDATE = 6f;
 
     //abilities
     public const float ABILITY_DURATION = 10f;
@@ -89,9 +89,12 @@ public class Globals : MonoBehaviour
     public static Vector3 UIPlayerPosition = new Vector3(0.1f, -0.8f, 0);
     public static Vector3 UIPlayerRotation = new Vector3(0, 180, 0);
 
-    public static bool AddXP(int addedXP)
+    public static void AddXP(int addedXP)
     {
-        bool result = false;
+        //bool result = false;
+
+        GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, addedXP);
+
         int lvl = MainMenu.GetLevelByXP(Globals.MainPlayerData.XP);
         int moreXP = Globals.MainPlayerData.XP + addedXP;
         int nextLvl = MainMenu.GetLevelByXP(moreXP);
@@ -99,7 +102,7 @@ public class Globals : MonoBehaviour
         if (nextLvl > lvl)
         {
             Globals.MainPlayerData.XPN = true;
-            result = true;
+            GetRewardSystem.Instance.ShowEffect(RewardTypes.newLvl, nextLvl);
         }
 
         Globals.MainPlayerData.XP += addedXP;
@@ -113,13 +116,13 @@ public class Globals : MonoBehaviour
                 if (newLevel >= ld.LevelRestriction)
                 {
                     Globals.MainPlayerData.LvlA[i] = 1;
+                    GetRewardSystem.Instance.ShowEffect(RewardTypes.newMap, i);
                 }
             }
         }
 
-        SaveLoadManager.Save();
-        YandexGame.NewLeaderboardScores("lider", Globals.MainPlayerData.XP);
-        return result;
+        //SaveLoadManager.Save();
+        YandexGame.NewLeaderboardScores("lider", Globals.MainPlayerData.XP);        
     }
 }
 

@@ -8,6 +8,8 @@ public class ShopOffers : MonoBehaviour
     [SerializeField] private GameObject noAdv;
     [SerializeField] private GameObject allSkins;
     [SerializeField] private GameObject starter;
+    [SerializeField] private GameObject getAll;
+    [SerializeField] private GameObject allMaps;
     [SerializeField] private Transform shopLocation;
 
     private bool isReady;
@@ -23,6 +25,12 @@ public class ShopOffers : MonoBehaviour
             GameObject g1 = Instantiate(starter, shopLocation);
             g1.SetActive(true);
 
+            if (!Globals.MainPlayerData.AllMaps)
+            {
+                GameObject g = Instantiate(allMaps, shopLocation);
+                g.SetActive(true);
+            }
+
             if (!Globals.MainPlayerData.AdvOff)
             {
                 GameObject g = Instantiate(noAdv, shopLocation);
@@ -32,6 +40,12 @@ public class ShopOffers : MonoBehaviour
             if (!Globals.MainPlayerData.AllSkins)
             {
                 GameObject g = Instantiate(allSkins, shopLocation);
+                g.SetActive(true);
+            }
+
+            if (!Globals.MainPlayerData.AllSkins || !Globals.MainPlayerData.AdvOff || !Globals.MainPlayerData.AllMaps)
+            {
+                GameObject g = Instantiate(getAll, shopLocation);
                 g.SetActive(true);
             }
         }

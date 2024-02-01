@@ -13,6 +13,7 @@ public class GetRewardSystem : MonoBehaviour
     [SerializeField] private RectTransform gemRect;
     [SerializeField] private RectTransform xpRect;
     [SerializeField] private RectTransform newLvlRect;
+    [SerializeField] private RectTransform newMapRect;
 
     private List<ShowRewardEffect> effects = new List<ShowRewardEffect>();
     private bool isActive;
@@ -44,6 +45,7 @@ public class GetRewardSystem : MonoBehaviour
             gemRect.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = Globals.Language.Gem;
             xpRect.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = Globals.Language.XP;
             newLvlRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.NewLVL;
+            newMapRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.NewMap;
         }
 
         if (effects.Count > 0 && !isActive)
@@ -86,9 +88,23 @@ public class GetRewardSystem : MonoBehaviour
                     SoundUI.Instance.PlayUISound(SoundsUI.success2);
                     pos = new Vector3(-700, -500, 0);                    
                     break;
+
+                case RewardTypes.newMap:
+                    g = Instantiate(newMapRect.gameObject, transform);
+                    SoundUI.Instance.PlayUISound(SoundsUI.success2);
+                    pos = new Vector3(-700, -500, 0);
+                    break;
             }
 
-            g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = effects[i].Amount.ToString();
+            if (effects[i].RewardType == RewardTypes.newMap)
+            {
+                g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = LevelManager.GetLevelData((LevelTypes)effects[i].Amount).LevelName;
+            }
+            else
+            {
+                g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = effects[i].Amount.ToString();
+            }
+            
             StartCoroutine(playEndEffect(g.GetComponent<RectTransform>(), pos, effects[i].RewardType));
 
             yield return new WaitForSeconds(1.7f);
@@ -148,7 +164,8 @@ public enum RewardTypes
     gold,
     gem,
     xp,
-    newLvl
+    newLvl,
+    newMap
 }
 
 public struct ShowRewardEffect

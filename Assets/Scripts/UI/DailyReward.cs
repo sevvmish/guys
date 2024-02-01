@@ -101,13 +101,15 @@ public class DailyReward : MonoBehaviour
                         break;
 
                     case DailyRewardTypes.RewardsTypes.XP:
-                        bool isLvl = Globals.AddXP(currentDailyReward.Amount);
+                        Globals.AddXP(currentDailyReward.Amount);
+                        
+                        /*
                         GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, currentDailyReward.Amount);
-
+                        
                         if (isLvl)
                         {
                             GetRewardSystem.Instance.ShowEffect(RewardTypes.newLvl, MainMenu.GetCurrentLevel());
-                        }
+                        }*/
                         break;
                 }
 

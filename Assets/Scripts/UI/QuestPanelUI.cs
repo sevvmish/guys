@@ -74,13 +74,15 @@ public class QuestPanelUI : MonoBehaviour
 
             if (rewardAmountXP > 0)
             {
-                bool isLvl = Globals.AddXP(rewardAmountXP);
+                Globals.AddXP(rewardAmountXP);
+
+                /*
                 GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, rewardAmountXP);
 
                 if (isLvl)
                 {
                     GetRewardSystem.Instance.ShowEffect(RewardTypes.newLvl, MainMenu.GetCurrentLevel());
-                }
+                }*/
             }
 
             Globals.MainPlayerData.QRT[quest.ID] = 1;
@@ -100,30 +102,90 @@ public class QuestPanelUI : MonoBehaviour
         switch(quest.ID)
         {
             case 0:
-                if (dataForQuest.FirstInFinishGames >= 10)
+                if (dataForQuest.FirstInFinishGames >= 15)
                 {
                     rewardReady();
                     return true;
                 }
                 else
                 {
-                    rewardInProgress((float)dataForQuest.FirstInFinishGames / 10f, dataForQuest.FirstInFinishGames + "/10");
+                    rewardInProgress((float)dataForQuest.FirstInFinishGames / 15f, dataForQuest.FirstInFinishGames + "/15");
                     return false;
                 }
 
             case 1:
-                if (dataForQuest.WinnerInDontDie >= 5)
+                if (dataForQuest.WinnerInDontDie >= 15)
                 {
                     rewardReady();
                     return true;
                 }
                 else
                 {
-                    rewardInProgress((float)dataForQuest.WinnerInDontDie / 5f, dataForQuest.WinnerInDontDie + "/5");
+                    rewardInProgress((float)dataForQuest.WinnerInDontDie / 15f, dataForQuest.WinnerInDontDie + "/15");
                     return false;
                 }
 
             case 2:
+                if (dataForQuest.AllPlayedGames >= 30)
+                {
+                    rewardReady();
+                    return true;
+                }
+                else
+                {
+                    rewardInProgress((float)dataForQuest.AllPlayedGames / 30f, dataForQuest.AllPlayedGames + "/30");
+                    return false;
+                }
+
+            case 3:
+                if (dataForQuest.InThreeInGamesWithFinish >= 15)
+                {
+                    rewardReady();
+                    return true;
+                }
+                else
+                {
+                    rewardInProgress((float)dataForQuest.InThreeInGamesWithFinish / 15f, dataForQuest.InThreeInGamesWithFinish + "/15");
+                    return false;
+                }
+
+            case 4:
+                if (dataForQuest.AllPlayedGames >= 20)
+                {
+                    rewardReady();
+                    return true;
+                }
+                else
+                {
+                    rewardInProgress((float)dataForQuest.AllPlayedGames / 20f, dataForQuest.AllPlayedGames + "/20");
+                    return false;
+                }
+
+            case 5:
+                if (dataForQuest.GamesWithDontDie >= 10)
+                {
+                    rewardReady();
+                    return true;
+                }
+                else
+                {
+                    rewardInProgress((float)dataForQuest.GamesWithDontDie / 10f, dataForQuest.GamesWithDontDie + "/10");
+                    return false;
+                }
+
+            case 6:
+                if (dataForQuest.GamesWithFinish >= 10)
+                {
+                    rewardReady();
+                    return true;
+                }
+                else
+                {
+                    rewardInProgress((float)dataForQuest.GamesWithFinish / 10f, dataForQuest.GamesWithFinish + "/10");
+                    return false;
+                }
+
+            case 7:
                 if (dataForQuest.AllPlayedGames >= 10)
                 {
                     rewardReady();
@@ -135,39 +197,27 @@ public class QuestPanelUI : MonoBehaviour
                     return false;
                 }
 
-            case 3:
-                if (dataForQuest.FirstInFinishGames >= 10)
+            case 8:
+                if (dataForQuest.WinnerInDontDie >= 3)
                 {
                     rewardReady();
                     return true;
                 }
                 else
                 {
-                    rewardInProgress((float)dataForQuest.FirstInFinishGames / 10f, dataForQuest.FirstInFinishGames + "/10");
+                    rewardInProgress((float)dataForQuest.WinnerInDontDie / 3f, dataForQuest.WinnerInDontDie + "/3");
                     return false;
                 }
 
-            case 4:
-                if (dataForQuest.FirstInFinishGames >= 10)
+            case 9:
+                if (dataForQuest.FirstInFinishGames >= 3)
                 {
                     rewardReady();
                     return true;
                 }
                 else
                 {
-                    rewardInProgress((float)dataForQuest.FirstInFinishGames / 10f, dataForQuest.FirstInFinishGames + "/10");
-                    return false;
-                }
-
-            case 5:
-                if (dataForQuest.FirstInFinishGames >= 10)
-                {
-                    rewardReady();
-                    return true;
-                }
-                else
-                {
-                    rewardInProgress((float)dataForQuest.FirstInFinishGames / 10f, dataForQuest.FirstInFinishGames + "/10");
+                    rewardInProgress((float)dataForQuest.FirstInFinishGames / 3f, dataForQuest.FirstInFinishGames + "/3");
                     return false;
                 }
 
@@ -246,19 +296,31 @@ public class QuestPanelUI : MonoBehaviour
                 return new Quest(id, 1, Globals.Language.Quest0Name, Globals.Language.Quest0Descr, 0,3,0);
 
             case 1:
-                return new Quest(id, 1, Globals.Language.Quest1Name, Globals.Language.Quest1Descr, 50,0,20);
+                return new Quest(id, 1, Globals.Language.Quest1Name, Globals.Language.Quest1Descr, 0,2,0);
 
             case 2:
-                return new Quest(id, 1, Globals.Language.Quest2Name, Globals.Language.Quest2Descr, 20,0,10);
+                return new Quest(id, 1, Globals.Language.Quest2Name, Globals.Language.Quest2Descr, 0,1,0);
 
             case 3:
-                return new Quest(id, 1, Globals.Language.Quest3Name, Globals.Language.Quest3Descr, 20, 0, 10);
+                return new Quest(id, 1, Globals.Language.Quest3Name, Globals.Language.Quest3Descr, 150, 0, 100);
 
             case 4:
-                return new Quest(id, 1, Globals.Language.Quest4Name, Globals.Language.Quest4Descr, 20, 0, 10);
+                return new Quest(id, 1, Globals.Language.Quest4Name, Globals.Language.Quest4Descr, 150, 0, 100);
 
             case 5:
-                return new Quest(id, 1, Globals.Language.Quest5Name, Globals.Language.Quest5Descr, 20, 0, 10);
+                return new Quest(id, 1, Globals.Language.Quest5Name, Globals.Language.Quest5Descr, 150, 0, 100);
+
+            case 6:
+                return new Quest(id, 1, Globals.Language.Quest6Name, Globals.Language.Quest6Descr, 150, 0, 100);
+
+            case 7:
+                return new Quest(id, 1, Globals.Language.Quest7Name, Globals.Language.Quest7Descr, 100, 0, 80);
+
+            case 8:
+                return new Quest(id, 1, Globals.Language.Quest8Name, Globals.Language.Quest8Descr, 100, 0, 80);
+
+            case 9:
+                return new Quest(id, 1, Globals.Language.Quest9Name, Globals.Language.Quest9Descr, 100, 0, 80);
         }
 
 

@@ -43,7 +43,7 @@ public class LevelSetter : MonoBehaviour
 
         for (int i = 1; i < Globals.MainPlayerData.LvlA.Length; i++)
         {
-            if (Globals.MainPlayerData.LvlA[i] < 1) continue;
+            //if (Globals.MainPlayerData.LvlA[i] < 1) continue;
             GameObject map = Instantiate(mapExample, location);
             map.SetActive(true);
             maps.Add(map.GetComponent<MapUI>());
@@ -125,7 +125,9 @@ public class LevelSetter : MonoBehaviour
             }
             else
             {
-                continue;
+                maps[i - 1].SetMap(LevelManager.GetLevelData((LevelTypes)i), false);
+                howManyLevels++;
+                //continue;
             }
         }
 
@@ -149,9 +151,9 @@ public class LevelSetter : MonoBehaviour
     {
         int howLong = howManyLevels > 5 ? 5 : howManyLevels;
         locationRect.anchoredPosition = Vector2.zero;
-        locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 2800 - 1300 * (howManyLevels-1), locationRect.anchoredPosition.y), howLong).SetEase(Ease.Linear);
+        locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 2800 - /*1300*/700 * (howManyLevels-1), locationRect.anchoredPosition.y), howLong).SetEase(Ease.Linear);
 
-        yield return new WaitForSeconds(howLong);
+        yield return new WaitForSeconds(5);
 
         GameObject map = Instantiate(mapExample, locationMain);
         map.SetActive(true);

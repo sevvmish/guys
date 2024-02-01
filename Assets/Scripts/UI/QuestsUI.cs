@@ -58,7 +58,7 @@ public class QuestsUI : MonoBehaviour
         {
             isReady = true;
 
-            for (int i = 0; i < Globals.MainPlayerData.QRT.Length; i++)
+            for (int i = (Globals.MainPlayerData.QRT.Length-1); i >= 0; i--)
             {
                 GameObject g = Instantiate(questExample, location);
                 g.SetActive(true);
@@ -75,13 +75,13 @@ public class QuestsUI : MonoBehaviour
                 if (Globals.MainPlayerData.AdvOff)
                 {
                     forResize1.sizeDelta = new Vector2(3000, 2000);
-                    forResize1.sizeDelta = new Vector2(1500, 780);
+                    forResize2.sizeDelta = new Vector2(1500, 780);
                     mainRect.anchoredPosition = new Vector2(0, 20);
                 }
                 else
                 {
                     forResize1.sizeDelta = new Vector2(3000, 2000);
-                    forResize1.sizeDelta = new Vector2(1500, 720);
+                    forResize2.sizeDelta = new Vector2(1500, 720);
                     mainRect.anchoredPosition = new Vector2(0, 40);
                 }
 
@@ -117,7 +117,7 @@ public class QuestsUI : MonoBehaviour
                         firstInGamesWithFinish++;
                     }
 
-                    if (Globals.MainPlayerData.WR[i].Pl >= 1 && Globals.MainPlayerData.WR[i].Pl <= 3)
+                    if (Globals.MainPlayerData.WR[i].Pl > 1 && Globals.MainPlayerData.WR[i].Pl <= 3)
                     {
                         inThreeInGamesWithFinish++;
                     }

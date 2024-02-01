@@ -148,6 +148,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     playerAmount = 15;
+
+                    if (levelManager.GetCurrentLevelType() == LevelTypes.level1 && Globals.MainPlayerData.WR.Length == 0)
+                    {
+                        playerAmount = 7;
+                    }
+                    else
+                    {
+                        playerAmount = 11;
+                    }
                 }
 
                 if (levelManager.GetCurrentLevelType() == LevelTypes.level6)
@@ -158,6 +167,11 @@ public class GameManager : MonoBehaviour
             else
             {
                 playerAmount = 15;
+
+                if (levelManager.GetCurrentLevelType() == LevelTypes.level1)
+                {
+                    playerAmount = 11;
+                }
             }
 
             PlayersAmount = playerAmount + 1;
@@ -270,6 +284,67 @@ public class GameManager : MonoBehaviour
                 }
 
                 
+            }
+        }
+        else if (players.Count <= 12)
+        {
+            float addZ = 0;
+            float addX = 1.2f;
+            int amount = players.Count;
+            for (int i = 0; i < amount; i++)
+            {
+                if (GameType == GameTypes.Dont_fall)
+                {
+                    deltaPlus = 1.6f;
+
+                    if (i < 4)
+                    {
+                        addZ = 4f;
+                    }
+                    else if (i < 8)
+                    {
+                        addZ = 0;
+                    }
+                    else
+                    {
+                        addZ = -4f;
+                    }
+
+                    if (i == 0 || i == 4 || i == 8)
+                    {
+                        addX = 0;
+                    }
+                    else
+                    {
+                        addX++;
+                    }
+
+                    int index = UnityEngine.Random.Range(0, players.Count);
+                    players[index].transform.position = new Vector3(startPoint.x - 6f + addX * (delta + deltaPlus), startPoint.y, startPoint.z + addZ);
+                    players.Remove(players[index]);
+                }
+                else
+                {
+                    if (i < 6)
+                    {
+                        addZ = 1.3f;
+                    }
+                    else
+                    {
+                        addZ = -1.3f;
+                    }
+
+                    if (i == 6)
+                    {
+                        addX -= 16f;
+                    }
+
+                    int index = UnityEngine.Random.Range(0, players.Count);
+                    players[index].transform.position = new Vector3(startPoint.x - 6f + i * (delta + deltaPlus) + addX, startPoint.y, startPoint.z + addZ);
+                    players.Remove(players[index]);
+                }
+
+
             }
         }
         else if(players.Count <= 16)
@@ -444,7 +519,7 @@ public class GameManager : MonoBehaviour
         switch(ld.GameType)
         {
             case GameTypes.Tutorial:
-                xp = 50;
+                xp = 70;
                 gold = 20;
                 break;
 
@@ -455,13 +530,13 @@ public class GameManager : MonoBehaviour
                 {
                     if (place == 1)
                     {
-                        xp = 100;
+                        xp = 80;
                         gold = 50;
                     }
                     else if (place <= 3)
                     {
-                        xp = 75;
-                        gold = 35;
+                        xp = 65;
+                        gold = 30;
                     }
                     else
                     {
@@ -471,8 +546,8 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    xp = 40;
-                    gold = 15;
+                    xp = 35;
+                    gold = 10;
                 }
                 
 
@@ -481,13 +556,13 @@ public class GameManager : MonoBehaviour
             case GameTypes.Dont_fall:
                 if (IsMainPlayerWin)
                 {
-                    xp = 75;
-                    gold = 35;
+                    xp = 70;
+                    gold = 40;
                 }
                 else
                 {
-                    xp = 50;
-                    gold = 20;
+                    xp = 35;
+                    gold = 10;
                 }
                 break;
         }

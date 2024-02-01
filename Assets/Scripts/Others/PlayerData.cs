@@ -21,6 +21,7 @@ public class PlayerData
 
     public bool AdvOff;
     public bool AllSkins;
+    public bool AllMaps;
 
     public int DR;
     public int LDR;
@@ -37,6 +38,7 @@ public class PlayerData
     public float FPS;
 
     public int[] QRT;
+    public int[] OM;
 
     public PlayerData()
     {        
@@ -71,6 +73,7 @@ public class PlayerData
 
         AdvOff = false;
         AllSkins = false;
+        AllMaps = false;
 
         LDR = 0; //last number of day when reward was
         DR = 0; //how many daily rewards
@@ -85,8 +88,8 @@ public class PlayerData
         WR = new GameSessionResult[0];
 
         FPS = 0; //fps value
-        QRT = new int[] {1,1,0,0,0,0}; //quest reward taken
-
+        QRT = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //quest reward taken
+        OM = new int[0]; //offers allready made
 
         Debug.Log("created PlayerData instance");
     }
