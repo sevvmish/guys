@@ -33,6 +33,17 @@ public class ConditionControl : MonoBehaviour
         }
     }
 
+    public void MakeWindy(float _timer)
+    {
+        if (conditions.Contains(Conditions.windy) || pc.IsDead || pc.IsRagdollActive) return;
+
+        conditions.Add(Conditions.windy);
+        StartCoroutine(playAnyState(_timer, Conditions.windy));
+        pc.StopJumpPermission(_timer);
+        pc.StopJumpPermission(_timer);
+        ec.MakeWindEffect(_timer);
+    }
+
     public bool MakeFrozen(float timer)
     {
         if (conditions.Contains(Conditions.frozen) || pc.IsDead || pc.IsRagdollActive) return false;
@@ -74,5 +85,6 @@ public enum Conditions
     enslowed,
     painted,
     stunned,
-    frozen
+    frozen,
+    windy
 }

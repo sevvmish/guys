@@ -41,6 +41,8 @@ public class EffectsControl : MonoBehaviour
     [SerializeField] private GameObject jumpEffect;
     private AudioSource jumpSound;
 
+    [SerializeField] private GameObject windEffect;
+
     [SerializeField] private ParticleSystem landEffect;
         
     private PlayerControl pc;
@@ -86,6 +88,8 @@ public class EffectsControl : MonoBehaviour
         woohooGirlSound2.SetActive(false);
 
         smallPunchSound.SetActive(false);
+
+        windEffect.SetActive(false);
 
         frozen.SetActive(false);
         skiEffect.SetActive(false);
@@ -181,6 +185,11 @@ public class EffectsControl : MonoBehaviour
     {
         MakeFunnySound();
         StartCoroutine(playEffectBreakable(duration, fastEffect));
+    }
+
+    public void MakeWindEffect(float duration)
+    {        
+        StartCoroutine(playEffectBreakable(duration, windEffect));
     }
 
     public void SetSkiEffect(bool isON)

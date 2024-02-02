@@ -23,7 +23,7 @@ public class MapUI : MonoBehaviour
 
     private LevelData levelData;
 
-    public void SetMap(LevelData data, bool isAvailable)
+    public void SetMap(LevelData data, bool isAvailable, bool isUnlockable)
     {
         newPanel.SetActive(false);
 
@@ -71,7 +71,9 @@ public class MapUI : MonoBehaviour
             lvlRestrictionText.text = levelData.LevelRestriction.ToString() + " " + Globals.Language.LevelShort;            
         }
 
-        if (!isAvailable && data.UblockGemPrice > 0)
+        unblockB.gameObject.SetActive(false);
+
+        if (!isAvailable && data.UblockGemPrice > 0 && isUnlockable)
         {
             unblockText.text = Globals.Language.Unblock;
             unblockPriceText.text = data.UblockGemPrice.ToString();

@@ -32,11 +32,11 @@ public class ProgressUI : MonoBehaviour
         {
             if (Globals.MainPlayerData.LvlA[i] == 1)
             {
-                maps[i - 1].SetMap(LevelManager.GetLevelData((LevelTypes)i), true);
+                maps[i - 1].SetMap(LevelManager.GetLevelData((LevelTypes)i), true, true);
             }
             else
             {
-                maps[i - 1].SetMap(LevelManager.GetLevelData((LevelTypes)i), false);
+                maps[i - 1].SetMap(LevelManager.GetLevelData((LevelTypes)i), false, true);
             }
         }
 
