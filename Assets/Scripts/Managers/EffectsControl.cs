@@ -218,7 +218,7 @@ public class EffectsControl : MonoBehaviour
     {        
         for (float i = 0; i < (duration-0.1f); i += 0.05f)
         {
-            float addForce = 200f;
+            float addForce = 240f;
             rb.AddForce(Vector3.up * addForce, ForceMode.Force);
             rb.AddForce(rb.transform.forward * addForce/5, ForceMode.Force);
 

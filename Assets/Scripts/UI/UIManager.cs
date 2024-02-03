@@ -343,6 +343,7 @@ public class UIManager : MonoBehaviour
         //timerText.text = "0";
         //timerText.color = Color.white;
         timerPanel.SetActive(false);
+        AmbientMusic.Instance.StopAll();
 
         RectTransform r = default;
 

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -163,7 +164,7 @@ public class CameraControl : MonoBehaviour
             zoomTimer = 0;
 
             if (currentZoom != Globals.MainPlayerData.Zoom)
-            {
+            {                
                 currentZoom = Globals.MainPlayerData.Zoom;
                 SaveLoadManager.Save();
             }
