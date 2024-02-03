@@ -77,10 +77,11 @@ public class LevelSetter : MonoBehaviour
                 {
                     levels[results[i].LT]++;
                 }
+                /*
                 else
                 {
                     levels.Add(results[i].LT, 1);
-                }
+                }*/
             }
         }
 

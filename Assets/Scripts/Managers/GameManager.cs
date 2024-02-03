@@ -530,24 +530,24 @@ public class GameManager : MonoBehaviour
                 {
                     if (place == 1)
                     {
-                        xp = 80;
-                        gold = 50;
+                        xp = 70;
+                        gold = 30;
                     }
                     else if (place <= 3)
                     {
-                        xp = 65;
-                        gold = 30;
+                        xp = 45;
+                        gold = 20;
                     }
                     else
                     {
-                        xp = 50;
-                        gold = 20;
+                        xp = 30;
+                        gold = 10;
                     }
                 }
                 else
                 {
-                    xp = 35;
-                    gold = 10;
+                    xp = 20;
+                    gold = 5;
                 }
                 
 
@@ -556,12 +556,12 @@ public class GameManager : MonoBehaviour
             case GameTypes.Dont_fall:
                 if (IsMainPlayerWin)
                 {
-                    xp = 70;
-                    gold = 40;
+                    xp = 60;
+                    gold = 20;
                 }
                 else
                 {
-                    xp = 35;
+                    xp = 30;
                     gold = 10;
                 }
                 break;
