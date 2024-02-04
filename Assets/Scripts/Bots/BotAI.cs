@@ -64,16 +64,20 @@ public class BotAI : MonoBehaviour
         {
             limitDistanceForAim = 2f;
         }
+
+        _timerForFollowUpdate = UnityEngine.Random.Range(0.1f, 0.2f);
     }
 
     private void Update()
     {
         if (!gm.IsGameStarted) return;
 
+        if (_timerForDecisionUpdate > 0) _timerForDecisionUpdate -= Time.deltaTime;
+        if (_timerForFollowUpdate > 0) _timerForFollowUpdate -= Time.deltaTime;
+
         if (!Globals.IsBotAntiStuckON)
         {
-            if (_timerForDecisionUpdate > 0) _timerForDecisionUpdate -= Time.deltaTime;
-            if (_timerForFollowUpdate > 0) _timerForFollowUpdate -= Time.deltaTime;
+            
 
             if (_timerForFollowUpdate<=0 && currentPoint != null)
             {
@@ -91,6 +95,14 @@ public class BotAI : MonoBehaviour
             {
                 _timerForDecisionUpdate = UnityEngine.Random.Range(0.3f, 1.2f);
                 decisionMaking();
+            }
+        }
+        else
+        {
+            if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level7 && _timerForFollowUpdate <= 0 && currentPoint != null)
+            {
+                _timerForFollowUpdate = 0.2f;
+                lookAtPoint(currentPoint.transform);
             }
         }
 
@@ -256,9 +268,18 @@ public class BotAI : MonoBehaviour
     }
 
     private void followPoint(BotNavPoint _point)
-    {        
-        if (playerControl.IsCanWalk) playerTransform.LookAt(new Vector3(_point.transform.position.x, playerTransform.position.y, _point.transform.position.z));
+    {
+        if (playerControl.IsCanWalk)
+        {            
+            lookAtPoint(_point.transform);
+        }
+
         if (currentAction == null) currentAction = runToPoint;
+    }
+
+    private void lookAtPoint(Transform _point)
+    {   
+        playerTransform.LookAt(new Vector3(_point.position.x, playerTransform.position.y, _point.position.z));        
     }
 
     private IEnumerator littleTurn(Vector3 way)

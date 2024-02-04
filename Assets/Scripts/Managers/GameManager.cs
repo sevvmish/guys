@@ -157,12 +157,7 @@ public class GameManager : MonoBehaviour
                     {
                         playerAmount = 11;
                     }
-                }
-
-                if (levelManager.GetCurrentLevelType() == LevelTypes.level6)
-                {
-                    playerAmount = 11;
-                }
+                }                                
             }
             else
             {
@@ -173,6 +168,14 @@ public class GameManager : MonoBehaviour
                     playerAmount = 11;
                 }
             }
+
+            if (levelManager.GetCurrentLevelType() == LevelTypes.level6)
+            {
+
+                playerAmount = 11;
+            }
+
+            //playerAmount = 1;
 
             PlayersAmount = playerAmount + 1;
 

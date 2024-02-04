@@ -703,12 +703,19 @@ public class PlayerControl : MonoBehaviour
                 float dif = Globals.MAX_HIT_IMPULSE_MAGNITUDE / i;
                 impulse *= dif;
                 additionalForce = 1f;
-            }
+            }/*
             else if (i < Globals.MIN_HIT_IMPULSE_MAGNITUDE)
             {
                 //return;
+            }*/
+            else if (i < Globals.MIN_HIT_IMPULSE_MAGNITUDE)
+            {
+                if (i < 1) i = 1;
+                float dif = Globals.MIN_HIT_IMPULSE_MAGNITUDE / i;
+                impulse *= dif;
             }
-                        
+
+            if (IsItMainPlayer) print("impilse: " + impulse.magnitude);
             ApplyTrapForce(impulse, collision.GetContact(0).point, punchType, additionalForce);
         }
 
