@@ -38,9 +38,13 @@ public class MapUI : MonoBehaviour
         {
             starColor = Color.green;
         }
-        else if (levelData.Difficulty <= 4)
+        else if (levelData.Difficulty <= 3)
         {
             starColor = Color.yellow;
+        }
+        else if (levelData.Difficulty <= 4)
+        {
+            starColor = new Color(1, 0.5f, 0, 1);
         }
         else
         {
