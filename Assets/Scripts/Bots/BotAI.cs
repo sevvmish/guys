@@ -102,7 +102,7 @@ public class BotAI : MonoBehaviour
             if (gm.GetLevelManager().GetCurrentLevelType() == LevelTypes.level7 && _timerForFollowUpdate <= 0 && currentPoint != null)
             {
                 _timerForFollowUpdate = 0.2f;
-                lookAtPoint(currentPoint.transform);
+                LookAtPoint();
             }
         }
 
@@ -271,14 +271,16 @@ public class BotAI : MonoBehaviour
     {
         if (playerControl.IsCanWalk)
         {            
-            lookAtPoint(_point.transform);
+            LookAtPoint();
         }
 
         if (currentAction == null) currentAction = runToPoint;
     }
 
-    private void lookAtPoint(Transform _point)
-    {   
+    public void LookAtPoint()
+    {
+        if (currentPoint == null) return;
+        Transform _point = currentPoint.transform;
         playerTransform.LookAt(new Vector3(_point.position.x, playerTransform.position.y, _point.position.z));        
     }
 

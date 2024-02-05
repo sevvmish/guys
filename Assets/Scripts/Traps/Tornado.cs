@@ -41,6 +41,11 @@ public class Tornado : MonoBehaviour
             yield return ZeroOne;
         }
 
+        if (pc.TryGetComponent(out BotAI bai))
+        {
+            bai.LookAtPoint();
+        }
+
         yield return new WaitForSeconds(Delay);
         players.Remove(pc);
     }
