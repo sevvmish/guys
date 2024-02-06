@@ -75,13 +75,13 @@ public class GameManager : MonoBehaviour
         if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
                 
         //TODEL
-        //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.Zoom = 0;
-        //Globals.IsInitiated = true;
-        //Globals.IsMobile = false;
-        //Globals.IsSoundOn = true;
-        //Globals.IsMusicOn = true;
-        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.Zoom = 0;
+        Globals.IsInitiated = true;
+        Globals.IsMobile = false;
+        Globals.IsSoundOn = true;
+        Globals.IsMusicOn = true;
+        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
         //additional systems
         GameType = LevelManager.GetLevelData(levelManager.GetCurrentLevelType()).GameType;
@@ -104,6 +104,10 @@ public class GameManager : MonoBehaviour
 
                 case LevelTypes.level6:
                     GameSecondsLeft = 45;
+                    break;
+
+                case LevelTypes.level8:
+                    GameSecondsLeft = 120;
                     break;
 
                 default:
@@ -169,7 +173,7 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (levelManager.GetCurrentLevelType() == LevelTypes.level6)
+            if (levelManager.GetCurrentLevelType() == LevelTypes.level6 || levelManager.GetCurrentLevelType() == LevelTypes.level8)
             {
 
                 playerAmount = 11;

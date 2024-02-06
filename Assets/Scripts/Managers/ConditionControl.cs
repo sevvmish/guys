@@ -33,13 +33,28 @@ public class ConditionControl : MonoBehaviour
         }
     }
 
+    public void LaserDeath()
+    {
+        if (conditions.Contains(Conditions.laserDeath) || pc.IsDead) return;
+        conditions.Add(Conditions.laserDeath);
+        pc.StopJumpPermission(10);
+        pc.StopWalkPermission(10);
+        pc.StopActPermission(10);
+
+        Rigidbody rb = pc.GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        rb.velocity = Vector3.zero;
+
+        ec.MakeLaserDeath();
+    }
+
     public void MakeWindy(float _timer)
     {
         if (conditions.Contains(Conditions.windy) || pc.IsDead || pc.IsRagdollActive) return;
 
         conditions.Add(Conditions.windy);
         StartCoroutine(playAnyState(_timer, Conditions.windy));
-        pc.StopJumpPermission(_timer);
         pc.StopJumpPermission(_timer);
         ec.MakeWindEffect(_timer);
     }
@@ -86,5 +101,6 @@ public enum Conditions
     painted,
     stunned,
     frozen,
-    windy
+    windy,
+    laserDeath
 }

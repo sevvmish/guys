@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MapUI : MonoBehaviour
@@ -20,6 +22,10 @@ public class MapUI : MonoBehaviour
     [SerializeField] private Button unblockB;
     [SerializeField] private TextMeshProUGUI unblockText;
     [SerializeField] private TextMeshProUGUI unblockPriceText;
+    [SerializeField] private Button playB;
+    [SerializeField] private TextMeshProUGUI playBText;
+    [SerializeField] private Sprite grey;
+    [SerializeField] private Sprite green;
 
     private LevelData levelData;
 
@@ -83,11 +89,20 @@ public class MapUI : MonoBehaviour
             unblockPriceText.text = data.UblockGemPrice.ToString();
             unblockB.gameObject.SetActive(true);
 
+            if (Globals.MainPlayerData.D < data.UblockGemPrice)
+            {
+                unblockB.GetComponent<Image>().sprite = grey;
+            }
+            else
+            {
+                unblockB.GetComponent<Image>().sprite = green;
+            }
+
             unblockB.onClick.AddListener(() => 
             {
                 if (Globals.MainPlayerData.D < data.UblockGemPrice)
                 {
-                    SoundUI.Instance.PlayUISound(SoundsUI.error);
+                    SoundUI.Instance.PlayUISound(SoundsUI.error);                    
                     return;
                 }
 
@@ -100,11 +115,34 @@ public class MapUI : MonoBehaviour
                 unblockB.gameObject.SetActive(false);
             });
         }
+
+        playB.gameObject.SetActive(false);
+
+        if (isUnlockable && isAvailable)
+        {
+            playB.gameObject.SetActive(true);
+            playBText.text = Globals.Language.Play;
+
+            playB.onClick.AddListener(() =>
+            {
+                SoundUI.Instance.PlayUISound(SoundsUI.positive);
+                playB.interactable = false;
+                StartCoroutine(playStartLevel(levelData.LevelInInspector));
+            });            
+        }
+    }
+
+    private IEnumerator playStartLevel(string level)
+    {
+        ScreenSaver.Instance.HideScreen();
+        yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
+
+        SceneManager.LoadScene(level);
     }
 
     public void ShowNewMark()
     {
         newPanel.SetActive(true);
-        newText.text = Globals.Language.New;
+        newText.text = Globals.Language.New;        
     }
 }

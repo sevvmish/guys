@@ -45,7 +45,7 @@ public class AbilityManager : MonoBehaviour
 
     public void ActivateAbility()
     {
-        if (CurrentAbility == AbilityTypes.none) return;
+        if (CurrentAbility == AbilityTypes.none || !currentPlayerControl.IsCanAct || currentPlayerControl.IsRagdollActive) return;
 
         switch (CurrentAbility)
         {

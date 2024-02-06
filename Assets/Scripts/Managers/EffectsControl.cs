@@ -55,6 +55,10 @@ public class EffectsControl : MonoBehaviour
     [SerializeField] private Material[] skiMat;
     private bool isSkiEffects;
 
+    private GameObject[] playerMeshG;
+    [SerializeField] private Material laserDeathMaterial;
+    [SerializeField] private GameObject laserDeathEffect;
+
     private WaitForSeconds ZeroOne = new WaitForSeconds(0.1f);
 
     // Start is called before the first frame update
@@ -94,6 +98,8 @@ public class EffectsControl : MonoBehaviour
         frozen.SetActive(false);
         skiEffect.SetActive(false);
         fastEffect.SetActive(false);
+
+        laserDeathEffect.SetActive(false);
     }
 
     private void Update()
@@ -129,6 +135,8 @@ public class EffectsControl : MonoBehaviour
         ski[1].GetComponent<MeshRenderer>().material = skiM;
 
         StartCoroutine(playAfterInit());
+
+        
     }
     private IEnumerator playAfterInit()
     {
@@ -138,12 +146,40 @@ public class EffectsControl : MonoBehaviour
         {
             SetSkiEffect(true);
         }
+
+        MaleSkinsManager m = _animator.gameObject.GetComponent<MaleSkinsManager>();
+        playerMeshG = m.GetSkin(pc.CurrentSkin);
     }
 
     public void SetShadow(PlayerControl player)
     {
         shadow.AddComponent<ShadowPoint>();
         shadow.GetComponent<ShadowPoint>().SetData(player);
+    }
+
+    public void MakeLaserDeath()
+    {
+        StartCoroutine(playLaserDeath());
+    }
+    private IEnumerator playLaserDeath()
+    {
+        StartCoroutine(playEffect(1, laserDeathEffect));
+
+        for (int i = 0; i < playerMeshG.Length; i++)
+        {
+            if (playerMeshG[i].TryGetComponent(out MeshRenderer mr))
+            {
+                mr.material = laserDeathMaterial;
+            }
+            else if (playerMeshG[i].TryGetComponent(out SkinnedMeshRenderer smr))
+            {
+                smr.material = laserDeathMaterial;
+            }
+        }
+
+        yield return new WaitForSeconds(0.75f);
+
+        pc.gameObject.transform.DOScale(new Vector3(0,0,0), 0.25f).SetEase(Ease.OutSine);
     }
 
     public void ShowShadow(bool isActive)

@@ -201,6 +201,23 @@ public class PlayerControl : MonoBehaviour
         IsCanWalk = true;
     }
 
+    public void StopActPermission(float seconds)
+    {
+        StartCoroutine(actPermission(seconds));
+    }
+    private IEnumerator actPermission(float seconds)
+    {
+        IsCanAct = false;
+
+        for (float i = 0; i < seconds; i += 0.1f)
+        {
+            yield return ZeroOne;
+            if (IsDead) break;
+        }
+
+        IsCanAct = true;
+    }
+
     public void ChangeSpeed(float multiplier, float seconds)
     {        
         StartCoroutine(changeSpeed(multiplier, seconds));
@@ -715,7 +732,7 @@ public class PlayerControl : MonoBehaviour
                 impulse *= dif;
             }
 
-            if (IsItMainPlayer) print("impilse: " + impulse.magnitude);
+            
             ApplyTrapForce(impulse, collision.GetContact(0).point, punchType, additionalForce);
         }
 

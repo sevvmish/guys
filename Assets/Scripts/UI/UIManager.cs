@@ -81,6 +81,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite accelerationSprite;
     [SerializeField] private Sprite rocketPackSprite;
 
+
+    [Header("track record")]
+    [SerializeField] private GameObject trackRecordPanel;
+    [SerializeField] private GameObject percentPanel;
+    [SerializeField] private TextMeshProUGUI trackRecordText;
+    [SerializeField] private TextMeshProUGUI recordDataText;
+    [SerializeField] private TextMeshProUGUI recordPercentText;
+
+
     [Header("ADV")]
     [SerializeField] private Interstitial interstitial;
     private string whatLevelToLoadAfterAdv;
@@ -109,6 +118,12 @@ public class UIManager : MonoBehaviour
         endGameWin.SetActive(false);
         endGameLose.SetActive(false);
         rewardPanel.SetActive(false);
+        trackRecordPanel.SetActive(false);
+        percentPanel.SetActive(false);
+
+        continueButton.gameObject.SetActive(false);
+        repeatButton.gameObject.SetActive(false);
+        mainMenuButton.gameObject.SetActive(false);
 
         levelData = LevelManager.GetLevelData(gm.GetLevelManager().GetCurrentLevelType());
 
@@ -389,8 +404,8 @@ public class UIManager : MonoBehaviour
         //save results
         if (levelData.GameType == GameTypes.Tutorial)
         {
-            repeatButton.gameObject.SetActive(false);
-            mainMenuButton.gameObject.SetActive(false);
+            //repeatButton.gameObject.SetActive(false);
+            //mainMenuButton.gameObject.SetActive(false);
             Globals.MainPlayerData.TutL = true;
         }
         else
@@ -412,13 +427,58 @@ public class UIManager : MonoBehaviour
 
         SaveLoadManager.Save();
 
-        StartCoroutine(playLastAim(r));
+        StartCoroutine(playLastAim(r, isWin));
     }
-    private IEnumerator playLastAim(RectTransform t)
+    private IEnumerator playLastAim(RectTransform t, bool isWin)
     {
         t.anchoredPosition3D = new Vector3 (0, 0, 0);
         t.DOPunchScale(new Vector3(50,50,50), 0.3f, 30).SetEase(Ease.OutSine);
-        yield return new WaitForSeconds(3);
+
+        yield return new WaitForSeconds(1);
+
+        if (levelData.GameType == GameTypes.Finish_line && isWin)
+        {
+            trackRecordPanel.SetActive(true);
+            trackRecordPanel.transform.localScale = Vector3.zero;
+            trackRecordPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutSine);
+
+            int prevResult = Globals.MainPlayerData.TR[(int)levelData.LevelType];
+            int currResult = Mathf.RoundToInt(gm.GameSecondsPlayed);
+
+            if (prevResult == 0 || currResult < prevResult)
+            {
+                trackRecordText.text = Globals.Language.TrackNewRecord + ":";
+                Globals.MainPlayerData.TR[(int)levelData.LevelType] = currResult;
+            }
+            else
+            {
+                trackRecordText.text = Globals.Language.TrackRecord + ":";
+            }
+                        
+            recordDataText.text = currResult.ToString() + " " + Globals.Language.Sec;
+            
+
+            if (prevResult > 0)
+            {
+                percentPanel.SetActive(true);
+                float percent = (float)currResult / (float)prevResult * 100;
+                
+                if (percent < 100)
+                {
+                    percent -= 100;
+                    recordPercentText.color = Color.green;
+                    recordPercentText.text = "+" + Mathf.Abs(percent).ToString("f0") + "%";
+                }
+                else
+                {
+                    percent -= 100;
+                    recordPercentText.color = Color.red;
+                    recordPercentText.text = "-" + Mathf.Abs(percent).ToString("f0") + "%";
+                }                
+            }
+        }
+
+        yield return new WaitForSeconds(2);
         t.DOAnchorPos3D(new Vector3(0, 340, 0), 0.5f).SetEase(Ease.OutSine);
         yield return new WaitForSeconds(0.3f);
 
@@ -449,16 +509,8 @@ public class UIManager : MonoBehaviour
         gm.AssessReward(out xpReward, out goldReward);
 
         if (xpReward > 0)
-        {
-            
-            Globals.AddXP(xpReward);
-            /*
-            GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, xpReward);
-
-            if (isLvl)
-            {
-                GetRewardSystem.Instance.ShowEffect(RewardTypes.newLvl, MainMenu.GetCurrentLevel());
-            }*/
+        {            
+            Globals.AddXP(xpReward);            
         }
 
         if (goldReward > 0)
@@ -480,6 +532,17 @@ public class UIManager : MonoBehaviour
         
 
         SaveLoadManager.Save();
+
+        if (levelData.GameType == GameTypes.Tutorial)
+        {
+            continueButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            continueButton.gameObject.SetActive(true);
+            repeatButton.gameObject.SetActive(true);
+            mainMenuButton.gameObject.SetActive(true);
+        }
     }
 
     public void ShowTimerData(float _time)
@@ -510,6 +573,7 @@ public class UIManager : MonoBehaviour
         if (newTime <= 5)
         {
             timerText.color = Color.red;
+            SoundUI.Instance.PlayUISound(SoundsUI.tick);
         }
         else if (newTime <= 10)
         {

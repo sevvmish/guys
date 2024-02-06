@@ -40,6 +40,8 @@ public class PlayerData
     public int[] QRT;
     public int[] OM;
 
+    public int[] TR;
+
     public PlayerData()
     {        
         L = ""; //prefered language
@@ -83,6 +85,7 @@ public class PlayerData
 
         TutL = false; //tutorial level done
         LvlA = new int[] {1,1,0,0,0,0,0,0 }; //what levels are available
+        TR = new int[8]; //track records by each level
 
         LDA = 0; //last number of day for analytics
         WR = new GameSessionResult[0];

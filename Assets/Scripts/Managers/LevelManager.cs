@@ -124,6 +124,9 @@ public class LevelManager : MonoBehaviour
 
             case LevelTypes.level7:
                 return new LevelData(Globals.Language.Level7Name, "", GameTypes.Finish_line, LevelTypes.level7, Globals.Language.Aim_Finish, "level7", 4, Resources.Load<Sprite>("Sprites/map7"), 6, 5);
+
+            case LevelTypes.level8:
+                return new LevelData(Globals.Language.Level8Name, "", GameTypes.Dont_fall, LevelTypes.level8, Globals.Language.Aim_Laser, "level8", 3, Resources.Load<Sprite>("Sprites/map7"), 7, 5);
         }
 
         return result;
@@ -139,7 +142,8 @@ public enum LevelTypes
     level4,
     level5,
     level6,
-    level7
+    level7,
+    level8
 }
 
 

@@ -50,6 +50,7 @@ public class Translation : ScriptableObject
     public string Aim_Tutorial;
     public string Aim_Finish;
     public string Aim_DontFall;
+    public string Aim_Laser;
     public string WinText;
     public string LoseText;
     public string TutorialDone;
@@ -61,6 +62,7 @@ public class Translation : ScriptableObject
     public string Level5Name;
     public string Level6Name;
     public string Level7Name;
+    public string Level8Name;
 
     public string Take;
     public string DailyRewards;
@@ -133,6 +135,10 @@ public class Translation : ScriptableObject
 
     public string AllMapsTitle;
     public string AllMapsMainDescription;
+
+    public string TrackRecord;
+    public string TrackNewRecord;
+    public string Sec;
 
     public Translation() { }
 }

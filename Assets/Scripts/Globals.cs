@@ -33,7 +33,7 @@ public class Globals : MonoBehaviour
     public static bool IsShowArrowNotificatorOnPlay;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = false;
+    public static bool IsDevelopmentBuild = true;
     public static bool IsOptions;
 
     public const float BASE_SPEED = 7f;
@@ -74,7 +74,7 @@ public class Globals : MonoBehaviour
 
     public const float PLAYERS_COLLIDE_FORCE = 7f;
 
-    public const float OFFER_UPDATE = 6f;
+    public const float OFFER_UPDATE = 4f;
 
     //abilities
     public const float ABILITY_DURATION = 10f;

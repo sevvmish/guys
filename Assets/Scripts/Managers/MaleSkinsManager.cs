@@ -184,6 +184,115 @@ public class MaleSkinsManager : MonoBehaviour
         }
     }
 
+    public GameObject[] GetSkin(Skins skin)
+    {
+        
+        switch (skin)
+        {
+            case Skins.civilian_male_1:
+                return civilian1;
+                
+
+            case Skins.civilian_male_2:
+                return civilian2;
+
+            case Skins.civilian_male_3:
+                return civilian3;
+
+            case Skins.civilian_male_4:
+                return civilian4;
+
+            case Skins.civilian_male_5:
+                return civilian5;
+
+            case Skins.civilian_male_6:
+                return civilian6;
+
+            case Skins.civilian_male_gold_0:
+                return civilianForGold0;
+
+            case Skins.civilian_male_gold_1:
+                return civilianForGold1;
+
+            case Skins.civilian_male_gold_2:
+                return civilianForGold2;
+
+            case Skins.civilian_male_gold_3:
+                return civilianForGold3;
+
+            case Skins.civilian_male_gold_4:
+                return civilianForGold4;
+
+            case Skins.civilian_male_gold_5:
+                return civilianForGold5;
+
+            case Skins.civilian_male_gem_1:
+                return civilianForGem1;
+
+            case Skins.civilian_male_gem_2:
+                return civilianForGem2;
+
+            case Skins.civilian_male_gem_3:
+                return civilianForGem3;
+
+            case Skins.civilian_male_gem_4:
+                return civilianForGem4;
+
+            case Skins.civilian_male_gem_5:
+                return civilianForGem5;
+
+
+
+
+            case Skins.civilian_female_1:
+                return female1;
+
+            case Skins.civilian_female_2:
+                return female2;
+
+            case Skins.civilian_female_3:
+                return female3;
+
+            case Skins.civilian_female_4:
+                return female4;
+
+            case Skins.civilian_female_5:
+                return female5;
+
+            case Skins.civilian_female_gold_1:
+                return femaleGold1;
+
+            case Skins.civilian_female_gold_2:
+                return femaleGold2;
+
+            case Skins.civilian_female_gold_3:
+                return femaleGold3;
+
+            case Skins.civilian_female_gold_4:
+                return femaleGold4;
+
+            case Skins.civilian_female_gold_5:
+                return femaleGold5;
+
+            case Skins.civilian_female_gem_1:
+                return femaleGem1;
+
+            case Skins.civilian_female_gem_2:
+                return femaleGem2;
+
+            case Skins.civilian_female_gem_3:
+                return femaleGem3;
+
+            case Skins.civilian_female_gem_4:
+                return femaleGem4;
+
+            case Skins.civilian_female_gem_5:
+                return femaleGem5;
+        }
+
+        return new GameObject[0];
+    }
+
     private void makeActiveModel(GameObject[] obj)
     {
         for (int i = 0; i < obj.Length; i++)

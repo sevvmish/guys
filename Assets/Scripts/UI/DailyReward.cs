@@ -136,37 +136,37 @@ public class DailyReward : MonoBehaviour
         switch(day)
         {
             case 0:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 20);
-
-            case 1:
                 return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 30);
 
+            case 1:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 50);
+
             case 2:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 50);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 100);
 
             case 3:
                 return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 1);
 
             case 4:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 50);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 80);
 
             case 5:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 60);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 100);
 
             case 6:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 100);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 200);
 
             case 7:
                 return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 3);
 
             case 8:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 80);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 130);
 
             case 9:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 100);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 150);
 
             case 10:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 150);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 500);
 
             case 11:
                 return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 5);
