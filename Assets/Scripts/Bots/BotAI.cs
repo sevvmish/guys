@@ -330,6 +330,64 @@ public class BotAI : MonoBehaviour
         _timerForChecking = 0.05f;
     }
 
+    public void MakeJump(Vector3 dir)
+    {              
+        IsCanRun = false;
+        StartCoroutine(playJump(dir));
+    }
+    private IEnumerator playJump(Vector3 dir)
+    {
+        WaitForSeconds ZeroFive = new WaitForSeconds(0.05f);
+
+        playerControl.transform.LookAt(dir);        
+        playerControl.SetJump();
+        playerControl.SetForward(true);
+
+        for (float i = 0; i < 0.8f; i+=0.05f)
+        {
+            playerControl.transform.LookAt(dir);
+            yield return ZeroFive;
+        }
+
+        
+        IsCanRun = true;
+        currentAction = runToPoint;
+    }
+
+
+    public void MakeDoubleJump(Vector3 dir)
+    {
+        IsCanRun = false;
+        StartCoroutine(playDoubleJump(dir));
+    }
+    private IEnumerator playDoubleJump(Vector3 dir)
+    {
+        WaitForSeconds ZeroFive = new WaitForSeconds(0.05f);
+        playerControl.transform.LookAt(dir);
+        yield return new WaitForSeconds(Time.deltaTime);
+
+        playerControl.SetJump();
+        playerControl.SetForward(true);
+        for (float i = 0; i < 0.2f; i += 0.05f)
+        {
+            playerControl.transform.LookAt(dir);
+            yield return ZeroFive;
+        }
+
+        while (playerControl.GetRigidbody.velocity.y > 0.3f)
+        {
+            playerControl.transform.LookAt(dir);
+            yield return ZeroFive;
+        }
+        yield return ZeroOne;
+
+        playerControl.SetJump();
+        playerControl.SetForward(true);
+        IsCanRun = true;
+        currentAction = runToPoint;
+    }
+
+
     private void doubleJumpForward()
     {      
         if (!IsCanDoubleJump)

@@ -874,6 +874,7 @@ public class PlayerControl : MonoBehaviour
                 IsDead = true;
                 _rigidbody.velocity = Vector3.zero;
                 _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                _rigidbody.useGravity = false;
                 gm.AddPlayerFinished(this);
             }
             else

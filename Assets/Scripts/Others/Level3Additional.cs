@@ -30,7 +30,7 @@ public class Level3Additional : MonoBehaviour
         AddRow(line2);
         AddRow(line3);
         AddRow(line4);
-        AddRow(line5);
+        //AddRow(line5);
     }
 
     private void AddRow(Transform line)

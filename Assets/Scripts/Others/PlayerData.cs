@@ -84,8 +84,8 @@ public class PlayerData
         XPN = false; //XP notofocator when new level received
 
         TutL = false; //tutorial level done
-        LvlA = new int[] {1,1,0,0,0,0,0,0 }; //what levels are available
-        TR = new int[8]; //track records by each level
+        LvlA = new int[] {1,1,0,0,0,0,0,0,0 }; //what levels are available
+        TR = new int[9]; //track records by each level
 
         LDA = 0; //last number of day for analytics
         WR = new GameSessionResult[0];

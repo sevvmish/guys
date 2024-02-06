@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
         if (GameType == GameTypes.Dont_fall)
         {
             Globals.IsBotAntiStuckON = false;
+            print("antistuck OFF");
         }
 
         
@@ -107,7 +108,7 @@ public class GameManager : MonoBehaviour
                     break;
 
                 case LevelTypes.level8:
-                    GameSecondsLeft = 120;
+                    GameSecondsLeft = 60;
                     break;
 
                 default:
@@ -173,10 +174,16 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (levelManager.GetCurrentLevelType() == LevelTypes.level6 || levelManager.GetCurrentLevelType() == LevelTypes.level8)
+            if (levelManager.GetCurrentLevelType() == LevelTypes.level6)
             {
 
                 playerAmount = 11;
+            }
+
+            if (levelManager.GetCurrentLevelType() == LevelTypes.level8)
+            {
+
+                playerAmount = 15;
             }
 
             //playerAmount = 1;

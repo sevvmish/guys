@@ -5,11 +5,17 @@ using UnityEngine;
 public class Death : MonoBehaviour
 {
     [SerializeField] private bool isLaser = false;
+    private WaitForSeconds ZeroFive = new WaitForSeconds(0.05f);
+    private GameManager gm;
 
+    private void Start()
+    {
+        gm = GameManager.Instance;
+    }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && other.TryGetComponent(out RespawnControl r))
+        if (gm.IsGameStarted && other.CompareTag("Player") && other.TryGetComponent(out RespawnControl r))
         {
             if (isLaser)
             {
@@ -21,7 +27,7 @@ public class Death : MonoBehaviour
                 r.Die();
             }
         }
-        else if (other.TryGetComponent(out RagdollPartCollisionChecker rag))
+        else if (gm.IsGameStarted && other.TryGetComponent(out RagdollPartCollisionChecker rag))
         {            
             if (isLaser)
             {
@@ -37,7 +43,13 @@ public class Death : MonoBehaviour
 
     private IEnumerator play(RespawnControl r)
     {
-        yield return new WaitForSeconds(1);
+        
+        for (float i = 0; i < 1; i+=0.05f)
+        {
+            if (!gm.IsGameStarted) yield break;
+            yield return ZeroFive;
+        }
+        
 
         r.Die();
     }

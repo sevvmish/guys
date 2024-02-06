@@ -64,6 +64,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button level5B;
     [SerializeField] private Button level6B;
     [SerializeField] private Button level7B;
+    [SerializeField] private Button level8B;
+    [SerializeField] private Button level9B;
 
     public Action OnBackToMainMenu;
     public GameObject MainPlayerSkin;
@@ -143,6 +145,8 @@ public class MainMenu : MonoBehaviour
         level5B.gameObject.SetActive(true);
         level6B.gameObject.SetActive(true);
         level7B.gameObject.SetActive(true);
+        level8B.gameObject.SetActive(true);
+        level9B.gameObject.SetActive(true);
 
         level1B.onClick.AddListener(() => { SceneManager.LoadScene("level1"); });
         level2B.onClick.AddListener(() => { SceneManager.LoadScene("level2"); });
@@ -151,6 +155,8 @@ public class MainMenu : MonoBehaviour
         level5B.onClick.AddListener(() => { SceneManager.LoadScene("level5"); });
         level6B.onClick.AddListener(() => { SceneManager.LoadScene("level6"); });
         level7B.onClick.AddListener(() => { SceneManager.LoadScene("level7"); });
+        level8B.onClick.AddListener(() => { SceneManager.LoadScene("level8"); });
+        level9B.onClick.AddListener(() => { SceneManager.LoadScene("level9"); });
 
         playB.onClick.AddListener(() =>
         {
