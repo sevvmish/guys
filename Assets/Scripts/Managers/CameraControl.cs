@@ -13,6 +13,7 @@ public class CameraControl : MonoBehaviour
     private Transform mainCamera;
     private Transform mainCamTransformForRaycast;
     private Transform outerCamera;
+    private Vector3 outerCameraShiftVector = Vector3.zero;
 
     private float currentZoom;
     private float zoomTimer;
@@ -56,14 +57,17 @@ public class CameraControl : MonoBehaviour
             case LevelTypes.level5:
                 xLimitDown += 29;
                 outerCamera.eulerAngles += new Vector3(10, 0, 0);
+                outerCameraShiftVector = new Vector3(10, 0, 0);
                 break;
 
             case LevelTypes.level3:                
                 outerCamera.eulerAngles += new Vector3(15, 0, 0);
+                outerCameraShiftVector = new Vector3(15, 0, 0);
                 break;
 
             case LevelTypes.level6:
                 outerCamera.eulerAngles += new Vector3(15, 0, 0);
+                outerCameraShiftVector = new Vector3(15, 0, 0);
                 break;
         }
 
@@ -125,6 +129,12 @@ public class CameraControl : MonoBehaviour
         mainCamera.position += mainCamera.forward * koeff;
     }
 
+    public void RotateCameraOnVector(Vector3 vec, float _time)
+    {
+        outerCamera.DORotate(outerCamera.eulerAngles + vec, _time).SetEase(Ease.Linear);
+        //outerCameraShiftVector += vec;
+    }
+
     public void ResetCameraOnRespawn()
     {
         outerCamera.eulerAngles = Vector3.zero;
@@ -132,7 +142,7 @@ public class CameraControl : MonoBehaviour
 
     public void ResetCameraOnRespawn(Vector3 vec)
     {
-        outerCamera.eulerAngles = new Vector3(outerCamera.localEulerAngles.x, vec.y, 0);
+        outerCamera.eulerAngles = new Vector3(/*outerCamera.localEulerAngles.x + */outerCameraShiftVector.x, vec.y, 0);
     }
 
     public void ChangeCameraAngleY(float angleY)
