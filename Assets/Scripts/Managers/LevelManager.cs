@@ -126,13 +126,13 @@ public class LevelManager : MonoBehaviour
                 return new LevelData(Globals.Language.Level7Name, "", GameTypes.Finish_line, LevelTypes.level7, Globals.Language.Aim_Finish, "level7", 4, Resources.Load<Sprite>("Sprites/map7"), 6, 5);
 
             case LevelTypes.level8:
-                return new LevelData(Globals.Language.Level8Name, "", GameTypes.Dont_fall, LevelTypes.level8, Globals.Language.Aim_Laser, "level8", 3, Resources.Load<Sprite>("Sprites/map8"), 7, 5);
+                return new LevelData(Globals.Language.Level8Name, "", GameTypes.Dont_fall, LevelTypes.level8, Globals.Language.Aim_Laser, "level8", 3, Resources.Load<Sprite>("Sprites/map8"), 6, 5);
 
             case LevelTypes.level9:
-                return new LevelData(Globals.Language.Level3Name, "", GameTypes.Finish_line, LevelTypes.level9, Globals.Language.Aim_Finish, "level9", 3, Resources.Load<Sprite>("Sprites/map9"), 8, 5);
+                return new LevelData(Globals.Language.Level3Name, "", GameTypes.Finish_line, LevelTypes.level9, Globals.Language.Aim_Finish, "level9", 3, Resources.Load<Sprite>("Sprites/map9"), 7, 5);
 
             case LevelTypes.level10:
-                return new LevelData(Globals.Language.Level3Name, "", GameTypes.Finish_line, LevelTypes.level10, Globals.Language.Aim_Finish, "level10", 2, Resources.Load<Sprite>("Sprites/map9"), 9, 5);
+                return new LevelData(Globals.Language.Level10Name, "", GameTypes.Finish_line, LevelTypes.level10, Globals.Language.Aim_Finish, "level10", 2, Resources.Load<Sprite>("Sprites/map10"), 8, 5);
         }
 
         return result;

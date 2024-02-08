@@ -66,6 +66,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button level7B;
     [SerializeField] private Button level8B;
     [SerializeField] private Button level9B;
+    [SerializeField] private Button level10B;
 
     public Action OnBackToMainMenu;
     public GameObject MainPlayerSkin;
@@ -147,6 +148,7 @@ public class MainMenu : MonoBehaviour
         level7B.gameObject.SetActive(true);
         level8B.gameObject.SetActive(true);
         level9B.gameObject.SetActive(true);
+        level10B.gameObject.SetActive(true);
 
         level1B.onClick.AddListener(() => { SceneManager.LoadScene("level1"); });
         level2B.onClick.AddListener(() => { SceneManager.LoadScene("level2"); });
@@ -157,6 +159,7 @@ public class MainMenu : MonoBehaviour
         level7B.onClick.AddListener(() => { SceneManager.LoadScene("level7"); });
         level8B.onClick.AddListener(() => { SceneManager.LoadScene("level8"); });
         level9B.onClick.AddListener(() => { SceneManager.LoadScene("level9"); });
+        level10B.onClick.AddListener(() => { SceneManager.LoadScene("level10"); });
 
         playB.onClick.AddListener(() =>
         {
@@ -452,7 +455,7 @@ public class MainMenu : MonoBehaviour
             {
                 Globals.TimeWhenStartedPlaying = DateTime.Now;
                 Globals.TimeWhenLastInterstitialWas = DateTime.Now;
-                Globals.TimeWhenLastRewardedWas = DateTime.Now;
+                Globals.TimeWhenLastRewardedWas = DateTime.Now.Subtract(new TimeSpan(1,0,0));
             }
 
             Localize();

@@ -34,11 +34,7 @@ public class OffersManager : MonoBehaviour
         if (!dailyOffer.activeSelf && (DateTime.Now - Globals.TimeWhenStartedPlaying).TotalMinutes > Globals.OFFER_UPDATE)
         {
             ShowOffer();
-        }
-        else
-        {
-            print("NO offer - " + dailyOffer.activeSelf + " - " + (DateTime.Now - Globals.TimeWhenStartedPlaying).TotalMinutes);
-        }
+        }        
     }
 
     private void ShowOffer()

@@ -64,6 +64,7 @@ public class Translation : ScriptableObject
     public string Level7Name;
     public string Level8Name;
     public string Level9Name;
+    public string Level10Name;
 
     public string Take;
     public string DailyRewards;
@@ -140,6 +141,10 @@ public class Translation : ScriptableObject
     public string TrackRecord;
     public string TrackNewRecord;
     public string Sec;
+
+    public string RewardForAdvGoldDescription;
+    public string RewardForAdvXPDescription;
+    public string RewardedADVError;
 
     public Translation() { }
 }

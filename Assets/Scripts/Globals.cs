@@ -17,7 +17,7 @@ public class Globals : MonoBehaviour
     public static DateTime TimeWhenStartedPlaying;
     public static DateTime TimeWhenLastInterstitialWas;
     public static DateTime TimeWhenLastRewardedWas;
-    public const float REWARDED_COOLDOWN = 70;
+    public const float REWARDED_COOLDOWN = 120;
     public const float INTERSTITIAL_COOLDOWN = 70;
 
     public static GameTypes CurrentGameType;
@@ -33,7 +33,7 @@ public class Globals : MonoBehaviour
     public static bool IsShowArrowNotificatorOnPlay;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = true;
+    public static bool IsDevelopmentBuild = false;
     public static bool IsOptions;
 
     public const float BASE_SPEED = 7f;

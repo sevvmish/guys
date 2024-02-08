@@ -10,6 +10,7 @@ public class ShopOffers : MonoBehaviour
     [SerializeField] private GameObject starter;
     [SerializeField] private GameObject getAll;
     [SerializeField] private GameObject allMaps;
+    [SerializeField] private GameObject somethingForAdv;
     [SerializeField] private Transform shopLocation;
 
     private bool isReady;
@@ -22,7 +23,15 @@ public class ShopOffers : MonoBehaviour
         {
             isReady = true;
 
-            GameObject g1 = Instantiate(starter, shopLocation);
+            GameObject g1 = Instantiate(somethingForAdv, shopLocation);
+            g1.SetActive(true);
+            g1.GetComponent<SomethingForAdv>().SetData(RewardForAdv.Gold);
+
+            g1 = Instantiate(somethingForAdv, shopLocation);
+            g1.SetActive(true);
+            g1.GetComponent<SomethingForAdv>().SetData(RewardForAdv.XP);
+
+            g1 = Instantiate(starter, shopLocation);
             g1.SetActive(true);
 
             if (!Globals.MainPlayerData.AllMaps)
