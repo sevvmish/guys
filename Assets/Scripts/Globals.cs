@@ -33,7 +33,7 @@ public class Globals : MonoBehaviour
     public static bool IsShowArrowNotificatorOnPlay;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = false;
+    public static bool IsDevelopmentBuild = true;
     public static bool IsOptions;
 
     public const float BASE_SPEED = 7f;

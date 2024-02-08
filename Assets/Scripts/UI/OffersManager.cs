@@ -24,21 +24,26 @@ public class OffersManager : MonoBehaviour
 
             StartCoroutine(check());            
         }
+
     }
 
     private IEnumerator check()
     {
         yield return new WaitForSeconds(1.5f);
 
-        if (!dailyOffer.activeSelf && (DateTime.Now - Globals.TimeWhenStartedPlaying).Minutes > Globals.OFFER_UPDATE)
+        if (!dailyOffer.activeSelf && (DateTime.Now - Globals.TimeWhenStartedPlaying).TotalMinutes > Globals.OFFER_UPDATE)
         {
             ShowOffer();
+        }
+        else
+        {
+            print("NO offer - " + dailyOffer.activeSelf + " - " + (DateTime.Now - Globals.TimeWhenStartedPlaying).TotalMinutes);
         }
     }
 
     private void ShowOffer()
     {
-        
+        print("offer show started");
         List<int> numbers = new List<int>();
         Globals.TimeWhenStartedPlaying = DateTime.Now;
 
@@ -93,13 +98,13 @@ public class OffersManager : MonoBehaviour
             case 4: //get all
                 g = Instantiate(getAll, location);
                 g.SetActive(true);
-                g.GetComponent<StarterPackPurchase>().TurnOnCloseButton();
+                g.GetComponent<GetAllPurchase>().TurnOnCloseButton();
                 break;
 
             case 5: //all maps
                 g = Instantiate(allMaps, location);
                 g.SetActive(true);
-                g.GetComponent<StarterPackPurchase>().TurnOnCloseButton();
+                g.GetComponent<AllMapsPurchase>().TurnOnCloseButton();
                 break;
         }
     }

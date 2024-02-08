@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YG;
+using static UnityEngine.LightProbeProxyVolume;
 
 public class MakePurchase : MonoBehaviour
 {
@@ -54,6 +55,7 @@ public class MakePurchase : MonoBehaviour
         switch(id)
         {
             case "no_adv":
+                
                 Globals.MainPlayerData.AdvOff = true;
                 SaveLoadManager.Save();
                 Globals.IsDontShowIntro = true;
@@ -100,6 +102,8 @@ public class MakePurchase : MonoBehaviour
                 break;
 
             case "get_all":
+
+
                 for (int i = 0; i < Globals.MainPlayerData.LvlA.Length; i++)
                 {
                     Globals.MainPlayerData.LvlA[i] = 1;
@@ -124,6 +128,8 @@ public class MakePurchase : MonoBehaviour
                 SceneManager.LoadScene("MainMenu");
                 break;
         }
+
+        YandexMetrica.Send(id);
     }
 
     private void FailedPurchased(string id)
