@@ -63,7 +63,14 @@ public class InputControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!gm.IsGameStarted && Input.GetMouseButtonDown(0))
+        {
+            Globals.IsGlobalTouch = true;
+        }
+
         if (!gm.IsGameStarted || Globals.IsOptions) return;
+
+        
 
         if (Globals.IsMobile)
         {

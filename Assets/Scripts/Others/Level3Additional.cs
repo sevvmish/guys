@@ -26,10 +26,10 @@ public class Level3Additional : MonoBehaviour
     void Start()
     {
         cellExample.SetActive(false);
-        AddRow(line1);
-        AddRow(line2);
-        AddRow(line3);
-        AddRow(line4);
+        //AddRow(line1);
+        //AddRow(line2);
+        //AddRow(line3);
+        //AddRow(line4);
         //AddRow(line5);
     }
 

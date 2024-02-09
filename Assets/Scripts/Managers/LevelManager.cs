@@ -17,7 +17,7 @@ public class LevelManager : MonoBehaviour
     private Transform cameraBody;
     private GameManager gm;
     private bool isLevelStarted;
-
+    private WaitForSeconds ZeroOne = new WaitForSeconds(0.1f);
     public Transform GetStartPoint => startPoint;
     public LevelTypes GetCurrentLevelType() { return levelType; }
 
@@ -43,6 +43,7 @@ public class LevelManager : MonoBehaviour
     private IEnumerator playPreview()
     {
         ScreenSaver.Instance.ShowScreen();
+        Globals.IsGlobalTouch = false;
 
         if (Globals.IsDevelopmentBuild)
         {
@@ -58,18 +59,50 @@ public class LevelManager : MonoBehaviour
         cameraBody.eulerAngles = previewTransform[0].eulerAngles;
         yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT);
         AmbientMusic.Instance.PlayAmbient(AmbientMelodies.level_intro);
-        yield return new WaitForSeconds(previewTime[0]);
+
+        for (float i = 0; i < previewTime[0]; i+=0.1f)
+        {
+            //yield return new WaitForSeconds(previewTime[0]);
+            if (Globals.IsGlobalTouch)
+            {
+                break;
+            }
+            yield return ZeroOne;
+        }
+        
+        
 
         for (int i = 1; i < previewTransform.Length; i++)
         {
             cameraBody.DOMove(previewTransform[i].position, previewTime[i]).SetEase(Ease.Linear);
             cameraBody.DORotate(previewTransform[i].eulerAngles, previewTime[i]).SetEase(Ease.Linear);
-            yield return new WaitForSeconds(previewTime[i]);
+            //yield return new WaitForSeconds(previewTime[i]);
+
+            for (float ii = 0; ii < previewTime[i]; ii += 0.1f)
+            {
+                
+                if (Globals.IsGlobalTouch)
+                {
+                    cameraBody.DOKill();
+                    break;
+                }
+                yield return ZeroOne;
+            }
         }
 
-        cameraBody.DOLocalMove(Globals.BasePosition, 1f).SetEase(Ease.Linear);
-        cameraBody.DOLocalRotate(Globals.BaseRotation, 1f).SetEase(Ease.Linear);
-        cameraBody.parent.DOMove(gm.GetMainPlayerTransform().position, 1f).SetEase(Ease.Linear);
+        if (!Globals.IsGlobalTouch)
+        {
+            cameraBody.DOLocalMove(Globals.BasePosition, 1f).SetEase(Ease.Linear);
+            cameraBody.DOLocalRotate(Globals.BaseRotation, 1f).SetEase(Ease.Linear);
+            cameraBody.parent.DOMove(gm.GetMainPlayerTransform().position, 1f).SetEase(Ease.Linear);
+        }
+        else
+        {
+            cameraBody.DOLocalMove(Globals.BasePosition, 0).SetEase(Ease.Linear);
+            cameraBody.DOLocalRotate(Globals.BaseRotation, 0).SetEase(Ease.Linear);
+            cameraBody.parent.DOMove(gm.GetMainPlayerTransform().position, 0).SetEase(Ease.Linear);
+        }
+        
 
         if (levelType == LevelTypes.tutorial)
         {
@@ -80,7 +113,16 @@ public class LevelManager : MonoBehaviour
             countDown.StartCountDown();
         }
 
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
+        for (float i = 0; i < 1; i += 0.1f)
+        {
+            //yield return new WaitForSeconds(previewTime[0]);
+            if (Globals.IsGlobalTouch)
+            {
+                break;
+            }
+            yield return ZeroOne;
+        }
 
         for (float i = 0; i < 10; i+=0.1f)
         {
@@ -91,7 +133,7 @@ public class LevelManager : MonoBehaviour
                 break;
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return ZeroOne;
         }
     }
 
