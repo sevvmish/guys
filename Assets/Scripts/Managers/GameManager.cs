@@ -75,13 +75,13 @@ public class GameManager : MonoBehaviour
         if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
                 
         //TODEL
-        //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.Zoom = 0;
-        //Globals.IsInitiated = true;
-        //Globals.IsMobile = false;
-        //Globals.IsSoundOn = true;
-        //Globals.IsMusicOn = true;
-        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.Zoom = 0;
+        Globals.IsInitiated = true;
+        Globals.IsMobile = false;
+        Globals.IsSoundOn = true;
+        Globals.IsMusicOn = true;
+        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
         //additional systems
         GameType = LevelManager.GetLevelData(levelManager.GetCurrentLevelType()).GameType;
@@ -94,8 +94,7 @@ public class GameManager : MonoBehaviour
 
         
 
-
-        if (GameType == GameTypes.Dont_fall)
+        if (GameType == GameTypes.Dont_fall || GameType == GameTypes.Challenge)
         {
             switch(levelManager.GetCurrentLevelType())
             {
@@ -109,6 +108,10 @@ public class GameManager : MonoBehaviour
 
                 case LevelTypes.level8:
                     GameSecondsLeft = 60;
+                    break;
+
+                case LevelTypes.level11:
+                    GameSecondsLeft = 300;
                     break;
 
                 default:
@@ -196,14 +199,14 @@ public class GameManager : MonoBehaviour
 
             PlayersAmount = playerAmount + 1;
 
-            if (Globals.IsMobile)
+            if (GameType == GameTypes.Challenge)
             {
-                ArrangePlayers(playerAmount);
+                //
             }
             else
             {
                 ArrangePlayers(playerAmount);
-            }
+            }                        
         }
         else
         {
@@ -655,6 +658,20 @@ public class GameManager : MonoBehaviour
                     {
                         IsMainPlayerWin = true;
                     }
+                }
+
+                EndTheGame(IsMainPlayerWin);
+
+                break;
+
+            case GameTypes.Challenge:
+                if (GameSecondsLeft <= 0)
+                {
+                    IsMainPlayerWin = false;
+                }
+                else
+                {
+                    IsMainPlayerWin = true;
                 }
 
                 EndTheGame(IsMainPlayerWin);

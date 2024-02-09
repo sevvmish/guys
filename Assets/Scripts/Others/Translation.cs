@@ -50,6 +50,7 @@ public class Translation : ScriptableObject
     public string Aim_Tutorial;
     public string Aim_Finish;
     public string Aim_DontFall;
+    public string Aim_Challenge;
     public string Aim_Laser;
     public string WinText;
     public string LoseText;
@@ -65,6 +66,7 @@ public class Translation : ScriptableObject
     public string Level8Name;
     public string Level9Name;
     public string Level10Name;
+    public string Level11Name;
 
     public string Take;
     public string DailyRewards;
