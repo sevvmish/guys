@@ -99,11 +99,11 @@ public class GameManager : MonoBehaviour
             switch(levelManager.GetCurrentLevelType())
             {
                 case LevelTypes.level3:
-                    GameSecondsLeft = 30;
+                    GameSecondsLeft = 45;
                     break;
 
                 case LevelTypes.level6:
-                    GameSecondsLeft = 45;
+                    GameSecondsLeft = 30;
                     break;
 
                 case LevelTypes.level8:
@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (levelManager.GetCurrentLevelType() == LevelTypes.level6)
+            if (levelManager.GetCurrentLevelType() == LevelTypes.level3)
             {
 
                 playerAmount = 11;
@@ -578,6 +578,19 @@ public class GameManager : MonoBehaviour
                 {
                     xp = 60;
                     gold = 20;
+                }
+                else
+                {
+                    xp = 30;
+                    gold = 10;
+                }
+                break;
+
+            case GameTypes.Challenge:
+                if (IsMainPlayerWin)
+                {
+                    xp = 70;
+                    gold = 30;
                 }
                 else
                 {

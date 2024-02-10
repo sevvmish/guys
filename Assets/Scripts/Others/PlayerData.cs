@@ -61,13 +61,13 @@ public class PlayerData
         switch(randomSkinSex)
         {
             case 0:
-                int skin = UnityEngine.Random.Range(2, 6);
+                int skin = UnityEngine.Random.Range(2, 5);
                 Skins[skin] = 1;
                 CS = skin;
                 break;
 
             case 1:
-                skin = UnityEngine.Random.Range(25, 29);
+                skin = UnityEngine.Random.Range(25, 27);
                 Skins[skin] = 1;
                 CS = skin;
                 break;
@@ -84,8 +84,8 @@ public class PlayerData
         XPN = false; //XP notofocator when new level received
 
         TutL = false; //tutorial level done
-        LvlA = new int[] {1,1,0,0,0,0,0,0,0,0, 0 }; //what levels are available
-        TR = new int[11]; //track records by each level
+        LvlA = new int[] {1,1,0,0,0,0,0,0,0,0, 0, 0 }; //what levels are available
+        TR = new int[12]; //track records by each level
 
         LDA = 0; //last number of day for analytics
         WR = new GameSessionResult[0];

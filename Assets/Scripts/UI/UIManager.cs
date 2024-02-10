@@ -417,7 +417,7 @@ public class UIManager : MonoBehaviour
                 int place = gm.GetFinishPlace(gm.MainPlayerControl);
                 Globals.MainPlayerData.WR = Globals.MainPlayerData.WR.Append(new GameSessionResult(levelData.LevelType, levelData.GameType, place)).ToArray();
             }
-            else if (levelData.GameType == GameTypes.Dont_fall)
+            else if (levelData.GameType == GameTypes.Dont_fall || levelData.GameType == GameTypes.Challenge)
             {
                 int place = isWin ? 1 : 0;
                 Globals.MainPlayerData.WR = Globals.MainPlayerData.WR.Append(new GameSessionResult(levelData.LevelType, levelData.GameType, place)).ToArray();
@@ -436,7 +436,7 @@ public class UIManager : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
-        if (levelData.GameType == GameTypes.Finish_line && isWin)
+        if ((levelData.GameType == GameTypes.Finish_line || levelData.GameType == GameTypes.Challenge) && isWin)
         {
             trackRecordPanel.SetActive(true);
             trackRecordPanel.transform.localScale = Vector3.zero;
@@ -460,17 +460,19 @@ public class UIManager : MonoBehaviour
 
             if (prevResult > 0)
             {
-                percentPanel.SetActive(true);
+                
                 float percent = (float)currResult / (float)prevResult * 100;
                 
                 if (percent < 100)
                 {
+                    percentPanel.SetActive(true);
                     percent -= 100;
                     recordPercentText.color = Color.green;
                     recordPercentText.text = "+" + Mathf.Abs(percent).ToString("f0") + "%";
                 }
-                else
+                else if(percent > 100)
                 {
+                    percentPanel.SetActive(true);
                     percent -= 100;
                     recordPercentText.color = Color.red;
                     recordPercentText.text = "-" + Mathf.Abs(percent).ToString("f0") + "%";

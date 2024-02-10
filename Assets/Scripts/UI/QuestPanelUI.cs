@@ -302,25 +302,25 @@ public class QuestPanelUI : MonoBehaviour
                 return new Quest(id, 1, Globals.Language.Quest2Name, Globals.Language.Quest2Descr, 0,1,0);
 
             case 3:
-                return new Quest(id, 1, Globals.Language.Quest3Name, Globals.Language.Quest3Descr, 150, 0, 100);
+                return new Quest(id, 1, Globals.Language.Quest3Name, Globals.Language.Quest3Descr, 80, 0, 100);
 
             case 4:
-                return new Quest(id, 1, Globals.Language.Quest4Name, Globals.Language.Quest4Descr, 150, 0, 100);
+                return new Quest(id, 1, Globals.Language.Quest4Name, Globals.Language.Quest4Descr, 80, 0, 100);
 
             case 5:
-                return new Quest(id, 1, Globals.Language.Quest5Name, Globals.Language.Quest5Descr, 150, 0, 100);
+                return new Quest(id, 1, Globals.Language.Quest5Name, Globals.Language.Quest5Descr, 80, 0, 100);
 
             case 6:
-                return new Quest(id, 1, Globals.Language.Quest6Name, Globals.Language.Quest6Descr, 150, 0, 100);
+                return new Quest(id, 1, Globals.Language.Quest6Name, Globals.Language.Quest6Descr, 80, 0, 100);
 
             case 7:
-                return new Quest(id, 1, Globals.Language.Quest7Name, Globals.Language.Quest7Descr, 100, 0, 80);
+                return new Quest(id, 1, Globals.Language.Quest7Name, Globals.Language.Quest7Descr, 50, 0, 70);
 
             case 8:
-                return new Quest(id, 1, Globals.Language.Quest8Name, Globals.Language.Quest8Descr, 100, 0, 80);
+                return new Quest(id, 1, Globals.Language.Quest8Name, Globals.Language.Quest8Descr, 50, 0, 70);
 
             case 9:
-                return new Quest(id, 1, Globals.Language.Quest9Name, Globals.Language.Quest9Descr, 100, 0, 80);
+                return new Quest(id, 1, Globals.Language.Quest9Name, Globals.Language.Quest9Descr, 50, 0, 70);
         }
 
 
