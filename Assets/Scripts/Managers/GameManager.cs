@@ -111,7 +111,11 @@ public class GameManager : MonoBehaviour
                     break;
 
                 case LevelTypes.level11:
-                    GameSecondsLeft = 300;
+                    GameSecondsLeft = 150;
+                    break;
+
+                case LevelTypes.level12:
+                    GameSecondsLeft = 180;
                     break;
 
                 default:
@@ -201,7 +205,7 @@ public class GameManager : MonoBehaviour
 
             if (GameType == GameTypes.Challenge)
             {
-                //
+                mainPlayer.position = levelManager.GetStartPoint.position;
             }
             else
             {

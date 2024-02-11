@@ -30,6 +30,26 @@ public class Localization
                 translation = Resources.Load<Translation>("languages/russian");
                 break;
 
+            case "be":
+
+                translation = Resources.Load<Translation>("languages/russian");
+                break;
+
+            case "uk":
+
+                translation = Resources.Load<Translation>("languages/russian");
+                break;
+
+            case "kk":
+
+                translation = Resources.Load<Translation>("languages/russian");
+                break;
+
+            case "uz":
+
+                translation = Resources.Load<Translation>("languages/russian");
+                break;
+
             case "en":
                 
                 translation = Resources.Load<Translation>("languages/english");
@@ -37,7 +57,7 @@ public class Localization
 
             default:
                 
-                translation = Resources.Load<Translation>("languages/russian");
+                translation = Resources.Load<Translation>("languages/english");
                 break;
         }
     }
