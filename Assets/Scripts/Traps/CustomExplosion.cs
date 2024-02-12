@@ -13,6 +13,7 @@ public class CustomExplosion : MonoBehaviour, Explosives
 
     private void OnEnable()
     {
+        players.Clear();
         isActive = true;
         VFX.SetActive(true);
         StartCoroutine(playExplosion());

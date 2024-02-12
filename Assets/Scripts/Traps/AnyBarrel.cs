@@ -37,6 +37,14 @@ public class AnyBarrel : MonoBehaviour
         {
             StartCoroutine(playParashute());
         }
+
+        IsBlown = false;
+        explosive.SetActive(false);
+        barrel.SetActive(true);
+        vfx.SetActive(false);
+
+        explosive.transform.localPosition = Vector3.zero;
+        explosive.transform.localEulerAngles = Vector3.zero;
     }
 
     private void OnDisable()

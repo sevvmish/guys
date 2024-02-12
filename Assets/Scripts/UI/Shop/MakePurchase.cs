@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YG;
-using static UnityEngine.LightProbeProxyVolume;
 
 public class MakePurchase : MonoBehaviour
 {
@@ -40,7 +39,28 @@ public class MakePurchase : MonoBehaviour
 
             errorText.text = Globals.Language.PurchaseError;
             errorButtonText.text = Globals.Language.Close;
+
+            if (Globals.IsAllRestarter)
+            {
+                Globals.IsAllRestarter = false;
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.all_skins, 0);
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.all_maps, 0);
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
+            }
         }
+
+        /*
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            StartCoroutine(advRestarter());
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Globals.IsDontShowIntro = true;
+            Globals.IsAllRestarter = true;
+            SceneManager.LoadScene("MainMenu");
+        }*/
     }
 
     public void Buy(string id)
@@ -61,7 +81,7 @@ public class MakePurchase : MonoBehaviour
                 //Globals.IsDontShowIntro = true;
                 //SceneManager.LoadScene("MainMenu");
 
-                GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
+                StartCoroutine(advRestarter());
 
                 break;
 
@@ -132,16 +152,34 @@ public class MakePurchase : MonoBehaviour
                 }
                 Globals.MainPlayerData.AllSkins = true;
                 SaveLoadManager.Save();
-                //Globals.IsDontShowIntro = true;
-                //SceneManager.LoadScene("MainMenu");
+                Globals.IsDontShowIntro = true;
+                Globals.IsAllRestarter = true;
+                SceneManager.LoadScene("MainMenu");
 
-                GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
-                GetRewardSystem.Instance.ShowEffect(RewardTypes.all_skins, 0);
-                GetRewardSystem.Instance.ShowEffect(RewardTypes.all_maps, 0);
+                //StartCoroutine(allRestarter());
+                
                 break;
         }
 
         YandexMetrica.Send(id);
+    }
+
+    private IEnumerator advRestarter()
+    {
+        GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
+        yield return new WaitForSeconds(1f);
+        Globals.IsDontShowIntro = true;
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    private IEnumerator allRestarter()
+    {        
+        GetRewardSystem.Instance.ShowEffect(RewardTypes.all_skins, 0);
+        GetRewardSystem.Instance.ShowEffect(RewardTypes.all_maps, 0);
+        GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
+        yield return new WaitForSeconds(5f);
+        Globals.IsDontShowIntro = true;
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void FailedPurchased(string id)
