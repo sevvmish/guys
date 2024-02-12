@@ -103,7 +103,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         gm = GameManager.Instance;
-
+        Globals.IsLevelChangeStarted = false;
         //jumpStandartPlace = jump.GetComponent<RectTransform>().anchoredPosition;
         circleForAbilityTimer = abilityButtonPanel.transform.GetChild(0).GetComponent<Image>();
         jump.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
@@ -167,6 +167,8 @@ public class UIManager : MonoBehaviour
         {            
             SoundUI.Instance.PlayUISound(SoundsUI.positive);
             continueButton.interactable = false;
+            repeatButton.interactable = false;
+            mainMenuButton.interactable = false;
 
             if (levelData.GameType == GameTypes.Tutorial)
             {
@@ -181,13 +183,17 @@ public class UIManager : MonoBehaviour
         repeatButton.onClick.AddListener(() =>
         {
             SoundUI.Instance.PlayUISound(SoundsUI.positive);
+            continueButton.interactable = false;
             repeatButton.interactable = false;
+            mainMenuButton.interactable = false;
             StartCoroutine(playStartLevel(levelData.LevelInInspector));
         });
 
         mainMenuButton.onClick.AddListener(() =>
         {
             SoundUI.Instance.PlayUISound(SoundsUI.positive);
+            continueButton.interactable = false;
+            repeatButton.interactable = false;
             mainMenuButton.interactable = false;
             StartCoroutine(playStartLevel("MainMenu"));
         });
@@ -211,7 +217,9 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator playStartLevel(string level)
     {
+        Globals.IsLevelChangeStarted = true;
         ScreenSaver.Instance.HideScreen();
+        AmbientMusic.Instance.StopAll();
         yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
 
         //print("seconds: " + (DateTime.Now - Globals.TimeWhenLastInterstitialWas).TotalSeconds);
@@ -232,7 +240,7 @@ public class UIManager : MonoBehaviour
     private void playInterstitial(string level)
     {
         print("in playInterstitial");
-        AmbientMusic.Instance.StopAll();
+        
         whatLevelToLoadAfterAdv = level;
         interstitial.OnEnded = continueAfterInterstitial;
         interstitial.ShowInterstitialVideo();

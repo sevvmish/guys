@@ -14,10 +14,14 @@ public class GetRewardSystem : MonoBehaviour
     [SerializeField] private RectTransform xpRect;
     [SerializeField] private RectTransform newLvlRect;
     [SerializeField] private RectTransform newMapRect;
+    [SerializeField] private RectTransform allMapRect;
+    [SerializeField] private RectTransform allSkinsRect;
+    [SerializeField] private RectTransform noADVRect;
 
     private List<ShowRewardEffect> effects = new List<ShowRewardEffect>();
     private bool isActive;
     private bool isReady;
+    private bool isStop;
 
     private void Awake()
     {
@@ -29,10 +33,13 @@ public class GetRewardSystem : MonoBehaviour
         {
             Instance = this;
         }
+
+        Globals.IsLevelChangeStarted = false;
     }
 
     public void ShowEffect(RewardTypes _type, int amount)
     {
+        if (isStop) return;
         effects.Add(new ShowRewardEffect(_type, amount));
     }
 
@@ -46,11 +53,21 @@ public class GetRewardSystem : MonoBehaviour
             xpRect.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = Globals.Language.XP;
             newLvlRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.NewLVL;
             newMapRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.NewMap;
+            allMapRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.AllMapsRewardSign;
+            allSkinsRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.AllSkinsRewardSign;
+            noADVRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.NoADVRewardSign;
         }
 
         if (effects.Count > 0 && !isActive)
         {
             StartCoroutine(playEffects());
+        }
+
+        if (Globals.IsLevelChangeStarted && !isStop)
+        {
+            isStop = true;
+            effects.Clear();
+            StopAllCoroutines();
         }
     }
 
@@ -94,11 +111,33 @@ public class GetRewardSystem : MonoBehaviour
                     SoundUI.Instance.PlayUISound(SoundsUI.success2);
                     pos = new Vector3(-700, -500, 0);
                     break;
+
+                case RewardTypes.all_maps:
+                    g = Instantiate(allMapRect.gameObject, transform);
+                    SoundUI.Instance.PlayUISound(SoundsUI.success2);
+                    pos = new Vector3(-700, -500, 0);
+                    break;
+
+                case RewardTypes.all_skins:
+                    g = Instantiate(allSkinsRect.gameObject, transform);
+                    SoundUI.Instance.PlayUISound(SoundsUI.success2);
+                    pos = new Vector3(-700, 200, 0);
+                    break;
+
+                case RewardTypes.no_adv:
+                    g = Instantiate(noADVRect.gameObject, transform);
+                    SoundUI.Instance.PlayUISound(SoundsUI.success2);
+                    pos = new Vector3(300, 500, 0);
+                    break;
             }
 
             if (effects[i].RewardType == RewardTypes.newMap)
             {
                 g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = LevelManager.GetLevelData((LevelTypes)effects[i].Amount).LevelName;
+            }
+            else if (effects[i].RewardType == RewardTypes.all_maps || effects[i].RewardType == RewardTypes.all_skins || effects[i].RewardType == RewardTypes.no_adv)
+            {
+                //
             }
             else
             {
@@ -165,7 +204,10 @@ public enum RewardTypes
     gem,
     xp,
     newLvl,
-    newMap
+    newMap,
+    all_maps,
+    all_skins,
+    no_adv
 }
 
 public struct ShowRewardEffect

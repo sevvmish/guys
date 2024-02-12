@@ -17,11 +17,19 @@ public class Tramble : MonoBehaviour
     [SerializeField] private float timer = 0.3f;
     [SerializeField] private int vibrato = 30;
 
+    private float _timer;    
+    private float _startCooldown;
+
+    private float x = 0, y = 0, z = 0;
 
     // Start is called before the first frame update
-    IEnumerator Start()
+    void Start()
     {
-        float x = 0, y = 0, z = 0;
+        _startCooldown = UnityEngine.Random.Range(0, 0.75f);
+
+
+        /*
+        
         yield return new WaitForSeconds(UnityEngine.Random.Range(0, 0.75f));
 
         while (true)
@@ -56,8 +64,55 @@ public class Tramble : MonoBehaviour
             transform.DOPunchPosition(new Vector3(x, y, z), timer, vibrato).SetEase(Ease.OutQuad);
 
             yield return new WaitForSeconds(1f);
-        }        
+        }        */
     }
 
-    
+    private void Update()
+    {
+        if (_startCooldown > 0)
+        {
+            _startCooldown -= Time.deltaTime;
+            return;
+        }
+
+        if (_timer > 1)
+        {
+            _timer = 0;
+
+            if (isRandomX)
+            {
+                x = UnityEngine.Random.Range(-deltaX, deltaX);
+            }
+            else
+            {
+                x = deltaX;
+            }
+
+            if (isRandomY)
+            {
+                y = UnityEngine.Random.Range(-deltaY, deltaY);
+            }
+            else
+            {
+                y = deltaY;
+            }
+
+            if (isRandomZ)
+            {
+                z = UnityEngine.Random.Range(-deltaZ, deltaZ);
+            }
+            else
+            {
+                z = deltaZ;
+            }
+
+            transform.DOPunchPosition(new Vector3(x, y, z), timer, vibrato).SetEase(Ease.OutQuad);
+        }
+        else
+        {
+            _timer += Time.deltaTime;
+        }
+    }
+
+
 }

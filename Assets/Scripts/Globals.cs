@@ -34,8 +34,10 @@ public class Globals : MonoBehaviour
     public static bool IsShowArrowNotificatorOnPlay;
 
     public static bool IsMobile;
-    public static bool IsDevelopmentBuild = false;
+    public static bool IsDevelopmentBuild = true;
     public static bool IsOptions;
+    public static bool IsLevelChangeStarted;
+
 
     public const float BASE_SPEED = 7f;
     public const float JUMP_POWER = 40f;

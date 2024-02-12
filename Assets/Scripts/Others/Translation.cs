@@ -68,6 +68,7 @@ public class Translation : ScriptableObject
     public string Level10Name;
     public string Level11Name;
     public string Level12Name;
+    public string Level13Name;
 
     public string Take;
     public string DailyRewards;
@@ -148,6 +149,10 @@ public class Translation : ScriptableObject
     public string RewardForAdvGoldDescription;
     public string RewardForAdvXPDescription;
     public string RewardedADVError;
+
+    public string AllMapsRewardSign;
+    public string AllSkinsRewardSign;
+    public string NoADVRewardSign;
 
     public Translation() { }
 }

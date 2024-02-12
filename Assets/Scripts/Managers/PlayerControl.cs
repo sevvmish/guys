@@ -359,7 +359,7 @@ public class PlayerControl : MonoBehaviour
     {        
         isJump = false;
         if (!IsCanAct || IsRagdollActive) return;
-
+        
         if (IsGrounded && jumpCooldown <= 0 && !IsJumping && IsCanJump)
         {
             float addKoef = 1;
@@ -381,7 +381,7 @@ public class PlayerControl : MonoBehaviour
             jumpCooldown = 0.2f;
         }    
         else if (!IsSlide && !IsGrounded && IsJumping && !IsSecondJump && jumpCooldown <= 0 && IsCanJump)
-        {
+        {            
             jumpCooldown = 0.2f;
             effectsControl.MakeJumpFX();
             IsSecondJump = true;
@@ -413,7 +413,7 @@ public class PlayerControl : MonoBehaviour
 
             if (horizontal == 0 && vertical == 0 && jumpCooldown <= 0)
             {
-                if (!IsSlide) _rigidbody.velocity = Vector3.zero;
+                //if (!IsSlide) _rigidbody.velocity = Vector3.zero;
             }
         }
 

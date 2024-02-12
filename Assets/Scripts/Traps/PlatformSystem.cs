@@ -49,7 +49,7 @@ public class PlatformSystem : MonoBehaviour
         {
             if (collision.gameObject.TryGetComponent(out Rigidbody rb))
             {
-                rb.velocity = Vector3.zero;
+                //rb.velocity = Vector3.zero;
             }
 
             players.Add(collision.transform, collision.transform.parent);

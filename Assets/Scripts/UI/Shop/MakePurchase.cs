@@ -58,8 +58,11 @@ public class MakePurchase : MonoBehaviour
                 
                 Globals.MainPlayerData.AdvOff = true;
                 SaveLoadManager.Save();
-                Globals.IsDontShowIntro = true;
-                SceneManager.LoadScene("MainMenu");
+                //Globals.IsDontShowIntro = true;
+                //SceneManager.LoadScene("MainMenu");
+
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
+
                 break;
 
             case "starter":
@@ -68,8 +71,7 @@ public class MakePurchase : MonoBehaviour
                 SaveLoadManager.Save();
                 GetRewardSystem.Instance.ShowEffect(RewardTypes.gold, 500);
                 GetRewardSystem.Instance.ShowEffect(RewardTypes.gem, 5);
-                //Globals.IsDontShowIntro = true;
-                //SceneManager.LoadScene("MainMenu");
+                
                 break;
 
             case "all_maps":
@@ -81,8 +83,11 @@ public class MakePurchase : MonoBehaviour
                 Globals.MainPlayerData.AllMaps = true;
 
                 SaveLoadManager.Save();
-                Globals.IsDontShowIntro = true;
-                SceneManager.LoadScene("MainMenu");
+                //Globals.IsDontShowIntro = true;
+                //SceneManager.LoadScene("MainMenu");
+
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.all_maps, 0);
+
                 break;
 
             case "all_skins":
@@ -97,8 +102,11 @@ public class MakePurchase : MonoBehaviour
                 }
                 Globals.MainPlayerData.AllSkins = true;
                 SaveLoadManager.Save();
-                Globals.IsDontShowIntro = true;
-                SceneManager.LoadScene("MainMenu");
+                //Globals.IsDontShowIntro = true;
+                //SceneManager.LoadScene("MainMenu");
+
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.all_skins, 0);
+
                 break;
 
             case "get_all":
@@ -124,8 +132,12 @@ public class MakePurchase : MonoBehaviour
                 }
                 Globals.MainPlayerData.AllSkins = true;
                 SaveLoadManager.Save();
-                Globals.IsDontShowIntro = true;
-                SceneManager.LoadScene("MainMenu");
+                //Globals.IsDontShowIntro = true;
+                //SceneManager.LoadScene("MainMenu");
+
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.all_skins, 0);
+                GetRewardSystem.Instance.ShowEffect(RewardTypes.all_maps, 0);
                 break;
         }
 

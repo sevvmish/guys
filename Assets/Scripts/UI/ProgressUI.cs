@@ -48,7 +48,7 @@ public class ProgressUI : MonoBehaviour
                 {
                     LevelData ld = LevelManager.GetLevelData((LevelTypes)i);
 
-                    if (ld.LevelRestriction == MainMenu.GetCurrentLevel())
+                    if (ld.LevelRestriction == MainMenu.GetCurrentLevel() && !Globals.MainPlayerData.AllMaps)
                     {
                         maps[i - 1].ShowNewMark();
                     }

@@ -75,13 +75,13 @@ public class GameManager : MonoBehaviour
         if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
                 
         //TODEL
-        //Globals.MainPlayerData = new PlayerData();
-        //Globals.MainPlayerData.Zoom = 0;
-        //Globals.IsInitiated = true;
-        //Globals.IsMobile = false;
-        //Globals.IsSoundOn = true;
-        //Globals.IsMusicOn = true;
-        //Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
+        Globals.MainPlayerData = new PlayerData();
+        Globals.MainPlayerData.Zoom = 0;
+        Globals.IsInitiated = true;
+        Globals.IsMobile = false;
+        Globals.IsSoundOn = true;
+        Globals.IsMusicOn = true;
+        Globals.Language = Localization.GetInstanse(Globals.CurrentLanguage).GetCurrentTranslation();
 
         //additional systems
         GameType = LevelManager.GetLevelData(levelManager.GetCurrentLevelType()).GameType;
@@ -115,7 +115,17 @@ public class GameManager : MonoBehaviour
                     break;
 
                 case LevelTypes.level12:
-                    GameSecondsLeft = 180;
+
+                    if (Globals.IsMobile)
+                    {
+                        GameSecondsLeft = 180;
+                    }
+                    else
+                    {
+                        GameSecondsLeft = 120;
+                    }
+
+                    
                     break;
 
                 default:
