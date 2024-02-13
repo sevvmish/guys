@@ -71,6 +71,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button level12B;
     [SerializeField] private Button level13B;
 
+
+    
     public Action OnBackToMainMenu;
     public GameObject MainPlayerSkin;
     public Transform GetCameraTransform => mainCamera.transform;
@@ -113,7 +115,7 @@ public class MainMenu : MonoBehaviour
 
     private void showProgress()
     {        
-        notification.SetActive(Globals.MainPlayerData.XPN);
+        if (!Globals.MainPlayerData.AllMaps) notification.SetActive(Globals.MainPlayerData.XPN);
         int lvl = GetLevelByXP(Globals.MainPlayerData.XP);
         levelFromText.text = lvl.ToString();
         int nextLvl = lvl + 1;

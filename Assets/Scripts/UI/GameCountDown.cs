@@ -46,7 +46,7 @@ public class GameCountDown : MonoBehaviour
         }
 
         mainTexter.fontSize = 200;
-        mainTexter.text = "онеуюкх!";
+        mainTexter.text = Globals.Language.GOOOOO;//"онеуюкх!";
         sound.PlayUISound(SoundsUI.beep_out);
         _transform.localScale = Vector3.one * 0.1f;
         _transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutSine);

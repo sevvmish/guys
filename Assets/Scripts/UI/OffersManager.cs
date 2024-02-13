@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using DG.Tweening;
 
 public class OffersManager : MonoBehaviour
 {
@@ -14,6 +16,12 @@ public class OffersManager : MonoBehaviour
     [SerializeField] private Transform location;
     [SerializeField] private GameObject dailyOffer;
 
+    [Header("Tutorial")]
+    [SerializeField] private GameObject progressHint;
+    [SerializeField] private TextMeshProUGUI progressHintText;
+    [SerializeField] private GameObject questHint;
+    [SerializeField] private TextMeshProUGUI questHintText;
+
     private bool isReady;
 
     private void Update()
@@ -22,7 +30,10 @@ public class OffersManager : MonoBehaviour
         {
             isReady = true;
 
-            StartCoroutine(check());            
+            StartCoroutine(check());
+
+            progressHintText.text = Globals.Language.progressHint;
+            questHintText.text = Globals.Language.questHint;
         }
 
     }
@@ -31,10 +42,55 @@ public class OffersManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
 
-        if (!dailyOffer.activeSelf && (DateTime.Now - Globals.TimeWhenStartedPlaying).TotalMinutes > Globals.OFFER_UPDATE)
+        if (!dailyOffer.activeSelf )
         {
-            ShowOffer();
-        }        
+            if (!Globals.MainPlayerData.Tut1)
+            {
+                Globals.MainPlayerData.Tut1 = true;
+                SaveLoadManager.Save();
+                progressHint.SetActive(true);
+
+
+            }
+            else if (!Globals.MainPlayerData.Tut2)
+            {
+                Globals.MainPlayerData.Tut2 = true;
+                SaveLoadManager.Save();
+                questHint.SetActive(true);
+            }
+            else if ((DateTime.Now - Globals.TimeWhenStartedPlaying).TotalMinutes > Globals.OFFER_UPDATE)
+            {
+                ShowOffer();
+            }            
+        }     
+        else
+        {
+            if (!Globals.MainPlayerData.Tut1 || !Globals.MainPlayerData.Tut2)
+            {
+                StartCoroutine(playTutAfterDailyRew());
+            }
+        }
+    }
+    private IEnumerator playTutAfterDailyRew()
+    {
+        for (float i = 0; i < 20; i+=0.2f)
+        {
+            if (!dailyOffer.activeSelf) break;
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        if (!Globals.MainPlayerData.Tut1)
+        {
+            Globals.MainPlayerData.Tut1 = true;
+            SaveLoadManager.Save();
+            progressHint.SetActive(true);
+        }
+        else if (!Globals.MainPlayerData.Tut2)
+        {
+            Globals.MainPlayerData.Tut2 = true;
+            SaveLoadManager.Save();
+            questHint.SetActive(true);
+        }
     }
 
     private void ShowOffer()

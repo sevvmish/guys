@@ -150,11 +150,11 @@ public class LevelSetter : MonoBehaviour
     }
     private IEnumerator playShow()
     {
-        int howLong = howManyLevels > 4 ? 4 : howManyLevels;
+        int howLong = howManyLevels > 5 ? 5 : howManyLevels;
         locationRect.anchoredPosition = Vector2.zero;
         locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 2800 - /*1300*/700 * (howManyLevels-1), locationRect.anchoredPosition.y), howLong).SetEase(Ease.Linear);
 
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(howLong);
 
         GameObject map = Instantiate(mapExample, locationMain);
         map.SetActive(true);
@@ -171,7 +171,7 @@ public class LevelSetter : MonoBehaviour
         yield return new WaitForSeconds(3);
 
         map.transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InOutFlash);
-        yield return new WaitForSeconds(0.3f);
+        //yield return new WaitForSeconds(0.1f);
 
         SceneManager.LoadScene(data.LevelInInspector);
     }

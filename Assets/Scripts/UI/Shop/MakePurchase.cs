@@ -106,7 +106,8 @@ public class MakePurchase : MonoBehaviour
                 //Globals.IsDontShowIntro = true;
                 //SceneManager.LoadScene("MainMenu");
 
-                GetRewardSystem.Instance.ShowEffect(RewardTypes.all_maps, 0);
+                //GetRewardSystem.Instance.ShowEffect(RewardTypes.all_maps, 0);
+                StartCoroutine(mapsRestarter());
 
                 break;
 
@@ -125,7 +126,8 @@ public class MakePurchase : MonoBehaviour
                 //Globals.IsDontShowIntro = true;
                 //SceneManager.LoadScene("MainMenu");
 
-                GetRewardSystem.Instance.ShowEffect(RewardTypes.all_skins, 0);
+                //GetRewardSystem.Instance.ShowEffect(RewardTypes.all_skins, 0);
+                StartCoroutine(skinsRestarter());
 
                 break;
 
@@ -164,6 +166,7 @@ public class MakePurchase : MonoBehaviour
         YandexMetrica.Send(id);
     }
 
+    
     private IEnumerator advRestarter()
     {
         GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
@@ -172,15 +175,22 @@ public class MakePurchase : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    private IEnumerator allRestarter()
-    {        
+    private IEnumerator skinsRestarter()
+    {
         GetRewardSystem.Instance.ShowEffect(RewardTypes.all_skins, 0);
-        GetRewardSystem.Instance.ShowEffect(RewardTypes.all_maps, 0);
-        GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
         Globals.IsDontShowIntro = true;
         SceneManager.LoadScene("MainMenu");
     }
+
+    private IEnumerator mapsRestarter()
+    {
+        GetRewardSystem.Instance.ShowEffect(RewardTypes.all_maps, 0);
+        yield return new WaitForSeconds(1f);
+        Globals.IsDontShowIntro = true;
+        SceneManager.LoadScene("MainMenu");
+    }
+
 
     private void FailedPurchased(string id)
     {

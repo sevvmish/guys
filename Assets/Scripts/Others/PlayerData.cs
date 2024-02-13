@@ -42,6 +42,9 @@ public class PlayerData
 
     public int[] TR;
 
+    public bool Tut1;
+    public bool Tut2;
+
     public PlayerData()
     {        
         L = ""; //prefered language
@@ -93,6 +96,9 @@ public class PlayerData
         FPS = 0; //fps value
         QRT = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //quest reward taken
         OM = new int[0]; //offers allready made
+
+        Tut1 = false;
+        Tut2 = false;
 
         Debug.Log("created PlayerData instance");
     }

@@ -154,5 +154,11 @@ public class Translation : ScriptableObject
     public string AllSkinsRewardSign;
     public string NoADVRewardSign;
 
+
+    public string progressHint;
+    public string questHint;
+
+    public string GOOOOO;
+
     public Translation() { }
 }
