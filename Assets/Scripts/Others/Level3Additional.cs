@@ -6,7 +6,7 @@ using UnityEngine;
 public class Level3Additional : MonoBehaviour
 {
     [SerializeField] private GameObject cellExample;
-    [SerializeField] private GameObject turnOffOnStart;
+    //[SerializeField] private GameObject turnOffOnStart;
 
     [SerializeField] private Transform line1;
     [SerializeField] private Transform line2;
@@ -71,7 +71,7 @@ public class Level3Additional : MonoBehaviour
         if (!isStart && GameManager.Instance.IsGameStarted)
         {
             isStart = true;
-            turnOffOnStart.SetActive(false);
+            //turnOffOnStart.SetActive(false);
         }
     }
 }

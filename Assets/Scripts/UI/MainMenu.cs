@@ -143,6 +143,7 @@ public class MainMenu : MonoBehaviour
         playArrowNotificator.SetActive(false);
         questNotificator.SetActive(false);
 
+        /*
         resetB.gameObject.SetActive(true);
         level1B.gameObject.SetActive(true);
         level2B.gameObject.SetActive(true);
@@ -171,6 +172,7 @@ public class MainMenu : MonoBehaviour
         level11B.onClick.AddListener(() => { SceneManager.LoadScene("level11"); });
         level12B.onClick.AddListener(() => { SceneManager.LoadScene("level12"); });
         level13B.onClick.AddListener(() => { SceneManager.LoadScene("level13"); });
+        */
 
         playB.onClick.AddListener(() =>
         {
@@ -415,14 +417,27 @@ public class MainMenu : MonoBehaviour
             questNotificator.SetActive(false);
         }
 
-
+        /*
         if (Input.GetKeyDown(KeyCode.R))
         {
             Globals.MainPlayerData = new PlayerData();
             SaveLoadManager.Save();
 
             SceneManager.LoadScene("MainMenu");
+        }*/
+
+
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+
+            Globals.MainPlayerData = new PlayerData();
+            SaveLoadManager.Save();
+
+            SceneManager.LoadScene("MainMenu");
         }
+
+        
 
         Vector2 delta = pointer.DeltaPosition;
         if (delta.x != 0) rotateCharacters(delta);

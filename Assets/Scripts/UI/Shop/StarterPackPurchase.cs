@@ -25,14 +25,13 @@ public class StarterPackPurchase : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //close.gameObject.SetActive(false);
-        //back.SetActive(false);
-
+        
         buyButton.onClick.AddListener(() =>
         {
             SoundUI.Instance.PlayUISound(SoundsUI.click);
             StartCoroutine(playPurchase());
             purchase.Buy(PurchaseID);
+            gameObject.SetActive(false);
         });
 
         close.onClick.AddListener(() =>

@@ -37,6 +37,7 @@ public class AllSkinsPurchase : MonoBehaviour
             SoundUI.Instance.PlayUISound(SoundsUI.click);
             StartCoroutine(playPurchase());
             purchase.Buy(PurchaseID);
+            gameObject.SetActive(false);
         });
 
         close.onClick.AddListener(() =>

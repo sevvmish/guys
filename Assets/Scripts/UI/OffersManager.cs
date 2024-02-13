@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class OffersManager : MonoBehaviour
 {
@@ -36,6 +37,16 @@ public class OffersManager : MonoBehaviour
             questHintText.text = Globals.Language.questHint;
         }
 
+        /*
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GameObject g = Instantiate(starter, location);
+            g.SetActive(true);
+            g.GetComponent<StarterPackPurchase>().TurnOnCloseButton();
+        }
+        */
+        
+
     }
 
     private IEnumerator check()
@@ -49,8 +60,6 @@ public class OffersManager : MonoBehaviour
                 Globals.MainPlayerData.Tut1 = true;
                 SaveLoadManager.Save();
                 progressHint.SetActive(true);
-
-
             }
             else if (!Globals.MainPlayerData.Tut2)
             {
@@ -78,6 +87,8 @@ public class OffersManager : MonoBehaviour
             if (!dailyOffer.activeSelf) break;
             yield return new WaitForSeconds(0.2f);
         }
+
+        yield return new WaitForSeconds(1);
 
         if (!Globals.MainPlayerData.Tut1)
         {
