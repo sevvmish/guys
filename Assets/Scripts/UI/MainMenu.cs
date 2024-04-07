@@ -424,7 +424,7 @@ public class MainMenu : MonoBehaviour
             SaveLoadManager.Save();
 
             SceneManager.LoadScene("MainMenu");
-        }*/
+        }
 
 
         if (Input.GetKeyDown(KeyCode.F10))
@@ -435,7 +435,7 @@ public class MainMenu : MonoBehaviour
             SaveLoadManager.Save();
 
             SceneManager.LoadScene("MainMenu");
-        }
+        }*/
 
         
 

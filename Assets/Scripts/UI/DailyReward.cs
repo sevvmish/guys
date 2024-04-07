@@ -78,7 +78,7 @@ public class DailyReward : MonoBehaviour
                 }
             }
 
-            if (Globals.MainPlayerData.DR == 0 || Mathf.Abs(DateTime.Now.Day - Globals.MainPlayerData.LDR) > 0)
+            if (Globals.MainPlayerData.DR < 12 && (Globals.MainPlayerData.DR == 0 || Mathf.Abs(DateTime.Now.Day - Globals.MainPlayerData.LDR) > 0))
             {
                 StartCoroutine(playShow());
             }
