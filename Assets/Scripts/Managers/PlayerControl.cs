@@ -104,7 +104,17 @@ public class PlayerControl : MonoBehaviour
 
         _transform = GetComponent<Transform>();
         mainCollider = GetComponent<CapsuleCollider>();
-        PlayerMaxSpeed = Globals.BASE_SPEED;
+        
+        if (Globals.IsMobile)
+        {
+            PlayerMaxSpeed = 7.5f;
+        }
+        else
+        {
+            PlayerMaxSpeed = 8f;
+        }
+        
+        //PlayerMaxSpeed = Globals.BASE_SPEED;
         PlayerCurrentSpeed = PlayerMaxSpeed;
         IsCanAct = true;
         IsCanJump = true;

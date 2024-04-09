@@ -304,13 +304,40 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    private IEnumerator playTutorial()
+    {
+        
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (YandexGame.EnvironmentData.isTablet)
+            {
+                Globals.IsMobile = true;
+            }
+            else if (YandexGame.EnvironmentData.isMobile)
+            {
+                Globals.IsMobile = true;
+            }
+            else
+            {
+                Globals.IsMobile = false;
+            }
+
+            yield return new WaitForSeconds(0.3f);
+        }
+        
+
+
+        SceneManager.LoadScene("tutorial");
+    }
+
     private void playWhenInitialized()
     {        
         resetAnalytics();
 
         if (!Globals.MainPlayerData.TutL)
-        {            
-            SceneManager.LoadScene("tutorial");
+        {
+            StartCoroutine(playTutorial());
             return;
         }
         
@@ -417,7 +444,7 @@ public class MainMenu : MonoBehaviour
             questNotificator.SetActive(false);
         }
 
-        /*
+        
         if (Input.GetKeyDown(KeyCode.R))
         {
             Globals.MainPlayerData = new PlayerData();
@@ -425,8 +452,8 @@ public class MainMenu : MonoBehaviour
 
             SceneManager.LoadScene("MainMenu");
         }
-
-
+        
+        
         if (Input.GetKeyDown(KeyCode.F10))
         {
             SoundUI.Instance.PlayUISound(SoundsUI.positive);
@@ -435,7 +462,7 @@ public class MainMenu : MonoBehaviour
             SaveLoadManager.Save();
 
             SceneManager.LoadScene("MainMenu");
-        }*/
+        }
 
         
 
@@ -452,7 +479,19 @@ public class MainMenu : MonoBehaviour
             Globals.CurrentLanguage = YandexGame.EnvironmentData.language;
             print("language set to: " + Globals.CurrentLanguage);
 
-            Globals.IsMobile = YandexGame.EnvironmentData.isMobile;
+            
+            if (YandexGame.EnvironmentData.isTablet)
+            {
+                Globals.IsMobile = true;
+            }
+            else if (YandexGame.EnvironmentData.isMobile)
+            {
+                Globals.IsMobile = true;
+            }
+            else
+            {
+                Globals.IsMobile = false;
+            }
             print("platform mobile: " + Globals.IsMobile);
 
             if (Globals.MainPlayerData.S == 1)

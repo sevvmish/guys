@@ -33,7 +33,7 @@ public class Globals : MonoBehaviour
     public static bool IsGlobalTouch;
     public static bool IsShowArrowNotificatorOnPlay;
 
-    public static bool IsMobile;
+    public static bool IsMobile = true;
     public static bool IsDevelopmentBuild = false;
     public static bool IsOptions;
     public static bool IsLevelChangeStarted;
