@@ -74,18 +74,9 @@ public class GameManager : MonoBehaviour
 
         if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
 
-        if (YandexGame.EnvironmentData.isTablet)
-        {
-            Globals.IsMobile = true;
-        }
-        else if (YandexGame.EnvironmentData.isMobile)
-        {
-            Globals.IsMobile = true;
-        }
-        else
-        {
-            Globals.IsMobile = false;
-        }
+        Globals.IsMobile = Globals.IsMobileChecker();
+
+        
 
         //TODEL
         //Globals.MainPlayerData = new PlayerData();

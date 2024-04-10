@@ -306,28 +306,8 @@ public class MainMenu : MonoBehaviour
 
     private IEnumerator playTutorial()
     {
+        yield return new WaitForSeconds(0.1f);
         
-
-        for (int i = 0; i < 3; i++)
-        {
-            if (YandexGame.EnvironmentData.isTablet)
-            {
-                Globals.IsMobile = true;
-            }
-            else if (YandexGame.EnvironmentData.isMobile)
-            {
-                Globals.IsMobile = true;
-            }
-            else
-            {
-                Globals.IsMobile = false;
-            }
-
-            yield return new WaitForSeconds(0.3f);
-        }
-        
-
-
         SceneManager.LoadScene("tutorial");
     }
 
@@ -479,19 +459,8 @@ public class MainMenu : MonoBehaviour
             Globals.CurrentLanguage = YandexGame.EnvironmentData.language;
             print("language set to: " + Globals.CurrentLanguage);
 
-            
-            if (YandexGame.EnvironmentData.isTablet)
-            {
-                Globals.IsMobile = true;
-            }
-            else if (YandexGame.EnvironmentData.isMobile)
-            {
-                Globals.IsMobile = true;
-            }
-            else
-            {
-                Globals.IsMobile = false;
-            }
+            Globals.IsMobile = Globals.IsMobileChecker();
+                        
             print("platform mobile: " + Globals.IsMobile);
 
             if (Globals.MainPlayerData.S == 1)

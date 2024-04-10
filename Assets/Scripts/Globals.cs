@@ -93,6 +93,32 @@ public class Globals : MonoBehaviour
     public static Vector3 UIPlayerPosition = new Vector3(0.1f, -0.8f, 0);
     public static Vector3 UIPlayerRotation = new Vector3(0, 180, 0);
 
+    public static bool IsMobileChecker()
+    {
+        if (Application.isMobilePlatform)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+        /*
+        if (YandexGame.EnvironmentData.isTablet)
+        {
+            return true;
+        }
+        else if (YandexGame.EnvironmentData.isMobile)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }*/
+    }
+
     public static void AddXP(int addedXP)
     {
         //bool result = false;
