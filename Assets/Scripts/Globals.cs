@@ -80,6 +80,8 @@ public class Globals : MonoBehaviour
 
     public const float OFFER_UPDATE = 4f;
 
+    public static bool IsLowFPS;
+
     //abilities
     public const float ABILITY_DURATION = 10f;
     public const float ACCELERATION_DURATION = 4f;
@@ -103,20 +105,6 @@ public class Globals : MonoBehaviour
         {
             return false;
         }
-
-        /*
-        if (YandexGame.EnvironmentData.isTablet)
-        {
-            return true;
-        }
-        else if (YandexGame.EnvironmentData.isMobile)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }*/
     }
 
     public static void AddXP(int addedXP)

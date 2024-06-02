@@ -94,11 +94,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f7204af2a4f8b4eb4318a29339d94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state1: {fileID: 2860282867817257415}
-  state2: {fileID: 8165043395015082582}
-  state3: {fileID: 5859142112143547543}
+  material1: {fileID: 0}
+  material2: {fileID: 0}
+  material3: {fileID: 0}
+  meshRenderer: {fileID: 0}
+  _collider: {fileID: 0}
   vfx: {fileID: 7754020882232920510}
-  point: {fileID: 6938185839274951670}
 --- !u!65 &8152768721725252631
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4962,13 +4963,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 0001030405
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -5242,7 +5245,11 @@ PrefabInstance:
     - target: {fileID: 5588773341276243155, guid: 39248652c592b934db29d79b051556d1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a1e43727a3e0b9c4c8d2b6288b6a1c84, type: 2}
+      objectReference: {fileID: 2100000, guid: 7243a39cd9b0e1f4aa6be4b061a2926f, type: 2}
+    - target: {fileID: 6326531838630923741, guid: 39248652c592b934db29d79b051556d1, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 8755808951348435884, guid: f18bc07bc02208b41b536bd4d0c2c3dc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5327,11 +5334,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9100166320391437134, guid: cb57fe0bb3d956a4c95d4a4d4f7a155a, type: 3}
   m_PrefabInstance: {fileID: 4701062368953271085}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6938185839274951670 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2410802473083830491, guid: cb57fe0bb3d956a4c95d4a4d4f7a155a, type: 3}
-  m_PrefabInstance: {fileID: 4701062368953271085}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5025390606776396409
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5340,6 +5342,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2521538971250892312}
     m_Modifications:
+    - target: {fileID: 701381746110351897, guid: 747189f927b84994981818c708b3453f, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 299721204377188914, guid: be004452193f1b142ac004b1cd35558e, type: 3}
     - target: {fileID: 1051997270596776671, guid: 747189f927b84994981818c708b3453f, type: 3}
       propertyPath: m_Name
       value: Hexagon stage 2
@@ -5347,7 +5353,7 @@ PrefabInstance:
     - target: {fileID: 3310911429142695535, guid: 747189f927b84994981818c708b3453f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 87ca0de5028ec8c469fb94c1391aafd6, type: 2}
+      objectReference: {fileID: 2100000, guid: 7243a39cd9b0e1f4aa6be4b061a2926f, type: 2}
     - target: {fileID: 4846247556124522622, guid: 747189f927b84994981818c708b3453f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.24000001
@@ -5429,7 +5435,11 @@ PrefabInstance:
     - target: {fileID: 2907600216703790829, guid: 292c1f93d784dbb489d3b501a86d9cbb, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a21976e2747ff9141bf5d8596f14fa99, type: 2}
+      objectReference: {fileID: 2100000, guid: 7243a39cd9b0e1f4aa6be4b061a2926f, type: 2}
+    - target: {fileID: 4427466967848048650, guid: 292c1f93d784dbb489d3b501a86d9cbb, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 7845375266140672661, guid: 66a3ab70d7fd96541a1be09cf5be1510, type: 3}
     - target: {fileID: 8108512933979684804, guid: 292c1f93d784dbb489d3b501a86d9cbb, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.22

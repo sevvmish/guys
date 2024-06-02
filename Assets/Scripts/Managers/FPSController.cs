@@ -9,6 +9,7 @@ public class FPSController : MonoBehaviour
 
     private List<float> fps = new List<float>();
     private float _timer;
+    private float _preTimer = 2;
 
     private GameManager gm;
 
@@ -42,12 +43,33 @@ public class FPSController : MonoBehaviour
 
     private void Update()
     {
-        if (!gm.IsGameStarted) return;
+        //if (!gm.IsGameStarted) return;
+        if (_preTimer > 0)
+        {
+            _preTimer-=Time.deltaTime;
+            return;
+        }
 
-        if (_timer > 0.5f)
+        if (_timer > 0.1f)
         {
             _timer = 0;
             if (EasyFpsCounter.EasyFps != null) fps.Add(EasyFpsCounter.EasyFps.FPS);
+            if (fps.Count > 50)
+            {
+                fps.Remove(fps[0]);
+            }
+
+            if (!Globals.IsLowFPS)
+            {
+                float ave = GetAverage();
+
+                if (fps.Count > 30 && ave > 5 && ave < 50)
+                {
+                    Globals.IsLowFPS = true;
+                    QualitySettings.shadows = ShadowQuality.Disable;
+                }
+            }
+            
         }
         else
         {
