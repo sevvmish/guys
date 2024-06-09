@@ -53,6 +53,7 @@ public class EffectsControl : MonoBehaviour
     private GameObject rocketPack;
     private GameObject[] ski;
     [SerializeField] private Material[] skiMat;
+    [SerializeField] private Mesh[] skiMeshes;
     private bool isSkiEffects;
 
     private GameObject[] playerMeshG;
@@ -130,9 +131,16 @@ public class EffectsControl : MonoBehaviour
         ski = _animator.gameObject.GetComponent<SkinControl>().Ski;
         ski[0].SetActive(false);
         ski[1].SetActive(false);
+        
+        /*
         Material skiM = skiMat[UnityEngine.Random.Range(0, skiMat.Length)];
         ski[0].GetComponent<MeshRenderer>().material = skiM;
         ski[1].GetComponent<MeshRenderer>().material = skiM;
+        */
+
+        Mesh mesh = skiMeshes[UnityEngine.Random.Range(0, skiMeshes.Length)];
+        ski[0].GetComponent<MeshFilter>().mesh = mesh;
+        ski[1].GetComponent<MeshFilter>().mesh = mesh;
 
         StartCoroutine(playAfterInit());
 

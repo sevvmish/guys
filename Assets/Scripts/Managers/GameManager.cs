@@ -244,9 +244,8 @@ public class GameManager : MonoBehaviour
                 playerAmount = 15;
             }
 
-            //playerAmount = 1;
-
             PlayersAmount = playerAmount + 1;
+            
 
             if (GameType == GameTypes.Challenge)
             {
@@ -255,6 +254,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 ArrangePlayers(playerAmount);
+                
             }                        
         }
         else
