@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
 
         Globals.IsMobile = Globals.IsMobileChecker();
 
+        
         if (Globals.IsMobile)
         {
             QualitySettings.antiAliasing = 2;
@@ -96,6 +97,8 @@ public class GameManager : MonoBehaviour
             QualitySettings.shadows = ShadowQuality.All;
             QualitySettings.shadowResolution = ShadowResolution.Medium;
         }
+        
+
 
 
         //TODEL
