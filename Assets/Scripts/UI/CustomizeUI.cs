@@ -65,7 +65,7 @@ public class CustomizeUI : MonoBehaviour
         {
             PlayerSkins[i] = SkinControl.GetSkinGameobject((Skins)i);
             PlayerSkins[i].transform.parent = location;
-            PlayerSkins[i].transform.position = Globals.UIPlayerPosition + new Vector3(2.9f + 3.4f, 0.1f, 0);
+            PlayerSkins[i].transform.position = Globals.UIPlayerPosition + new Vector3(0, 0.1f, 0);
             PlayerSkins[i].transform.eulerAngles = new Vector3(0, 150, 0);
             PlayerSkins[i].transform.localScale = Vector3.one * 0.9f;
             PlayerSkins[i].SetActive(false);
@@ -75,7 +75,7 @@ public class CustomizeUI : MonoBehaviour
         {
             PlayerSkins[i] = SkinControl.GetSkinGameobject((Skins)i);
             PlayerSkins[i].transform.parent = location;
-            PlayerSkins[i].transform.position = Globals.UIPlayerPosition + new Vector3(2.9f + 3.4f, 0.1f, 0);
+            PlayerSkins[i].transform.position = Globals.UIPlayerPosition + new Vector3(0, 0.1f, 0);
             PlayerSkins[i].transform.eulerAngles = new Vector3(0, 150, 0);
             PlayerSkins[i].transform.localScale = Vector3.one * 0.9f;
             PlayerSkins[i].SetActive(false);
@@ -236,7 +236,7 @@ public class CustomizeUI : MonoBehaviour
     public void SetOn()
     {
         back.SetActive(true);
-        mainMenu.GetCameraTransform.DOMove(new Vector3(1.4f+5f, 0, -9), 0.5f).SetEase(Ease.Linear);
+        //mainMenu.GetCameraTransform.DOMove(new Vector3(1.4f+5f, 0, -9), 0.5f).SetEase(Ease.Linear);
         //mainMenu.MainPlayerSkin.transform.eulerAngles = new Vector3(0, 150, 0);
         mainMenu.MainPlayerSkin.SetActive(false);
         currentIndex = (int)boysRange.x;

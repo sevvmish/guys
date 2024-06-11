@@ -82,6 +82,8 @@ public class Globals : MonoBehaviour
 
     public static bool IsLowFPS;
 
+    public static bool IsFirstGameStarted;
+
     //abilities
     public const float ABILITY_DURATION = 10f;
     public const float ACCELERATION_DURATION = 4f;
@@ -92,7 +94,7 @@ public class Globals : MonoBehaviour
 
     public static readonly LayerMask ignoreTriggerMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll" });
 
-    public static Vector3 UIPlayerPosition = new Vector3(0.1f, -0.8f, 0);
+    public static Vector3 UIPlayerPosition = new Vector3(0, -0.8f, 0);
     public static Vector3 UIPlayerRotation = new Vector3(0, 180, 0);
 
     public static bool IsMobileChecker()

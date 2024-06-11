@@ -8,11 +8,22 @@ public class SkinControl : MonoBehaviour
     public Animator _animator;
     public GameObject RocketPack;
     public GameObject[] Ski;
+    public GameObject[] ModelMesh;
 
     public static GameObject GetSkinGameobject(Skins skin)
     {
         GameObject g = default;
 
+        if (skin == Skins.main_player_template)
+        {
+            return Instantiate(Resources.Load<GameObject>("PlayerTemplate"));
+        }
+
+        g = Instantiate(Resources.Load<GameObject>("Skins/female/char2fem2"));
+        return g;
+        //g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_male_1);
+
+        /*
         switch(skin)
         {
             case Skins.main_player_template:
@@ -187,7 +198,7 @@ public class SkinControl : MonoBehaviour
                 g = Instantiate(Resources.Load<GameObject>("Skins/female skins"));
                 g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_female_gem_5);
                 return g;
-        }
+        }*/
         return null;
     }
 }

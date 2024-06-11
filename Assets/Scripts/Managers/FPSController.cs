@@ -13,6 +13,8 @@ public class FPSController : MonoBehaviour
 
     private GameManager gm;
 
+    private bool isCleared;
+
     public float GetAverage()
     {
         float result = 0;
@@ -48,6 +50,12 @@ public class FPSController : MonoBehaviour
         {
             _preTimer-=Time.deltaTime;
             return;
+        }
+
+        if (!isCleared)
+        {
+            isCleared = true;
+            Resources.UnloadUnusedAssets();
         }
 
         if (_timer > 0.1f)

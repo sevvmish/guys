@@ -155,8 +155,9 @@ public class EffectsControl : MonoBehaviour
             SetSkiEffect(true);
         }
 
-        MaleSkinsManager m = _animator.gameObject.GetComponent<MaleSkinsManager>();
-        playerMeshG = m.GetSkin(pc.CurrentSkin);
+        //MaleSkinsManager m = _animator.gameObject.GetComponent<MaleSkinsManager>();
+        //playerMeshG = m.GetSkin(pc.CurrentSkin);
+        playerMeshG = _animator.gameObject.GetComponent<SkinControl>().ModelMesh;
     }
 
     public void SetShadow(PlayerControl player)

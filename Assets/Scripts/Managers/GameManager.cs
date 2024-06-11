@@ -193,31 +193,47 @@ public class GameManager : MonoBehaviour
 
             if (Globals.IsMobile)
             {
-                if (Globals.MainPlayerData.FPS <= 1)
+                if (!Globals.IsFirstGameStarted)
                 {
-                    playerAmount = 15;
-                }
-                else if (Globals.MainPlayerData.FPS < 40)
-                {
-                    playerAmount = 4;
-                }
-                else if (Globals.MainPlayerData.FPS < 56)
-                {
-                    playerAmount = 7;
+                    Globals.IsFirstGameStarted = true;
+                    playerAmount = 5;
                 }
                 else
                 {
-                    playerAmount = 15;
-
-                    if (levelManager.GetCurrentLevelType() == LevelTypes.level1 && Globals.MainPlayerData.WR.Length == 0)
+                    if (Globals.IsLowFPS)
                     {
-                        playerAmount = 7;
+                        playerAmount = 5;
                     }
                     else
                     {
-                        playerAmount = 11;
+                        if (Globals.MainPlayerData.FPS <= 1)
+                        {
+                            playerAmount = 15;
+                        }
+                        else if (Globals.MainPlayerData.FPS < 40)
+                        {
+                            playerAmount = 5;
+                        }
+                        else if (Globals.MainPlayerData.FPS < 56)
+                        {
+                            playerAmount = 7;
+                        }
+                        else
+                        {
+                            playerAmount = 15;
+
+                            if (levelManager.GetCurrentLevelType() == LevelTypes.level1 && Globals.MainPlayerData.WR.Length == 0)
+                            {
+                                playerAmount = 7;
+                            }
+                            else
+                            {
+                                playerAmount = 11;
+                            }
+                        }
                     }
                 }
+                                
 
                 if (levelManager.GetCurrentLevelType() == LevelTypes.level10)
                 {

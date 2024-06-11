@@ -99,9 +99,38 @@ public class MainMenu : MonoBehaviour
         4070,
         4470,
         4870,
-        10000,
-        20000,
-        30000
+        5270, //20
+        5670,
+        6170,
+        6670,
+        7170,
+        7670,
+        8270,
+        8870,
+        9470,
+        10070,
+        10770,//30
+        11470,
+        12170,
+        12870,
+        13670,
+        14470,
+        15270,
+        16070,
+        17070,
+        18070,
+        19070,//40
+        20070,
+        21270,
+        22470,
+        23670,
+        24870,
+        26270,
+        27670,
+        29070,
+        30470,
+        31870 //50
+
     };
 
     private void Awake()
@@ -109,8 +138,9 @@ public class MainMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        mainCamera.orthographicSize = 1.5f;
-        mainCamera.transform.position = new Vector3(0, 0, -9);
+        //mainCamera.orthographicSize = 1.5f;
+        
+        mainCamera.transform.position = new Vector3(0, 0, -3);
     }
 
     private void showProgress()
@@ -272,9 +302,9 @@ public class MainMenu : MonoBehaviour
         rewardsB.interactable = true;
 
         MainPlayerSkin.SetActive(true);
-        MainPlayerSkin.transform.DOMove(Globals.UIPlayerPosition, 0.3f).SetEase(Ease.Linear);
-        MainPlayerSkin.transform.DORotate(Globals.UIPlayerRotation, 0.3f).SetEase(Ease.Linear);
-        GetCameraTransform.DOMove(new Vector3(0, 0, -9), 0.3f).SetEase(Ease.Linear);
+        //MainPlayerSkin.transform.DOMove(Globals.UIPlayerPosition, 0.3f).SetEase(Ease.Linear);
+        //MainPlayerSkin.transform.DORotate(Globals.UIPlayerRotation, 0.3f).SetEase(Ease.Linear);
+        //GetCameraTransform.DOMove(new Vector3(0, 0, -9), 0.3f).SetEase(Ease.Linear);
 
         showProgress();
     }
