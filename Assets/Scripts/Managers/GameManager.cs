@@ -272,8 +272,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                ArrangePlayers(playerAmount);
-                
+                ArrangePlayers(playerAmount);                
             }                        
         }
         else
@@ -297,22 +296,30 @@ public class GameManager : MonoBehaviour
         players.Add(mainPlayer.gameObject);
 
         GameObject g = default;
+        List<int> botsSkins = new List<int>();
 
         for (int i = 0; i < botsAmount; i++)
         {
             int sex = UnityEngine.Random.Range(0, 2);
             Skins skins = Skins.civilian_male_1;
 
-            switch(sex)
+            for (int j = 0; j < 5; j++)
             {
-                case 0:
-                    skins = (Skins)UnityEngine.Random.Range(2, 18);
-                    break;
+                switch (sex)
+                {
+                    case 0:
+                        skins = (Skins)UnityEngine.Random.Range(Globals.MaleSkins.x, Globals.MaleSkins.y + 1);
+                        break;
 
-                case 1:
-                    skins = (Skins)UnityEngine.Random.Range(25, 39);
-                    break;
+                    case 1:
+                        skins = (Skins)UnityEngine.Random.Range(Globals.FemaleSkins.x, Globals.FemaleSkins.y + 1);
+                        break;
+                }
+
+                if (!botsSkins.Contains((int)skins)) break;
             }
+
+            botsSkins.Add((int)skins);
 
 
             g = AddPlayer(false, new Vector3(0, 0, 0), Vector3.zero, skins);

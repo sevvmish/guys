@@ -65,13 +65,13 @@ public class PlayerData
         switch(randomSkinSex)
         {
             case 0:
-                int skin = UnityEngine.Random.Range(2, 5);
+                int skin = 2;
                 Skins[skin] = 1;
                 CS = skin;
                 break;
 
             case 1:
-                skin = UnityEngine.Random.Range(25, 27);
+                skin = 25;
                 Skins[skin] = 1;
                 CS = skin;
                 break;

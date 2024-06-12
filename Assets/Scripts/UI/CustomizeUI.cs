@@ -35,8 +35,8 @@ public class CustomizeUI : MonoBehaviour
 
     private bool isReady;
     private GameObject[] PlayerSkins;
-    private Vector2 boysRange = new Vector2(2,18);
-    private Vector2 girlsRange = new Vector2(25, 39);
+    private Vector2 boysRange;
+    private Vector2 girlsRange;
     
     private DressTypes currentDressType;
     private int currentIndex;
@@ -57,6 +57,9 @@ public class CustomizeUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        boysRange = Globals.MaleSkins;
+        girlsRange = Globals.FemaleSkins;
+
         PlayerSkins = new GameObject[50];
         mainMenu.OnBackToMainMenu += ReturnBack;
         back.SetActive(false);
@@ -486,31 +489,36 @@ public class CustomizeUI : MonoBehaviour
                 return result.SkinCostFree();
             case 6:
                 return result.SkinCostFree();
+
+
+
             case 7:
-                return result.SkinCostFree();
+                return result.SkinCostGold(100);
 
             case 8:
-                return result.SkinCostGold(80);
+                return result.SkinCostGold(100);
             case 9:
-                return result.SkinCostGold(80);
+                return result.SkinCostGold(100);
             case 10:
-                return result.SkinCostGold(80);
+                return result.SkinCostGold(100);
             case 11:
-                return result.SkinCostGold(100);
+                return result.SkinCostGold(150);
             case 12:
-                return result.SkinCostGold(100);
+                return result.SkinCostGold(150);
             case 13:
-                return result.SkinCostGold(100);
+                return result.SkinCostGold(150);
             case 14:
-                return result.SkinCostGold(125);
+                return result.SkinCostGold(150);
             case 15:
-                return result.SkinCostGold(125);
+                return result.SkinCostGold(200);
             case 16:
-                return result.SkinCostGold(150);
+                return result.SkinCostGold(200);
             case 17:
-                return result.SkinCostGold(150);
+                return result.SkinCostGold(200);
             case 18:
-                return result.SkinCostGold(150);
+                return result.SkinCostGold(200);
+            case 19:
+                return result.SkinCostGold(250);
 
 
 
@@ -523,29 +531,39 @@ public class CustomizeUI : MonoBehaviour
                 return result.SkinCostFree();
             case 28:
                 return result.SkinCostFree();
+
+
             case 29:
-                return result.SkinCostFree();
+                return result.SkinCostGold(100);
 
             case 30:
-                return result.SkinCostGold(80);
+                return result.SkinCostGold(100);
             case 31:
-                return result.SkinCostGold(80);
+                return result.SkinCostGold(100);
             case 32:
-                return result.SkinCostGold(80);
+                return result.SkinCostGold(100);
             case 33:
-                return result.SkinCostGold(100);
+                return result.SkinCostGold(150);
             case 34:
-                return result.SkinCostGold(100);
+                return result.SkinCostGold(150);
             case 35:
-                return result.SkinCostGold(125);
+                return result.SkinCostGold(150);
             case 36:
-                return result.SkinCostGold(125);
+                return result.SkinCostGold(150);
             case 37:
-                return result.SkinCostGold(125);
+                return result.SkinCostGold(200);
             case 38:
-                return result.SkinCostGold(150);
+                return result.SkinCostGold(200);
             case 39:
-                return result.SkinCostGold(150);
+                return result.SkinCostGold(200);
+            case 40:
+                return result.SkinCostGold(200);
+            case 41:
+                return result.SkinCostGold(250);
+            case 42:
+                return result.SkinCostGold(250);
+            case 43:
+                return result.SkinCostGold(250);
         }
 
         return result;
