@@ -28,6 +28,7 @@ public class ProgressUI : MonoBehaviour
 
     private void updateMapData()
     {
+        
         for (int i = 1; i < Globals.MainPlayerData.LvlA.Length; i++)
         {
             if (Globals.MainPlayerData.LvlA[i] == 1)
@@ -81,11 +82,38 @@ public class ProgressUI : MonoBehaviour
         updateMapData();
     }
 
+    private IEnumerator playNewLVLs()
+    {
+        yield return new WaitForSeconds(1);
+
+        int newLevel = MainMenu.GetLevelByXP(Globals.MainPlayerData.XP);
+        bool isChanged = false;
+        for (int i = 1; i < Globals.MainPlayerData.LvlA.Length; i++)
+        {
+            if (Globals.MainPlayerData.LvlA[i] == 0)
+            {
+                LevelData ld = LevelManager.GetLevelData((LevelTypes)i);
+                if (newLevel >= ld.LevelRestriction)
+                {
+                    Globals.MainPlayerData.LvlA[i] = 1;
+                    GetRewardSystem.Instance.ShowEffect(RewardTypes.newMap, i);
+                    isChanged = true;
+                }
+            }
+        }
+
+        if (isChanged) SaveLoadManager.Save();
+    }
+
     private void Update()
     {
         if (Globals.IsInitiated && !isReady)
         {
             isReady = true;
+
+            StartCoroutine(playNewLVLs());
+
+            
 
             if (Globals.IsMobile)
             {

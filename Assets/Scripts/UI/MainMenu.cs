@@ -341,6 +341,13 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("tutorial");
     }
 
+    private IEnumerator waitAndShowSticky()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
+    }
+
     private void playWhenInitialized()
     {        
         resetAnalytics();
@@ -362,7 +369,7 @@ public class MainMenu : MonoBehaviour
         }
 
         
-        YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
+        StartCoroutine(waitAndShowSticky());
         showProgress();
 
         if (Globals.IsMusicOn)
@@ -414,6 +421,7 @@ public class MainMenu : MonoBehaviour
         MainPlayerSkin.transform.position = pos;
         MainPlayerSkin.transform.eulerAngles = rot;
         MainPlayerSkin.transform.localScale = scale;
+        MainPlayerSkin.SetActive(false);
     }
 
     
@@ -462,8 +470,17 @@ public class MainMenu : MonoBehaviour
 
             SceneManager.LoadScene("MainMenu");
         }
-        
-        
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            //Globals.MainPlayerData.XP += 1000;
+            Globals.MainPlayerData.XPN = true;
+            //SaveLoadManager.Save();
+
+            SceneManager.LoadScene("MainMenu");
+        }
+
+
         if (Input.GetKeyDown(KeyCode.F10))
         {
             SoundUI.Instance.PlayUISound(SoundsUI.positive);

@@ -45,6 +45,7 @@ public class PlayerData
     public bool Tut1;
     public bool Tut2;
 
+
     public PlayerData()
     {        
         L = ""; //prefered language
@@ -87,7 +88,7 @@ public class PlayerData
         XPN = false; //XP notofocator when new level received
 
         TutL = false; //tutorial level done
-        LvlA = new int[] {1,1,0,0,0,0,0,0,0,0, 0, 0, 0, 0 }; //what levels are available
+        LvlA = new int[] {1,1,0,0,0,0,0,0,0,0, 0, 0, 0, 0}; //what levels are available
         TR = new int[14]; //track records by each level
 
         LDA = 0; //last number of day for analytics
@@ -101,6 +102,7 @@ public class PlayerData
         Tut2 = false;
 
         Debug.Log("created PlayerData instance");
+
     }
 
 
