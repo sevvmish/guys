@@ -259,8 +259,15 @@ public class GameManager : MonoBehaviour
 
             if (levelManager.GetCurrentLevelType() == LevelTypes.level8)
             {
-
-                playerAmount = 15;
+                if (Globals.IsLowFPS)
+                {
+                    playerAmount = 9;
+                }
+                else
+                {
+                    playerAmount = 15;
+                }
+                
             }
 
             PlayersAmount = playerAmount + 1;
