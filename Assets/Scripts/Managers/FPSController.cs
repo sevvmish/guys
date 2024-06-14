@@ -74,6 +74,7 @@ public class FPSController : MonoBehaviour
                 if (fps.Count > 30 && ave > 5 && ave < 50)
                 {
                     Globals.IsLowFPS = true;
+                    
                     QualitySettings.shadows = ShadowQuality.Disable;
                 }
             }

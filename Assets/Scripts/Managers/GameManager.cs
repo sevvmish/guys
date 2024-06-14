@@ -237,8 +237,14 @@ public class GameManager : MonoBehaviour
 
                 if (levelManager.GetCurrentLevelType() == LevelTypes.level10)
                 {
-
-                    playerAmount = 11;
+                    if (Globals.IsLowFPS)
+                    {
+                        playerAmount = 5;
+                    }
+                    else
+                    {
+                        playerAmount = 11;
+                    }                    
                 }
             }
             else
@@ -252,8 +258,7 @@ public class GameManager : MonoBehaviour
             }
 
             if (levelManager.GetCurrentLevelType() == LevelTypes.level3)
-            {
-
+            {                
                 playerAmount = 11;
             }
 

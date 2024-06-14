@@ -72,7 +72,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button level13B;
 
 
-    
+    [SerializeField] private GameObject postament;
+
+
     public Action OnBackToMainMenu;
     public GameObject MainPlayerSkin;
     public Transform GetCameraTransform => mainCamera.transform;
@@ -172,6 +174,7 @@ public class MainMenu : MonoBehaviour
         notification.SetActive(false);
         playArrowNotificator.SetActive(false);
         questNotificator.SetActive(false);
+        postament.SetActive(true);
 
         /*
         resetB.gameObject.SetActive(true);
@@ -222,6 +225,7 @@ public class MainMenu : MonoBehaviour
             mainMenuUI.SetActive(false);
             shopUI.SetActive(false);
             customizeUI.SetActive(true);
+            postament.SetActive(false);
             customize.SetOn();
         });
 
@@ -305,7 +309,7 @@ public class MainMenu : MonoBehaviour
         //MainPlayerSkin.transform.DOMove(Globals.UIPlayerPosition, 0.3f).SetEase(Ease.Linear);
         //MainPlayerSkin.transform.DORotate(Globals.UIPlayerRotation, 0.3f).SetEase(Ease.Linear);
         //GetCameraTransform.DOMove(new Vector3(0, 0, -9), 0.3f).SetEase(Ease.Linear);
-
+        postament.SetActive(true);
         showProgress();
     }
     
@@ -406,7 +410,7 @@ public class MainMenu : MonoBehaviour
 
     public void ChangeMainSkin(bool isToUpdate)
     {
-        this.isToUpdate = isToUpdate;
+        //this.isToUpdate = isToUpdate;
         Globals.IsDontShowIntro = true;
 
         Vector3 pos = MainPlayerSkin.transform.position;
@@ -509,6 +513,8 @@ public class MainMenu : MonoBehaviour
             Globals.IsMobile = Globals.IsMobileChecker();
                         
             print("platform mobile: " + Globals.IsMobile);
+
+            Globals.IsLowFPS = Globals.MainPlayerData.IsLowFPSOn;
 
             if (Globals.MainPlayerData.S == 1)
             {

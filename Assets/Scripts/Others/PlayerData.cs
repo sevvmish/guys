@@ -45,6 +45,8 @@ public class PlayerData
     public bool Tut1;
     public bool Tut2;
 
+    //NEW
+    public bool IsLowFPSOn;
 
     public PlayerData()
     {        
@@ -103,6 +105,7 @@ public class PlayerData
 
         Debug.Log("created PlayerData instance");
 
+        IsLowFPSOn = false;
     }
 
 

@@ -830,9 +830,11 @@ public class PlayerControl : MonoBehaviour
         _rigidbody.velocity = vel;
 
         for (int i = 0; i < ragdollColliders.Length; i++)
-        {            
+        {
             ragdollColliders[i].transform.DOLocalMove(ragdollPos[i], 0.2f);
             ragdollColliders[i].transform.DOLocalRotate(ragdollRot[i], 0.2f);
+            ragdollColliders[i].transform.localPosition = ragdollPos[i];
+            ragdollColliders[i].transform.localEulerAngles = ragdollRot[i];
         }
 
         yield return new WaitForSeconds(0.2f);
@@ -851,6 +853,14 @@ public class PlayerControl : MonoBehaviour
             bot.IsCanDoubleJump = true;
             bot.IsCanJump = true;
             bot.IsCanRun = true;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        for (int i = 0; i < ragdollColliders.Length; i++)
+        {
+            ragdollColliders[i].transform.DOKill();
+            ragdollColliders[i].transform.localPosition = ragdollPos[i];
+            ragdollColliders[i].transform.localEulerAngles = ragdollRot[i];
         }
     }
 

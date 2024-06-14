@@ -613,22 +613,173 @@ public class CustomizeUI : MonoBehaviour
         
     }
 
-    public static Sprite GetSkinIconByType(int skin)
+    public static Sprite GetSkinIconByType(int skinID)
     {
-        if (skin < 25)
-        {
-            return Resources.Load<Sprite>("Skins/icons/skin1 promo");
-        }
-        else
-        {
-            return Resources.Load<Sprite>("Skins/icons/skin2 promo");
-        }
+        Skins skin = (Skins)skinID;
+
+        switch (skin)
+        {            
+            case Skins.civilian_male_1: 
+                return Resources.Load<Sprite>("Skins/icons/char2_3d_male");
+                
+
+            case Skins.civilian_male_2: 
+                return Resources.Load<Sprite>("Skins/icons/old_male_02");
+                
+
+            case Skins.civilian_male_3: 
+                return Resources.Load<Sprite>("Skins/icons/char2male1");
+                
+
+            case Skins.civilian_male_4: 
+                return Resources.Load<Sprite>("Skins/icons/char11_3d_male");
+                
+
+            case Skins.civilian_male_5: 
+                return Resources.Load<Sprite>("Skins/icons/old_male_03");
+                
+
+            case Skins.civilian_male_6: 
+                return Resources.Load<Sprite>("Skins/icons/char2male2");
+                
+
+            case Skins.civilian_male_gold_0:
+                return Resources.Load<Sprite>("Skins/icons/old_male_04");
+                
+
+            case Skins.civilian_male_gold_1:
+                return Resources.Load<Sprite>("Skins/icons/char71_3d_male");
+                
+
+            case Skins.civilian_male_gold_2:
+                return Resources.Load<Sprite>("Skins/icons/old_male_01");
+                
+
+            case Skins.civilian_male_gold_3:
+                return Resources.Load<Sprite>("Skins/icons/char56_3d_male");
+                
+
+            case Skins.civilian_male_gold_4:
+                return Resources.Load<Sprite>("Skins/icons/char35_3d_male");
+                
+
+            case Skins.civilian_male_gold_5:
+                return Resources.Load<Sprite>("Skins/icons/char83_3d_male");
+                
+
+            case Skins.civilian_male_gem_1:
+                return Resources.Load<Sprite>("Skins/icons/char77_3d_male");
+                
+
+            case Skins.civilian_male_gem_2:
+                return Resources.Load<Sprite>("Skins/icons/char70_3d_male");
+                
+
+            case Skins.civilian_male_gem_3:
+                return Resources.Load<Sprite>("Skins/icons/char76_3d_male");
+                
+
+            case Skins.civilian_male_gem_4:
+                return Resources.Load<Sprite>("Skins/icons/char86_3d_male");
+                
+
+            case Skins.civilian_male_gem_5:
+                return Resources.Load<Sprite>("Skins/icons/char53_3d_all");
+                
+
+            case Skins.civilian_male_gem_6:
+                return Resources.Load<Sprite>("Skins/icons/char78_3d_all");
+                
 
 
-        switch(skin)
-        {
-            default: return Resources.Load<Sprite>("Skins/icons/skin1 promo");
+
+
+
+
+
+            case Skins.civilian_female_1:
+                return Resources.Load<Sprite>("Skins/icons/char7_3d_female");
+                
+
+            case Skins.civilian_female_2:
+                return Resources.Load<Sprite>("Skins/icons/old_female_03");
+                
+
+            case Skins.civilian_female_3:
+                return Resources.Load<Sprite>("Skins/icons/char2fem1");
+                
+
+            case Skins.civilian_female_4:
+                return Resources.Load<Sprite>("Skins/icons/char32_3d_female");
+                
+
+            case Skins.civilian_female_5:
+                return Resources.Load<Sprite>("Skins/icons/char109_3d_female");
+                
+
+            case Skins.civilian_female_gold_1:
+                return Resources.Load<Sprite>("Skins/icons/char2fem4");
+                
+
+            case Skins.civilian_female_gold_2:
+                return Resources.Load<Sprite>("Skins/icons/char103_3d_female");
+                
+
+            case Skins.civilian_female_gold_3:
+                return Resources.Load<Sprite>("Skins/icons/char2fem2");
+                
+
+            case Skins.civilian_female_gold_4:
+                return Resources.Load<Sprite>("Skins/icons/char2fem3");
+                
+
+            case Skins.civilian_female_gold_5:
+                return Resources.Load<Sprite>("Skins/icons/old_female_02");
+                
+
+            case Skins.civilian_female_gem_1:
+                return Resources.Load<Sprite>("Skins/icons/char12_3d_female");
+                
+
+            case Skins.civilian_female_gem_2:
+                return Resources.Load<Sprite>("Skins/icons/old_female_01");
+                
+
+            case Skins.civilian_female_gem_3:
+                return Resources.Load<Sprite>("Skins/icons/char43_3d_female");
+                
+
+            case Skins.civilian_female_gem_4:
+                return Resources.Load<Sprite>("Skins/icons/char47_3d_female");
+                
+
+            case Skins.civilian_female_gem_5:
+                return Resources.Load<Sprite>("Skins/icons/char57_3d_female");
+                
+
+            case Skins.civilian_female_gem_6:
+                return Resources.Load<Sprite>("Skins/icons/char60_3d_female");
+                
+
+            case Skins.civilian_female_gem_7:
+                return Resources.Load<Sprite>("Skins/icons/char62_3d_female");
+                
+
+            case Skins.civilian_female_gem_8:
+                return Resources.Load<Sprite>("Skins/icons/char77_3d_female");
+                
+
+            case Skins.civilian_female_gem_9:
+                return Resources.Load<Sprite>("Skins/icons/charXX_3d_all");
+                
+
+
+
+
+            default:
+                return Resources.Load<Sprite>("Skins/icons/char2_3d_male");
         }
+
 
         return null;
     }
@@ -738,6 +889,9 @@ public class CustomizeUI : MonoBehaviour
         girlsB.GetComponent<Image>().color = new Color(0.3f, 0.3f, 0.3f, 0.3f);
         girlsB.transform.GetChild(0).GetComponent<Image>().color = new Color(1,1,1, 0.7f);
 
+        boysB.transform.GetChild(1).gameObject.SetActive(true);
+        girlsB.transform.GetChild(1).gameObject.SetActive(false);
+
         panels.ToList().ForEach(x => { if (x.SkinID>=boysRange.x && x.SkinID <= boysRange.y) x.gameObject.SetActive(true); });
 
         if (currentSkin!= null) currentSkin.SetActive(true);
@@ -753,6 +907,9 @@ public class CustomizeUI : MonoBehaviour
         boysB.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0.7f);
         girlsB.GetComponent<Image>().color = new Color(1, 1, 1, 1);
         girlsB.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1f);
+
+        boysB.transform.GetChild(1).gameObject.SetActive(false);
+        girlsB.transform.GetChild(1).gameObject.SetActive(true);
 
         panels.ToList().ForEach(x => { if (x.SkinID >= girlsRange.x && x.SkinID <= girlsRange.y) x.gameObject.SetActive(true); });
         //accessoriesB.GetComponent<Image>().color = new Color(1, 1, 1, 1);
