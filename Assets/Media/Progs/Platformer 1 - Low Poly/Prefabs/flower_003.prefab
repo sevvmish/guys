@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 10bf6fc3abfe09b4c92c53804c647cb7, type: 3}
@@ -51,11 +52,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 10bf6fc3abfe09b4c92c53804c647cb7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7243a39cd9b0e1f4aa6be4b061a2926f, type: 2}
     - target: {fileID: 919132149155446097, guid: 10bf6fc3abfe09b4c92c53804c647cb7, type: 3}
       propertyPath: m_Name
       value: flower_003
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 10bf6fc3abfe09b4c92c53804c647cb7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7579238882529462987}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 10bf6fc3abfe09b4c92c53804c647cb7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4637856310050648171}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 10bf6fc3abfe09b4c92c53804c647cb7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1294309968774922891}
   m_SourcePrefab: {fileID: 100100000, guid: 10bf6fc3abfe09b4c92c53804c647cb7, type: 3}
 --- !u!1 &5845305755680202292 stripped
 GameObject:
@@ -70,15 +87,23 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5845305755680202292}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 4
+  serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2649203311218987156, guid: 10bf6fc3abfe09b4c92c53804c647cb7, type: 3}
 --- !u!95 &-4637856310050648171
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -95,7 +120,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1294309968774922891
 MonoBehaviour:
   m_ObjectHideFlags: 0
