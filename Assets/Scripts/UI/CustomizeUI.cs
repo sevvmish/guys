@@ -286,48 +286,6 @@ public class CustomizeUI : MonoBehaviour
         updateUI();
     }
 
-    /*
-    private void checkBorders()
-    {
-        switch(currentDressType)
-        {
-            case DressTypes.BoySkin:
-                if (currentIndex == boysRange.x || (currentIndex == (boysRange.x + 1) && Globals.MainPlayerData.CS == boysRange.x))
-                {
-                    leftScroll.gameObject.SetActive(false);
-                    rightScroll.gameObject.SetActive(true);
-                }
-                else if(currentIndex == boysRange.y || (currentIndex == (boysRange.y - 1) && Globals.MainPlayerData.CS == boysRange.y))
-                {
-                    leftScroll.gameObject.SetActive(true);
-                    rightScroll.gameObject.SetActive(false);
-                }
-                else
-                {
-                    leftScroll.gameObject.SetActive(true);
-                    rightScroll.gameObject.SetActive(true);
-                }
-                break;
-
-            case DressTypes.GirlSkin:
-                if (currentIndex == girlsRange.x || (currentIndex == (girlsRange.x + 1) && Globals.MainPlayerData.CS == girlsRange.x))
-                {
-                    leftScroll.gameObject.SetActive(false);
-                    rightScroll.gameObject.SetActive(true);
-                }
-                else if (currentIndex == girlsRange.y || (currentIndex == (girlsRange.y - 1) && Globals.MainPlayerData.CS == girlsRange.y))
-                {
-                    leftScroll.gameObject.SetActive(true);
-                    rightScroll.gameObject.SetActive(false);
-                }
-                else
-                {
-                    leftScroll.gameObject.SetActive(true);
-                    rightScroll.gameObject.SetActive(true);
-                }
-                break;
-        }
-    }*/
 
     private void skinUpdate()
     {
@@ -426,6 +384,21 @@ public class CustomizeUI : MonoBehaviour
             if (Globals.IsMobile)
             {
                 mainScroll.transform.localScale = Vector3.one * 0.9f;
+            }
+
+            if (Globals.IsMobile)
+            {
+                for (int i = 0; i < PlayerSkins.Length; i++)
+                {
+                    if (PlayerSkins[i] != null)
+                    {
+                        PlayerSkins[i].transform.position += new Vector3(0, 0, -0.4f);
+                    }
+                }
+
+                pointer.GetComponent<RectTransform>().anchoredPosition -= new Vector2(-20, 0);
+                useButton.GetComponent<RectTransform>().anchoredPosition -= new Vector2(-20, 0);
+
             }
         }
     }

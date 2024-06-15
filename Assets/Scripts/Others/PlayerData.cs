@@ -47,6 +47,8 @@ public class PlayerData
 
     //NEW
     public bool IsLowFPSOn;
+    public int[] LM;
+    public bool IsAskQuestion;
 
     public PlayerData()
     {        
@@ -105,7 +107,10 @@ public class PlayerData
 
         Debug.Log("created PlayerData instance");
 
+        //NEW
         IsLowFPSOn = false;
+        LM = new int[14]; //do u like map - all maps
+        IsAskQuestion = false; //questions about game improvement
     }
 
 

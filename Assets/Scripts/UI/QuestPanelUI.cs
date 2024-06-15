@@ -34,6 +34,7 @@ public class QuestPanelUI : MonoBehaviour
     private bool isRewardTaken;
     private bool isRewardReady;
     private bool isInProgress;
+        
 
     public void Create(int id, bool isRewardTkn)
     {        
@@ -290,6 +291,26 @@ public class QuestPanelUI : MonoBehaviour
 
     public static Quest GetQuestByID(int id)
     {
+        float goldKoeffForQuestReward = 1f;
+        float xpKoeffForQuestReward = 1f;
+
+        if (MainMenu.GetCurrentLevel() >=10 && MainMenu.GetCurrentLevel() < 20)
+        {
+            goldKoeffForQuestReward = 1.1f;
+            xpKoeffForQuestReward = 1.25f;
+        }
+        else if(MainMenu.GetCurrentLevel() >= 20 && MainMenu.GetCurrentLevel() < 30)
+        {
+            goldKoeffForQuestReward = 1.2f;
+            xpKoeffForQuestReward = 1.5f;
+        }
+        else if (MainMenu.GetCurrentLevel() >= 30)
+        {
+            goldKoeffForQuestReward = 1.5f;
+            xpKoeffForQuestReward = 2f;
+        }
+
+
         switch (id)
         {
             case 0:
@@ -302,25 +323,25 @@ public class QuestPanelUI : MonoBehaviour
                 return new Quest(id, 1, Globals.Language.Quest2Name, Globals.Language.Quest2Descr, 0,1,0);
 
             case 3:
-                return new Quest(id, 1, Globals.Language.Quest3Name, Globals.Language.Quest3Descr, 80, 0, 100);
+                return new Quest(id, 1, Globals.Language.Quest3Name, Globals.Language.Quest3Descr, (int)(80f * goldKoeffForQuestReward), 0, (int)(100f * xpKoeffForQuestReward));
 
             case 4:
-                return new Quest(id, 1, Globals.Language.Quest4Name, Globals.Language.Quest4Descr, 80, 0, 100);
+                return new Quest(id, 1, Globals.Language.Quest4Name, Globals.Language.Quest4Descr, (int)(80f * goldKoeffForQuestReward), 0, (int)(100f * xpKoeffForQuestReward));
 
             case 5:
-                return new Quest(id, 1, Globals.Language.Quest5Name, Globals.Language.Quest5Descr, 80, 0, 100);
+                return new Quest(id, 1, Globals.Language.Quest5Name, Globals.Language.Quest5Descr, (int)(80f * goldKoeffForQuestReward), 0, (int)(100f * xpKoeffForQuestReward));
 
             case 6:
-                return new Quest(id, 1, Globals.Language.Quest6Name, Globals.Language.Quest6Descr, 80, 0, 100);
+                return new Quest(id, 1, Globals.Language.Quest6Name, Globals.Language.Quest6Descr, (int)(80f * goldKoeffForQuestReward), 0, (int)(100f * xpKoeffForQuestReward));
 
             case 7:
-                return new Quest(id, 1, Globals.Language.Quest7Name, Globals.Language.Quest7Descr, 50, 0, 70);
+                return new Quest(id, 1, Globals.Language.Quest7Name, Globals.Language.Quest7Descr, (int)(50f * goldKoeffForQuestReward), 0, (int)(70f * xpKoeffForQuestReward));
 
             case 8:
-                return new Quest(id, 1, Globals.Language.Quest8Name, Globals.Language.Quest8Descr, 50, 0, 70);
+                return new Quest(id, 1, Globals.Language.Quest8Name, Globals.Language.Quest8Descr, (int)(50f * goldKoeffForQuestReward), 0, (int)(70f * xpKoeffForQuestReward));
 
             case 9:
-                return new Quest(id, 1, Globals.Language.Quest9Name, Globals.Language.Quest9Descr, 50, 0, 70);
+                return new Quest(id, 1, Globals.Language.Quest9Name, Globals.Language.Quest9Descr, (int)(50f * goldKoeffForQuestReward), 0, (int)(70f * xpKoeffForQuestReward));
         }
 
 

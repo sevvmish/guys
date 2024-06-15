@@ -8,6 +8,7 @@ using System.Linq;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using YG;
+using static UnityEngine.LightProbeProxyVolume;
 
 public class UIManager : MonoBehaviour
 {
@@ -95,6 +96,13 @@ public class UIManager : MonoBehaviour
     private string whatLevelToLoadAfterAdv;
 
 
+    [Header("LikeMap")]
+    [SerializeField] private GameObject likeMapPanel;
+    [SerializeField] private TextMeshProUGUI likeMapPanelText;
+    [SerializeField] private Button likeMapLikeB;
+    [SerializeField] private Button dislikeMapLikeB;
+
+
     private GameManager gm;
     private LevelData levelData;
     private AbilityManager mainPlayerAbilityManager;
@@ -125,6 +133,8 @@ public class UIManager : MonoBehaviour
         repeatButton.gameObject.SetActive(false);
         mainMenuButton.gameObject.SetActive(false);
 
+        likeMapPanel.gameObject.SetActive(false);
+
         levelData = LevelManager.GetLevelData(gm.GetLevelManager().GetCurrentLevelType());
 
         aimBeforeStart.SetActive(true);
@@ -141,6 +151,7 @@ public class UIManager : MonoBehaviour
             signJump.text = Globals.Language.JumpLetter;
             abilityButtonTextPC.text = Globals.Language.PressForAbilityButton;
             scalerInfoText.text = Globals.Language.CameraScalerInfo;
+            likeMapPanelText.text = Globals.Language.DoYouLikeMap;
         }
 
         scalerPanelCallButton.onClick.AddListener(() =>
@@ -196,6 +207,28 @@ public class UIManager : MonoBehaviour
             repeatButton.interactable = false;
             mainMenuButton.interactable = false;
             StartCoroutine(playStartLevel("MainMenu"));
+        });
+
+        likeMapLikeB.onClick.AddListener(() =>
+        {
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+            dislikeMapLikeB.gameObject.SetActive(false);
+            likeMapLikeB.interactable = false;
+            int lvl = (int)levelData.LevelType;
+            YandexMetrica.Send("like" + lvl);
+            likeMapLikeB.transform.DOShakeScale(0.3f, 2, 30).SetEase(Ease.InSine);
+            likeMapPanelText.gameObject.SetActive(false);
+        });
+
+        dislikeMapLikeB.onClick.AddListener(() =>
+        {
+            SoundUI.Instance.PlayUISound(SoundsUI.positive);
+            likeMapLikeB.gameObject.SetActive(false);
+            dislikeMapLikeB.interactable = false;
+            int lvl = (int)levelData.LevelType;
+            YandexMetrica.Send("dislike" + lvl);
+            dislikeMapLikeB.transform.DOShakeScale(0.3f, 2, 30).SetEase(Ease.InSine);
+            likeMapPanelText.gameObject.SetActive(false);
         });
     }
     private IEnumerator hideAimAfterSec(float sec)
@@ -492,7 +525,31 @@ public class UIManager : MonoBehaviour
         t.DOAnchorPos3D(new Vector3(0, 340, 0), 0.5f).SetEase(Ease.OutSine);
         yield return new WaitForSeconds(0.3f);
 
+        //LIKE MAP
+        bool isShowLikeMap = false;
+        int lvl = (int)levelData.LevelType;
+
+        if (lvl > 0 && Globals.MainPlayerData.LM[lvl] == 0)
+        {
+            Globals.MainPlayerData.LM[lvl] = 1;
+            isShowLikeMap = true;
+        }
+
         rewards();
+
+        yield return new WaitForSeconds(1);
+        
+        if (isShowLikeMap)
+        {
+            likeMapPanel.SetActive(true);
+            likeMapLikeB.gameObject.SetActive(true);
+            dislikeMapLikeB.gameObject.SetActive(true);
+            likeMapPanelText.gameObject.SetActive(true);
+
+            likeMapPanel.transform.DOShakeScale(0.3f, 2, 30).SetEase(Ease.InSine);
+        }
+
+        
     }
 
     private void rewards()

@@ -23,6 +23,8 @@ public class OffersManager : MonoBehaviour
     [SerializeField] private GameObject questHint;
     [SerializeField] private TextMeshProUGUI questHintText;
 
+    [SerializeField] private GameObject askQuestions;
+
     private bool isReady;
 
     private void Update()
@@ -70,7 +72,13 @@ public class OffersManager : MonoBehaviour
             else if ((DateTime.Now - Globals.TimeWhenStartedPlaying).TotalMinutes > Globals.OFFER_UPDATE)
             {
                 ShowOffer();
-            }            
+            }   
+            else if (!Globals.MainPlayerData.IsAskQuestion && MainMenu.GetCurrentLevel() >= 5)
+            {
+                Globals.MainPlayerData.IsAskQuestion = true;
+                SaveLoadManager.Save();
+                askQuestions.SetActive(true);
+            }
         }     
         else
         {

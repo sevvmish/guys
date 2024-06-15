@@ -160,5 +160,17 @@ public class Translation : ScriptableObject
 
     public string GOOOOO;
 
+    public string DoYouLikeMap;
+
+    public string WhatToImprove;
+    public string Send;
+    public string question0;
+    public string question1;
+    public string question2;
+    public string question3;
+    public string question4;
+
+
+
     public Translation() { }
 }

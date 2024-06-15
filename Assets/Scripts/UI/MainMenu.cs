@@ -347,7 +347,7 @@ public class MainMenu : MonoBehaviour
 
     private IEnumerator waitAndShowSticky()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0);
 
         YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
     }
@@ -372,8 +372,29 @@ public class MainMenu : MonoBehaviour
             ScreenSaver.Instance.ShowScreen();
         }
 
-        
-        StartCoroutine(waitAndShowSticky());
+        if (Globals.IsMobile)
+        {
+            QualitySettings.antiAliasing = 2;
+
+            if (Globals.IsLowFPS)
+            {
+                QualitySettings.shadows = ShadowQuality.Disable;
+            }
+            else
+            {
+                QualitySettings.shadows = ShadowQuality.HardOnly;
+                QualitySettings.shadowResolution = ShadowResolution.Medium;
+            }
+        }
+        else
+        {
+            QualitySettings.antiAliasing = 4;
+            QualitySettings.shadows = ShadowQuality.All;
+            QualitySettings.shadowResolution = ShadowResolution.Medium;
+        }
+
+
+        //StartCoroutine(waitAndShowSticky());
         showProgress();
 
         if (Globals.IsMusicOn)
@@ -537,6 +558,8 @@ public class MainMenu : MonoBehaviour
             }
 
             print("sound is: " + Globals.IsSoundOn);
+
+            YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
 
             if (Globals.TimeWhenStartedPlaying == DateTime.MinValue)
             {
