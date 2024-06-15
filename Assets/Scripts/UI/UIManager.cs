@@ -392,7 +392,9 @@ public class UIManager : MonoBehaviour
 
     public void EndGame(bool isWin)
     {
-        
+        Globals.LevelsPlayedForBonusCountAmount++;
+
+
         HideAllControls();
         aimBeforeStart.SetActive(false);
         aimDuringGame.SetActive(false);

@@ -87,6 +87,10 @@ public class Globals : MonoBehaviour
 
     public static bool IsFirstGameStarted;
 
+    //BONUS LEVEL IN SETTER
+    public static int LevelsPlayedForBonusCountAmount;
+    public static List<int> LevelsPlayedForBonusCount = new List<int>();
+
     //abilities
     public const float ABILITY_DURATION = 10f;
     public const float ACCELERATION_DURATION = 4f;

@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,11 @@ public class LevelSetter : MonoBehaviour
 {
         
     [SerializeField] private GameObject mapExample;
+
+    [SerializeField] private GameObject bonus;
+    [SerializeField] private TextMeshProUGUI bonusText;
+    [SerializeField] private TextMeshProUGUI bonusExplainText;
+    
     [SerializeField] private Transform location;
     [SerializeField] private Transform locationMain;
     private RectTransform locationRect;
@@ -16,10 +22,14 @@ public class LevelSetter : MonoBehaviour
 
     private LevelTypes levelToPlay;
     private int howManyLevels;
+
+    private bool isBonus;
     
     // Start is called before the first frame update
     void Start()
     {
+        bonus.SetActive(false);
+
         if (Globals.IsMusicOn)
         {
             int ambMusic = UnityEngine.Random.Range(0, 3);
@@ -50,7 +60,38 @@ public class LevelSetter : MonoBehaviour
         }
 
         locationRect = location.GetComponent<RectTransform>();
-        levelToPlay = getNextLevel();
+
+        if (Globals.LevelsPlayedForBonusCountAmount >= 5)
+        {
+            Globals.LevelsPlayedForBonusCountAmount = 0;
+
+            List<int> hidenLvls = new List<int>();
+            for (int i = 1; i < Globals.MainPlayerData.LvlA.Length; i++)
+            {
+                if (Globals.MainPlayerData.LvlA[i] == 0 && !Globals.LevelsPlayedForBonusCount.Contains(i))
+                {
+                    hidenLvls.Add(i);
+                }
+            }
+
+            if (hidenLvls.Count > 1)
+            {
+                int lvlToShow = hidenLvls[UnityEngine.Random.Range(0, hidenLvls.Count - 1)];
+                levelToPlay = (LevelTypes)lvlToShow;                
+                Globals.LevelsPlayedForBonusCount.Add(lvlToShow);
+                isBonus = true;
+            }
+            else
+            {
+                levelToPlay = getNextLevel();
+            }
+        }
+        else
+        {
+            levelToPlay = getNextLevel();
+        }
+
+                
         updateMapData();
     }
 
@@ -133,20 +174,7 @@ public class LevelSetter : MonoBehaviour
         }
 
         StartCoroutine(playShow());
-                
-        /*
-        int currLvl = MainMenu.GetCurrentLevel();
-        locationRect.anchoredPosition = Vector2.zero;
-        if (currLvl <= 1)
-        {
-            //locationRect.anchoredPosition = new Vector2(locationRect.anchoredPosition.x - 900, locationRect.anchoredPosition.y);
-            locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 900, locationRect.anchoredPosition.y), 0.3f).SetEase(Ease.Linear);
-        }
-        else
-        {
-            //locationRect.anchoredPosition = new Vector2(locationRect.anchoredPosition.x - 900 - 835 * (currLvl-1), locationRect.anchoredPosition.y);
-            locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 900 - 835 * (currLvl - 1), locationRect.anchoredPosition.y), 0.5f).SetEase(Ease.Linear);
-        }*/
+         
     }
     private IEnumerator playShow()
     {
@@ -155,6 +183,13 @@ public class LevelSetter : MonoBehaviour
         locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 2800 - /*1300*/700 * (howManyLevels-1), locationRect.anchoredPosition.y), howLong).SetEase(Ease.Linear);
 
         yield return new WaitForSeconds(howLong);
+
+        if (isBonus)
+        {
+            bonus.SetActive(true);
+            bonusText.text = Globals.Language.BonusText;
+            bonusExplainText.text = Globals.Language.BonusExplainText;
+        }
 
         GameObject map = Instantiate(mapExample, locationMain);
         map.SetActive(true);

@@ -170,6 +170,9 @@ public class Translation : ScriptableObject
     public string question3;
     public string question4;
 
+    public string BonusText;
+    public string BonusExplainText;
+
 
 
     public Translation() { }
