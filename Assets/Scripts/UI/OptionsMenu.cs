@@ -10,6 +10,7 @@ public class OptionsMenu : MonoBehaviour
     [Header("options menu")]
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private Button optionsButton;
+    [SerializeField] private Button skipButton;
     [SerializeField] private Button continueButton;
     [SerializeField] private Button soundButton;
     [SerializeField] private Button homeButton;
@@ -19,6 +20,8 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private Sprite musicOnSprite;
     [SerializeField] private Sprite musicOffSprite;
 
+    private GameManager gm;
+    private LevelManager lm;
 
     // Start is called before the first frame update
     void Start()
@@ -26,12 +29,34 @@ public class OptionsMenu : MonoBehaviour
         optionsButton.gameObject.SetActive(false);
         optionsPanel.SetActive(false);
 
-        GameManager gm = GameManager.Instance;
+        gm = GameManager.Instance;
+        lm = gm.GetLevelManager();
+
+        if (!Globals.IsMobile)
+        {
+            optionsButton.transform.localScale = Vector3.one * 0.8f;
+        }
+
+        if (lm.GetCurrentLevelType() == LevelTypes.tutorial)
+        {
+            skipButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            skipButton.gameObject.SetActive(true);
+        }
 
         //options
         optionsButton.onClick.AddListener(() =>
         {
             openOptions();
+        });
+
+        skipButton.onClick.AddListener(() =>
+        {
+            GameManager.Instance.SetPause(false);
+            //SceneManager.LoadScene("LevelSetter");
+            StartCoroutine(playLevelSetter());
         });
 
         continueButton.onClick.AddListener(() =>
@@ -61,7 +86,8 @@ public class OptionsMenu : MonoBehaviour
         homeButton.onClick.AddListener(() =>
         {
             GameManager.Instance.SetPause(false);
-            SceneManager.LoadScene("MainMenu");
+            //SceneManager.LoadScene("MainMenu");
+            StartCoroutine(playMainMenu());
         });
 
         musicButton.onClick.AddListener(() =>
@@ -82,6 +108,20 @@ public class OptionsMenu : MonoBehaviour
 
             SaveLoadManager.Save();
         });
+    }
+
+    private IEnumerator playLevelSetter()
+    {
+        ScreenSaver.Instance.HideScreen();
+        yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
+        SceneManager.LoadScene("LevelSetter");
+    }
+
+    private IEnumerator playMainMenu()
+    {
+        ScreenSaver.Instance.HideScreen();
+        yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void continuePlay()
@@ -141,11 +181,13 @@ public class OptionsMenu : MonoBehaviour
 
         
         continueButton.transform.localScale = Vector3.zero;
+        skipButton.transform.localScale = Vector3.zero;
         soundButton.transform.localScale = Vector3.zero;
         homeButton.transform.localScale = Vector3.zero;
         musicButton.transform.localScale = Vector3.zero;
 
         continueButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
+        skipButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
         soundButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
         homeButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
         musicButton.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
@@ -162,7 +204,11 @@ public class OptionsMenu : MonoBehaviour
         
         Globals.IsOptions = false;
         optionsPanel.SetActive(false);
-        optionsButton.gameObject.SetActive(Globals.IsMobile);
+
+        if (lm.GetCurrentLevelType() != LevelTypes.tutorial)
+        {
+            optionsButton.gameObject.SetActive(true);
+        }        
     }
 
     public void TurnAllOff()

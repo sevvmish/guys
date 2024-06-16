@@ -173,7 +173,7 @@ public class Translation : ScriptableObject
     public string BonusText;
     public string BonusExplainText;
 
-
+    public string EscapeButtonHelper;
 
     public Translation() { }
 }

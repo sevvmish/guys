@@ -24,7 +24,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI letterLeft;
     [SerializeField] private TextMeshProUGUI letterRight;
     [SerializeField] private TextMeshProUGUI signJump;
-        
+    [SerializeField] private TextMeshProUGUI optionsHelper;
+
     [Header("informer")]
     [SerializeField] private GameObject informerPanel;
     [SerializeField] private TextMeshProUGUI informerText;
@@ -152,6 +153,9 @@ public class UIManager : MonoBehaviour
             abilityButtonTextPC.text = Globals.Language.PressForAbilityButton;
             scalerInfoText.text = Globals.Language.CameraScalerInfo;
             likeMapPanelText.text = Globals.Language.DoYouLikeMap;
+
+            optionsHelper.text = Globals.Language.EscapeButtonHelper;
+            optionsHelper.gameObject.SetActive(!Globals.IsMobile);
         }
 
         scalerPanelCallButton.onClick.AddListener(() =>
@@ -183,11 +187,13 @@ public class UIManager : MonoBehaviour
 
             if (levelData.GameType == GameTypes.Tutorial)
             {
-                StartCoroutine(playStartLevel("level1"));
+                //StartCoroutine(playStartLevel("level1"));
+                StartCoroutine(playLevel1());
             }
             else
             {
-                StartCoroutine(playStartLevel("LevelSetter"));
+                //StartCoroutine(playStartLevel("LevelSetter"));
+                StartCoroutine(playLevelSetter());
             }
         });
 
@@ -206,7 +212,8 @@ public class UIManager : MonoBehaviour
             continueButton.interactable = false;
             repeatButton.interactable = false;
             mainMenuButton.interactable = false;
-            StartCoroutine(playStartLevel("MainMenu"));
+            //StartCoroutine(playStartLevel("MainMenu"));
+            StartCoroutine(playMainMenu());
         });
 
         likeMapLikeB.onClick.AddListener(() =>
@@ -237,6 +244,26 @@ public class UIManager : MonoBehaviour
         aimBeforeStart.SetActive(false);
     }
 
+    private IEnumerator playLevel1()
+    {
+        ScreenSaver.Instance.HideScreen();
+        yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
+        SceneManager.LoadScene("level1");
+    }
+
+    private IEnumerator playLevelSetter()
+    {
+        ScreenSaver.Instance.HideScreen();
+        yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
+        SceneManager.LoadScene("LevelSetter");
+    }
+
+    private IEnumerator playMainMenu()
+    {
+        ScreenSaver.Instance.HideScreen();
+        yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
+        SceneManager.LoadScene("MainMenu");
+    }
 
     private void Update()
     {
