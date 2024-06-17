@@ -496,6 +496,8 @@ namespace YG
             return null;
         }
 
+
+
         [DllImport("__Internal")]
         private static extern void ConsumePurchaseInternal(string id);
 
@@ -764,6 +766,7 @@ namespace YG
         public void PaymentsEntries(string data)
         {
 #if !UNITY_EDITOR
+            Debug.Log("!!!!!!!!!!!!!!!!!! = " + data);
             JsonPayments paymentsData = JsonUtility.FromJson<JsonPayments>(data);
             purchases = new Purchase[paymentsData.id.Length];
 
@@ -775,12 +778,15 @@ namespace YG
                 purchases[i].description = paymentsData.description[i];
                 purchases[i].imageURI = paymentsData.imageURI[i];
                 purchases[i].priceValue = paymentsData.priceValue[i];
+                purchases[i].currencyImage = paymentsData.currencyImage[i];
+                purchases[i].currencyCode = paymentsData.currencyCode[i];
                 purchases[i].consumed = paymentsData.consumed[i];
             }
 #else
             purchases = Instance.infoYG.purshasesSimulation;
 #endif
             GetPaymentsEvent?.Invoke();
+                        
         }
 
         public static Action<string> PurchaseSuccessEvent;
@@ -877,6 +883,8 @@ namespace YG
             public string[] description;
             public string[] imageURI;
             public string[] priceValue;
+            public string[] currencyImage;
+            public string[] currencyCode;
             public bool[] consumed;
         }
         #endregion Json

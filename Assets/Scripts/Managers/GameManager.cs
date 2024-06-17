@@ -161,9 +161,11 @@ public class GameManager : MonoBehaviour
                     else
                     {
                         GameSecondsLeft = 120;
-                    }
+                    }                                        
+                    break;
 
-                    
+                case LevelTypes.level14:
+                    GameSecondsLeft = 90;
                     break;
 
                 default:
@@ -262,7 +264,7 @@ public class GameManager : MonoBehaviour
                 playerAmount = 11;
             }
 
-            if (levelManager.GetCurrentLevelType() == LevelTypes.level8)
+            if (levelManager.GetCurrentLevelType() == LevelTypes.level8 || levelManager.GetCurrentLevelType() == LevelTypes.level14)
             {
                 if (Globals.IsLowFPS)
                 {

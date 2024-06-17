@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG.Utils.Pay;
+using YG;
 
 public class AllMapsPurchase : MonoBehaviour
 {
@@ -21,6 +23,7 @@ public class AllMapsPurchase : MonoBehaviour
     [SerializeField] private GameObject back;
 
     private bool isReady;
+    private Purchase currentPurchaseData;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +46,12 @@ public class AllMapsPurchase : MonoBehaviour
         });
     }
 
+    private void OnEnable()
+    {
+        currentPurchaseData = YandexGame.PurchaseByID(PurchaseID);
+        priceText.text = Globals.Language.useBuy + ": " + currentPurchaseData.priceValue + " " + currentPurchaseData.currencyCode;
+    }
+
     public void TurnOnCloseButton()
     {
         close.gameObject.SetActive(true);
@@ -63,7 +72,7 @@ public class AllMapsPurchase : MonoBehaviour
             isReady = true;
             title.text = Globals.Language.AllMapsTitle;
             mainDescription.text = Globals.Language.AllMapsMainDescription;
-            priceText.text = Globals.Language.useBuy + ": " + Price + " " + Globals.Language.Yan;
+            //priceText.text = Globals.Language.useBuy + ": " + Price + " " + Globals.Language.Yan;
         }
     }
 

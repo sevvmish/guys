@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG.Utils.Pay;
+using YG;
 
 public class NoAdsPurchase : MonoBehaviour
 {
@@ -23,6 +25,7 @@ public class NoAdsPurchase : MonoBehaviour
     [SerializeField] private GameObject back;
 
     private bool isReady;
+    private Purchase currentPurchaseData;
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +61,12 @@ public class NoAdsPurchase : MonoBehaviour
         back.SetActive(true);
     }
 
+    private void OnEnable()
+    {
+        currentPurchaseData = YandexGame.PurchaseByID(PurchaseID);
+        priceText.text = Globals.Language.useBuy + ": " + currentPurchaseData.priceValue + " " + currentPurchaseData.currencyCode;
+    }
+
     private void Update()
     {
         if (Globals.IsInitiated && !isReady)
@@ -67,7 +76,7 @@ public class NoAdsPurchase : MonoBehaviour
             mainDescription.text = Globals.Language.NoAdsMainDescription;
             addDescription1.text = Globals.Language.NoAdsAddDescription1;
             addDescription2.text = Globals.Language.NoAdsAddDescription2;
-            priceText.text = Globals.Language.useBuy + ": " + Price + " " + Globals.Language.Yan;
+            //priceText.text = Globals.Language.useBuy + ": " + Price + " " + Globals.Language.Yan;
         }
     }
 

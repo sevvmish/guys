@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG.Utils.Pay;
+using YG;
 
 public class StarterPackPurchase : MonoBehaviour
 {
@@ -21,6 +23,7 @@ public class StarterPackPurchase : MonoBehaviour
     [SerializeField] private GameObject back;
 
     private bool isReady;
+    private Purchase currentPurchaseData;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +57,12 @@ public class StarterPackPurchase : MonoBehaviour
         back.SetActive(true);
     }
 
+    private void OnEnable()
+    {
+        currentPurchaseData = YandexGame.PurchaseByID(PurchaseID);
+        priceText.text = Globals.Language.useBuy + ": " + currentPurchaseData.priceValue + " " + currentPurchaseData.currencyCode;
+    }
+
     private void Update()
     {
         if (Globals.IsInitiated && !isReady)
@@ -61,7 +70,7 @@ public class StarterPackPurchase : MonoBehaviour
             isReady = true;
             title.text = Globals.Language.StarterTitle;
             mainDescription.text = Globals.Language.StarterDescription;
-            priceText.text = Globals.Language.useBuy + ": " + Price + " " + Globals.Language.Yan;
+            //priceText.text = Globals.Language.useBuy + ": " + Price + " " + Globals.Language.Yan;
         }
     }
 

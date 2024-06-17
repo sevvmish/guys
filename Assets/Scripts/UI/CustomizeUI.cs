@@ -662,7 +662,10 @@ public class CustomizeUI : MonoBehaviour
 
             case Skins.civilian_male_gem_6:
                 return Resources.Load<Sprite>("Skins/icons/char78_3d_all");
-                
+
+            case Skins.civilian_male_gem_7:
+                return Resources.Load<Sprite>("Skins/icons/old_male_05");
+
 
 
 
@@ -802,6 +805,8 @@ public class CustomizeUI : MonoBehaviour
             case 18:
                 return result.SkinCostGold(400);
             case 19:
+                return result.SkinCostGold(400);
+            case 20:
                 return result.SkinCostGold(400);
 
 

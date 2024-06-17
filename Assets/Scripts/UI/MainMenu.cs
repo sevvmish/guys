@@ -8,6 +8,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YG;
+using System.Runtime.InteropServices;
+using YG.Utils.Pay;
 
 public class MainMenu : MonoBehaviour
 {    
@@ -70,6 +72,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button level11B;
     [SerializeField] private Button level12B;
     [SerializeField] private Button level13B;
+
+
+
+    [SerializeField] private Button level14B;
 
 
     [SerializeField] private GameObject postament;
@@ -135,6 +141,9 @@ public class MainMenu : MonoBehaviour
 
     };
 
+
+    
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -143,6 +152,7 @@ public class MainMenu : MonoBehaviour
         //mainCamera.orthographicSize = 1.5f;
         
         mainCamera.transform.position = new Vector3(0, 0, -3);
+
     }
 
     private void showProgress()
@@ -175,6 +185,9 @@ public class MainMenu : MonoBehaviour
         playArrowNotificator.SetActive(false);
         questNotificator.SetActive(false);
         postament.SetActive(true);
+
+        level14B.gameObject.SetActive(true);
+        level14B.onClick.AddListener(() => { SceneManager.LoadScene("level14"); });
 
         /*
         resetB.gameObject.SetActive(true);
@@ -427,6 +440,23 @@ public class MainMenu : MonoBehaviour
             
         MainPlayerSkin.transform.position = Globals.UIPlayerPosition;
         MainPlayerSkin.transform.eulerAngles = Globals.UIPlayerRotation;
+
+        //CHECK NEW AND OLD SAVES FOR ARRAY LENGTH
+        int mainIndex = 15;
+        if (Globals.MainPlayerData.LvlA.Length < mainIndex)
+        {
+            int howMany = mainIndex - Globals.MainPlayerData.LvlA.Length;
+
+            for (int i = 0; i < howMany; i++)
+            {
+                Globals.MainPlayerData.LvlA = Globals.MainPlayerData.LvlA.Append(0).ToArray();
+                Globals.MainPlayerData.TR = Globals.MainPlayerData.TR.Append(0).ToArray();
+                Globals.MainPlayerData.LM = Globals.MainPlayerData.LM.Append(0).ToArray();
+            }
+
+            SaveLoadManager.Save();
+        }
+        
     }
 
     public void ChangeMainSkin(bool isToUpdate)

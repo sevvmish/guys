@@ -122,6 +122,10 @@ public class SkinControl : MonoBehaviour
                 //g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_male_gem_5);
                 return g;
 
+            case Skins.civilian_male_gem_7:
+                g = Instantiate(Resources.Load<GameObject>("Skins/male/old_male_05"));
+                return g;
+
 
 
 
@@ -258,6 +262,7 @@ public enum Skins
     civilian_male_gem_4,
     civilian_male_gem_5,
     civilian_male_gem_6,
+    civilian_male_gem_7,
 
 
 

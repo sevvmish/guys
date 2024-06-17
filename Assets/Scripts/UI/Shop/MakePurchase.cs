@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YG;
+using YG.Utils.Pay;
 
 public class MakePurchase : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class MakePurchase : MonoBehaviour
         {
             SoundUI.Instance.PlayUISound(SoundsUI.click);
             errorPanel.SetActive(false);
+            SceneManager.LoadScene("MainMenu");
         });
     }
 
@@ -47,6 +49,8 @@ public class MakePurchase : MonoBehaviour
                 GetRewardSystem.Instance.ShowEffect(RewardTypes.all_maps, 0);
                 GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
             }
+
+            //StartCoroutine(playTest());
         }
 
         /*
@@ -61,6 +65,30 @@ public class MakePurchase : MonoBehaviour
             Globals.IsAllRestarter = true;
             SceneManager.LoadScene("MainMenu");
         }*/
+    }
+
+    private IEnumerator playTest()
+    {
+        yield return new WaitForSeconds(3);
+
+        //TESTETSTETETS
+        Purchase[] purchases = YandexGame.purchases;
+        for (int i = 0; i < YandexGame.purchases.Length; i++)
+        {
+            if (purchases[i] != null)
+            {
+                Debug.Log(i + ": " + purchases[i].description + " = " + purchases[i].priceValue);
+            }
+            else
+            {
+                Debug.Log(i + " is NULL");
+            }
+        }
+
+        if (purchases.Length == 0) Debug.Log("NO PURCHASE DATA!");
+
+        Purchase p = YandexGame.PurchaseByID("all_skins");
+        Debug.Log(p.id + " = " + p.description + " = " + p.priceValue);
     }
 
     public void Buy(string id)
@@ -205,6 +233,7 @@ public class MakePurchase : MonoBehaviour
 
         yield return new WaitForSeconds(5);
         errorPanel.SetActive(false);
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

@@ -73,7 +73,7 @@ public class OffersManager : MonoBehaviour
             {
                 ShowOffer();
             }   
-            else if (!Globals.MainPlayerData.IsAskQuestion && MainMenu.GetCurrentLevel() >= 5)
+            else if (!Globals.MainPlayerData.IsAskQuestion && MainMenu.GetCurrentLevel() >= 5 && Globals.LevelsPlayedForBonusCountAmount > 0)
             {
                 Globals.MainPlayerData.IsAskQuestion = true;
                 SaveLoadManager.Save();

@@ -9,8 +9,7 @@ public class LevelSetter : MonoBehaviour
 {
         
     [SerializeField] private GameObject mapExample;
-
-    [SerializeField] private GameObject bonus;
+        
     [SerializeField] private TextMeshProUGUI bonusText;
     [SerializeField] private TextMeshProUGUI bonusExplainText;
     
@@ -28,7 +27,10 @@ public class LevelSetter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bonus.SetActive(false);
+        bonusText.transform.parent.gameObject.SetActive(false);
+        bonusExplainText.transform.parent.gameObject.SetActive(false);
+        bonusText.gameObject.SetActive(true);
+        bonusExplainText.gameObject.SetActive(true);
 
         if (Globals.IsMusicOn)
         {
@@ -61,7 +63,7 @@ public class LevelSetter : MonoBehaviour
 
         locationRect = location.GetComponent<RectTransform>();
 
-        if (Globals.LevelsPlayedForBonusCountAmount >= 5)
+        if (Globals.LevelsPlayedForBonusCountAmount >= 4)
         {
             Globals.LevelsPlayedForBonusCountAmount = 0;
 
@@ -186,7 +188,8 @@ public class LevelSetter : MonoBehaviour
 
         if (isBonus)
         {
-            bonus.SetActive(true);
+            bonusText.transform.parent.gameObject.SetActive(true);
+            bonusExplainText.transform.parent.gameObject.SetActive(true);
             bonusText.text = Globals.Language.BonusText;
             bonusExplainText.text = Globals.Language.BonusExplainText;
         }
