@@ -163,7 +163,7 @@ public class PlayerControl : MonoBehaviour
     public void SetPlayerToMain()
     {
         IsItMainPlayer = true;
-        effectsControl.SetShadow(this);
+        if (Globals.IsLowFPS) effectsControl.SetShadow(this);
     }
 
     public void StopJumpPermission(float seconds)
@@ -300,7 +300,7 @@ public class PlayerControl : MonoBehaviour
 
         //IsGrounded = checkGround();
         //if (IsItMainPlayer) print(IsGrounded);
-        checkShadow();
+        if (IsItMainPlayer && Globals.IsLowFPS) checkShadow();
         PlayerVelocity = _rigidbody.velocity.magnitude;
         PlayerNonVerticalVelocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude;
         PlayerVerticalVelocity = new Vector3(0, _rigidbody.velocity.y, 0).magnitude;

@@ -1,0 +1,156 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78f9a1b84cd93ba4e81d51bd0cd84ea6, type: 3}
+  m_Name: deutch
+  m_EditorClassIdentifier: 
+  UpArrowLetter: W
+  DownArrowLetter: S
+  LeftArrowLetter: A
+  RightArrowLetter: D
+  JumpLetter: Springen
+  DoubleJumpHint: "Verwenden den Doppelsprung \u2013 dr\xFCcken \u201ESprung\u201C
+    und dann, w\xE4hrend in der Luft sind, einen weiteren Sprung!"
+  CameraHintPC: Zur Kamerasteuerung und Bewegungsrichtung bewegen Ihre Maus!
+  CameraHintMobile: 'Zur Kamerasteuerung und Bewegungsrichtung tippen auf den rechten
+    Teil des Bildschirms:'
+  DontForgetDoubleJump: Vergessen Sie nicht, den Doppelsprung zu verwenden und die
+    Kamera zu bewegen!
+  AbilityForPC: "Sammle Spezialf\xE4higkeiten und aktiviere sie durch Dr\xFCcken
+    von E oder der linken Maustaste!"
+  AbilityForMobile: "Sammle Spezialf\xE4higkeiten und aktiviere sie, indem du die
+    rechte Taste auf dem Bildschirm dr\xFCckst! "
+  MovementHintLeftJ: "F\xFCr die Bewegung verwenden Sie den linken Joystick:"
+  MovementHintLetters: "F\xFCr die Bewegung verwenden Sie die Tasten:"
+  JumpHintRightJ: 'Zum Springen verwenden Sie die rechte Taste:'
+  JumpHintKeyboard: 'Zum Springen nutzen Sie die Leertaste oder die rechte Maustaste:'
+  CameraScalerInfo: Kameraabstand
+  Saved: GERETTET
+  PlusBonus: Diamant
+  SkipLevelOffer: "Aktuelle Level-Phase \xFCberspringen"
+  SkipLevelConfirmation: "M\xF6chten Sie die aktuelle Levelphase \xFCberspringen,
+    indem Sie Werbung ansehen?"
+  PressButtonWhenSkipLevel: "Dr\xFCcken Sie \u201E1\u201C"
+  Play: SPIELEN
+  Options: Optionen
+  Continue: WEITERMACHEN
+  Reset: "Zur\xFCcksetzen"
+  ResetInfoText: "Sie werden den gesamten Spielfortschritt zur\xFCcksetzen. Weitermachen? "
+  ContinueCamelCase: Weitermachen
+  ToMenu: 
+  Repeat: 
+  CustomizeButton: 
+  ShopButton: 
+  ProgressButton: 
+  QuestButton: 
+  usePutOn: 
+  useBuy: 
+  Aim: 
+  Aim_Tutorial: 
+  Aim_Finish: 
+  Aim_DontFall: 
+  Aim_Challenge: 
+  Aim_Laser: 
+  WinText: 
+  LoseText: 
+  TutorialDone: 
+  Level1Name: 
+  Level2Name: 
+  Level3Name: 
+  Level3NewLVLName: 
+  Level5Name: 
+  Level6Name: 
+  Level7Name: 
+  Level8Name: 
+  Level9Name: 
+  Level10Name: 
+  Level11Name: 
+  Level12Name: 
+  Level13Name: 
+  Level14Name: 
+  Take: 
+  DailyRewards: 
+  Day: 
+  Yan: 
+  Close: 
+  PurchaseError: 
+  NoAdsTitle: 
+  NoAdsMainDescription: 
+  NoAdsAddDescription1: 
+  NoAdsAddDescription2: 
+  AllSkinsTitle: 
+  AllSkinsMainDescription1: 
+  AllSkinsMainDescription2: 
+  StarterTitle: 
+  StarterDescription: 
+  RewardButton: 
+  Progress: 
+  Gold: 
+  Gem: 
+  XP: 
+  NewLVL: 
+  NewMap: 
+  LevelShort: 
+  Difficulty: 
+  New: 
+  PressForAbilityButton: 
+  GoGoGo: 
+  Unblock: 
+  Quest0Name: 
+  Quest0Descr: 
+  Quest1Name: 
+  Quest1Descr: 
+  Quest2Name: 
+  Quest2Descr: 
+  Quest3Name: 
+  Quest3Descr: 
+  Quest4Name: 
+  Quest4Descr: 
+  Quest5Name: 
+  Quest5Descr: 
+  Quest6Name: 
+  Quest6Descr: 
+  Quest7Name: 
+  Quest7Descr: 
+  Quest8Name: 
+  Quest8Descr: 
+  Quest9Name: 
+  Quest9Descr: 
+  GetAllTitle: 
+  GetAllMainDescription: 
+  GetAllAddDescription1: 
+  GetAllAddDescription2: 
+  GetAllAddDescription3: 
+  AllMapsTitle: 
+  AllMapsMainDescription: 
+  TrackRecord: 
+  TrackNewRecord: 
+  Sec: 
+  RewardForAdvGoldDescription: 
+  RewardForAdvXPDescription: 
+  RewardedADVError: 
+  AllMapsRewardSign: 
+  AllSkinsRewardSign: 
+  NoADVRewardSign: 
+  progressHint: 
+  questHint: 
+  GOOOOO: 
+  DoYouLikeMap: 
+  WhatToImprove: 
+  Send: 
+  question0: 
+  question1: 
+  question2: 
+  question3: 
+  question4: 
+  BonusText: 
+  BonusExplainText: 
+  EscapeButtonHelper: 

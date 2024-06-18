@@ -8,8 +8,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YG;
-using System.Runtime.InteropServices;
-using YG.Utils.Pay;
 
 public class MainMenu : MonoBehaviour
 {    

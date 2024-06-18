@@ -54,7 +54,7 @@ public class Localization
                 
                 translation = Resources.Load<Translation>("languages/english");
                 break;
-
+                            
             default:
                 
                 translation = Resources.Load<Translation>("languages/english");

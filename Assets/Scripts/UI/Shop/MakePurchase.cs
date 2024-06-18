@@ -69,7 +69,7 @@ public class MakePurchase : MonoBehaviour
 
     private IEnumerator playTest()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
 
         //TESTETSTETETS
         Purchase[] purchases = YandexGame.purchases;
