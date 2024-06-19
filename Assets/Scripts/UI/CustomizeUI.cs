@@ -747,9 +747,10 @@ public class CustomizeUI : MonoBehaviour
 
             case Skins.civilian_female_gem_9:
                 return Resources.Load<Sprite>("Skins/icons/charXX_3d_all");
-                
 
 
+            case Skins.civilian_female_gem_10:
+                return Resources.Load<Sprite>("Skins/icons/char69_3d_female");
 
 
             default:
@@ -852,6 +853,9 @@ public class CustomizeUI : MonoBehaviour
             case 42:
                 return result.SkinCostGold(400);
             case 43:
+                return result.SkinCostGold(400);
+
+            case 44:
                 return result.SkinCostGold(400);
         }
 

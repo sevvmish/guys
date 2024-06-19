@@ -228,6 +228,11 @@ public class SkinControl : MonoBehaviour
                 //g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_female_gem_5);
                 return g;
 
+            case Skins.civilian_female_gem_10:
+                g = Instantiate(Resources.Load<GameObject>("Skins/female/char69_3d_female"));
+                //g.GetComponent<MaleSkinsManager>().SetSkin(Skins.civilian_female_gem_5);
+                return g;
+
 
 
 
@@ -287,6 +292,7 @@ public enum Skins
     civilian_female_gem_6,
     civilian_female_gem_7,
     civilian_female_gem_8,
-    civilian_female_gem_9
+    civilian_female_gem_9,
+    civilian_female_gem_10
 
 }

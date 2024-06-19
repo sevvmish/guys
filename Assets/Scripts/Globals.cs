@@ -79,7 +79,7 @@ public class Globals : MonoBehaviour
     public const float PLAYERS_COLLIDE_FORCE = 7f;
 
     public static Vector2 MaleSkins = new Vector2(2,20);
-    public static Vector2 FemaleSkins = new Vector2(25, 43);
+    public static Vector2 FemaleSkins = new Vector2(25, 44);
 
     public const float OFFER_UPDATE = 4f;
 
