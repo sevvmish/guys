@@ -405,11 +405,11 @@ public class PlayerControl : MonoBehaviour
 
     private bool checkGround()
     {
-        bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), _transform.rotation, 3, QueryTriggerInteraction.Ignore);
-        
-        //bool result1 = Physics.CheckBox(_transform.position + Vector3.down * 0.2f + _transform.forward * 0.2f, new Vector3(0.25f, 0.05f, 0.05f), Quaternion.identity, 3, QueryTriggerInteraction.Ignore);
-        //bool result2 = Physics.CheckBox(_transform.position + Vector3.down * 0.2f + _transform.forward * -0.2f, new Vector3(0.25f, 0.05f, 0.05f), Quaternion.identity, 3, QueryTriggerInteraction.Ignore);
-        //bool result = result1 && result2;
+        //bool result = Physics.CheckBox(_transform.position + Vector3.down * 0.2f, new Vector3(0.25f, 0.05f, 0.25f), _transform.rotation, 3, QueryTriggerInteraction.Ignore);
+        bool result = Physics.CheckBox(_transform.position + Vector3.down * 0f, new Vector3(0.25f, 0.05f, 0.25f), _transform.rotation, 3, QueryTriggerInteraction.Ignore);
+
+
+
         if (!IsGrounded && result && PlayerVerticalVelocity > 5 && !IsRagdollActive) effectsControl.MakeLandEffect();
 
         if (!IsGrounded && result)
