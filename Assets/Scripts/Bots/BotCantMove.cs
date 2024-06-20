@@ -5,6 +5,7 @@ using UnityEngine;
 public class BotCantMove : MonoBehaviour
 {
     private HashSet<BotAI> bots = new HashSet<BotAI>();
+    [SerializeField] private float cooldown = 2f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,7 +30,7 @@ public class BotCantMove : MonoBehaviour
     {
         PlayerControl p = bot.GetComponent<PlayerControl>();
 
-        for (float i = 0; i < 2; i+= 0.1f)
+        for (float i = 0; i < cooldown; i+= 0.1f)
         {
             if (p.IsDead || p.IsRagdollActive) break;
 

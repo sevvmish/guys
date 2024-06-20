@@ -43,11 +43,12 @@ public class LevelManagerLevel14 : MonoBehaviour
 
         gameTimer += Time.deltaTime;
 
+
+
         if (_timer > cooldown)
         {
             _timer = 0;
-            //if (cooldown>=5) cooldown -= 1f;
-
+            
             if (gameTimer < 20)
             {
                 speedTime = 10f;

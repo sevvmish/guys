@@ -134,17 +134,17 @@ public class UniversalAnimator : MonoBehaviour
                 if (isUsePlatforming)
                 {
                     _rigidbody.position = FromPoint.position;
-                    sequence.Append(_rigidbody.DOMove(ToPoint.position, MovementSpeed).SetEase(easeType));
+                    sequence.Append(_rigidbody.DOMove(ToPoint.position, MovementSpeed).SetUpdate(UpdateType.Fixed).SetEase(easeType));
                     sequence.AppendInterval(delayBetweenPoints);
-                    sequence.Append(_rigidbody.DOMove(FromPoint.position, MovementSpeed).SetEase(easeType));
+                    sequence.Append(_rigidbody.DOMove(FromPoint.position, MovementSpeed).SetUpdate(UpdateType.Fixed).SetEase(easeType));
                     sequence.AppendInterval(delayBeforePoint);
                 }
                 else
                 {
                     _rigidbody.transform.position = FromPoint.position;
-                    sequence.Append(_rigidbody.transform.DOMove(ToPoint.position, MovementSpeed).SetEase(easeType));
+                    sequence.Append(_rigidbody.transform.DOMove(ToPoint.position, MovementSpeed).SetUpdate(UpdateType.Fixed).SetEase(easeType));
                     sequence.AppendInterval(delayBetweenPoints);
-                    sequence.Append(_rigidbody.transform.DOMove(FromPoint.position, MovementSpeed).SetEase(easeType));
+                    sequence.Append(_rigidbody.transform.DOMove(FromPoint.position, MovementSpeed).SetUpdate(UpdateType.Fixed).SetEase(easeType));
                     sequence.AppendInterval(delayBeforePoint);
                 }        
                 
