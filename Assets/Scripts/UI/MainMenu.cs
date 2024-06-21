@@ -75,6 +75,7 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] private Button level14B;
     [SerializeField] private Button level15B;
+    [SerializeField] private Button level16B;
 
 
     [SerializeField] private GameObject postament;
@@ -190,6 +191,9 @@ public class MainMenu : MonoBehaviour
 
         level15B.gameObject.SetActive(true);
         level15B.onClick.AddListener(() => { SceneManager.LoadScene("level15"); });
+
+        level16B.gameObject.SetActive(true);
+        level16B.onClick.AddListener(() => { SceneManager.LoadScene("level16"); });
 
         /*
         resetB.gameObject.SetActive(true);

@@ -92,8 +92,8 @@ public class PlayerData
         XPN = false; //XP notofocator when new level received
 
         TutL = false; //tutorial level done
-        LvlA = new int[] {1,1,0,0,0,0,0,0,0,0, 0, 0, 0, 0,      0,0}; //what levels are available
-        TR = new int[16]; //track records by each level
+        LvlA = new int[] {1,1,0,0,0,0,0,0,0,0, 0, 0, 0, 0,      0,0,0}; //what levels are available
+        TR = new int[17]; //track records by each level
 
         LDA = 0; //last number of day for analytics
         WR = new GameSessionResult[0];
@@ -109,7 +109,7 @@ public class PlayerData
 
         //NEW
         IsLowFPSOn = false;
-        LM = new int[16]; //do u like map - all maps
+        LM = new int[17]; //do u like map - all maps
         IsAskQuestion = false; //questions about game improvement
     }
 

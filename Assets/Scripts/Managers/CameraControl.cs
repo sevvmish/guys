@@ -15,6 +15,7 @@ public class CameraControl : MonoBehaviour
     private Transform outerCamera;
     private Vector3 outerCameraShiftVector = Vector3.zero;
 
+
     private float currentZoom;
     private float zoomTimer;
 
@@ -33,7 +34,6 @@ public class CameraControl : MonoBehaviour
 
     private Dictionary<MeshRenderer, Material> changedMeshRenderers = new Dictionary<MeshRenderer, Material>();
     private HashSet<MeshRenderer> renderers = new HashSet<MeshRenderer>();
-    //private HashSet<MeshRenderer> changedRanderers = new HashSet<MeshRenderer>();
     private HashSet<MeshRenderer> renderersToReturn = new HashSet<MeshRenderer>();
 
     private GameManager gm;
@@ -71,8 +71,9 @@ public class CameraControl : MonoBehaviour
                 break;
 
             case LevelTypes.level16:
-                outerCamera.eulerAngles += new Vector3(-10, 0, 0);
-                //outerCameraShiftVector = new Vector3(15, 0, 0);
+                //mainCamera.localEulerAngles = new Vector3(70, 0, 0);
+                //outerCamera.eulerAngles += new Vector3(15, 0, 0);
+                outerCameraShiftVector = new Vector3(-15, 0, 0);
                 break;
         }
 
@@ -147,7 +148,7 @@ public class CameraControl : MonoBehaviour
 
     public void ResetCameraOnRespawn(Vector3 vec)
     {
-        outerCamera.eulerAngles = new Vector3(/*outerCamera.localEulerAngles.x + */outerCameraShiftVector.x, vec.y, 0);
+        outerCamera.eulerAngles = new Vector3(outerCameraShiftVector.x, vec.y, 0);
     }
 
     public void ChangeCameraAngleY(float angleY)

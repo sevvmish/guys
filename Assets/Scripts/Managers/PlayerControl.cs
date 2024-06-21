@@ -864,27 +864,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    public void SetPlayerDirection(float y)
-    {
-        if (IsItMainPlayer)
-        {
-            cc.ResetCameraOnRespawn(new Vector3(0, y, 0));
-            angleYForMobile = y;
-        }
-    }
-
-    public void FirstRespawn(Vector3 pos, Vector3 rot)
-    {
-        _transform.position = pos;
-        _transform.eulerAngles = new Vector3(0, rot.y, 0);
-
-        if (IsItMainPlayer)
-        {
-            cc.ResetCameraOnRespawn(new Vector3(0, rot.y, 0));
-            angleYForMobile = rot.y;
-        }
-    }
-
+    
     public void Respawn(Vector3 pos, Vector3 rot)
     {        
         if (gm.GameType == GameTypes.Dont_fall)

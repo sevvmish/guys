@@ -28,7 +28,7 @@ public class Globals : MonoBehaviour
     public static bool IsShowQuestNotification;
 
     public const int MAX_RESPAWN_POINTS = 25;
-    public const int MAX_MAPS = 16;
+    public const int MAX_MAPS = 17;
 
     public static bool IsDontShowIntro;
     public static bool IsGlobalTouch;

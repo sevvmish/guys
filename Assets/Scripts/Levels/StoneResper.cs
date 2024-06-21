@@ -17,11 +17,13 @@ public class StoneResper : MonoBehaviour
     private float _timer;
     private GameManager gm;
     private HashSet<GameObject> stones = new HashSet<GameObject>();
+    private Vector3 lastVec = Vector3.zero;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        _timer = cooldown;
         stoneExample.SetActive(false);
         breakVFXExample.SetActive(false);
 
@@ -33,7 +35,7 @@ public class StoneResper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gm.IsGameStarted) return;
+        //if (!gm.IsGameStarted) return;
 
         if (_timer > cooldown)
         {
@@ -48,7 +50,19 @@ public class StoneResper : MonoBehaviour
 
     private void createStone()
     {
-        Vector3 pos = Vector3.Lerp(from.position, to.position, UnityEngine.Random.Range(0, 1f));
+        Vector3 pos = Vector3.zero;
+
+        for (int i = 0; i < 100; i++)
+        {
+            pos = Vector3.Lerp(from.position, to.position, UnityEngine.Random.Range(0, 1f));
+
+            if ((lastVec - pos).magnitude > 8)
+            {
+                break;
+            }
+        }
+        
+        lastVec = pos;
         GameObject g = poolStones.GetObject();
         g.transform.position = pos;
         g.SetActive(true);
