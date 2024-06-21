@@ -22,6 +22,8 @@ public class DrumJumper : MonoBehaviour
     {
         dir = (to.position - from.position).normalized;
         vfx.SetActive(false);
+
+        if (drum == null) drum = transform;
     }
 
     private void OnCollisionEnter(Collision collision)

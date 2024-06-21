@@ -1011,7 +1011,7 @@ public class PlayerControl : MonoBehaviour
         {
             timer += 0.1f;
             yield return ZeroOne;
-            if (timer > 5) break;
+            if (timer > 1) break;
         }
 
         

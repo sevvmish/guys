@@ -444,7 +444,7 @@ public class MainMenu : MonoBehaviour
         MainPlayerSkin.transform.eulerAngles = Globals.UIPlayerRotation;
 
         //CHECK NEW AND OLD SAVES FOR ARRAY LENGTH
-        int mainIndex = 15;
+        int mainIndex = Globals.MAX_MAPS;
         if (Globals.MainPlayerData.LvlA.Length < mainIndex)
         {
             int howMany = mainIndex - Globals.MainPlayerData.LvlA.Length;

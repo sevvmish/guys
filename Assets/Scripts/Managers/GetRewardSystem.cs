@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GetRewardSystem : MonoBehaviour
 {
@@ -52,7 +53,7 @@ public class GetRewardSystem : MonoBehaviour
             gemRect.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = Globals.Language.Gem;
             xpRect.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = Globals.Language.XP;
             newLvlRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.NewLVL;
-            newMapRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.NewMap;
+            newMapRect.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.NewMap;
             allMapRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.AllMapsRewardSign;
             allSkinsRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.AllSkinsRewardSign;
             noADVRect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Globals.Language.NoADVRewardSign;
@@ -134,6 +135,8 @@ public class GetRewardSystem : MonoBehaviour
             if (effects[i].RewardType == RewardTypes.newMap)
             {
                 g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = LevelManager.GetLevelData((LevelTypes)effects[i].Amount).LevelName;
+                g.transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = LevelManager.GetLevelData((LevelTypes)effects[i].Amount).ImageSprite;
+
             }
             else if (effects[i].RewardType == RewardTypes.all_maps || effects[i].RewardType == RewardTypes.all_skins || effects[i].RewardType == RewardTypes.no_adv)
             {
