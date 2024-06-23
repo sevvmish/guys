@@ -75,6 +75,12 @@ public class CameraControl : MonoBehaviour
                 outerCamera.eulerAngles += new Vector3(-10, 0, 0);
                 outerCameraShiftVector = new Vector3(-10, 0, 0);
                 break;
+
+            default:
+                
+                //outerCamera.eulerAngles += new Vector3(5, 0, 0);
+                //outerCameraShiftVector = new Vector3(5, 0, 0);
+                break;
         }
 
         ignoreMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll", "danger" });

@@ -17,6 +17,9 @@ public class StoneResper : MonoBehaviour
     private float _timer;
     private GameManager gm;
     private HashSet<GameObject> stones = new HashSet<GameObject>();
+
+    private List<Rigidbody> stonesAtWork = new List<Rigidbody>();
+
     private Vector3 lastVec = Vector3.zero;
 
 
@@ -40,6 +43,20 @@ public class StoneResper : MonoBehaviour
         if (_timer > cooldown)
         {
             _timer = 0;
+            
+
+            if (stonesAtWork.Count > 0)
+            {
+                for (int i = 0; i < stonesAtWork.Count; i++)
+                {
+                    if (stonesAtWork[i].velocity.magnitude < 1 && !stones.Contains(stonesAtWork[i].gameObject))
+                    {
+                        stones.Add(stonesAtWork[i].gameObject);
+                        StartCoroutine(breakAndReturn(stonesAtWork[i].gameObject));
+                    }
+                }
+            }
+
             createStone();
         }
         else
@@ -56,7 +73,7 @@ public class StoneResper : MonoBehaviour
         {
             pos = Vector3.Lerp(from.position, to.position, UnityEngine.Random.Range(0, 1f));
 
-            if ((lastVec - pos).magnitude > 8)
+            if ((lastVec - pos).magnitude > 6.5f)
             {
                 break;
             }
@@ -64,6 +81,10 @@ public class StoneResper : MonoBehaviour
         
         lastVec = pos;
         GameObject g = poolStones.GetObject();
+        Rigidbody rb = g.GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
+        stonesAtWork.Add(rb);
+        
         g.transform.position = pos;
         g.SetActive(true);
     }
@@ -89,6 +110,7 @@ public class StoneResper : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
+        stonesAtWork.Remove(rb);
         poolStones.ReturnObject(g);
         stones.Remove(g);
 

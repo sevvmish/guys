@@ -950,6 +950,8 @@ public class PlayerControl : MonoBehaviour
     {
         if (IsRagdollActive || !IsCanAct) return;
         if (additionalForce == 0) additionalForce = 1;
+
+        //print(gameObject.name + " = force = " + forceVector.magnitude);
                 
         if (forceVector.magnitude > 30)
         {

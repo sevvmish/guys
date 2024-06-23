@@ -75,6 +75,7 @@ public class GetRewardSystem : MonoBehaviour
     private IEnumerator playEffects()
     {
         isActive = true;
+        float addWait = 0;
 
         for (int i = 0; i < effects.Count; i++)
         {
@@ -136,6 +137,7 @@ public class GetRewardSystem : MonoBehaviour
             {
                 g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = LevelManager.GetLevelData((LevelTypes)effects[i].Amount).LevelName;
                 g.transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = LevelManager.GetLevelData((LevelTypes)effects[i].Amount).ImageSprite;
+                addWait = 0.4f;
 
             }
             else if (effects[i].RewardType == RewardTypes.all_maps || effects[i].RewardType == RewardTypes.all_skins || effects[i].RewardType == RewardTypes.no_adv)
@@ -149,7 +151,7 @@ public class GetRewardSystem : MonoBehaviour
             
             StartCoroutine(playEndEffect(g.GetComponent<RectTransform>(), pos, effects[i].RewardType));
 
-            yield return new WaitForSeconds(1.7f);
+            yield return new WaitForSeconds(1.7f + addWait);
         }
 
         effects.Clear();

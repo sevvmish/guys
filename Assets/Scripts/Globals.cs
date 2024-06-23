@@ -65,7 +65,7 @@ public class Globals : MonoBehaviour
     public const float SPEED_INC_IN_NONGROUND_PC = 0.25f;
     public const float SPEED_INC_IN_NONGROUND_MOBILE = 0.35f;
 
-    public const float MAX_HIT_IMPULSE_MAGNITUDE = 60f;
+    public const float MAX_HIT_IMPULSE_MAGNITUDE = 40f;
     public const float MIN_HIT_IMPULSE_MAGNITUDE = 20f;
 
     public const int LAYER_HELPER = 6;
