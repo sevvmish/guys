@@ -11,6 +11,7 @@ public class DrumJumper : MonoBehaviour
     [SerializeField] private float force = 60;
     [SerializeField] private Transform from;
     [SerializeField] private Transform to;
+    [SerializeField] private bool isTesting;
 
     [SerializeField] private GameObject vfx;
 
@@ -26,7 +27,7 @@ public class DrumJumper : MonoBehaviour
         if (drum == null) drum = transform;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if ((collision.gameObject.layer == 9 || collision.gameObject.layer == 3) && collision.gameObject.TryGetComponent(out Rigidbody player) && !players.Contains(player))
         {        
@@ -41,44 +42,44 @@ public class DrumJumper : MonoBehaviour
 
     private IEnumerator play(Rigidbody player)
     {
-        vfx.SetActive(true);
-        _audio.Play();
-                
-
-        //yield return new WaitForSeconds(Time.fixedDeltaTime);
-
-        player.velocity = Vector3.zero;
-        player.ResetInertiaTensor();
-
-        player.AddForce(dir * force, ForceMode.Impulse);
-        yield return new WaitForSeconds(Time.fixedDeltaTime);
-        
-        for (int i = 0; i < 3; i++)
+        if (isTesting)
         {
-            player.AddForce(dir * 10, ForceMode.Impulse); 
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
+            player.velocity = Vector3.zero;
+            player.AddForce(dir * force*2, ForceMode.Impulse);
+
+            yield return new WaitForSeconds(0.5f);
+            players.Remove(player);
+            drum.localScale = Vector3.one;
+            vfx.SetActive(false);
         }
+        else
+        {
+            vfx.SetActive(true);
+            _audio.Play();
+
+            if (player.drag != 2) player.drag = 2;
+            //player.velocity = Vector3.zero;
+            //player.ResetInertiaTensor();
+
+            player.AddForce(dir * force, ForceMode.Impulse);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (player.drag != 2) player.drag = 2;
+                player.AddForce(dir * 10, ForceMode.Impulse);
+                yield return new WaitForSeconds(Time.fixedDeltaTime);
+            }
+
+
+            yield return new WaitForSeconds(0.3f);
+
+            players.Remove(player);
+            drum.localScale = Vector3.one;
+            vfx.SetActive(false);
+        }
+
         
-
-        yield return new WaitForSeconds(0.3f);
-
-        players.Remove(player);
-        drum.localScale = Vector3.one;
-        vfx.SetActive(false);
     }
 
-    /*
-    private IEnumerator cleanList(Rigidbody player)
-    {
-        vfx.SetActive(true);
-        _audio.Play();
-
-        player.AddForce(dir * 10, ForceMode.Impulse);
-
-        yield return new WaitForSeconds(0.2f);
-
-        players.Remove(player);
-        drum.localScale = Vector3.one;
-        vfx.SetActive(false);
-    }*/
 }

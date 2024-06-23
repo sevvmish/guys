@@ -286,6 +286,8 @@ public class PlayerControl : MonoBehaviour
     {
         if (!gm.IsGameStarted || IsFinished) return;
 
+        
+
         if (checkGroundTimer >= Time.fixedDeltaTime * 3)
         {
             checkGroundTimer = 0;
