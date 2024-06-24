@@ -28,7 +28,7 @@ public class Globals : MonoBehaviour
     public static bool IsShowQuestNotification;
 
     public const int MAX_RESPAWN_POINTS = 25;
-    public const int MAX_MAPS = 17;
+    public const int MAX_MAPS = 18;
 
     public static bool IsDontShowIntro;
     public static bool IsGlobalTouch;
@@ -102,7 +102,7 @@ public class Globals : MonoBehaviour
 
     public static readonly LayerMask ignoreTriggerMask = LayerMask.GetMask(new string[] { "trigger", "player", "ragdoll" });
 
-    public static Vector3 UIPlayerPosition = new Vector3(0, -0.8f, 0);
+    public static Vector3 UIPlayerPosition = new Vector3(0, -0.8f, -0.6f);
     public static Vector3 UIPlayerRotation = new Vector3(0, 180, 0);
 
     public static bool IsMobileChecker()

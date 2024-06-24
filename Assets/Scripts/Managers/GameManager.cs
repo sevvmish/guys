@@ -168,6 +168,10 @@ public class GameManager : MonoBehaviour
                     GameSecondsLeft = 90;
                     break;
 
+                case LevelTypes.level18:
+                    GameSecondsLeft = 90;
+                    break;
+
                 default:
                     GameSecondsLeft = 30;
                     break;

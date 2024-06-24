@@ -119,15 +119,17 @@ public class CustomizeUI : MonoBehaviour
         }
 
         
-
+        Vector3 shiftPlayer = new Vector3(-0.85f, -0.6f, -0.75f);
 
         for (int i = (int)boysRange.x; i <= (int)boysRange.y; i++)
         {
             PlayerSkins[i] = SkinControl.GetSkinGameobject((Skins)i);
             PlayerSkins[i].transform.parent = location;
-            PlayerSkins[i].transform.position = Globals.UIPlayerPosition + new Vector3(-1.15f, 0.1f, 0);
+            PlayerSkins[i].transform.position = shiftPlayer;
             PlayerSkins[i].transform.eulerAngles = new Vector3(0, 150, 0);
-            PlayerSkins[i].transform.localScale = Vector3.one * 0.9f;
+            
+
+            PlayerSkins[i].transform.localScale = Vector3.one * 0.85f;
             PlayerSkins[i].SetActive(false);
         }
 
@@ -135,9 +137,9 @@ public class CustomizeUI : MonoBehaviour
         {
             PlayerSkins[i] = SkinControl.GetSkinGameobject((Skins)i);
             PlayerSkins[i].transform.parent = location;
-            PlayerSkins[i].transform.position = Globals.UIPlayerPosition + new Vector3(-1.15f, 0.1f, 0);
+            PlayerSkins[i].transform.position = shiftPlayer;
             PlayerSkins[i].transform.eulerAngles = new Vector3(0, 150, 0);
-            PlayerSkins[i].transform.localScale = Vector3.one * 0.9f;
+            PlayerSkins[i].transform.localScale = Vector3.one * 0.85f;
             PlayerSkins[i].SetActive(false);
         }
 
@@ -393,11 +395,12 @@ public class CustomizeUI : MonoBehaviour
                     if (PlayerSkins[i] != null)
                     {
                         PlayerSkins[i].transform.position += new Vector3(0, 0, -0.4f);
+                        PlayerSkins[i].transform.localScale = Vector3.one * 0.8f;
                     }
                 }
 
                 pointer.GetComponent<RectTransform>().anchoredPosition -= new Vector2(-20, 0);
-                useButton.GetComponent<RectTransform>().anchoredPosition -= new Vector2(-20, 0);
+                useButton.GetComponent<RectTransform>().anchoredPosition -= new Vector2(50, 0);
 
             }
         }

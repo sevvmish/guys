@@ -195,7 +195,10 @@ public class LevelManager : MonoBehaviour
                 return new LevelData(Globals.Language.Level16Name, "", GameTypes.Finish_line, LevelTypes.level16, Globals.Language.Aim_Finish, "level16", 2, Resources.Load<Sprite>("Sprites/map16"), 14, 5);
 
             case LevelTypes.level17:
-                return new LevelData(Globals.Language.Level17Name, "", GameTypes.Finish_line, LevelTypes.level17, Globals.Language.Aim_Finish, "level17", 2, Resources.Load<Sprite>("Sprites/map16"), 15, 5);
+                return new LevelData(Globals.Language.Level17Name, "", GameTypes.Finish_line, LevelTypes.level17, Globals.Language.Aim_Finish, "level17", 2, Resources.Load<Sprite>("Sprites/map17"), 15, 5);
+
+            case LevelTypes.level18:
+                return new LevelData(Globals.Language.Level18Name, "", GameTypes.Dont_fall, LevelTypes.level18, Globals.Language.Aim_DontFall, "level18", 3, Resources.Load<Sprite>("Sprites/map17"), 16, 5);
         }
 
         return result;
@@ -221,7 +224,8 @@ public enum LevelTypes
     level14,
     level15,
     level16,
-    level17
+    level17,
+    level18
 }
 
 

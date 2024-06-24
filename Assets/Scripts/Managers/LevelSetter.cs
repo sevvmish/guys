@@ -180,11 +180,13 @@ public class LevelSetter : MonoBehaviour
     }
     private IEnumerator playShow()
     {
-        int howLong = howManyLevels > 5 ? 5 : howManyLevels;
+        int howLong = howManyLevels > 6 ? 6 : howManyLevels;
         locationRect.anchoredPosition = Vector2.zero;
-        locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 2800 - /*1300*/700 * (howManyLevels-1), locationRect.anchoredPosition.y), howLong).SetEase(Ease.Linear);
+        locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 2800 - /*1300*/800 * (howManyLevels-1), locationRect.anchoredPosition.y), howLong).SetEase(Ease.Linear);
 
-        yield return new WaitForSeconds(howLong);
+        float waiter = howLong > 4 ? 4 : howLong;
+
+        yield return new WaitForSeconds(waiter);
 
         if (isBonus)
         {

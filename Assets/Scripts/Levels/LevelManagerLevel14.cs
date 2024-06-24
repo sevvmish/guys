@@ -51,7 +51,7 @@ public class LevelManagerLevel14 : MonoBehaviour
             
             if (gameTimer < 20)
             {
-                speedTime = 10f;
+                speedTime = 9.5f;
                 cooldown = 5f;
                 sendObject(getRandomEasy(), speedTime);
             }

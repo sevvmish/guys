@@ -71,9 +71,18 @@ public class CameraControl : MonoBehaviour
                 break;
 
             case LevelTypes.level16:
-                //mainCamera.localEulerAngles = new Vector3(70, 0, 0);
                 outerCamera.eulerAngles += new Vector3(-10, 0, 0);
                 outerCameraShiftVector = new Vector3(-10, 0, 0);
+                break;
+
+            case LevelTypes.level17:
+                outerCamera.eulerAngles += new Vector3(7, 0, 0);
+                outerCameraShiftVector = new Vector3(7, 0, 0);
+                break;
+
+            case LevelTypes.level18:
+                outerCamera.eulerAngles += new Vector3(-5, 0, 0);
+                outerCameraShiftVector = new Vector3(-5, 0, 0);
                 break;
 
             default:
