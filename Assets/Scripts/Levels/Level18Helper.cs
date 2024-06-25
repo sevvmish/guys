@@ -20,8 +20,13 @@ public class Level18Helper : MonoBehaviour
     private float gameTimer = 0;
 
     private int lastRandomEasy = -1;
+    private int prelastRandomEasy = -1;
+
     private int lastRandomMedium = -1;
+    private int prelastRandomMedium = -1;
+
     private int lastRandomHard = -1;
+    private int prelastRandomHard = -1;
 
 
     private GameManager gm;
@@ -51,48 +56,51 @@ public class Level18Helper : MonoBehaviour
 
             if (gameTimer < 20)
             {
-                speedTime = 8f;
-                cooldown = 6f;
+                speedTime = 6.8f;
+                cooldown = 5.6f;
                 sendObject(getRandomEasy(), speedTime);
             }
-            else if (gameTimer >= 20 && gameTimer < 40)
+            else if (gameTimer >= 20 && gameTimer < 50)
             {
-                speedTime = 6.5f;
-                if (cooldown > 3f) cooldown -= 0.5f;
-                sendObject(getRandomEasy(), speedTime);
-            }
-            else if (gameTimer >= 40 && gameTimer < 60)
-            {
-                speedTime = 8f;
-                cooldown = 5f;
-                sendObject(getRandomMedium(), speedTime);
-                sendObjectWithDelay(getRandomEasy(), speedTime, 2.5f);
-            }
-            else if (gameTimer >= 60 && gameTimer < 75)
-            {
-                speedTime = 7f;
-                cooldown = 4f;
-                sendObject(getRandomHard(), speedTime);
-            }
-            else if (gameTimer >= 75)
-            {
-                speedTime = 8.5f;
-                cooldown = 5.5f;
-                sendObject(getRandomHard(), speedTime);
+                if (speedTime > 6f) speedTime -= 0.5f;
+                if (cooldown > 4.5f) cooldown -= 0.3f;
 
-                int rnd = UnityEngine.Random.Range(0, 2);
+                print("speedTimne: " + speedTime + ", cooldown: " + cooldown);
 
-                if (rnd == 0)
-                {
-                    sendObjectWithDelay(getRandomEasy(), speedTime, 2.5f);
+                int rnd = UnityEngine.Random.Range(0, 5);
+
+                switch(rnd)
+                {                    
+                    case 4:
+                        sendObject(getRandomEasy(), speedTime);
+                        break;
+
+                    default:
+                        sendObject(getRandomMedium(), speedTime);
+                        break;
                 }
-                else
-                {
-                    sendObjectWithDelay(getRandomMedium(), speedTime, 2.5f);
-                }
-
-
             }
+            else if (gameTimer >= 50)
+            {
+                speedTime = 6.9f;
+                cooldown = 6.9f;
+
+                sendObject(getRandomHard(), speedTime);
+
+                int rnd = UnityEngine.Random.Range(0, 3);
+
+                switch (rnd)
+                {
+                    case 0:
+                        sendObjectWithDelay(getRandomMedium(), speedTime, 3f);
+                        break;
+
+                    default:
+                        sendObjectWithDelay(getRandomEasy(), speedTime, 3f);
+                        break;
+                }
+            }
+            
         }
         else
         {
@@ -108,8 +116,9 @@ public class Level18Helper : MonoBehaviour
         {
             rnd = UnityEngine.Random.Range(0, easyObjects.Length);
 
-            if (rnd != lastRandomEasy)
+            if (rnd != lastRandomEasy && rnd != prelastRandomEasy)
             {
+                prelastRandomEasy = lastRandomEasy;
                 lastRandomEasy = rnd;
                 return easyObjects[rnd];
             }
@@ -126,8 +135,9 @@ public class Level18Helper : MonoBehaviour
         {
             rnd = UnityEngine.Random.Range(0, mediumObjects.Length);
 
-            if (rnd != lastRandomMedium)
+            if (rnd != lastRandomMedium && rnd != prelastRandomMedium)
             {
+                prelastRandomMedium = lastRandomMedium;
                 lastRandomMedium = rnd;
                 return mediumObjects[rnd];
             }
@@ -144,8 +154,9 @@ public class Level18Helper : MonoBehaviour
         {
             rnd = UnityEngine.Random.Range(0, hardObjects.Length);
 
-            if (rnd != lastRandomHard)
+            if (rnd != lastRandomHard && rnd != prelastRandomHard)
             {
+                prelastRandomHard = lastRandomHard;
                 lastRandomHard = rnd;
                 return hardObjects[rnd];
             }

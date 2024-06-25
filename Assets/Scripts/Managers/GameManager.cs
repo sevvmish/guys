@@ -268,7 +268,10 @@ public class GameManager : MonoBehaviour
                 playerAmount = 11;
             }
 
-            if (levelManager.GetCurrentLevelType() == LevelTypes.level8 || levelManager.GetCurrentLevelType() == LevelTypes.level14)
+            if (levelManager.GetCurrentLevelType() == LevelTypes.level8 
+                || levelManager.GetCurrentLevelType() == LevelTypes.level14 
+                || levelManager.GetCurrentLevelType() == LevelTypes.level18
+                )
             {
                 if (Globals.IsLowFPS)
                 {

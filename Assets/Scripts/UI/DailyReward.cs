@@ -18,7 +18,7 @@ public class DailyReward : MonoBehaviour
 
     [SerializeField] private Button getPrize;
 
-    private int rewardLimit = 12;
+    
     private bool isReady;
     private DailyRewardTypes currentDailyReward;
 
@@ -41,7 +41,21 @@ public class DailyReward : MonoBehaviour
             int cur = Globals.MainPlayerData.DR;
             currentDailyReward = GetDailyReward(cur);
 
-            for (int i = 0; i < rewardLimit; i++)
+            int fromLimit = 0;
+            int rewardLimit = 12;
+
+            if (cur >= 12 && cur < 24)
+            {
+                fromLimit = 12;
+                rewardLimit = 24;
+            }
+            else if (cur >= 24)
+            {
+                fromLimit = 24;
+                rewardLimit = 36;
+            }
+
+            for (int i = fromLimit; i < rewardLimit; i++)
             {
                 GameObject g = Instantiate(panelExample, location);
                 g.SetActive(true);
@@ -78,16 +92,13 @@ public class DailyReward : MonoBehaviour
                 }
             }
 
-            if (Globals.MainPlayerData.DR < 12 && (Globals.MainPlayerData.DR == 0 || Mathf.Abs(DateTime.Now.Day - Globals.MainPlayerData.LDR) > 0))
+            if (Globals.MainPlayerData.DR < 36 && (Globals.MainPlayerData.DR == 0 || Mathf.Abs(DateTime.Now.Day - Globals.MainPlayerData.LDR) > 0))
             {
                 StartCoroutine(playShow());
             }
 
             getPrize.onClick.AddListener(() =>
-            {
-                //SoundUI.Instance.PlayUISound(SoundsUI.cash);
-                
-
+            {                
                 switch (currentDailyReward.RewardType)
                 {
                     case DailyRewardTypes.RewardsTypes.Gold:
@@ -103,13 +114,6 @@ public class DailyReward : MonoBehaviour
                     case DailyRewardTypes.RewardsTypes.XP:
                         Globals.AddXP(currentDailyReward.Amount);
                         
-                        /*
-                        GetRewardSystem.Instance.ShowEffect(RewardTypes.xp, currentDailyReward.Amount);
-                        
-                        if (isLvl)
-                        {
-                            GetRewardSystem.Instance.ShowEffect(RewardTypes.newLvl, MainMenu.GetCurrentLevel());
-                        }*/
                         break;
                 }
 
@@ -133,6 +137,8 @@ public class DailyReward : MonoBehaviour
     
     public static DailyRewardTypes GetDailyReward(int day)
     {
+
+
         switch(day)
         {
             case 0:
@@ -166,10 +172,91 @@ public class DailyReward : MonoBehaviour
                 return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 150);
 
             case 10:
-                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 500);
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 300);
 
             case 11:
                 return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 5);
+
+
+
+
+
+            case 12:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 180);
+
+            case 13:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 220);
+
+            case 14:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 400);
+
+            case 15:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 7);
+
+            case 16:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 250);
+
+            case 17:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 300);
+
+            case 18:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 500);
+
+            case 19:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 8);
+
+            case 20:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 350);
+
+            case 21:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 400);
+
+            case 22:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 600);
+
+            case 23:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 10);
+
+
+
+
+
+
+            case 24:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 700);
+
+            case 25:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 850);
+
+            case 26:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 700);
+
+            case 27:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 12);
+
+            case 28:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 1000);
+
+            case 29:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 1200);
+
+            case 30:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 850);
+
+            case 31:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 14);
+
+            case 32:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 1500);
+
+            case 33:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gold, 1700);
+
+            case 34:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.XP, 1000);
+
+            case 35:
+                return new DailyRewardTypes(DailyRewardTypes.RewardsTypes.Gem, 17);
 
         }
 

@@ -77,6 +77,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button level15B;
     [SerializeField] private Button level16B;
     [SerializeField] private Button level17B;
+    [SerializeField] private Button level18B;
 
 
     [SerializeField] private GameObject postament;
@@ -101,44 +102,44 @@ public class MainMenu : MonoBehaviour
         1770, //10 lvl
         2070,
         2370,
-        2670,
-        3020,
-        3370,
-        3720,
-        4070,
-        4470,
-        4870,
-        5270, //20
-        5670,
-        6170,
-        6670,
-        7170,
-        7670,
-        8270,
-        8870,
-        9470,
-        10070,
-        10770,//30
-        11470,
-        12170,
-        12870,
-        13670,
-        14470,
-        15270,
-        16070,
-        17070,
-        18070,
-        19070,//40
-        20070,
-        21270,
-        22470,
-        23670,
-        24870,
-        26270,
-        27670,
-        29070,
-        30470,
-        31870 //50
+        2720,
+        3070,
+        3420,
+        3820,
+        4220,
+        4620,
+        5070,
+        5520, //20
+        5970,
+        6470,
+        6970,
+        7470,
+        7970,
+        8570,
+        9170,
+        9770,
+        10370,
+        11070,//30
+        11770,
+        12470,
+        13170,
+        13970,
+        14770,
+        15570,
+        16370,
+        17370,
+        18370,
+        19370,//40
+        20370,
+        21570,
+        22770,
+        23970,
+        25170,
+        26570,
+        27970,
+        29370,
+        30770,
+        32170 //50
 
     };
 
@@ -198,6 +199,9 @@ public class MainMenu : MonoBehaviour
 
         level17B.gameObject.SetActive(true);
         level17B.onClick.AddListener(() => { SceneManager.LoadScene("level17"); });
+
+        level18B.gameObject.SetActive(true);
+        level18B.onClick.AddListener(() => { SceneManager.LoadScene("level18"); });
 
         /*
         resetB.gameObject.SetActive(true);
