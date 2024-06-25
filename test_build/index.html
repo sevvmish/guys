@@ -360,6 +360,8 @@ console.log('Init Player ysdk');
                             let description = [];
                             let imageURI = [];
                             let priceValue = [];
+let currencyImage = [];
+let currencyCode = [];
                             let consumed = [];
 
                             payments.getPurchases().then(purchases => {
@@ -369,6 +371,8 @@ console.log('Init Player ysdk');
                                     description[i] = products[i].description;
                                     imageURI[i] = products[i].imageURI;
                                     priceValue[i] = products[i].priceValue;
+currencyImage[i] = products[i].getPriceCurrencyImage("medium");
+currencyCode[i] = products[i].priceCurrencyCode;
 
                                     consumed[i] = true;
                                     for (i2 = 0; i2 < purchases.length; i2++) {
@@ -385,6 +389,8 @@ console.log('Init Player ysdk');
                                     "description": description,
                                     "imageURI": imageURI,
                                     "priceValue": priceValue,
+"currencyImage": currencyImage,
+"currencyCode": currencyCode,
                                     "consumed": consumed
                                 };
 

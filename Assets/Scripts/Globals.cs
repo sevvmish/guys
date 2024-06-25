@@ -26,9 +26,10 @@ public class Globals : MonoBehaviour
     public static bool IsBotAntiStuckON = true;
 
     public static bool IsShowQuestNotification;
+    public static bool IsFirstInit;
 
     public const int MAX_RESPAWN_POINTS = 25;
-    public const int MAX_MAPS = 19;
+    public const int MAX_MAPS = 20;
 
     public static bool IsDontShowIntro;
     public static bool IsGlobalTouch;

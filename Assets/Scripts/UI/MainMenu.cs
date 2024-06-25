@@ -78,6 +78,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button level16B;
     [SerializeField] private Button level17B;
     [SerializeField] private Button level18B;
+    [SerializeField] private Button level19B;
 
 
     [SerializeField] private GameObject postament;
@@ -188,6 +189,7 @@ public class MainMenu : MonoBehaviour
         questNotificator.SetActive(false);
         postament.SetActive(true);
 
+        /*
         level14B.gameObject.SetActive(true);
         level14B.onClick.AddListener(() => { SceneManager.LoadScene("level14"); });
 
@@ -203,6 +205,9 @@ public class MainMenu : MonoBehaviour
         level18B.gameObject.SetActive(true);
         level18B.onClick.AddListener(() => { SceneManager.LoadScene("level18"); });
 
+        level19B.gameObject.SetActive(true);
+        level19B.onClick.AddListener(() => { SceneManager.LoadScene("level19"); });
+        */
         /*
         resetB.gameObject.SetActive(true);
         level1B.gameObject.SetActive(true);
@@ -380,15 +385,19 @@ public class MainMenu : MonoBehaviour
     }
 
     private void playWhenInitialized()
-    {        
-        resetAnalytics();
-
+    {   
         if (!Globals.MainPlayerData.TutL)
         {
             StartCoroutine(playTutorial());
             return;
         }
-        
+
+        if (!Globals.IsFirstInit)
+        {
+            Globals.IsFirstInit = true;
+            resetAnalytics();
+        }
+
 
         if (Globals.IsDontShowIntro)
         {

@@ -65,7 +65,7 @@ public class Level18Helper : MonoBehaviour
                 if (speedTime > 6f) speedTime -= 0.5f;
                 if (cooldown > 4.5f) cooldown -= 0.3f;
 
-                print("speedTimne: " + speedTime + ", cooldown: " + cooldown);
+                //print("speedTimne: " + speedTime + ", cooldown: " + cooldown);
 
                 int rnd = UnityEngine.Random.Range(0, 5);
 
