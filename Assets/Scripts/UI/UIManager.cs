@@ -442,6 +442,20 @@ public class UIManager : MonoBehaviour
                 //Analytics
                 string dataForA = "tutd";
                 YandexMetrica.Send(dataForA);
+
+                if (Globals.MainPlayerData.LDA == 0 || Mathf.Abs(DateTime.Now.Day - Globals.MainPlayerData.LDA) > 0)
+                {
+                    Globals.MainPlayerData.LDA = DateTime.Now.Day;
+                    Globals.MainPlayerData.WR = new GameSessionResult[0];
+
+                    for (int i = 0; i < Globals.MainPlayerData.QRT.Length; i++)
+                    {
+                        Globals.MainPlayerData.QRT[i] = 0;
+                    }
+                                        
+                }
+
+                Globals.IsFirstInit = true;
             }
             else
             {

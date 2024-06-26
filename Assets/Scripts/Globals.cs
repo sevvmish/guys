@@ -108,6 +108,8 @@ public class Globals : MonoBehaviour
 
     public static bool IsMobileChecker()
     {
+        if (YandexGame.EnvironmentData.isMobile) return true;
+
         if (Application.isMobilePlatform)
         {
             return true;

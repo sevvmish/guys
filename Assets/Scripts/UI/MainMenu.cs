@@ -82,6 +82,7 @@ public class MainMenu : MonoBehaviour
 
 
     [SerializeField] private GameObject postament;
+    [SerializeField] private GameObject environment;
 
 
     public Action OnBackToMainMenu;
@@ -385,18 +386,24 @@ public class MainMenu : MonoBehaviour
     }
 
     private void playWhenInitialized()
-    {   
-        if (!Globals.MainPlayerData.TutL)
-        {
-            StartCoroutine(playTutorial());
-            return;
-        }
-
+    {
         if (!Globals.IsFirstInit)
         {
             Globals.IsFirstInit = true;
             resetAnalytics();
         }
+
+        if (!Globals.MainPlayerData.TutL)
+        {
+            StartCoroutine(playTutorial());
+            return;
+        }
+        else
+        {
+            environment.SetActive(true);
+        }
+
+        
 
 
         if (Globals.IsDontShowIntro)
@@ -540,7 +547,7 @@ public class MainMenu : MonoBehaviour
             questNotificator.SetActive(false);
         }
 
-        
+        /*
         if (Input.GetKeyDown(KeyCode.R))
         {
             Globals.MainPlayerData = new PlayerData();
@@ -557,7 +564,7 @@ public class MainMenu : MonoBehaviour
 
             SceneManager.LoadScene("MainMenu");
         }
-
+        */
 
         if (Input.GetKeyDown(KeyCode.F10))
         {
