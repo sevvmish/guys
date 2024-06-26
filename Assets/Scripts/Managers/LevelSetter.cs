@@ -180,9 +180,11 @@ public class LevelSetter : MonoBehaviour
     }
     private IEnumerator playShow()
     {
+        locationRect.anchoredPosition = new Vector2(8000, 0);
+
         int howLong = howManyLevels > 6 ? 6 : howManyLevels;
-        locationRect.anchoredPosition = Vector2.zero;
-        locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 2800 - /*1300*/800 * (howManyLevels-1), locationRect.anchoredPosition.y), howLong).SetEase(Ease.Linear);
+        //locationRect.anchoredPosition = Vector2.zero;
+        locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 2800 - /*1300*/800 * (howManyLevels-1) - 1800, locationRect.anchoredPosition.y), howLong).SetEase(Ease.Linear);
 
         float waiter = howLong > 4 ? 4 : howLong;
 
@@ -200,7 +202,8 @@ public class LevelSetter : MonoBehaviour
         map.SetActive(true);
         LevelData data = LevelManager.GetLevelData(levelToPlay);
         map.GetComponent<MapUI>().SetMap(data, true, false);
-        map.GetComponent<RectTransform>().anchoredPosition = new Vector2(1000, 500);
+        //map.GetComponent<RectTransform>().anchoredPosition = new Vector2(1000, 500);
+        map.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
 
         map.transform.localScale = Vector3.zero;
         float scaleKoeff = Globals.IsMobile ? 1.35f : 1.5f;

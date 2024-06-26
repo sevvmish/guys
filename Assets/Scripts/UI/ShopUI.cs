@@ -8,6 +8,7 @@ public class ShopUI : MonoBehaviour
     [SerializeField] private MainMenu mainMenu;
     [SerializeField] private GameObject back;
     [SerializeField] private RectTransform mainRect;
+    [SerializeField] private RectTransform location;
 
     private bool isReady;
 
@@ -23,8 +24,20 @@ public class ShopUI : MonoBehaviour
     {        
         back.SetActive(true);
         //mainMenu.GetCameraTransform.DOMove(new Vector3(-6, 0, -9), 0.5f).SetEase(Ease.Linear);
-        mainMenu.MainPlayerSkin.SetActive(false);        
+        mainMenu.MainPlayerSkin.SetActive(false);
+
+        location.anchoredPosition = new Vector2(5000, 0);
     }
+
+    private IEnumerator play()
+    {
+        yield return new WaitForSeconds(0.05f);
+        for (int i = 0; i < 5000; i++)
+        {
+            location.anchoredPosition = new Vector2(i, 0);
+        }
+    }
+
 
     private void Update()
     {
@@ -32,6 +45,7 @@ public class ShopUI : MonoBehaviour
         {
             isReady = true;
 
+            /*
             if (Globals.IsMobile)
             {
                 mainRect.anchoredPosition = new Vector2(0,-70);
@@ -46,7 +60,8 @@ public class ShopUI : MonoBehaviour
                 {
                     mainRect.anchoredPosition = new Vector2(0, 0);
                 }
-            }
+            }*/
+            StartCoroutine(play());
         }
     }
 

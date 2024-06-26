@@ -50,6 +50,8 @@ public class QuestsUI : MonoBehaviour
                 Globals.IsShowQuestNotification = true;
             }
         }
+
+        location.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -1000);
     }
 
     private void Update()
@@ -69,7 +71,7 @@ public class QuestsUI : MonoBehaviour
 
             UpdateData();
 
-            
+            /*
             if (Globals.IsMobile)
             {
                 if (Globals.MainPlayerData.AdvOff)
@@ -90,7 +92,7 @@ public class QuestsUI : MonoBehaviour
             else
             {
                 mainRect.anchoredPosition = new Vector2(0, 50);
-            }
+            }*/
         }
     }
 
@@ -134,7 +136,7 @@ public class QuestsUI : MonoBehaviour
             }
         }
 
-        print("all: " + allGames + ", finish: " + gamesWithFinish + ", dont die all: " + gamesWithDontDie + ", firstInFin: " + firstInGamesWithFinish + ", winDontD: " + winInDontDie + ", inThree: " + inThreeInGamesWithFinish);
+        //print("all: " + allGames + ", finish: " + gamesWithFinish + ", dont die all: " + gamesWithDontDie + ", firstInFin: " + firstInGamesWithFinish + ", winDontD: " + winInDontDie + ", inThree: " + inThreeInGamesWithFinish);
 
         return new DataForQuests(allGames, gamesWithFinish, gamesWithDontDie, firstInGamesWithFinish, winInDontDie, inThreeInGamesWithFinish);
         

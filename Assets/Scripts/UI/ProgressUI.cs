@@ -60,8 +60,22 @@ public class ProgressUI : MonoBehaviour
             SaveLoadManager.Save();
         }
 
+        StartCoroutine(playSlide());
+    }
+    private IEnumerator playSlide()
+    {
+        yield return new WaitForSeconds(0);
+
+        for (int i = 0; i < 10000; i++)
+        {
+            locationRect.anchoredPosition = new Vector2(i, 0);
+        }
+
+        yield return new WaitForSeconds(0);
+
+
         int currLvl = MainMenu.GetCurrentLevel();
-        locationRect.anchoredPosition = Vector2.zero;
+        //locationRect.anchoredPosition = Vector2.zero;
         if (currLvl <= 1)
         {
             //locationRect.anchoredPosition = new Vector2(locationRect.anchoredPosition.x - 900, locationRect.anchoredPosition.y);
@@ -114,7 +128,7 @@ public class ProgressUI : MonoBehaviour
             StartCoroutine(playNewLVLs());
 
             
-
+            /*
             if (Globals.IsMobile)
             {
                 mainRect.anchoredPosition = new Vector2(0, -70);
@@ -131,7 +145,7 @@ public class ProgressUI : MonoBehaviour
                 }
                 
             }
-
+            */
 
             for (int i = 1; i < Globals.MainPlayerData.LvlA.Length; i++)
             {
