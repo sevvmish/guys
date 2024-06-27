@@ -140,12 +140,12 @@ public class MakePurchase : MonoBehaviour
                 break;
 
             case "all_skins":
-                for (int i = 2; i <= 18; i++)
+                for (int i = (int)Globals.MaleSkins.x; i <= (int)Globals.MaleSkins.y; i++)
                 {
                     Globals.MainPlayerData.Skins[i] = 1;
                 }
 
-                for (int i = 25; i <= 39; i++)
+                for (int i = (int)Globals.FemaleSkins.x; i <= (int)Globals.FemaleSkins.y; i++)
                 {
                     Globals.MainPlayerData.Skins[i] = 1;
                 }
@@ -171,15 +171,16 @@ public class MakePurchase : MonoBehaviour
 
                 Globals.MainPlayerData.AdvOff = true;
 
-                for (int i = 2; i <= 18; i++)
+                for (int i = (int)Globals.MaleSkins.x; i <= (int)Globals.MaleSkins.y; i++)
                 {
                     Globals.MainPlayerData.Skins[i] = 1;
                 }
 
-                for (int i = 25; i <= 39; i++)
+                for (int i = (int)Globals.FemaleSkins.x; i <= (int)Globals.FemaleSkins.y; i++)
                 {
                     Globals.MainPlayerData.Skins[i] = 1;
                 }
+
                 Globals.MainPlayerData.AllSkins = true;
                 SaveLoadManager.Save();
                 Globals.IsDontShowIntro = true;
