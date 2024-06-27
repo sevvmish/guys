@@ -61,16 +61,19 @@ public class ProgressUI : MonoBehaviour
         }
 
         StartCoroutine(playSlide());
+
+        
     }
     private IEnumerator playSlide()
     {
         yield return new WaitForSeconds(0);
-
+        locationRect.anchoredPosition = new Vector2(10000, 0);
+        /*
         for (int i = 0; i < 10000; i++)
         {
             locationRect.anchoredPosition = new Vector2(i, 0);
         }
-
+        */
         yield return new WaitForSeconds(0);
 
 

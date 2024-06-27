@@ -403,7 +403,7 @@ public class MainMenu : MonoBehaviour
             environment.SetActive(true);
         }
 
-        
+        YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
 
 
         if (Globals.IsDontShowIntro)
@@ -619,7 +619,7 @@ public class MainMenu : MonoBehaviour
 
             print("sound is: " + Globals.IsSoundOn);
 
-            YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
+            
 
             if (Globals.TimeWhenStartedPlaying == DateTime.MinValue)
             {

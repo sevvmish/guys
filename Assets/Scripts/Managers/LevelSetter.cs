@@ -184,7 +184,7 @@ public class LevelSetter : MonoBehaviour
 
         int howLong = howManyLevels > 6 ? 6 : howManyLevels;
         //locationRect.anchoredPosition = Vector2.zero;
-        locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 2800 - /*1300*/800 * (howManyLevels-1) - 1800, locationRect.anchoredPosition.y), howLong).SetEase(Ease.Linear);
+        locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 2800 - /*1300*/800 * (howManyLevels-1) - 2800, locationRect.anchoredPosition.y), howLong).SetEase(Ease.Linear);
 
         float waiter = howLong > 4 ? 4 : howLong;
 
