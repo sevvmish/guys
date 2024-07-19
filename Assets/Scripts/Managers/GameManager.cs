@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
                 case LevelTypes.level8:
                     GameSecondsLeft = 60;
                     break;
-
+                    /*
                 case LevelTypes.level11:
                     GameSecondsLeft = 150;
                     break;
@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
                         GameSecondsLeft = 120;
                     }                                        
                     break;
-
+                    */
                 case LevelTypes.level14:
                     GameSecondsLeft = 90;
                     break;
@@ -282,6 +282,12 @@ public class GameManager : MonoBehaviour
                     playerAmount = 15;
                 }
                 
+            }
+
+            if (levelManager.GetCurrentLevelType() == LevelTypes.level11
+                || levelManager.GetCurrentLevelType() == LevelTypes.level12)
+            {
+                playerAmount = 9;
             }
 
             PlayersAmount = playerAmount + 1;

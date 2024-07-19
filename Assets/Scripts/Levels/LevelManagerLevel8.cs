@@ -57,6 +57,7 @@ public class LevelManagerLevel8 : MonoBehaviour
         if (!isTwo && gm.GameSecondsPlayed > 3f )
         {
             isTwo = true;
+            
             SetGroupBot(pointGroupFar, false);
             SetGroupBot(pointGroupCloser, true);
         }
@@ -65,16 +66,22 @@ public class LevelManagerLevel8 : MonoBehaviour
         {
             _timer = 0;
 
+            
+            
             if (iterations < 2)
             {
+                interval -= 0.3f;
+                timeForPass -= 0.5f;
+
                 startLaser(0, false);
             }
             else if (iterations < 5)
-            {                
-                
+            {
+                interval -= 0.15f;
+                timeForPass -= 0.4f;
 
-                startLaser(UnityEngine.Random.Range(0.5f, 1.2f), false);
-                startLaser(UnityEngine.Random.Range(0.5f, 1.2f), false);
+                startLaser(UnityEngine.Random.Range(0.2f, 0.6f), false);
+                //startLaser(UnityEngine.Random.Range(0.5f, 1.2f), false);
             }
             else// if(iterations < 7)
             {
@@ -83,17 +90,21 @@ public class LevelManagerLevel8 : MonoBehaviour
                     isThree = true;
                     SetGroupBot(pointGroupCloser, false);
                     SetGroupBot(pointGroupVeryClose, true);
-                    interval = 6;
+                    interval = 4;
                     isDouble = true;
                 }
 
-                
-                
-                startLaser(UnityEngine.Random.Range(1f, 3f), true);
-                startLaser(UnityEngine.Random.Range(1f, 3f), true);
-                startLaser(UnityEngine.Random.Range(1f, 3f), true);
+                interval -= 0.1f;
+                timeForPass -= 0.3f;
+
+                print("timeforp: " + timeForPass + ", interval: " + interval);
+
+                startLaser(UnityEngine.Random.Range(0.1f, 0.3f), false);
+                //startLaser(UnityEngine.Random.Range(1f, 3f), true);
+                //startLaser(UnityEngine.Random.Range(1f, 3f), true);
+                //startLaser(UnityEngine.Random.Range(1f, 3f), true);
             }
-            
+
 
 
             iterations++;

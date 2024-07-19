@@ -365,6 +365,8 @@ public class PlayerControl : MonoBehaviour
 
         AnimationState = AnimationStates.Idle;
         _animator.Play("IdlePlus");
+
+        mainCollider.enabled = false;
     }
 
     private void makeJump()

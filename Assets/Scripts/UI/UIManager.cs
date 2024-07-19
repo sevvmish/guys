@@ -8,6 +8,7 @@ using System.Linq;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using YG;
+using System.Reflection.Emit;
 
 public class UIManager : MonoBehaviour
 {
@@ -253,14 +254,43 @@ public class UIManager : MonoBehaviour
     private IEnumerator playLevelSetter()
     {
         ScreenSaver.Instance.HideScreen();
+        AmbientMusic.Instance.StopAll();
         yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
-        SceneManager.LoadScene("LevelSetter");
+
+        if (!Globals.MainPlayerData.AdvOff && (DateTime.Now - Globals.TimeWhenLastInterstitialWas).TotalSeconds >= Globals.INTERSTITIAL_COOLDOWN)
+        {
+            playInterstitial("LevelSetter");
+            yield break;
+        }
+        else
+        {
+            
+            SceneManager.LoadScene("LevelSetter");
+        }
+
+
+
+        //SceneManager.LoadScene("LevelSetter");
     }
 
     private IEnumerator playMainMenu()
     {
         ScreenSaver.Instance.HideScreen();
+        AmbientMusic.Instance.StopAll();
         yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
+
+        if (!Globals.MainPlayerData.AdvOff && (DateTime.Now - Globals.TimeWhenLastInterstitialWas).TotalSeconds >= Globals.INTERSTITIAL_COOLDOWN)
+        {
+            playInterstitial("MainMenu");
+            yield break;
+        }
+        else
+        {
+            
+            SceneManager.LoadScene("MainMenu");
+        }
+
+
         SceneManager.LoadScene("MainMenu");
     }
 
