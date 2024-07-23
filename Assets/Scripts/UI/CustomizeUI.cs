@@ -54,7 +54,9 @@ public class CustomizeUI : MonoBehaviour
 
     private SkinCost useButtonBehaviour;
 
+
     
+
 
     // Start is called before the first frame update
     void Start()
@@ -146,23 +148,6 @@ public class CustomizeUI : MonoBehaviour
         
         setBoys();
 
-        /*
-        leftScroll.onClick.AddListener(() =>
-        {            
-            SoundUI.Instance.PlayUISound(SoundsUI.click);
-            cooldown = delay;
-            int d = currentIndex - 1;
-            updateByIndex(d, -1);
-        });
-
-        rightScroll.onClick.AddListener(() =>
-        {
-            SoundUI.Instance.PlayUISound(SoundsUI.click);
-            cooldown = delay;
-            int d = currentIndex + 1;
-            updateByIndex(d, 1);
-        });
-        */
         leftScroll.gameObject.SetActive(false);
         rightScroll.gameObject.SetActive(false);
 
@@ -403,6 +388,17 @@ public class CustomizeUI : MonoBehaviour
                 useButton.GetComponent<RectTransform>().anchoredPosition -= new Vector2(50, 0);
 
             }
+
+        }
+    }
+
+    public void UpdatePanelsUI()
+    {
+        print("!!!!!!!!");
+
+        for (int i = 0; i < panels.Length; i++)
+        {
+            if (panels[i] != null) panels[i].SetQuality();
         }
     }
 

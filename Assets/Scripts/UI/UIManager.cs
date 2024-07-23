@@ -253,18 +253,21 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator playLevelSetter()
     {
-        ScreenSaver.Instance.HideScreen();
+        
         AmbientMusic.Instance.StopAll();
-        yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
+
+        
 
         if (!Globals.MainPlayerData.AdvOff && (DateTime.Now - Globals.TimeWhenLastInterstitialWas).TotalSeconds >= Globals.INTERSTITIAL_COOLDOWN)
         {
+            ScreenSaver.Instance.HideScreenFast();
             playInterstitial("LevelSetter");
             yield break;
         }
         else
         {
-            
+            ScreenSaver.Instance.HideScreen();
+            yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
             SceneManager.LoadScene("LevelSetter");
         }
 
@@ -275,18 +278,21 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator playMainMenu()
     {
-        ScreenSaver.Instance.HideScreen();
+        
         AmbientMusic.Instance.StopAll();
-        yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
+
+        
 
         if (!Globals.MainPlayerData.AdvOff && (DateTime.Now - Globals.TimeWhenLastInterstitialWas).TotalSeconds >= Globals.INTERSTITIAL_COOLDOWN)
         {
+            ScreenSaver.Instance.HideScreenFast();
             playInterstitial("MainMenu");
             yield break;
         }
         else
         {
-            
+            ScreenSaver.Instance.HideScreen();
+            yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
             SceneManager.LoadScene("MainMenu");
         }
 
@@ -307,19 +313,20 @@ public class UIManager : MonoBehaviour
     private IEnumerator playStartLevel(string level)
     {
         Globals.IsLevelChangeStarted = true;
-        ScreenSaver.Instance.HideScreen();
+        
         AmbientMusic.Instance.StopAll();
-        yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
-
-        //print("seconds: " + (DateTime.Now - Globals.TimeWhenLastInterstitialWas).TotalSeconds);
+        
 
         if (!Globals.MainPlayerData.AdvOff && (DateTime.Now - Globals.TimeWhenLastInterstitialWas).TotalSeconds >= Globals.INTERSTITIAL_COOLDOWN)
         {
+            ScreenSaver.Instance.HideScreenFast();
             playInterstitial(level);
             yield break;
         }
         else
         {
+            ScreenSaver.Instance.HideScreen();
+            yield return new WaitForSeconds(Globals.SCREEN_SAVER_AWAIT + 0.2f);
             print("ordinary load level from UI");
             SceneManager.LoadScene(level);
         }

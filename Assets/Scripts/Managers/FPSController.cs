@@ -7,6 +7,7 @@ public class FPSController : MonoBehaviour
 {
     public static FPSController Instance { get; private set; }
 
+
     private List<float> fps = new List<float>();
     private float _timer;
     private float _preTimer = 2;
@@ -80,7 +81,6 @@ public class FPSController : MonoBehaviour
                     SaveLoadManager.Save();
 
                     QualitySettings.shadows = ShadowQuality.Disable;
-                    
                 }
             }
             
