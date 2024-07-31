@@ -23,7 +23,7 @@ public class ShopUI : MonoBehaviour
     public void SetOn()
     {        
         back.SetActive(true);
-        //mainMenu.GetCameraTransform.DOMove(new Vector3(-6, 0, -9), 0.5f).SetEase(Ease.Linear);
+        
         mainMenu.MainPlayerSkin.SetActive(false);
 
         location.anchoredPosition = new Vector2(5000, 0);
@@ -45,22 +45,6 @@ public class ShopUI : MonoBehaviour
         {
             isReady = true;
 
-            /*
-            if (Globals.IsMobile)
-            {
-                mainRect.anchoredPosition = new Vector2(0,-70);
-            }
-            else
-            {
-                if (!Globals.MainPlayerData.AdvOff)
-                {
-                    mainRect.anchoredPosition = new Vector2(0, 50);
-                }
-                else
-                {
-                    mainRect.anchoredPosition = new Vector2(0, 0);
-                }
-            }*/
             StartCoroutine(play());
         }
     }

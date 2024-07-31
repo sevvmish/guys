@@ -7,6 +7,8 @@ public class Localization
     private Translation translation;
     private Localization(string lang) 
     {
+        Debug.Log("what letters came:" + lang + " !!!!!!!!");
+
         /*
         switch(lang)
         {

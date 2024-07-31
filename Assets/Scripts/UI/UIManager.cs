@@ -618,6 +618,7 @@ public class UIManager : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         
+        /*
         if (isShowLikeMap)
         {
             likeMapPanel.SetActive(true);
@@ -626,7 +627,7 @@ public class UIManager : MonoBehaviour
             likeMapPanelText.gameObject.SetActive(true);
 
             likeMapPanel.transform.DOShakeScale(0.3f, 2, 30).SetEase(Ease.InSine);
-        }
+        }*/
 
         
     }

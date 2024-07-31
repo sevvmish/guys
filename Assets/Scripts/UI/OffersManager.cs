@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
-using UnityEngine.SceneManagement;
 
 public class OffersManager : MonoBehaviour
 {
@@ -72,13 +71,13 @@ public class OffersManager : MonoBehaviour
             else if ((DateTime.Now - Globals.TimeWhenStartedPlaying).TotalMinutes > Globals.OFFER_UPDATE)
             {
                 ShowOffer();
-            }   
+            }/*   
             else if (!Globals.MainPlayerData.IsAskQuestion && MainMenu.GetCurrentLevel() >= 5 && Globals.LevelsPlayedForBonusCountAmount > 0)
             {
                 Globals.MainPlayerData.IsAskQuestion = true;
                 SaveLoadManager.Save();
                 askQuestions.SetActive(true);
-            }
+            }*/
         }     
         else
         {

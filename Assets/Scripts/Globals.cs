@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GamePush;
 
 
 
@@ -108,6 +109,8 @@ public class Globals : MonoBehaviour
 
     public static bool IsMobileChecker()
     {        
+        if (GP_Device.IsMobile()) return true;
+
         if (Application.isMobilePlatform)
         {
             return true;
@@ -115,6 +118,14 @@ public class Globals : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    public static void ShowBanners()
+    {
+        if (!Globals.MainPlayerData.AdvOff && GP_Ads.IsStickyAvailable())
+        {
+            if (!GP_Ads.IsStickyPlaying()) GP_Ads.ShowSticky();
         }
     }
 
@@ -151,7 +162,11 @@ public class Globals : MonoBehaviour
         }
 
         //YandexGame.NewLeaderboardScores("lider", Globals.MainPlayerData.XP);        
+        //GP_Leaderboard.
     }
+
+    public static List<FetchProducts> ShopProducts = new List<FetchProducts>();
+    public static List<FetchPlayerPurchases> ShopPurchases = new List<FetchPlayerPurchases>();
 }
 
 public enum GameTypes

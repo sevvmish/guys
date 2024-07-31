@@ -1,3 +1,4 @@
+using GamePush;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,21 +9,34 @@ public class Rewarded : MonoBehaviour
     public Action OnRewardedEndedOK;
     public Action OnError;
 
-    private bool isRewardedOK;
 
-    private void Start()
+    private void OnEnable()
     {
-        //YandexGame.OpenVideoEvent = rewardStarted;
-        //YandexGame.RewardVideoEvent = rewardedClosedOK;
-        //YandexGame.CloseVideoEvent = advRewardedClosed;
-        //YandexGame.ErrorVideoEvent = advRewardedError;
+        GP_Ads.OnRewardedStart += rewardStarted;
+        GP_Ads.OnRewardedClose += advRewardedClosed;
+        GP_Ads.OnRewardedReward += rewardedReward;
+        
+    }
+
+    private void OnDisable()
+    {
+        GP_Ads.OnRewardedStart -= rewardStarted;
+        GP_Ads.OnRewardedClose -= advRewardedClosed;
+        GP_Ads.OnRewardedReward -= rewardedReward;
     }
 
     public void ShowRewardedVideo()
     {
-        isRewardedOK = false;        
-        //YandexGame.RewVideoShow(155);
-
+        if (GP_Ads.IsRewardedAvailable())
+        {
+            GP_Ads.ShowRewarded("reward");
+        }
+        else
+        {
+            OnError?.Invoke();
+            OnRewardedEndedOK = null;
+            OnError = null;
+        }        
     }
 
     private void rewardStarted()
@@ -35,23 +49,18 @@ public class Rewarded : MonoBehaviour
         }
     }
 
-    private void rewardedClosedOK(int value)
-    {
-        //155
-        if (value == 155)
-        {
-            isRewardedOK = true;
-            print("reward closed OK 155");
+    private void rewardedReward(string value)
+    {        
+        if (value == "reward")
+        {            
+            print("reward given");
             OnRewardedEndedOK?.Invoke();
         }
-
-        //OnRewardedEndedOK = null;
-        //OnError = null;
 
         Globals.TimeWhenLastRewardedWas = DateTime.Now;
     }
 
-    private void advRewardedClosed()
+    private void advRewardedClosed(bool isOK)
     {
         print("rewarded was closed ok");
         Time.timeScale = 1;
@@ -61,22 +70,23 @@ public class Rewarded : MonoBehaviour
         }
 
 
-        if (isRewardedOK)
+        if (isOK)
         {
-            print("invoke when rewarded OK");
-            //OnRewardedEndedOK?.Invoke();
+            print("close was OK");
         }
         else
         {
-            print("invoke when rewarded ERROR");
-            //OnError?.Invoke();
-        }
+            print("close was NOT OK");
 
-        //OnRewardedEndedOK = null;
-        //OnError = null;
+            OnError?.Invoke();
+        }
+                
+        OnRewardedEndedOK = null;
+        OnError = null;
 
     }
 
+    /*
     private void advRewardedError()
     {
         print("rewarded was ERROR!");
@@ -90,5 +100,5 @@ public class Rewarded : MonoBehaviour
         OnRewardedEndedOK = null;
         OnError = null;
 
-    }
+    }*/
 }

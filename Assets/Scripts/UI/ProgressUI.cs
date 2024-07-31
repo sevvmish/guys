@@ -67,25 +67,19 @@ public class ProgressUI : MonoBehaviour
     {
         yield return new WaitForSeconds(0);
         locationRect.anchoredPosition = new Vector2(10000, 0);
-        /*
-        for (int i = 0; i < 10000; i++)
-        {
-            locationRect.anchoredPosition = new Vector2(i, 0);
-        }
-        */
+        
         yield return new WaitForSeconds(0);
 
 
         int currLvl = MainMenu.GetCurrentLevel();
-        //locationRect.anchoredPosition = Vector2.zero;
         if (currLvl <= 1)
         {
-            //locationRect.anchoredPosition = new Vector2(locationRect.anchoredPosition.x - 900, locationRect.anchoredPosition.y);
+            
             locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 900, locationRect.anchoredPosition.y), 0.3f).SetEase(Ease.Linear);
         }
         else
         {
-            //locationRect.anchoredPosition = new Vector2(locationRect.anchoredPosition.x - 900 - 835 * (currLvl-1), locationRect.anchoredPosition.y);
+            
             locationRect.DOAnchorPos(new Vector2(locationRect.anchoredPosition.x - 900 - 835 * (currLvl - 1), locationRect.anchoredPosition.y), 0.5f).SetEase(Ease.Linear);
         }
     }
@@ -93,7 +87,6 @@ public class ProgressUI : MonoBehaviour
     public void SetOn()
     {
         back.SetActive(true);
-        //mainMenu.GetCameraTransform.DOMove(new Vector3(-6, 0, -9), 0.5f).SetEase(Ease.Linear);
         mainMenu.MainPlayerSkin.SetActive(false);
         updateMapData();
     }
@@ -128,26 +121,6 @@ public class ProgressUI : MonoBehaviour
             isReady = true;
 
             StartCoroutine(playNewLVLs());
-
-            
-            /*
-            if (Globals.IsMobile)
-            {
-                mainRect.anchoredPosition = new Vector2(0, -70);
-            }
-            else
-            {
-                if (!Globals.MainPlayerData.AdvOff)
-                {
-                    mainRect.anchoredPosition = new Vector2(0, 50);
-                }
-                else
-                {
-                    mainRect.anchoredPosition = new Vector2(0, 0);
-                }
-                
-            }
-            */
 
             for (int i = 1; i < Globals.MainPlayerData.LvlA.Length; i++)
             {

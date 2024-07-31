@@ -1,6 +1,8 @@
 using DG.Tweening;
+using GamePush;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,11 +62,6 @@ public class NoAdsPurchase : MonoBehaviour
         back.SetActive(true);
     }
 
-    private void OnEnable()
-    {
-        //currentPurchaseData = YandexGame.PurchaseByID(PurchaseID);
-        //riceText.text = Globals.Language.useBuy + ": " + currentPurchaseData.priceValue + " " + currentPurchaseData.currencyCode;
-    }
 
     private void Update()
     {
@@ -77,6 +74,13 @@ public class NoAdsPurchase : MonoBehaviour
             addDescription2.text = Globals.Language.NoAdsAddDescription2;
             //priceText.text = Globals.Language.useBuy + ": " + Price + " " + Globals.Language.Yan;
         }
+    }
+
+    private void OnEnable()
+    {
+        FetchProducts product = Globals.ShopProducts.FirstOrDefault(p => p.tag == PurchaseID);
+
+        priceText.text = Globals.Language.useBuy + ": " + product.price + " " + product.currency;
     }
 
     private IEnumerator playPurchase()

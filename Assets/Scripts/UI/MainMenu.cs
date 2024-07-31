@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using GamePush;
 
 public class MainMenu : MonoBehaviour
 {    
@@ -396,7 +397,7 @@ public class MainMenu : MonoBehaviour
             environment.SetActive(true);
         }
 
-        //YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
+        Globals.ShowBanners();
 
 
         if (Globals.IsDontShowIntro)
@@ -406,6 +407,11 @@ public class MainMenu : MonoBehaviour
         else
         {
             ScreenSaver.Instance.ShowScreen();
+        }
+
+        if (!GP_Payments.IsPaymentsAvailable())
+        {
+            shopB.gameObject.SetActive(false);
         }
 
         if (Globals.IsMobile)
@@ -430,7 +436,6 @@ public class MainMenu : MonoBehaviour
         }
 
 
-        //StartCoroutine(waitAndShowSticky());
         showProgress();
 
         if (Globals.IsMusicOn)
@@ -574,7 +579,7 @@ public class MainMenu : MonoBehaviour
         Vector2 delta = pointer.DeltaPosition;
         if (delta.x != 0) rotateCharacters(delta);
 
-        if (!Globals.IsInitiated)
+        if (GP_Init.isReady && !Globals.IsInitiated)
         {
             Globals.IsInitiated = true;
 
@@ -582,6 +587,7 @@ public class MainMenu : MonoBehaviour
 
             //print("SDK enabled: " + YandexGame.SDKEnabled);
             //Globals.CurrentLanguage = YandexGame.EnvironmentData.language;
+            Globals.CurrentLanguage = GP_Language.Current().ToString();
             print("language set to: " + Globals.CurrentLanguage);
 
             Globals.IsMobile = Globals.IsMobileChecker();

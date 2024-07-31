@@ -1,3 +1,4 @@
+using GamePush;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,13 +8,28 @@ public class Interstitial : MonoBehaviour
 {
     public Action OnEnded;
 
+    private void OnEnable()
+    {
+        GP_Ads.OnFullscreenStart += advStarted;
+        GP_Ads.OnFullscreenClose += advClosed;
+    }
+
+    private void OnDisable()
+    {
+        GP_Ads.OnFullscreenStart -= advStarted;
+        GP_Ads.OnFullscreenClose -= advClosed;
+    }
+
     public void ShowInterstitialVideo()
     {
         //YandexGame.OpenFullAdEvent = advStarted;
         //YandexGame.CloseFullAdEvent = advClosed;
         //YandexGame.ErrorFullAdEvent = advError;
         //YandexGame.FullscreenShow();
-        advClosed();
+
+        GP_Ads.ShowFullscreen();
+
+        //advClosed(true);
     }
 
     private void advStarted()
@@ -41,7 +57,7 @@ public class Interstitial : MonoBehaviour
         print("interstitial error");
     }
 
-    private void advClosed()
+    private void advClosed(bool isSuccess)
     {        
         Time.timeScale = 1;
         if (Globals.IsSoundOn)

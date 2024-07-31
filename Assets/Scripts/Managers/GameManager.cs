@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        //if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
+        Globals.ShowBanners();
 
         Globals.IsMobile = Globals.IsMobileChecker();
 

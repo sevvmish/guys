@@ -28,7 +28,7 @@ public class QuestsUI : MonoBehaviour
     public void SetOn()
     {
         back.SetActive(true);
-        //mainMenu.GetCameraTransform.DOMove(new Vector3(-6, 0, -9), 0.5f).SetEase(Ease.Linear);
+        
         mainMenu.MainPlayerSkin.SetActive(false);
         UpdateData();
         if (Globals.IsShowQuestNotification)
@@ -71,28 +71,6 @@ public class QuestsUI : MonoBehaviour
 
             UpdateData();
 
-            /*
-            if (Globals.IsMobile)
-            {
-                if (Globals.MainPlayerData.AdvOff)
-                {
-                    forResize1.sizeDelta = new Vector2(3000, 2000);
-                    forResize2.sizeDelta = new Vector2(1500, 780);
-                    mainRect.anchoredPosition = new Vector2(0, 20);
-                }
-                else
-                {
-                    forResize1.sizeDelta = new Vector2(3000, 2000);
-                    forResize2.sizeDelta = new Vector2(1500, 720);
-                    mainRect.anchoredPosition = new Vector2(0, 40);
-                }
-
-                
-            }
-            else
-            {
-                mainRect.anchoredPosition = new Vector2(0, 50);
-            }*/
         }
     }
 

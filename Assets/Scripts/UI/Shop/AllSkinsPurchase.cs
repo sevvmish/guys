@@ -1,6 +1,8 @@
 using DG.Tweening;
+using GamePush;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -64,12 +66,6 @@ public class AllSkinsPurchase : MonoBehaviour
         back.SetActive(true);
     }
 
-    private void OnEnable()
-    {
-        //currentPurchaseData = YandexGame.PurchaseByID(PurchaseID);
-        //priceNewText.text = currentPurchaseData.priceValue + " " + currentPurchaseData.currencyCode;
-    }
-
 
     private void Update()
     {
@@ -80,9 +76,17 @@ public class AllSkinsPurchase : MonoBehaviour
             addDescription1.text = Globals.Language.AllSkinsMainDescription1;
             addDescription2.text = Globals.Language.AllSkinsMainDescription2;
             priceText.text = Globals.Language.useBuy + ":";
-            //priceOldText.text = OldPrice + " " + currentPurchaseData.currencyCode;
+            //priceOldText.text = OldPrice + " " + Globals.Language.Yan;
             //priceNewText.text = Price + " " + Globals.Language.Yan;
         }
+    }
+
+    private void OnEnable()
+    {
+        FetchProducts product = Globals.ShopProducts.FirstOrDefault(p => p.tag == PurchaseID);
+        
+        priceOldText.text = (product.price * 1.33f).ToString("f0") + " " + product.currency;
+        priceNewText.text = product.price + " " + product.currency;
     }
 
     private IEnumerator playPurchase()

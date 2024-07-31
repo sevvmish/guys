@@ -57,22 +57,18 @@ public class SkinPanelUI : MonoBehaviour
         {
             default:
                 back.color = new Color(195f/256f, 158f/256f, 122f/256f, 1);
-                //if (!Globals.IsLowFPS) glowsimple.ToList().ForEach(x => x.SetActive(true));
                 break;
 
             case 1:
                 back.color = new Color(124f/256f, 195f/256f, 122f/256f, 1);
-                //if (!Globals.IsLowFPS) glowsimple.ToList().ForEach(x => x.SetActive(true));
                 break;
 
             case 2:
                 back.color = new Color(38f/256f, 105f/256f, 197f/256f, 1);
-                //if (!Globals.IsLowFPS) glowMedium.ToList().ForEach(x => x.SetActive(true));
                 break;
 
             case 3:
                 back.color = new Color(195f/256f, 68f/256f, 186f/256f, 1);
-                //if (!Globals.IsLowFPS) glowHigh.ToList().ForEach(x => x.SetActive(true));
                 break;
         }
     }

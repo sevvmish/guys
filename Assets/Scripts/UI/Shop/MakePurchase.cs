@@ -1,5 +1,7 @@
+using GamePush;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +14,7 @@ public class MakePurchase : MonoBehaviour
     [SerializeField] private TextMeshProUGUI errorButtonText;
     [SerializeField] private Button errorButton;
     [SerializeField] private GameObject errorPanel;
+    [SerializeField] private ShopOffers shopOffers;
 
 
     private bool isReady;
@@ -28,6 +31,19 @@ public class MakePurchase : MonoBehaviour
         });
     }
 
+    private void OnEnable()
+    {
+        GP_Payments.OnFetchProducts += OnFetchProducts;
+        GP_Payments.OnFetchProductsError += OnFetchProductsError;
+        GP_Payments.OnFetchPlayerPurchases += OnFetchPlayerPurchases;
+    }
+    //Отписка от событий
+    private void OnDisable()
+    {
+        GP_Payments.OnFetchProducts -= OnFetchProducts;
+        GP_Payments.OnFetchProductsError -= OnFetchProductsError;
+        GP_Payments.OnFetchPlayerPurchases -= OnFetchPlayerPurchases;
+    }
 
     private void Update()
     {
@@ -49,15 +65,39 @@ public class MakePurchase : MonoBehaviour
                 GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
             }
 
+            if (!GP_Payments.IsPaymentsAvailable())
+            {
+                GP_Payments.Fetch();
+            }
         }
-
     }
 
+    
+        
 
     public void Buy(string id)
     {
-        //YandexGame.BuyPayments(id);
+        //FetchProducts product = Globals.ShopProducts.FirstOrDefault(p => p.tag == id);
+
+        GP_Payments.Purchase(id, OnPurchaseSuccess, FailedPurchased);
+        consume(id);
     }
+
+    
+
+    private void OnPurchaseSuccess(string productIdOrTag)
+    {
+        SuccessPurchased(productIdOrTag);
+    }
+
+    private void consume(string id) => GP_Payments.Consume(id, OnConsumeSuccess, OnConsumeError);
+
+    private void OnConsumeSuccess(string productIdOrTag) => Debug.Log("CONSUME: SUCCESS: " + productIdOrTag);
+    
+    private void OnConsumeError() => Debug.Log("CONSUME: ERROR");
+
+
+
 
     private void SuccessPurchased(string id)
     {
@@ -141,7 +181,8 @@ public class MakePurchase : MonoBehaviour
                 SaveLoadManager.Save();
                 Globals.IsDontShowIntro = true;
                 Globals.IsAllRestarter = true;
-                SceneManager.LoadScene("MainMenu");
+                StartCoroutine(startMainMenu());
+                //SceneManager.LoadScene("MainMenu");
 
                 
                 break;
@@ -150,7 +191,13 @@ public class MakePurchase : MonoBehaviour
         Analitycs.Instance.Send(id);
     }
 
-    
+    private IEnumerator startMainMenu()
+    {        
+        yield return new WaitForSeconds(0.3f);
+        SceneManager.LoadScene("MainMenu");
+    }
+
+
     private IEnumerator advRestarter()
     {
         GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
@@ -176,9 +223,9 @@ public class MakePurchase : MonoBehaviour
     }
 
 
-    private void FailedPurchased(string id)
+    private void FailedPurchased()
     {
-        print("FAILED TO BUY: " + id);
+        //print("FAILED TO BUY: " + id);
         StartCoroutine(playError());
     }
     private IEnumerator playError()
@@ -190,6 +237,51 @@ public class MakePurchase : MonoBehaviour
         yield return new WaitForSeconds(5);
         errorPanel.SetActive(false);
         SceneManager.LoadScene("MainMenu");
+    }
+
+    private void OnFetchPlayerPurchases(List<FetchPlayerPurchases> purcahses)
+    {
+        for (int i = 0; i < purcahses.Count; i++)
+        {
+            Debug.Log("PLAYER PURCHASES: PRODUCT TAG: " + purcahses[i].tag);
+            Debug.Log("PLAYER PURCHASES: PRODUCT ID: " + purcahses[i].productId);
+            Debug.Log("PLAYER PURCHASES: PAYLOAD: " + purcahses[i].payload);
+            Debug.Log("PLAYER PURCHASES: CREATED AT: " + purcahses[i].createdAt);
+            Debug.Log("PLAYER PURCHASES: EXPIRED AT: " + purcahses[i].expiredAt);
+            Debug.Log("PLAYER PURCHASES: GIFT: " + purcahses[i].gift);
+            Debug.Log("PLAYER PURCHASES: SUBSCRIBED: " + purcahses[i].subscribed);
+        }
+    }
+
+    private void OnFetchProducts(List<FetchProducts> products)
+    {
+        Globals.ShopProducts = products;
+
+        for (int i = 0; i < products.Count; i++)
+        {
+            Debug.Log("PRODUCT: ID: " + products[i].id);
+            Debug.Log("PRODUCT: TAG: " + products[i].tag);
+            Debug.Log("PRODUCT: NAME: " + products[i].name);
+            Debug.Log("PRODUCT: DESCRIPTION: " + products[i].description);
+            Debug.Log("PRODUCT: ICON: " + products[i].icon);
+            Debug.Log("PRODUCT: ICON SMALL: " + products[i].iconSmall);
+            Debug.Log("PRODUCT: PRICE: " + products[i].price);
+            Debug.Log("PRODUCT: CURRENCY: " + products[i].currency);
+            Debug.Log("PRODUCT: CURRENCY SYMBOL: " + products[i].currencySymbol);
+            Debug.Log("PRODUCT: IS SUBSCRIPTION: " + products[i].isSubscription);
+            Debug.Log("PRODUCT: PERIOD: " + products[i].period);
+            Debug.Log("PRODUCT: TRIAL PERIOD: " + products[i].trialPeriod);
+        }
+
+        if (products.Count > 0)
+        {
+            shopOffers.ShowProducts();
+        }
+    }
+    // Ошибки при получении
+    private void OnFetchProductsError()
+    {
+        Debug.Log("FETCH PRODUCTS: ERROR");
     }
 
 }

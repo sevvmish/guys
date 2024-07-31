@@ -1,3 +1,4 @@
+using GamePush;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,6 @@ public class Analitycs : MonoBehaviour
 
     public void Send(string data)
     {
-
+        GP_Analytics.Goal(data, "");
     }
 }
