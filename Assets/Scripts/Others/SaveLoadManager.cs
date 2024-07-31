@@ -15,7 +15,7 @@ public class SaveLoadManager
         Globals.MainPlayerData.S = Globals.IsSoundOn ? 1 : 0;
 
         string data = JsonUtility.ToJson(Globals.MainPlayerData);
-        Debug.Log(data);
+        //Debug.Log(data);
         PlayerPrefs.SetString(ID, data);
         GP_Player.Set("player_data", data);
         GP_Player.Sync(true);

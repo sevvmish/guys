@@ -27,32 +27,14 @@ public class Localization
 
         switch (lang)
         {
-            case "ru":
+            case "Russian":
                 
                 translation = Resources.Load<Translation>("languages/russian");
                 break;
 
-            case "be":
+            
 
-                translation = Resources.Load<Translation>("languages/russian");
-                break;
-
-            case "uk":
-
-                translation = Resources.Load<Translation>("languages/russian");
-                break;
-
-            case "kk":
-
-                translation = Resources.Load<Translation>("languages/russian");
-                break;
-
-            case "uz":
-
-                translation = Resources.Load<Translation>("languages/russian");
-                break;
-
-            case "en":
+            case "English":
                 
                 translation = Resources.Load<Translation>("languages/english");
                 break;

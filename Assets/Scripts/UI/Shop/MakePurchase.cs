@@ -18,6 +18,9 @@ public class MakePurchase : MonoBehaviour
 
 
     private bool isReady;
+    private bool isProductsShown;
+    private bool isProductsLoaded;
+    private bool isPurchasesLoaded;
 
     private void Start()
     {
@@ -65,11 +68,19 @@ public class MakePurchase : MonoBehaviour
                 GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
             }
 
-            if (!GP_Payments.IsPaymentsAvailable())
+            if (GP_Payments.IsPaymentsAvailable())
             {
+                print("sterted fetching");
                 GP_Payments.Fetch();
             }
         }
+
+        if (Globals.ShopProducts.Count > 0 && isProductsLoaded && isPurchasesLoaded && !isProductsShown)
+        {
+            isProductsShown = true;
+            shopOffers.ShowProducts();
+        }
+
     }
 
     
@@ -241,6 +252,8 @@ public class MakePurchase : MonoBehaviour
 
     private void OnFetchPlayerPurchases(List<FetchPlayerPurchases> purcahses)
     {
+        Globals.ShopPurchases = purcahses;
+        /*
         for (int i = 0; i < purcahses.Count; i++)
         {
             Debug.Log("PLAYER PURCHASES: PRODUCT TAG: " + purcahses[i].tag);
@@ -251,12 +264,15 @@ public class MakePurchase : MonoBehaviour
             Debug.Log("PLAYER PURCHASES: GIFT: " + purcahses[i].gift);
             Debug.Log("PLAYER PURCHASES: SUBSCRIBED: " + purcahses[i].subscribed);
         }
+        */
+        print("fetched purchases: " + purcahses.Count);
+        isPurchasesLoaded = true;
     }
 
     private void OnFetchProducts(List<FetchProducts> products)
     {
         Globals.ShopProducts = products;
-
+        /*
         for (int i = 0; i < products.Count; i++)
         {
             Debug.Log("PRODUCT: ID: " + products[i].id);
@@ -272,11 +288,10 @@ public class MakePurchase : MonoBehaviour
             Debug.Log("PRODUCT: PERIOD: " + products[i].period);
             Debug.Log("PRODUCT: TRIAL PERIOD: " + products[i].trialPeriod);
         }
-
-        if (products.Count > 0)
-        {
-            shopOffers.ShowProducts();
-        }
+        */
+        print("fetched products: " + products.Count);
+        isProductsLoaded = true;
+        
     }
     // Ошибки при получении
     private void OnFetchProductsError()
