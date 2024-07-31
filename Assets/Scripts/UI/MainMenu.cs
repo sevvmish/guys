@@ -7,7 +7,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using YG;
 
 public class MainMenu : MonoBehaviour
 {    
@@ -378,12 +377,6 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("tutorial");
     }
 
-    private IEnumerator waitAndShowSticky()
-    {
-        yield return new WaitForSeconds(0);
-
-        YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
-    }
 
     private void playWhenInitialized()
     {
@@ -403,7 +396,7 @@ public class MainMenu : MonoBehaviour
             environment.SetActive(true);
         }
 
-        YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
+        //YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
 
 
         if (Globals.IsDontShowIntro)
@@ -581,14 +574,14 @@ public class MainMenu : MonoBehaviour
         Vector2 delta = pointer.DeltaPosition;
         if (delta.x != 0) rotateCharacters(delta);
 
-        if (YandexGame.SDKEnabled && !Globals.IsInitiated)
+        if (!Globals.IsInitiated)
         {
             Globals.IsInitiated = true;
 
             SaveLoadManager.Load();
 
-            print("SDK enabled: " + YandexGame.SDKEnabled);
-            Globals.CurrentLanguage = YandexGame.EnvironmentData.language;
+            //print("SDK enabled: " + YandexGame.SDKEnabled);
+            //Globals.CurrentLanguage = YandexGame.EnvironmentData.language;
             print("language set to: " + Globals.CurrentLanguage);
 
             Globals.IsMobile = Globals.IsMobileChecker();

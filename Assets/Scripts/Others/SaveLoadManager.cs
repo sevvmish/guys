@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Linq;
-using YG;
 
 public class SaveLoadManager
 {
@@ -17,65 +16,24 @@ public class SaveLoadManager
         string data = JsonUtility.ToJson(Globals.MainPlayerData);
         Debug.Log(data);
         PlayerPrefs.SetString(ID, data);
-        YandexGame.savesData.MainSave1 = data;
-
-        try
-        {            
-            YandexGame.SaveProgress();
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError(ex);
-            Debug.LogError("error saving data, defaults loaded");            
-        }        
+        
     }
 
 
     public static void Load()
     {
         string fromSave = "";
-        YandexGame.LoadProgress();
+        fromSave = PlayerPrefs.GetString(ID);
 
-        try
+        if (string.IsNullOrEmpty(fromSave))
         {
-            fromSave = YandexGame.savesData.MainSave1;
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError(ex);
-            Debug.LogError("error loading data, defaults loaded");
-
-        }
-
-
-        if (!string.IsNullOrEmpty(fromSave))
-        {
-
-
-            Debug.Log("loaded: " + fromSave);
-            try
-            {
-                Globals.MainPlayerData = JsonUtility.FromJson<PlayerData>(fromSave);
-            }
-            catch (System.Exception)
-            {
-                Globals.MainPlayerData = new PlayerData();
-            }
-
+            Globals.MainPlayerData = new PlayerData();
         }
         else
         {
-            fromSave = PlayerPrefs.GetString(ID);
-
-            if (string.IsNullOrEmpty(fromSave))
-            {
-                Globals.MainPlayerData = new PlayerData();
-            }
-            else
-            {
-                Globals.MainPlayerData = JsonUtility.FromJson<PlayerData>(fromSave);
-            }
+            Globals.MainPlayerData = JsonUtility.FromJson<PlayerData>(fromSave);
         }
+
 
     }
 

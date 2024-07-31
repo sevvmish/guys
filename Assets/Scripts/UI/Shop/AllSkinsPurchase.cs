@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG.Utils.Pay;
-using YG;
+
 
 public class AllSkinsPurchase : MonoBehaviour
 {
@@ -27,7 +26,7 @@ public class AllSkinsPurchase : MonoBehaviour
     [SerializeField] private GameObject back;
 
     private bool isReady;
-    private Purchase currentPurchaseData;
+    //private Purchase currentPurchaseData;
 
     // Start is called before the first frame update
     void Start()
@@ -67,8 +66,8 @@ public class AllSkinsPurchase : MonoBehaviour
 
     private void OnEnable()
     {
-        currentPurchaseData = YandexGame.PurchaseByID(PurchaseID);
-        priceNewText.text = currentPurchaseData.priceValue + " " + currentPurchaseData.currencyCode;
+        //currentPurchaseData = YandexGame.PurchaseByID(PurchaseID);
+        //priceNewText.text = currentPurchaseData.priceValue + " " + currentPurchaseData.currencyCode;
     }
 
 
@@ -81,7 +80,7 @@ public class AllSkinsPurchase : MonoBehaviour
             addDescription1.text = Globals.Language.AllSkinsMainDescription1;
             addDescription2.text = Globals.Language.AllSkinsMainDescription2;
             priceText.text = Globals.Language.useBuy + ":";
-            priceOldText.text = OldPrice + " " + currentPurchaseData.currencyCode;
+            //priceOldText.text = OldPrice + " " + currentPurchaseData.currencyCode;
             //priceNewText.text = Price + " " + Globals.Language.Yan;
         }
     }

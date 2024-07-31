@@ -4,8 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using YG;
-using YG.Utils.Pay;
+
 
 public class MakePurchase : MonoBehaviour
 {
@@ -35,9 +34,9 @@ public class MakePurchase : MonoBehaviour
         if (Globals.IsInitiated && !isReady)
         {
             isReady = true;
-            YandexGame.PurchaseSuccessEvent = SuccessPurchased;
-            YandexGame.PurchaseFailedEvent = FailedPurchased;
-            YandexGame.ConsumePurchases();
+            //YandexGame.PurchaseSuccessEvent = SuccessPurchased;
+            //YandexGame.PurchaseFailedEvent = FailedPurchased;
+            //YandexGame.ConsumePurchases();
 
             errorText.text = Globals.Language.PurchaseError;
             errorButtonText.text = Globals.Language.Close;
@@ -50,50 +49,14 @@ public class MakePurchase : MonoBehaviour
                 GetRewardSystem.Instance.ShowEffect(RewardTypes.no_adv, 0);
             }
 
-            //StartCoroutine(playTest());
         }
 
-        /*
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            StartCoroutine(advRestarter());
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Globals.IsDontShowIntro = true;
-            Globals.IsAllRestarter = true;
-            SceneManager.LoadScene("MainMenu");
-        }*/
     }
 
-    private IEnumerator playTest()
-    {
-        yield return new WaitForSeconds(2);
-
-        //TESTETSTETETS
-        Purchase[] purchases = YandexGame.purchases;
-        for (int i = 0; i < YandexGame.purchases.Length; i++)
-        {
-            if (purchases[i] != null)
-            {
-                Debug.Log(i + ": " + purchases[i].description + " = " + purchases[i].priceValue);
-            }
-            else
-            {
-                Debug.Log(i + " is NULL");
-            }
-        }
-
-        if (purchases.Length == 0) Debug.Log("NO PURCHASE DATA!");
-
-        Purchase p = YandexGame.PurchaseByID("all_skins");
-        Debug.Log(p.id + " = " + p.description + " = " + p.priceValue);
-    }
 
     public void Buy(string id)
     {
-        YandexGame.BuyPayments(id);
+        //YandexGame.BuyPayments(id);
     }
 
     private void SuccessPurchased(string id)
@@ -106,8 +69,7 @@ public class MakePurchase : MonoBehaviour
                 
                 Globals.MainPlayerData.AdvOff = true;
                 SaveLoadManager.Save();
-                //Globals.IsDontShowIntro = true;
-                //SceneManager.LoadScene("MainMenu");
+                
 
                 StartCoroutine(advRestarter());
 
@@ -131,10 +93,7 @@ public class MakePurchase : MonoBehaviour
                 Globals.MainPlayerData.AllMaps = true;
 
                 SaveLoadManager.Save();
-                //Globals.IsDontShowIntro = true;
-                //SceneManager.LoadScene("MainMenu");
-
-                //GetRewardSystem.Instance.ShowEffect(RewardTypes.all_maps, 0);
+                
                 StartCoroutine(mapsRestarter());
 
                 break;
@@ -151,10 +110,7 @@ public class MakePurchase : MonoBehaviour
                 }
                 Globals.MainPlayerData.AllSkins = true;
                 SaveLoadManager.Save();
-                //Globals.IsDontShowIntro = true;
-                //SceneManager.LoadScene("MainMenu");
-
-                //GetRewardSystem.Instance.ShowEffect(RewardTypes.all_skins, 0);
+                
                 StartCoroutine(skinsRestarter());
 
                 break;
@@ -187,12 +143,11 @@ public class MakePurchase : MonoBehaviour
                 Globals.IsAllRestarter = true;
                 SceneManager.LoadScene("MainMenu");
 
-                //StartCoroutine(allRestarter());
                 
                 break;
         }
 
-        YandexMetrica.Send(id);
+        Analitycs.Instance.Send(id);
     }
 
     

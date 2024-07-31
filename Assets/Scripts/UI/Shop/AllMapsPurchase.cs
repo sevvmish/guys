@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG.Utils.Pay;
-using YG;
+
 
 public class AllMapsPurchase : MonoBehaviour
 {
@@ -23,7 +22,7 @@ public class AllMapsPurchase : MonoBehaviour
     [SerializeField] private GameObject back;
 
     private bool isReady;
-    private Purchase currentPurchaseData;
+    //private Purchase currentPurchaseData;
 
     // Start is called before the first frame update
     void Start()
@@ -48,8 +47,8 @@ public class AllMapsPurchase : MonoBehaviour
 
     private void OnEnable()
     {
-        currentPurchaseData = YandexGame.PurchaseByID(PurchaseID);
-        priceText.text = Globals.Language.useBuy + ": " + currentPurchaseData.priceValue + " " + currentPurchaseData.currencyCode;
+        //currentPurchaseData = YandexGame.PurchaseByID(PurchaseID);
+        //priceText.text = Globals.Language.useBuy + ": " + currentPurchaseData.priceValue + " " + currentPurchaseData.currencyCode;
     }
 
     public void TurnOnCloseButton()

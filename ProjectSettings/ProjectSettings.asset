@@ -740,7 +740,7 @@ PlayerSettings:
   webGLDebugSymbols: 0
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
-  webGLTemplate: PROJECT:PluginYG
+  webGLTemplate: APPLICATION:Default
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 0
@@ -757,7 +757,7 @@ PlayerSettings:
   webGLPowerPreference: 2
   scriptingDefineSymbols:
     Standalone: YG_PLUGIN_YANDEX_GAME;AMPLIFY_SHADER_EDITOR
-    WebGL: YG_PLUGIN_YANDEX_GAME;YG_NEWTONSOFT_FOR_AUTOLOCALIZATION;YG_NEWTONSOFT_FOR_SAVES;YG_TEXT_MESH_PRO;AMPLIFY_SHADER_EDITOR
+    WebGL: AMPLIFY_SHADER_EDITOR
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

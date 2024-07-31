@@ -5,7 +5,6 @@ using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 public class AskQuestions : MonoBehaviour
 {
@@ -49,7 +48,7 @@ public class AskQuestions : MonoBehaviour
             SoundUI.Instance.PlayUISound(SoundsUI.positive);
             string toSend = "questions:" + answers[0] +"-" + answers[1] + "-" + answers[2] + "-" + answers[3] + "-" + answers[4];
             print(toSend);
-            YandexMetrica.Send(toSend);            
+            Analitycs.Instance.Send(toSend);            
             this.gameObject.SetActive(false);
         });
 

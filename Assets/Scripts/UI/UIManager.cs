@@ -7,8 +7,8 @@ using UnityEngine.UI;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
-using YG;
-using System.Reflection.Emit;
+using UnityEngine.Analytics;
+
 
 public class UIManager : MonoBehaviour
 {
@@ -222,7 +222,7 @@ public class UIManager : MonoBehaviour
             dislikeMapLikeB.gameObject.SetActive(false);
             likeMapLikeB.interactable = false;
             int lvl = (int)levelData.LevelType;
-            YandexMetrica.Send("like" + lvl);
+            Analitycs.Instance.Send("like" + lvl);            
             likeMapLikeB.transform.DOShakeScale(0.3f, 2, 30).SetEase(Ease.InSine);
             likeMapPanelText.gameObject.SetActive(false);
         });
@@ -233,7 +233,7 @@ public class UIManager : MonoBehaviour
             likeMapLikeB.gameObject.SetActive(false);
             dislikeMapLikeB.interactable = false;
             int lvl = (int)levelData.LevelType;
-            YandexMetrica.Send("dislike" + lvl);
+            Analitycs.Instance.Send("dislike" + lvl);
             dislikeMapLikeB.transform.DOShakeScale(0.3f, 2, 30).SetEase(Ease.InSine);
             likeMapPanelText.gameObject.SetActive(false);
         });
@@ -477,7 +477,7 @@ public class UIManager : MonoBehaviour
                 endGameWinText.text = Globals.Language.TutorialDone;
                 //Analytics
                 string dataForA = "tutd";
-                YandexMetrica.Send(dataForA);
+                Analitycs.Instance.Send(dataForA);
 
                 if (Globals.MainPlayerData.LDA == 0 || Mathf.Abs(DateTime.Now.Day - Globals.MainPlayerData.LDA) > 0)
                 {
@@ -498,7 +498,7 @@ public class UIManager : MonoBehaviour
                 endGameWinText.text = Globals.Language.WinText;
                 //Analytics
                 string dataForA = "lvl" + (int)levelData.LevelType + "w";
-                YandexMetrica.Send(dataForA);
+                Analitycs.Instance.Send(dataForA);
             }
             
             
@@ -517,7 +517,7 @@ public class UIManager : MonoBehaviour
 
             //Analytics
             string dataForA = "lvl" + (int)levelData.LevelType + "l";
-            YandexMetrica.Send(dataForA);
+            Analitycs.Instance.Send(dataForA);
         }
 
 

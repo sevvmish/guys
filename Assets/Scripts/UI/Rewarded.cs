@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YG;
 
 public class Rewarded : MonoBehaviour
 {
@@ -13,16 +12,16 @@ public class Rewarded : MonoBehaviour
 
     private void Start()
     {
-        YandexGame.OpenVideoEvent = rewardStarted;
-        YandexGame.RewardVideoEvent = rewardedClosedOK;
-        YandexGame.CloseVideoEvent = advRewardedClosed;
-        YandexGame.ErrorVideoEvent = advRewardedError;
+        //YandexGame.OpenVideoEvent = rewardStarted;
+        //YandexGame.RewardVideoEvent = rewardedClosedOK;
+        //YandexGame.CloseVideoEvent = advRewardedClosed;
+        //YandexGame.ErrorVideoEvent = advRewardedError;
     }
 
     public void ShowRewardedVideo()
     {
         isRewardedOK = false;        
-        YandexGame.RewVideoShow(155);
+        //YandexGame.RewVideoShow(155);
 
     }
 

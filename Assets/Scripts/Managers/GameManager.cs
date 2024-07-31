@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using YG;
 using DG.Tweening;
 
 [DefaultExecutionOrder(-2)]
@@ -72,7 +71,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
+        //if (Globals.MainPlayerData != null) YandexGame.StickyAdActivity(!Globals.MainPlayerData.AdvOff);
 
         Globals.IsMobile = Globals.IsMobileChecker();
 
@@ -195,7 +194,7 @@ public class GameManager : MonoBehaviour
         {
             //Analytics
             string dataForA = "lvl" + (int)levelManager.GetCurrentLevelType() + "s";
-            YandexMetrica.Send(dataForA);
+            Analitycs.Instance.Send(dataForA);
 
             if (Globals.IsMobile)
             {
@@ -306,7 +305,7 @@ public class GameManager : MonoBehaviour
         {
             //Analytics
             string dataForA = "tuts";
-            YandexMetrica.Send(dataForA);
+            Analitycs.Instance.Send(dataForA);
         }
 
         if (levelManager == null)

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YG;
+
 
 
 public class Globals : MonoBehaviour
@@ -107,9 +107,7 @@ public class Globals : MonoBehaviour
     public static Vector3 UIPlayerRotation = new Vector3(0, 180, 0);
 
     public static bool IsMobileChecker()
-    {
-        if (YandexGame.EnvironmentData.isMobile) return true;
-
+    {        
         if (Application.isMobilePlatform)
         {
             return true;
@@ -152,8 +150,7 @@ public class Globals : MonoBehaviour
             }
         }
 
-        //SaveLoadManager.Save();
-        YandexGame.NewLeaderboardScores("lider", Globals.MainPlayerData.XP);        
+        //YandexGame.NewLeaderboardScores("lider", Globals.MainPlayerData.XP);        
     }
 }
 

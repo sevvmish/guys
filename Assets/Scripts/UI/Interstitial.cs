@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YG;
 
 public class Interstitial : MonoBehaviour
 {
@@ -10,10 +9,11 @@ public class Interstitial : MonoBehaviour
 
     public void ShowInterstitialVideo()
     {
-        YandexGame.OpenFullAdEvent = advStarted;
-        YandexGame.CloseFullAdEvent = advClosed;//nextLevelAction;
-        YandexGame.ErrorFullAdEvent = advError;//nextLevelAction;
-        YandexGame.FullscreenShow();
+        //YandexGame.OpenFullAdEvent = advStarted;
+        //YandexGame.CloseFullAdEvent = advClosed;
+        //YandexGame.ErrorFullAdEvent = advError;
+        //YandexGame.FullscreenShow();
+        advClosed();
     }
 
     private void advStarted()
