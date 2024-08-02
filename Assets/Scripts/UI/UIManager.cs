@@ -393,7 +393,7 @@ public class UIManager : MonoBehaviour
     {
         if (!isPressed)
         {
-            SoundUI.Instance.PlayUISound(SoundsUI.error);
+            if (gm.IsGameStarted) SoundUI.Instance.PlayUISound(SoundsUI.error);
 
             abilityButtonPanel.transform.GetChild(0).DOScale(Vector3.one * 0.1f, 0.3f).SetEase(Ease.Linear);
             yield return new WaitForSeconds(0.3f);

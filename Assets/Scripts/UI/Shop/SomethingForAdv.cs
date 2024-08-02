@@ -24,8 +24,8 @@ public class SomethingForAdv : MonoBehaviour
     [SerializeField] private TextMeshProUGUI closeErrorButtonText;
 
     private RewardForAdv currentReward;
-    private readonly int GoldAmount = 30;
-    private readonly int XPAmount = 60;
+    private readonly int GoldAmount = 150;
+    private readonly int XPAmount = 100;
     private bool isReady;
     private bool isSet;
     private bool isSet2;
@@ -166,12 +166,14 @@ public class SomethingForAdv : MonoBehaviour
         Globals.MainPlayerData.G += GoldAmount;
         GetRewardSystem.Instance.ShowEffect(RewardTypes.gold, GoldAmount);
         SaveLoadManager.Save();
+        if (MenuOptions.Instance != null) MenuOptions.Instance.UpdateCurrencyData();
     }
 
     private void giveXPForAdv()
     {
-        Globals.AddXP(XPAmount);
+        Globals.AddXP(XPAmount);        
         SaveLoadManager.Save();
+        if (MenuOptions.Instance != null) MenuOptions.Instance.UpdateCurrencyData();
     }
 
     private void showError()

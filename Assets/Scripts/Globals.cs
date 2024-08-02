@@ -61,8 +61,8 @@ public class Globals : MonoBehaviour
     public const float RAGDOLL_DRAG = 1f;
     public const float RAGDOLL_ANGULAR_DRAG = 0.5f;
 
-    public const float MOUSE_X_SENS = 26f;
-    public const float MOUSE_Y_SENS = 13f;
+    public const float MOUSE_X_SENS = 40f;//26
+    public const float MOUSE_Y_SENS = 19.5f;//13
 
     public const float SPEED_INC_IN_NONGROUND_PC = 0.25f;
     public const float SPEED_INC_IN_NONGROUND_MOBILE = 0.35f;
@@ -108,7 +108,9 @@ public class Globals : MonoBehaviour
     public static Vector3 UIPlayerRotation = new Vector3(0, 180, 0);
 
     public static bool IsMobileChecker()
-    {        
+    {
+        //return false;
+
         if (GP_Device.IsMobile()) return true;
 
         if (Application.isMobilePlatform)

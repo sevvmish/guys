@@ -555,12 +555,9 @@ public class MainMenu : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.X))
-        {
-            //Globals.MainPlayerData.XP += 1000;
-            Globals.MainPlayerData.XPN = true;
-            //SaveLoadManager.Save();
-
-            SceneManager.LoadScene("MainMenu");
+        {            
+            Globals.MainPlayerData.D += 50;
+            SaveLoadManager.Save();
         }
         */
 

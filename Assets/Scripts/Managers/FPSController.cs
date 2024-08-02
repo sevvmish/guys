@@ -10,7 +10,7 @@ public class FPSController : MonoBehaviour
 
     private List<float> fps = new List<float>();
     private float _timer;
-    private float _preTimer = 2;
+    private float _preTimer = 3;
 
     private GameManager gm;
 
@@ -42,6 +42,10 @@ public class FPSController : MonoBehaviour
     private void Start()
     {
         gm = GameManager.Instance;
+        if (gm == null)
+        {
+            _preTimer = 2;
+        }
     }
 
     private void Update()
@@ -72,7 +76,7 @@ public class FPSController : MonoBehaviour
             {
                 float ave = GetAverage();
 
-                if (fps.Count > 30 && ave > 5 && ave < 50)
+                if (fps.Count > 40 && ave > 5 && ave < 50)
                 {
                     
                     Globals.IsLowFPS = true;

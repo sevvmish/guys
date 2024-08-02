@@ -33,6 +33,20 @@ public class MenuOptions : MonoBehaviour
     private string previousSignName;
     private bool isBackActive;
 
+    public static MenuOptions Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

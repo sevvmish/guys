@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -100,9 +101,11 @@ public class MapUI : MonoBehaviour
 
             unblockB.onClick.AddListener(() => 
             {
+                unblockB.interactable = false;
                 if (Globals.MainPlayerData.D < data.UblockGemPrice)
                 {
-                    SoundUI.Instance.PlayUISound(SoundsUI.error);                    
+                    //SoundUI.Instance.PlayUISound(SoundsUI.error);
+                    unblockB.interactable = true;
                     return;
                 }
 
@@ -110,6 +113,17 @@ public class MapUI : MonoBehaviour
                 SoundUI.Instance.PlayUISound(SoundsUI.cash);
                 Globals.MainPlayerData.LvlA[(int)data.LevelType] = 1;
                 SaveLoadManager.Save();
+
+                if (MenuOptions.Instance != null) MenuOptions.Instance.UpdateCurrencyData();
+                
+                playB.gameObject.SetActive(true);
+                playB.onClick.RemoveAllListeners();
+                playB.onClick.AddListener(() =>
+                {
+                    SoundUI.Instance.PlayUISound(SoundsUI.positive);
+                    playB.interactable = false;
+                    StartCoroutine(playStartLevel(levelData.LevelInInspector));
+                });
 
                 closer.SetActive(false);
                 unblockB.gameObject.SetActive(false);

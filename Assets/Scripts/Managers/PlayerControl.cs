@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(CapsuleCollider))]
@@ -15,6 +16,8 @@ public class PlayerControl : MonoBehaviour
     private ConditionControl conditions;
     private EffectsControl effectsControl;
     private AbilityManager abilityManager;
+    private int idleAnimationCooldown;
+    private int baseIdleCooldown = 4;
 
     [Header("Ragdoll")]
     private CapsuleCollider[] ragdollColliders;
@@ -87,6 +90,8 @@ public class PlayerControl : MonoBehaviour
 
     private WaitForSeconds ZeroOne = new WaitForSeconds(0.1f);
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -124,6 +129,7 @@ public class PlayerControl : MonoBehaviour
         abilityManager = this.gameObject.GetComponent<AbilityManager>();
         abilityManager.SetData(this, effectsControl);
         effectsControl.SetData(_animator, _rigidbody);
+
     }
 
     public void SetEffectControl(EffectsControl ef) => effectsControl = ef;
@@ -250,12 +256,22 @@ public class PlayerControl : MonoBehaviour
     private void Update()
     {
         if (!gm.IsGameStarted || IsFinished)
+        {            
+            return;
+        }
+
+        if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
+    }
+
+    private void UpdateToFix()
+    {
+        if (!gm.IsGameStarted || IsFinished)
         {
             _rigidbody.velocity = Vector3.zero;
             return;
         }
 
-        if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
+        
 
         if (!IsSlide)
         {
@@ -279,12 +295,18 @@ public class PlayerControl : MonoBehaviour
                 movementSliding(false);
             }
         }
+                
     }
 
+    
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!gm.IsGameStarted || IsFinished) return;
+        if (!gm.IsGameStarted || IsFinished)
+        {
+            _rigidbody.velocity = Vector3.zero;
+            return;
+        }
 
         
 
@@ -309,6 +331,7 @@ public class PlayerControl : MonoBehaviour
 
         if (!IsGrounded)
         {
+            
             howLongNonGrounded += Time.deltaTime;
 
             if (!IsRagdollActive)
@@ -347,7 +370,7 @@ public class PlayerControl : MonoBehaviour
             ragdollRigidbodies[0].transform.localPosition = Vector3.zero;
         }
 
-        
+        UpdateToFix();
     }
 
     public void FinishReached()
@@ -376,6 +399,9 @@ public class PlayerControl : MonoBehaviour
         
         if (IsGrounded && jumpCooldown <= 0 && !IsJumping && IsCanJump)
         {
+            IsJumping = true;
+            jumpCooldown = 0.2f;
+
             float addKoef = 1;
            
             _rigidbody.velocity = Vector3.zero;
@@ -391,8 +417,7 @@ public class PlayerControl : MonoBehaviour
             }
 
             _rigidbody.AddRelativeForce(Vector3.up * Globals.JUMP_POWER * addKoef, ForceMode.Impulse);
-            IsJumping = true;
-            jumpCooldown = 0.2f;
+            
         }    
         else if (!IsSlide && !IsGrounded && IsJumping && !IsSecondJump && jumpCooldown <= 0 && IsCanJump)
         {            
@@ -539,8 +564,6 @@ public class PlayerControl : MonoBehaviour
                     _rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z)));
                 }
 
-                //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z), 0);
-                //_rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile + angle, _transform.eulerAngles.z)));
             }
             else if (horizontal == 0 && vertical == 0 && Mathf.Abs(angleY) > 0)
             {
@@ -556,13 +579,9 @@ public class PlayerControl : MonoBehaviour
                     _rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z)));
                 }
                 
-                //_rigidbody.DORotate(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z), 0);                
-                //_rigidbody.MoveRotation(Quaternion.Euler(new Vector3(_transform.eulerAngles.x, angleYForMobile, _transform.eulerAngles.z)));
             }
 
-            //if (angleY != 0) print(angleY);
             angleY = 0;
-                        
 
             if (forward)
             {
@@ -616,7 +635,15 @@ public class PlayerControl : MonoBehaviour
             }
             
             
-            howLongMoving = 0;
+            if (!IsJumping)
+            {
+                howLongMoving = 0;
+            }
+            else
+            {
+                howLongMoving = 10;
+            }
+                
             horizontal = 0;
             vertical = 0;
         }
@@ -637,6 +664,8 @@ public class PlayerControl : MonoBehaviour
 
     private void playRun()
     {
+        idleAnimationCooldown = 0;
+
         if (AnimationState == AnimationStates.Run) return;
 
         IsRunning = true;
@@ -651,11 +680,24 @@ public class PlayerControl : MonoBehaviour
 
     private void playIdle()
     {
+        idleAnimationCooldown++;
+        if (Globals.IsLowFPS)
+        {
+            baseIdleCooldown = 4;
+        }
+        else
+        {
+            baseIdleCooldown = 2;
+        }
+
+        
+
         if (AnimationState == AnimationStates.Idle) return;
 
         IsRunning = false;
         IsIdle = true;
 
+        if (idleAnimationCooldown < baseIdleCooldown) return;
         if (IsGrounded && !_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
             AnimationState = AnimationStates.Idle;
@@ -687,7 +729,6 @@ public class PlayerControl : MonoBehaviour
     private void GravityScale(Rigidbody r)
     {
         float fallingKoeff = 1;
-        //if (r.drag != 2) r.drag = 2;
 
         if (r.velocity.y >= 0)
         {
@@ -702,8 +743,7 @@ public class PlayerControl : MonoBehaviour
                 r.AddForce(Physics.gravity * r.mass * Globals.GRAVITY_KOEFF * fallingKoeff);
             }
             else
-            {
-                //if (r.drag != 3) r.drag = 3;
+            {                
                 r.AddRelativeForce(Vector3.forward * 20, ForceMode.Force);
                 r.AddForce(Physics.gravity * r.mass * Globals.GRAVITY_KOEFF * 0.1f);
             }            

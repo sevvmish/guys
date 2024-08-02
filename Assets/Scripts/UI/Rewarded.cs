@@ -55,6 +55,8 @@ public class Rewarded : MonoBehaviour
         {            
             print("reward given");
             OnRewardedEndedOK?.Invoke();
+            OnRewardedEndedOK = null;
+            OnError = null;
         }
 
         Globals.TimeWhenLastRewardedWas = DateTime.Now;
@@ -79,10 +81,11 @@ public class Rewarded : MonoBehaviour
             print("close was NOT OK");
 
             OnError?.Invoke();
+            OnRewardedEndedOK = null;
+            OnError = null;
         }
                 
-        OnRewardedEndedOK = null;
-        OnError = null;
+        
 
     }
 
